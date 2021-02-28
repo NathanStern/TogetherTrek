@@ -1,0 +1,29 @@
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'author_id',
+      'post_date',
+      'link',
+      'trip_id'
+    ],
+    properties: {
+      author_id: {
+        bsonType: 'objectId',
+        description: 'must be an object id and is required'
+      },
+      post_date: {
+        bsonType: 'date',
+        description: 'must be a Date and is required'
+      },
+      link: {
+        bsonType: 'string',
+        description: 'must be a string and is required'
+      },
+      trip_id: {
+        bsonType: 'objectId',
+        description: 'must be an object id and is required'
+      }
+    }
+  }
+}

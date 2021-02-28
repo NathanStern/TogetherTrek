@@ -1,0 +1,37 @@
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'author_id',
+      'post_date',
+      'type',
+      'data',
+      'message_board_id'
+    ],
+    properties: {
+      author_id: {
+        bsonType: 'objectId',
+        description: 'must be an object id and is required'
+      },
+      post_date: {
+        bsonType: 'date',
+        description: 'must be a Date and is required'
+      },
+      type: {
+        'enum': [
+          'text',
+          'image'
+        ],
+        description: 'must be text or image and is required'
+      },
+      data: {
+        bsonType: 'string',
+        description: 'must be a string and is required'
+      },
+      message_board_id: {
+        bsonType: 'objectId',
+        description: 'must be an object id and is required'
+      }
+    }
+  }
+}

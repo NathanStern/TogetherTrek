@@ -1,0 +1,15 @@
+{
+	"author_id": 1,
+	"title": "Hello Everybody!",
+	"content": "My name is Ryan and I would like to go to Panama City or Berlin. I am 23 and I like to party. Let's go on a trip!",
+	"post_date": "12:45:39:736+0430",
+	"destinations": [{
+			"country": "Panama",
+			"city": "Panama City"
+		},
+		{
+			"country": "Germany",
+			"city": "Berlin"
+		}
+	]
+}
