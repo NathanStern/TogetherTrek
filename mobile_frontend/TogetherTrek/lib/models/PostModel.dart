@@ -21,6 +21,8 @@ class PostModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // getters are implicit
+
   void setTitle(String newTitle) {
     this.title = newTitle;
     notifyListeners();

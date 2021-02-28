@@ -29,6 +29,8 @@ class TripModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // getters are implicit
+
   void setStartDate(String newDate) {
     this.startDate = newDate;
     notifyListeners();
