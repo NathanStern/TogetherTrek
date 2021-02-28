@@ -1,0 +1,57 @@
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'author',
+      'title',
+      'description',
+      'post_date',
+      'destinations'
+    ],
+    properties: {
+      author_id: {
+        bsonType: 'objectId',
+        description: 'must be an object id and is required'
+      },
+      title: {
+        bsonType: 'string',
+        description: 'must be a string and is required'
+      },
+      description: {
+        bsonType: 'string',
+        description: 'must be a string and is required'
+      },
+      post_date: {
+        bsonType: 'date',
+        description: 'must be a Date and is required'
+      },
+      destinations: {
+        bsonType: [
+          'array'
+        ],
+        maxItems: 100,
+        items: {
+          bsonType: 'object',
+          required: [
+            'country',
+            'city'
+          ],
+          properties: {
+            country: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            city: {
+              bsonType: 'string',
+              description: 'must be a string and is required'
+            },
+            region: {
+              bsonType: 'string',
+              description: 'must be a string'
+            }
+          }
+        }
+      }
+    }
+  }
+}

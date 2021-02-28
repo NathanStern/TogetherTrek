@@ -1,0 +1,145 @@
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'username',
+      'password',
+      'email',
+      'birthdate',
+      'gender',
+      'first_name',
+      'last_name'
+    ],
+    properties: {
+      username: {
+        bsonType: 'string',
+        description: 'must be a string and is required'
+      },
+      password: {
+        bsonType: 'string',
+        description: 'must be a string and is required'
+      },
+      email: {
+        bsonType: 'string',
+        description: 'must be a string and is required'
+      },
+      birthdate: {
+        bsonType: 'date',
+        description: 'must be a date and is required'
+      },
+      gender: {
+        'enum': [
+          'Male',
+          'Female',
+          'Other',
+          'Prefer Not To Say'
+        ],
+        description: 'can only be one of the enum values and is required'
+      },
+      first_name: {
+        bsonType: 'string',
+        description: 'must be a string and is required'
+      },
+      last_name: {
+        bsonType: 'string',
+        description: 'must be a string and is required'
+      },
+      profile_pic: {
+        bsonType: 'object',
+        required: [
+          'upload_date',
+          'link'
+        ],
+        properties: {
+          upload_date: {
+            bsonType: 'date',
+            description: 'must be a Date and is required'
+          },
+          link: {
+            bsonType: 'string',
+            description: 'must be a string and is required'
+          }
+        }
+      },
+      verified: {
+        bsonType: 'bool',
+        description: 'must be a boolean'
+      },
+      notifications_enabled: {
+        bsonType: 'bool',
+        description: 'must be a boolean'
+      },
+      location_enabled: {
+        bsonType: 'bool',
+        description: 'must be a boolean'
+      },
+      location: {
+        bsonType: 'object',
+        required: [
+          'type',
+          'coordinates'
+        ],
+        properties: {
+          type: {
+            'enum': [
+              'Point'
+            ],
+            description: 'must be the string Point'
+          },
+          coordinates: {
+            bsonType: [
+              'array'
+            ],
+            minItems: 2,
+            maxItems: 2,
+            items: [
+              {
+                bsonType: 'double',
+                minimum: -180,
+                maximum: 180
+              },
+              {
+                bsonType: 'double',
+                minimum: -90,
+                maximum: 90
+              }
+            ]
+          }
+        }
+      },
+      post_ids: {
+        bsonType: [
+          'array'
+        ],
+        items: {
+          bsonType: 'objectId'
+        }
+      },
+      trip_ids: {
+        bsonType: [
+          'array'
+        ],
+        items: {
+          bsonType: 'objectId'
+        }
+      },
+      message_board_ids: {
+        bsonType: [
+          'array'
+        ],
+        items: {
+          bsonType: 'objectId'
+        }
+      },
+      friend_ids: {
+        bsonType: [
+          'array'
+        ],
+        maxItems: 500,
+        items: {
+          bsonType: 'objectId'
+        }
+      }
+    }
+  }
+}

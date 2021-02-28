@@ -1,0 +1,10 @@
+{
+  	"destination": {
+			"country": "Panama",
+			"city": "Panama City"
+	},
+	"start_date": "12:45:39:736+0430",
+	"end_date": "12:45:39:736+0430",
+	"creator_id": 1,
+	"participant_ids": [3, 56, 32, 77]
+}

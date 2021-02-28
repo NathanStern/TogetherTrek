@@ -1,0 +1,57 @@
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    required: [
+      'destination',
+      'start_date',
+      'end_date',
+      'creator_id',
+      'participant_ids'
+    ],
+    properties: {
+      destination: {
+        bsonType: 'object',
+        required: [
+          'country',
+          'city'
+        ],
+        properties: {
+          country: {
+            bsonType: 'string',
+            description: 'must be a string and is required'
+          },
+          city: {
+            bsonType: 'string',
+            description: 'must be a string and is required'
+          },
+          region: {
+            bsonType: 'string',
+            description: 'must be a string'
+          }
+        }
+      },
+      start_date: {
+        bsonType: 'date',
+        description: 'must be a Date and is required'
+      },
+      end_date: {
+        bsonType: 'date',
+        description: 'must be a Date and is required'
+      },
+      creator_id: {
+        bsonType: 'objectId',
+        description: 'must be an object id and is required'
+      },
+      paricipant_ids: {
+        bsonType: [
+          'array'
+        ],
+        minItems: 1,
+        maxItems: 100,
+        items: {
+          bsonType: 'objectId'
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+	"author_id": 2,
+	"post_date": "12:45:39:736+0430",
+	"type": "text",
+	"data": "hey guys where are we meeting?",
+	"message_board_id": 7
+},
+{
+	"author_id": 2,
+	"post_date": "12:45:39:736+0430",
+	"type": "image",
+	"data": "https://aws.s3.com/image-223",
+	"message_board_id": 7
+}
