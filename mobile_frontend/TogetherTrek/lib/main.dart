@@ -1,3 +1,4 @@
+import 'package:TogetherTrek/models/UserModel.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -65,6 +66,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    UserModel user = new UserModel(
+        "testing",
+        "nate20979",
+        "sternn@purdue.edu",
+        "12:45:39:736+0430",
+        "Male",
+        "Nathan",
+        "Stern",
+        null,
+        true,
+        true,
+        true,
+        ['testing', 'testing'],
+        ['testing'],
+        ['testing'],
+        ['testing'],
+        null);
+
+    user.postIds.add('testing2');
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -103,6 +123,9 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            Text(
+              '${user.firstName} ${user.lastName}\n${user.email}\n${user.verified}\n${user.postIds}',
             ),
           ],
         ),
