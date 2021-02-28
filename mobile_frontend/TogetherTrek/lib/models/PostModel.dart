@@ -20,4 +20,19 @@ class PostModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void setTitle(String newTitle) {
+    this.title = newTitle;
+    notifyListeners();
+  }
+
+  void setDescription(String newDesc) {
+    this.description = newDesc;
+    notifyListeners();
+  }
+
+  void addDestination(String newDest) {
+    this.destinations.add(newDest);
+    notifyListeners();
+  }
 }
