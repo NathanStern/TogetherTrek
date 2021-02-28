@@ -39,7 +39,6 @@ class UserModel extends ChangeNotifier {
       bool verified,
       bool notificationsEnabled,
       bool locationEnabled,
-      // ignore: non_constant_identifier_names
       List<String> postIds,
       List<String> tripIds,
       List<String> messageBoardIds,
