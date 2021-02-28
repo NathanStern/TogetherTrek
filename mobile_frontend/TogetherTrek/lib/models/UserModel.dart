@@ -64,4 +64,41 @@ class UserModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  // All of the getters are implicit
+
+  void setEmail(String newEmail) {
+    this.email = newEmail;
+    notifyListeners();
+  }
+
+  void setNotificationsEnabled(bool newValue) {
+    this.notificationsEnabled = newValue;
+    notifyListeners();
+  }
+
+  void setLocationEnabled(bool newValue) {
+    this.locationEnabled = newValue;
+    notifyListeners();
+  }
+
+  void addPost(String postId) {
+    this.postIds.add(postId);
+    notifyListeners();
+  }
+
+  void addTrip(String tripId) {
+    this.tripIds.add(tripId);
+    notifyListeners();
+  }
+
+  void addMessageBoard(String messageBoardId) {
+    this.messageBoardIds.add(messageBoardId);
+    notifyListeners();
+  }
+
+  void addFriend(String friendId) {
+    this.friendIds.add(friendId);
+    notifyListeners();
+  }
 }
