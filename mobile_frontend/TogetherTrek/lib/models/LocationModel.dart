@@ -5,4 +5,8 @@ class LocationModel {
   LocationModel(List<Float> coordinates) {
     this.coordinates = coordinates;
   }
+
+  void setCoordinates(List<Float> newCoords) {
+    this.coordinates = newCoords;
+  }
 }
