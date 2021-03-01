@@ -20,6 +20,10 @@ function App() {
           <Route path='/' component={HomeScreen} exact />
           <Route path='/register' component={RegisterScreen} />
           <Route path='/login' component={LoginScreen} />
+          <Route path='/search' component={SearchScreen} exact />
+          <Route path='/createtrip' component={CreateTripScreen} />
+          <Route path='/profile' component={ProfileScreen} />
+          <Route path='/editprofile' component={EditProfileScreen} exact />
         </Container>
       </main>
       <Footer />
