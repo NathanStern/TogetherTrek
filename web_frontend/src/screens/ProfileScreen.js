@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
+
 const ProfileScreen = () => {
-    return (<div>
-        
-    </div>)
+    return (
+        <div>
+
+        </div>
+    )
 }
+
 export default ProfileScreen
