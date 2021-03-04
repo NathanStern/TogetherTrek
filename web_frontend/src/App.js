@@ -6,6 +6,10 @@ import Footer from './components/Footer'
 import HomeScreen from './screens/HomeScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import LoginScreen from './screens/LoginScreen'
+import ProfileScreen from './screens/ProfileScreen'
+import SearchScreen from './screens/SearchScreen'
+import CreateTripScreen from './screens/CreateTripScreen'
+import EditProfileScreen from './screens/EditProfileScreen'
 
 function App() {
   return (
