@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const db = require("./posts/models");
+const db = require("./app/models");
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
@@ -32,10 +32,15 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
-  res.json("Welcome to TogetherTrek.");
+  res.json({message: "Welcome to TogetherTrek."});
 });
 
-require("./posts/routes/routes.js")(app);
+require("./app/routes/message_board.routes")(app);
+require("./app/routes/message.routes")(app);
+require("./app/routes/post.routes")(app);
+require("./app/routes/trip_photos.routes")(app);
+require("./app/routes/trip.routes")(app);
+require("./app/routes/user.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3001;
