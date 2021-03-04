@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
 require("./app/routes/message_board.routes")(app);
 require("./app/routes/message.routes")(app);
 require("./app/routes/post.routes")(app);
-require("./app/routes/trip_photos.routes")(app);
+require("./app/routes/trip_photo.routes")(app);
 require("./app/routes/trip.routes")(app);
 require("./app/routes/user.routes")(app);
 
