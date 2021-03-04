@@ -1,6 +1,15 @@
 module.exports = mongoose => {
-    const Trip = mongoose.model(
-        //Trip structure
+    const Tutorial = mongoose.model(
+      "tutorial",
+      mongoose.Schema(
+        {
+          title: String,
+          description: String,
+          published: Boolean
+        },
+        { timestamps: true }
+      )
     );
-    return Trip;
-}
+  
+    return Tutorial;
+  };

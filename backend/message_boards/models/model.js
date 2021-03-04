@@ -1,6 +1,15 @@
 module.exports = mongoose => {
-    const Board = mongoose.model(
-        //board structure
+    const Tutorial = mongoose.model(
+      "tutorial",
+      mongoose.Schema(
+        {
+          title: String,
+          description: String,
+          published: Boolean
+        },
+        { timestamps: true }
+      )
     );
-    return Board;
-}
+  
+    return Tutorial;
+  };

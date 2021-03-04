@@ -1,6 +1,15 @@
 module.exports = mongoose => {
-    const Photo = mongoose.model(
-        //Photo structure
+    const Tutorial = mongoose.model(
+      "tutorial",
+      mongoose.Schema(
+        {
+          title: String,
+          description: String,
+          published: Boolean
+        },
+        { timestamps: true }
+      )
     );
-    return Photo;
-}
+  
+    return Tutorial;
+  };
