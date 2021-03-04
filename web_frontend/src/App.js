@@ -12,19 +12,20 @@ import CreateTripScreen from './screens/CreateTripScreen'
 import EditProfileScreen from './screens/EditProfileScreen'
 
 function App() {
-  return (
-    <Router>
-      <Header />
-      <main className='py-3'>
-        <Container>
-          <Route path='/' component={HomeScreen} exact />
-          <Route path='/register' component={RegisterScreen} />
-          <Route path='/login' component={LoginScreen} />
-        </Container>
-      </main>
-      <Footer />
-    </Router>
-  );
+	return (
+		<Router>
+			<Header />
+			<main className='py-3'>
+				<Container>
+					<Route path='/' component={HomeScreen} exact />
+					<Route path='/register' component={RegisterScreen} />
+					<Route path='/login' component={LoginScreen} />
+					<Route path='/profile' component={ProfileScreen} />
+				</Container>
+			</main>
+			<Footer />
+		</Router>
+	)
 }
 
-export default App;
+export default App

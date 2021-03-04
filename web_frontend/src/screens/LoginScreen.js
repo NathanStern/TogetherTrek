@@ -4,27 +4,26 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
-const LoginScreen = ({history, location}) => {
+const LoginScreen = ({ history, location }) => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
-    const dispatch = useDispatch()
+	const dispatch = useDispatch()
 
-    const userLogin = useSelector(state => state.userLogin)
-    const {loading, error, userInfo} = userLogin
+	const userLogin = useSelector((state) => state.userLogin)
+	const { loading, error, userInfo } = userLogin
 
-   
-    const redirect = location.search ? location.search.split('=')[1] : '/'
+	const redirect = location.search ? location.search.split('=')[1] : '/'
 
-    useEffect(() => {
-        if (userInfo) {
-        history.push(redirect)
-        }
-    }, [history, userInfo, redirect])
+	useEffect(() => {
+		if (userInfo) {
+			history.push(redirect)
+		}
+	}, [history, userInfo, redirect])
 
 	const submitHandler = (e) => {
 		e.preventDefault()
-        dispatch(login(email, password))
+		dispatch(login(email, password))
 	}
 
 	return (
@@ -40,7 +39,7 @@ const LoginScreen = ({history, location}) => {
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 				</Form.Group>
-                <Form.Group controlId='password'>
+				<Form.Group controlId='password'>
 					<Form.Label>Password</Form.Label>
 					<Form.Control
 						type='password'
@@ -51,7 +50,7 @@ const LoginScreen = ({history, location}) => {
 				</Form.Group>
 			</Form>
 
-			<Button type='submit' variant='primary' onClick= {submitHandler}>
+			<Button type='submit' variant='primary' onClick={submitHandler}>
 				Sign In
 			</Button>
 		</FormContainer>
