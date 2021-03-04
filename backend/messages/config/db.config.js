@@ -1,3 +1,3 @@
 module.exports = {
-    url: "mongodb://localhost:3001"
+    url: "mongodb://localhost:27017/togethertrek"
   };
