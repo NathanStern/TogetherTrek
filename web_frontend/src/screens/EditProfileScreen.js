@@ -7,6 +7,7 @@ const logo = {
 const SearchScreen = () => {
     return (
         <div>
+            <img source={logo} />
             will contain editing profile features
         </div>
     )

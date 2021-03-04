@@ -7,6 +7,7 @@ const logo = {
 const ProfileScreen = () => {
     return (
     <div>
+        <img source={logo} />
         Will contain profile info
     </div>
     )

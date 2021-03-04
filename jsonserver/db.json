@@ -1,0 +1,54 @@
+{
+    "users":[
+        {
+            "id":1,
+            "username": "justinh",
+            "password": "password",
+            "email": "justinhay686@gmail.com",
+            "birthdate": "12/30/2000",
+            "gender": "Male",
+            "first_name": "Justin",
+            "last_name": "Hay",
+            "profile_pic": {
+                "upload_date": "12:45:39:736+0430",
+                "link": "link-to-s3.aws.com"
+            },
+            "verified": "True",
+            "notifications_enabled": "True",
+            "location_enabled": "True",
+            "location": {
+                "type": "Point",
+                "coordinates": [300, -50]
+            },
+            "post_ids": [3, 27],
+            "trip_ids": [14, 88],
+            "message_board_ids": [20, 40, 55],
+            "friend_ids": [25, 2]
+        },
+        {
+            "id":2,
+            "username": "ryangamble",
+            "password": "secret-password123",
+            "email": "ryangamble@gmail.com",
+            "birthdate": "12:45:39:736+0430",
+            "gender": "Male",
+            "first_name": "Ryan",
+            "last_name": "Gamble",
+            "profile_pic": {
+                "upload_date": "12:45:39:736+0430",
+                "link": "link-to-s3.aws.com"
+            },
+            "verified": "True",
+            "notifications_enabled": "True",
+            "location_enabled": "True",
+            "location": {
+                "type": "Point",
+                "coordinates": [125, -22]
+            },
+            "post_ids": [6, 65],
+            "trip_ids": [5, 23],
+            "message_board_ids": [35, 66, 86],
+            "friend_ids": [25, 1]
+        }
+    ]
+}
