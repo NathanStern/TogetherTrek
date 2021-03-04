@@ -5,7 +5,7 @@ functions will return a promise object. The calling function will have to handle
 */
 
 export function makeGetRequest(url, data) {
-  return makeHttpRequest('POST', url, data)
+  return makeHttpRequest('GET', url, data)
 }
 
 export function makePostRequest(url, data) {
