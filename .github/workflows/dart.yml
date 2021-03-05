@@ -7,7 +7,9 @@ name: Dart
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - mobile_frontend
   pull_request:
     branches: [ main ]
 
