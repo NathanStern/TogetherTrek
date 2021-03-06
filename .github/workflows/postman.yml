@@ -16,16 +16,22 @@ jobs:
       run:
         working-directory: ./backend
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: '12'
+
       - name: Install node packages
         run: npm install
+
       - name: Install newman
         run: npm install -g newman
-      - name: Start api
-        run: npm start
+
+      # - name: Start api
+      #   run: npm start
+
       - name: Run newman
         run: newman run ./app/tests/Full_Test_Suite.postman_collection.json
