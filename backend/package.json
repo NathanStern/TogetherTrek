@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "SET NODE_ENV=test && node server.js",
-    "start-test-linux": "NODE_ENV=test && export NODE_END && node server.js",
+    "start-test-linux": "NODE_ENV=test && export NODE_ENV && node server.js",
     "start-prod": "SET NODE_ENV=prod && node server.js",
     "test": "mocha --timeout 10000"
   },
