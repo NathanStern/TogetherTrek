@@ -1,5 +1,5 @@
 // Control config values based on the environment
-let env = String(process.env.NODE_ENV);
+let env = String(process.env.NODE_ENV) || "test";
 env = env.replace(/\s+/g, '');
 
 const prod = {
@@ -30,7 +30,8 @@ switch(env) {
     config = prod;
     break;
   default:
-    console.log("nah");
+    console.log("NODE_ENV must be either test or prod");
+    process.exit(1);
 }
 
 module.exports = config;
