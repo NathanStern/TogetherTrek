@@ -1,3 +1,5 @@
+// Main app file
+const config = require("./app/config/config.js");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -5,7 +7,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:3001"
+  origin: `http://localhost:${config.app.port}`
 };
 
 app.use(cors(corsOptions));
@@ -18,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./app/models/index.js");
 db.mongoose
-  .connect(db.url, {
+  .connect(config.db.url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -43,7 +45,7 @@ require("./app/routes/trip.routes.js")(app);
 require("./app/routes/user.routes.js")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 3001;
+const PORT = config.app.port
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
