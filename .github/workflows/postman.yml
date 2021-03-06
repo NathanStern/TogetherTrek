@@ -30,8 +30,8 @@ jobs:
       - name: Install newman
         run: npm install -g newman
 
-      # - name: Start api
-      #   run: npm start
+      - name: Start api
+        run: npm start &
 
       - name: Run newman
         run: newman run ./app/tests/Full_Test_Suite.postman_collection.json
