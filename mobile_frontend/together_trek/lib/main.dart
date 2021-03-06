@@ -1,5 +1,7 @@
 import 'package:together_trek/models/UserModel.dart';
+import 'package:together_trek/api/httpRequest.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
@@ -134,6 +136,9 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {
           _incrementCounter();
           user.addPost("test");
+          // httpGet('albums/${_counter}').then((result) {
+          //   print(result.body);
+          // });
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
