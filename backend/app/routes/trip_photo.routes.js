@@ -1,11 +1,22 @@
 module.exports = app => {
-    const trip_photos = require("../controllers/trip_photo.controller.js");
+  const trip_photo_controller =
+  require("../controllers/trip_photo.controller.js");
+  var router = require("express").Router();
 
-    var router = require("express").Router();
-    router.post("/", trip_photos.create);
-    router.get("/:id", trip_photos.findOne);
-    router.get("/", trip_photos.findAll);
-    router.delete("/:id", trip_photos.delete);
-    router.delete("/", trip_photos.deleteAll);
-    app.use('/backend/models', router);
+  // Creates an entry in the trip_photos table
+  router.post("/", trip_photo_controller.create);
+
+  // Retrieves an entry from the trip_photos table by id
+  router.get("/:id", trip_photo_controller.findOne);
+
+  // Retrieves entries from the trip_photos table by search criteria
+  router.get("/", trip_photo_controller.findAll);
+
+  // Updates an entry in the trip_photos table by id
+  router.put("/:id", trip_photo_controller.update);
+
+  // Deletes an entry in the trip_photos table by id
+  router.delete("/:id", trip_photo_controller.delete);
+
+  app.use("/trip_photos", router);
 };
