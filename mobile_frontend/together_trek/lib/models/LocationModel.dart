@@ -1,12 +1,10 @@
-import 'dart:ffi';
-
 class LocationModel {
-  List<Float> coordinates;
-  LocationModel(List<Float> coordinates) {
+  List<double> coordinates;
+  LocationModel(List<double> coordinates) {
     this.coordinates = coordinates;
   }
 
-  void setCoordinates(List<Float> newCoords) {
+  void setCoordinates(List<double> newCoords) {
     this.coordinates = newCoords;
   }
 }
