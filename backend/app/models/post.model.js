@@ -19,12 +19,12 @@ module.exports = mongoose => {
 	    location_enabled: Boolean,
 	    location: {
 		    type: String,
-		    coordinates: [Number]
+		    coordinates: []
 	    },
-	    post_ids: [Number],
-	    trip_ids: [Number],
-	    message_board_ids: [Number],
-	    friend_ids: [Number]
+	    post_ids: [],
+	    trip_ids: [],
+	    message_board_ids: [],
+	    friend_ids: []
     },
     { timestamps: true}
   );
