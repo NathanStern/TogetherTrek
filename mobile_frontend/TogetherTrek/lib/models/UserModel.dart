@@ -1,5 +1,5 @@
-import 'package:TogetherTrek/models/LocationModel.dart';
-import 'package:TogetherTrek/models/ProfilePicModel.dart';
+import 'package:together_trek/models/LocationModel.dart';
+import 'package:together_trek/models/ProfilePicModel.dart';
 import 'package:flutter/material.dart';
 
 /* 

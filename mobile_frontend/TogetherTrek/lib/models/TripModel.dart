@@ -1,4 +1,4 @@
-import 'package:TogetherTrek/models/TripPhotoModel.dart';
+import 'package:together_trek/models/TripPhotoModel.dart';
 import 'package:flutter/material.dart';
 
 class TripModel extends ChangeNotifier {

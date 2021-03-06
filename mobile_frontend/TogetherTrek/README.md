@@ -1,4 +1,4 @@
-# TogetherTrek
+# together_trek
 
 A new Flutter project.
 

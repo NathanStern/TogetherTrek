@@ -1,4 +1,4 @@
-import 'package:TogetherTrek/models/ContentModel.dart';
+import 'package:together_trek/models/ContentModel.dart';
 import 'package:flutter/material.dart';
 
 class MessageBoardModel extends ChangeNotifier {
