@@ -148,13 +148,6 @@ class _HomeViewState extends State<HomeView> {
                             PlaceholderView(title: "Settings")));
               },
             ),
-            ListTile(
-                title: Text("Log in"),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginView()));
-                })
           ],
         )));
   }

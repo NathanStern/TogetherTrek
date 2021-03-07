@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:together_trek/models/LocationModel.dart';
 import 'package:together_trek/models/ProfilePicModel.dart';
 import 'package:together_trek/models/UserModel.dart';
+import 'package:together_trek/views/LoginView.dart';
 
 class ProfileInfoView extends StatelessWidget {
   ProfileInfoView({Key key, this.user}) : super(key: key);
@@ -15,7 +16,14 @@ class ProfileInfoView extends StatelessWidget {
           child: Column(
         children: [
           Text("User is not logged in"),
-          ElevatedButton(child: Text("Log In"), onPressed: () {}),
+          ElevatedButton(
+              child: Text("Log In"),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LoginView(user: this.user)));
+              }),
           Text("Don't have an account?"),
           TextButton(
               onPressed: () {},
