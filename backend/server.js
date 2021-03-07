@@ -1,23 +1,24 @@
 // Main app file
 const config = require("./app/config/config.js");
-const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
+const express = require("express");
+const fileUpload = require('express-fileupload');
 
 const app = express();
 
-var corsOptions = {
-  origin: `http://localhost:${config.app.port}`
-};
+// Allow file uploading
+app.use(fileUpload({
+    createParentPath: true
+}));
 
-app.use(cors(corsOptions));
+// Enable cross origin resource sharing
+app.use(cors());
 
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
+// Specify request body should be parsed as json
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-
+// Connect to the database
 const db = require("./app/models/index.js");
 db.mongoose
   .connect(config.db.url, {

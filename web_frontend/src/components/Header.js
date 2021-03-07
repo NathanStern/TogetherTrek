@@ -40,10 +40,7 @@ const Header = () => {
 						<Navbar.Collapse id='basic-navbar-nav'>
 							<Nav className='ml-auto'>
 								<LinkContainer to='./login'>
-									<Nav.Link>Login</Nav.Link>
-								</LinkContainer>
-								<LinkContainer to='./register'>
-									<Nav.Link>Register</Nav.Link>
+									<Nav.Link>Sign In</Nav.Link>
 								</LinkContainer>
 							</Nav>
 						</Navbar.Collapse>

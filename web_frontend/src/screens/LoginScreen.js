@@ -4,6 +4,8 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
 const LoginScreen = ({ history, location }) => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -29,6 +31,8 @@ const LoginScreen = ({ history, location }) => {
 	return (
 		<FormContainer>
 			<h1>Sign In</h1>
+			{error && <Message variant='danger'>{error}</Message>}
+			{loading && <Loader />}
 			<Form onSubmit={submitHandler}>
 				<Form.Group controlId='email'>
 					<Form.Label>Email Address</Form.Label>
@@ -53,6 +57,14 @@ const LoginScreen = ({ history, location }) => {
 			<Button type='submit' variant='primary' onClick={submitHandler}>
 				Sign In
 			</Button>
+			<Row className='py-3'>
+				<Col>
+					New Customer?{' '}
+					<Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
+						Register
+					</Link>
+				</Col>
+			</Row>
 		</FormContainer>
 	)
 }
