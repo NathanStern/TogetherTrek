@@ -1,6 +1,4 @@
-import 'package:flutter/services.dart';
 import 'package:together_trek/models/UserModel.dart';
-import 'package:together_trek/api/httpRequest.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
 import 'package:flutter/material.dart';
