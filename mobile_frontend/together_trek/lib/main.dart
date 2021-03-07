@@ -182,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined), label: "Home"),
           BottomNavigationBarItem(
-              icon: const Icon(Icons.person), label: "Profile"),
+              icon: const Icon(Icons.person_outline_rounded), label: "Profile"),
         ],
       ),
     );
