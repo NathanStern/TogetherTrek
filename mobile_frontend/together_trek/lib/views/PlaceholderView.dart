@@ -14,7 +14,7 @@ class PlaceholderView extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
                   child: Flexible(
-                      child: Text("This page has not been implemented yet",
+                      child: Text("This page has not been implemented yet.",
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold))))
             ])
