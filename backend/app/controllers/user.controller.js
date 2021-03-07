@@ -79,8 +79,25 @@ exports.findOne = (req, res) => {
 
 // Retrieves entries from the users table by search criteria
 exports.findAll = (req, res) => {
+  // Format the requirements the way mongoose expects
+  let requirements = req.query;
+  let condition = {};
+  Object.keys(requirements).forEach(function(key) {
+    condition[key] = { $regex: new RegExp(requirements[key]), $options: "i" }
+  })
 
-}
+  // Retrieve records that match the requirements
+  User.find(condition)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
+    });
+};
 
 // Updates an entry in the users table by id
 exports.update = (req, res) => {
