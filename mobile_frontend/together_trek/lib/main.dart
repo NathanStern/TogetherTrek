@@ -126,9 +126,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     MaterialPageRoute(builder: (context) => PlaceholderView()));
               }
             },
-            onCanceled: () {
-              print("Cancelled");
-            },
           ),
         ],
       ),
