@@ -113,12 +113,11 @@ class _MyHomePageState extends State<MyHomePage> {
               return [
                 PopupMenuItem(child: Text("First"), value: 0),
                 PopupMenuItem(child: Text("Second"), value: 1),
-                PopupMenuItem(child: Text("Third"), value: 2),
-                PopupMenuItem(child: Text("Profile"), value: 3)
+                PopupMenuItem(child: Text("Profile"), value: 2)
               ];
             },
             onSelected: (selected) {
-              if (selected == 3) {
+              if (selected == 2) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ProfilePage()));
               } else {
