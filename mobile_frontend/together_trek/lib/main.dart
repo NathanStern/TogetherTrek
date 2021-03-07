@@ -1,9 +1,9 @@
+import 'package:flutter/services.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/api/httpRequest.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
@@ -113,7 +113,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ProfilePage()));
               }),
-          ListTile(title: Text("Settings")),
+          ListTile(
+            title: Text("Settings"),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PlaceholderView()));
+            },
+          ),
         ],
       )),
       appBar: AppBar(

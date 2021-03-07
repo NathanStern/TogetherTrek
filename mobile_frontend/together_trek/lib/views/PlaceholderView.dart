@@ -6,7 +6,7 @@ class PlaceholderView extends StatelessWidget {
     var c_width = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(
         appBar: AppBar(
-          title: Text("TogetherTrek: Unfinished Route"),
+          title: Text("TogetherTrek: Unfinished"),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
