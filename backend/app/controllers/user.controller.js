@@ -3,6 +3,7 @@ const User = db.users;
 
 // Creates an entry in the users table
 exports.create = (req, res) => {
+  // Validate all expected fields were passed
   if (!req.body.username) {
     res.status(400).send({ message: "username can not be empty." });
     return;
