@@ -1,4 +1,5 @@
 import 'package:together_trek/models/UserModel.dart';
+import 'package:together_trek/views/LoginView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
 import 'package:flutter/material.dart';
@@ -100,10 +101,17 @@ class _MyHomePageState extends State<MyHomePage> {
           child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
-            child: Text("PLACEHOLDER HEADER"),
-            decoration: BoxDecoration(color: Colors.deepOrange),
-          ),
+          Container(
+              height: 200,
+              child: DrawerHeader(
+                child: Column(
+                  children: [
+                    Text("PLACEHOLDER HEADER"),
+                    Text("PLACEHOLDER TEXT")
+                  ],
+                ),
+                decoration: BoxDecoration(color: Colors.deepOrange),
+              )),
           ListTile(
               title: Text("Profile"),
               onTap: () {
@@ -119,6 +127,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => PlaceholderView()));
             },
           ),
+          ListTile(
+              title: Text("Log In"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginView()));
+              })
         ],
       )),
       appBar: AppBar(

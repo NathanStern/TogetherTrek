@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -13,7 +15,8 @@ class ProfilePage extends StatelessWidget {
               Container(
                   padding: EdgeInsets.all(10),
                   child: Icon(Icons.person_rounded,
-                      size: MediaQuery.of(context).size.width / 2)),
+                      size: min(MediaQuery.of(context).size.height / 2,
+                          MediaQuery.of(context).size.width / 2))),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
