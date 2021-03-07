@@ -87,8 +87,18 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removePost(String postId) {
+    this.postIds.remove(postId);
+    notifyListeners();
+  }
+
   void addTrip(String tripId) {
     this.tripIds.add(tripId);
+    notifyListeners();
+  }
+
+  void removeTrip(String tripId) {
+    this.tripIds.remove(tripId);
     notifyListeners();
   }
 
@@ -97,8 +107,18 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeMessageBoard(String messageBoardId) {
+    this.messageBoardIds.remove(messageBoardId);
+    notifyListeners();
+  }
+
   void addFriend(String friendId) {
     this.friendIds.add(friendId);
+    notifyListeners();
+  }
+
+  void removeFriend(String friendId) {
+    this.friendIds.remove(friendIds);
     notifyListeners();
   }
 }
