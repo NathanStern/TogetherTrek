@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
-import 'package:together_trek/views/LoginView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
 
@@ -164,7 +163,7 @@ class _HomeViewState extends State<HomeView> {
                         title: Text(
                             "Build: ${snapshot.data.version} (${snapshot.data.buildNumber})"));
                   } else {
-                    return ListTile();
+                    return ListTile(title: Text("No build info"));
                   }
                 })
           ],
