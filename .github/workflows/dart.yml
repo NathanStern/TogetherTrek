@@ -28,7 +28,7 @@ jobs:
       
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '1.22.6'
+          flutter-version: '2.0.1'
 
       - name: Install dependencies
         working-directory: ./mobile_frontend/together_trek
