@@ -137,4 +137,181 @@ void main() {
 
     expect(user.postIds.length, 0);
   });
+
+  test('Check to see if the addTrip() method works as expected', () {
+    expect(user.tripIds.isEmpty, true);
+
+    List<String> testArr = [];
+
+    Random gen = new Random();
+
+    int numTests = gen.nextInt(50);
+
+    for (int i = 0; i < numTests; i++) {
+      testArr.add("${i}");
+      user.addTrip("${i}");
+    }
+
+    for (int i = 0; i < testArr.length; i++) {
+      expect(user.tripIds[i], testArr[i]);
+    }
+
+    user.tripIds = [];
+
+    expect(user.tripIds.length, 0);
+  });
+
+  test('Check to see if the removeTrip() method works as expected', () {
+    expect(user.tripIds.isEmpty, true);
+
+    Random gen = new Random();
+
+    int numTests = gen.nextInt(50) + 5;
+
+    List<String> testArr = [];
+
+    for (int i = 0; i < numTests; i++) {
+      user.addTrip("${i}");
+      testArr.add("${i}");
+    }
+
+    for (int i = 0; i < numTests / 2; i++) {
+      int removeTest = gen.nextInt(numTests - 1 - i);
+
+      String toRemove = testArr[removeTest];
+
+      user.removeTrip(toRemove);
+      testArr.remove(toRemove);
+
+      for (int j = 0; j < testArr.length; j++) {
+        expect(user.tripIds[j], testArr[j]);
+      }
+    }
+
+    int removeLength = user.tripIds.length;
+
+    for (int i = 0; i < removeLength; i++) {
+      user.removeTrip(user.tripIds[0]);
+    }
+
+    expect(user.tripIds.length, 0);
+  });
+
+  test('Check to see if the addMessageBoard() method works as expected', () {
+    expect(user.messageBoardIds.isEmpty, true);
+
+    List<String> testArr = [];
+
+    Random gen = new Random();
+
+    int numTests = gen.nextInt(50);
+
+    for (int i = 0; i < numTests; i++) {
+      testArr.add("${i}");
+      user.addMessageBoard("${i}");
+    }
+
+    for (int i = 0; i < testArr.length; i++) {
+      expect(user.messageBoardIds[i], testArr[i]);
+    }
+
+    user.messageBoardIds = [];
+
+    expect(user.messageBoardIds.length, 0);
+  });
+
+  test('Check to see if the removeMessageBoard() method works as expected', () {
+    expect(user.messageBoardIds.isEmpty, true);
+
+    Random gen = new Random();
+
+    int numTests = gen.nextInt(50) + 5;
+
+    List<String> testArr = [];
+
+    for (int i = 0; i < numTests; i++) {
+      user.addMessageBoard("${i}");
+      testArr.add("${i}");
+    }
+
+    for (int i = 0; i < numTests / 2; i++) {
+      int removeTest = gen.nextInt(numTests - 1 - i);
+
+      String toRemove = testArr[removeTest];
+
+      user.removeMessageBoard(toRemove);
+      testArr.remove(toRemove);
+
+      for (int j = 0; j < testArr.length; j++) {
+        expect(user.messageBoardIds[j], testArr[j]);
+      }
+    }
+
+    int removeLength = user.messageBoardIds.length;
+
+    for (int i = 0; i < removeLength; i++) {
+      user.removeMessageBoard(user.messageBoardIds[0]);
+    }
+
+    expect(user.messageBoardIds.length, 0);
+  });
+
+  test('Check to see if the addFriend() method works as expected', () {
+    expect(user.friendIds.isEmpty, true);
+
+    List<String> testArr = [];
+
+    Random gen = new Random();
+
+    int numTests = gen.nextInt(50);
+
+    for (int i = 0; i < numTests; i++) {
+      testArr.add("${i}");
+      user.addFriend("${i}");
+    }
+
+    for (int i = 0; i < testArr.length; i++) {
+      expect(user.friendIds[i], testArr[i]);
+    }
+
+    user.friendIds = [];
+
+    expect(user.friendIds.length, 0);
+  });
+
+  test('Check to see if the removeFriend() method works as expected', () {
+    expect(user.friendIds.isEmpty, true);
+
+    Random gen = new Random();
+
+    int numTests = gen.nextInt(50) + 5;
+
+    List<String> testArr = [];
+
+    for (int i = 0; i < numTests; i++) {
+      user.addFriend("${i}");
+      testArr.add("${i}");
+    }
+
+    for (int i = 0; i < numTests / 2; i++) {
+      int removeTest = gen.nextInt(numTests - 1 - i);
+
+      String toRemove = testArr[removeTest];
+
+      user.removeFriend(toRemove);
+      testArr.remove(toRemove);
+
+      for (int j = 0; j < testArr.length; j++) {
+        expect(user.friendIds[j], testArr[j]);
+      }
+    }
+
+    int removeLength = user.friendIds.length;
+
+    for (int i = 0; i < removeLength; i++) {
+      user.removeFriend(user.friendIds[0]);
+    }
+
+    expect(user.friendIds.length, 0);
+  });
 }

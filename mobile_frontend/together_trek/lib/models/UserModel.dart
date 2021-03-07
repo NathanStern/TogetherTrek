@@ -118,7 +118,7 @@ class UserModel extends ChangeNotifier {
   }
 
   void removeFriend(String friendId) {
-    this.friendIds.remove(friendIds);
+    this.friendIds.remove(friendId);
     notifyListeners();
   }
 }
