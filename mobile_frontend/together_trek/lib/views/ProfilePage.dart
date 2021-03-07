@@ -8,8 +8,12 @@ class ProfilePage extends StatelessWidget {
         body: Container(
             child: Center(
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: Icon(Icons.person_rounded,
+                      size: MediaQuery.of(context).size.width / 2)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

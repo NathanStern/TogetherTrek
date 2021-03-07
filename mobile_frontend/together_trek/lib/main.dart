@@ -1,5 +1,6 @@
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/api/httpRequest.dart';
+import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -117,10 +118,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ];
             },
             onSelected: (selected) {
-              print(selected);
               if (selected == 3) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ProfilePage()));
+              } else {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => PlaceholderView()));
               }
             },
             onCanceled: () {
