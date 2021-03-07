@@ -82,8 +82,6 @@ class UserModel extends ChangeNotifier {
     this.messageBoardIds = messageBoardIds;
     this.friendIds = friendIds;
     this.location = location;
-
-    notifyListeners();
   }
 
   bool isEmpty() {
@@ -91,6 +89,45 @@ class UserModel extends ChangeNotifier {
   }
 
   // All of the getters are implicit
+
+  void setAllFields(
+      String id,
+      String username,
+      String email,
+      String birthdate,
+      String gender,
+      String firstName,
+      String lastName,
+      ProfilePicModel profilePic,
+      bool verified,
+      bool notificationsEnabled,
+      bool locationEnabled,
+      List<String> postIds,
+      List<String> tripIds,
+      List<String> messageBoardIds,
+      List<String> friendIds,
+      LocationModel location) {
+    // the date needs to be parsed
+    this.id = id;
+    this.username = username;
+    this.email = email;
+    this.birthdate = birthdate;
+    this.gender = gender;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.profilePic = profilePic;
+    this.verified = verified;
+    this.notificationsEnabled = notificationsEnabled;
+    this.locationEnabled = locationEnabled;
+    this.postIds = postIds;
+    this.tripIds = tripIds;
+    this.messageBoardIds = messageBoardIds;
+    this.friendIds = friendIds;
+    this.location = location;
+    this._empty = false;
+
+    notifyListeners();
+  }
 
   void setEmail(String newEmail) {
     this.email = newEmail;

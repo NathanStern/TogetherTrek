@@ -19,3 +19,21 @@ class _LoginViewState extends State<LoginView> {
         )));
   }
 }
+
+// this.user.setAllFields(
+//                   "id",
+//                   "username",
+//                   "email",
+//                   "birthdate",
+//                   "gender",
+//                   "firstName",
+//                   "lastName",
+//                   ProfilePicModel.empty(),
+//                   true,
+//                   true,
+//                   true,
+//                   [],
+//                   [],
+//                   [],
+//                   [],
+//                   LocationModel.empty());
