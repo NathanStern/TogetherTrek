@@ -1,5 +1,6 @@
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/api/httpRequest.dart';
+import 'package:together_trek/views/ProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -106,15 +107,24 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () {},
         ),
         actions: [
-          PopupMenuButton<Text>(
+          PopupMenuButton(
             itemBuilder: (context) {
               return [
-                PopupMenuItem(
-                  child: Text("First"),
-                ),
-                PopupMenuItem(child: Text("Second")),
-                PopupMenuItem(child: Text("Third"))
+                PopupMenuItem(child: Text("First"), value: 0),
+                PopupMenuItem(child: Text("Second"), value: 1),
+                PopupMenuItem(child: Text("Third"), value: 2),
+                PopupMenuItem(child: Text("Profile"), value: 3)
               ];
+            },
+            onSelected: (selected) {
+              print(selected);
+              if (selected == 3) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()));
+              }
+            },
+            onCanceled: () {
+              print("Cancelled");
             },
           ),
         ],
