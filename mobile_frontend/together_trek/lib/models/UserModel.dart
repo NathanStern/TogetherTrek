@@ -26,6 +26,27 @@ class UserModel extends ChangeNotifier {
   List<String> messageBoardIds;
   List<String> friendIds;
   LocationModel location;
+  bool _empty = false;
+
+  UserModel.empty() {
+    this.id = "";
+    this.username = "";
+    this.email = "";
+    this.birthdate = "";
+    this.gender = "";
+    this.firstName = "";
+    this.lastName = "";
+    this.profilePic = null;
+    this.verified = false;
+    this.notificationsEnabled = false;
+    this.locationEnabled = false;
+    this.postIds = [];
+    this.tripIds = [];
+    this.messageBoardIds = [];
+    this.friendIds = [];
+    this.location = null;
+    this._empty = true;
+  }
 
   UserModel(
       String id,
@@ -63,6 +84,10 @@ class UserModel extends ChangeNotifier {
     this.location = location;
 
     notifyListeners();
+  }
+
+  bool isEmpty() {
+    return _empty;
   }
 
   // All of the getters are implicit
