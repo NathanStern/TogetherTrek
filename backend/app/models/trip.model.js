@@ -1,20 +1,18 @@
 module.exports = mongoose => {
   var schema = mongoose.Schema(
-    /* temporary schema we'll need to fill in our own schema */
     {
-      title: String,
-      description: String,
-      published: Boolean
-    },
-    { timestamps: true}
+      destination: {
+        country: String,
+        city: String,
+        region: String
+      },
+      start_date: Date,
+      end_date: Date,
+      creator_id: mongoose.Types.ObjectId,
+      participant_ids: [mongoose.Types.ObjectId]
+    }
   );
-
-  schema.method("toJSON", function() {
-    const { __v, _id, ...object } = this.toObject();
-    object.id = _id;
-    return object;
-  });
 
   const Trip = mongoose.model("trip", schema);
   return Trip;
-  };
+};
