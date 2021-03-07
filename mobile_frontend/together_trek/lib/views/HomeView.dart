@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:together_trek/views/LoginView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
@@ -10,6 +11,8 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int _selectedIndex = 1;
   int _counter = 0;
+
+  Future<PackageInfo> packageInfo = PackageInfo.fromPlatform();
 
   static List<Widget> _widgetOptions = <Widget>[
     Text("Messages"),
@@ -148,6 +151,22 @@ class _HomeViewState extends State<HomeView> {
                             PlaceholderView(title: "Settings")));
               },
             ),
+            ListTile(),
+            ListTile(),
+            ListTile(),
+            Divider(),
+            FutureBuilder<PackageInfo>(
+                future: packageInfo,
+                builder: (BuildContext context,
+                    AsyncSnapshot<PackageInfo> snapshot) {
+                  if (snapshot.hasData) {
+                    return ListTile(
+                        title: Text(
+                            "Build: ${snapshot.data.version} (${snapshot.data.buildNumber})"));
+                  } else {
+                    return ListTile();
+                  }
+                })
           ],
         )));
   }
