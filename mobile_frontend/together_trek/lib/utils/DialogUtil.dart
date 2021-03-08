@@ -4,7 +4,7 @@ Widget buildStandardDialog(
     BuildContext context, String title, String description) {
   return Dialog(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-    elevation: 5,
+    elevation: 3,
     backgroundColor: Colors.white,
     child: Stack(
       children: <Widget>[
