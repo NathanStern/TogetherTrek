@@ -21,10 +21,10 @@ class UserModel extends ChangeNotifier {
   bool verified;
   bool notificationsEnabled;
   bool locationEnabled;
-  List<String> postIds;
-  List<String> tripIds;
-  List<String> messageBoardIds;
-  List<String> friendIds;
+  List<dynamic> postIds;
+  List<dynamic> tripIds;
+  List<dynamic> messageBoardIds;
+  List<dynamic> friendIds;
   LocationModel location;
   bool _empty = false;
 
@@ -112,6 +112,29 @@ class UserModel extends ChangeNotifier {
   }
 
   // All of the getters are implicit
+
+  void setAllFieldsFromUser(UserModel user) {
+    // the date needs to be parsed
+    this.id = user.id;
+    this.username = user.username;
+    this.email = user.email;
+    this.birthdate = user.birthdate;
+    this.gender = user.gender;
+    this.firstName = user.firstName;
+    this.lastName = user.lastName;
+    this.profilePic = user.profilePic;
+    this.verified = user.verified;
+    this.notificationsEnabled = user.notificationsEnabled;
+    this.locationEnabled = user.locationEnabled;
+    this.postIds = user.postIds;
+    this.tripIds = user.tripIds;
+    this.messageBoardIds = user.messageBoardIds;
+    this.friendIds = user.friendIds;
+    this.location = user.location;
+    this._empty = user._empty;
+
+    notifyListeners();
+  }
 
   void setAllFields(
       String id,

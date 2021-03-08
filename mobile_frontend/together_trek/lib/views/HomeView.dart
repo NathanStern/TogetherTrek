@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:together_trek/views/MessagesView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
+import 'package:together_trek/views/PostsView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
 
 class HomeView extends StatefulWidget {
@@ -14,9 +16,8 @@ class _HomeViewState extends State<HomeView> {
   Future<PackageInfo> packageInfo = PackageInfo.fromPlatform();
 
   static List<Widget> _widgetOptions = <Widget>[
-    Text("Messages"),
-    Text("Home"),
-    // LoginView()
+    MessagesView(),
+    PostsView(),
     ProfilePage()
   ];
 
@@ -41,6 +42,8 @@ class _HomeViewState extends State<HomeView> {
               child: FloatingActionButton(
                   onPressed: () {
                     print("Create new post");
+                    showDialog(
+                        context: context, builder: (context) => _buildDialog());
                   },
                   child: Icon(Icons.add))));
     } else if (_selectedIndex == 0) {
@@ -56,6 +59,20 @@ class _HomeViewState extends State<HomeView> {
     } else {
       return null;
     }
+  }
+
+  Widget _buildDialog() {
+    return AlertDialog(
+      title: Text("Test popup"),
+      actions: [
+        TextButton(
+          child: Text("Close"),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        )
+      ],
+    );
   }
 
   @override

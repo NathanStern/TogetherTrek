@@ -25,5 +25,5 @@ Future<String> createUser() async {
 Future<UserModel> getUser(String id) async {
   http.Response response = await httpGet('users/${id}');
 
-  //response.body
+  return UserModel.fromJson(jsonDecode(response.body));
 }

@@ -1,6 +1,6 @@
 class LocationModel {
-  List<double> coordinates;
-  LocationModel(List<double> coordinates) {
+  List<dynamic> coordinates;
+  LocationModel(List<dynamic> coordinates) {
     this.coordinates = coordinates;
   }
 
@@ -8,12 +8,19 @@ class LocationModel {
     this.coordinates = [0, 0];
   }
 
-  void setCoordinates(List<double> newCoords) {
+  void setCoordinates(List<dynamic> newCoords) {
+    if (newCoords.isEmpty) {
+      this.coordinates = [0, 0];
+      return;
+    }
     this.coordinates = newCoords;
   }
 
   @override
   String toString() {
+    if (this.coordinates.isEmpty) {
+      return "empty";
+    }
     return "x: ${this.coordinates[0]} y: ${this.coordinates[1]}";
   }
 }

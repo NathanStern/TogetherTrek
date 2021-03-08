@@ -13,6 +13,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   _LoginViewState({Key key, this.user});
+  bool _firstLogin = true;
 
   UserModel user;
   @override
@@ -27,26 +28,15 @@ class _LoginViewState extends State<LoginView> {
               ElevatedButton(
                 child: Text("Log in"),
                 onPressed: () async {
-                  String id = await createUser();
-                  print(id);
-                  this.user.setAllFields(
-                      "id",
-                      "username",
-                      "email",
-                      "birthdate",
-                      "gender",
-                      "firstName",
-                      "lastName",
-                      ProfilePicModel.empty(),
-                      true,
-                      true,
-                      true,
-                      [],
-                      [],
-                      [],
-                      [],
-                      LocationModel.empty());
-                  Navigator.pop(context);
+                  if (_firstLogin) {
+                    _firstLogin = false;
+                    String id = await createUser();
+                    print(id);
+                    UserModel user = await getUser(id);
+                    print(user.location.toString());
+                    this.user.setAllFieldsFromUser(user);
+                    Navigator.pop(context);
+                  }
                 },
               )
             ],
