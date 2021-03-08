@@ -96,19 +96,22 @@ class _HomeViewState extends State<HomeView> {
           children: [
             DrawerHeader(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("PLACEHOLDER TITLE"),
-                        Text("PLACEHOLDER TEXT")
+                        Text("TogetherTrek", style: TextStyle(fontSize: 30)),
+                        Text("Travel Together",
+                            style: TextStyle(
+                                color: Colors.grey[850], fontSize: 18))
                       ],
                     )
                   ],
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.deepOrange,
-                )),
+                decoration: BoxDecoration(color: Colors.deepOrange)),
             ListTile(
               title: Text("Home"),
               onTap: () {
