@@ -1,25 +1,27 @@
+import 'package:together_trek/models/LocationModel.dart';
+import 'package:together_trek/models/ProfilePicModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:math';
 
 void main() {
   UserModel user = new UserModel(
-      "testID",
-      "testUsername",
-      "test@example.com",
-      "12/30/2000",
-      "Male",
-      "Test",
-      "User",
-      null,
-      true,
-      true,
-      true,
-      [],
-      [],
-      [],
-      [],
-      null);
+      id: "testID",
+      username: "testUsername",
+      email: "test@example.com",
+      birthdate: "12/30/2000",
+      gender: "Male",
+      firstName: "Test",
+      lastName: "User",
+      profilePic: new ProfilePicModel.empty(),
+      verified: true,
+      notificationsEnabled: true,
+      locationEnabled: true,
+      postIds: [],
+      tripIds: [],
+      messageBoardIds: [],
+      friendIds: [],
+      location: new LocationModel.empty());
 
   test('Check to see if all fields are set correctly upon creation', () {
     expect(user.id, "testID");
@@ -29,7 +31,6 @@ void main() {
     expect(user.gender, "Male");
     expect(user.firstName, "Test");
     expect(user.lastName, "User");
-    expect(user.profilePic, null);
     expect(user.verified, true);
     expect(user.notificationsEnabled, true);
     expect(user.locationEnabled, true);
@@ -37,7 +38,6 @@ void main() {
     expect(user.tripIds.isEmpty, true);
     expect(user.messageBoardIds.isEmpty, true);
     expect(user.friendIds.isEmpty, true);
-    expect(user.location, null);
   });
 
   test('Check to see if the setEmail() method works as expected', () {

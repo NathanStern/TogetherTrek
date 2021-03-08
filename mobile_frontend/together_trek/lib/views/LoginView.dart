@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:together_trek/models/LocationModel.dart';
 import 'package:together_trek/models/ProfilePicModel.dart';
 import 'package:together_trek/models/UserModel.dart';
+import 'package:together_trek/api/UserWrapper.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({Key key, this.user}) : super(key: key);
@@ -25,7 +26,9 @@ class _LoginViewState extends State<LoginView> {
             children: [
               ElevatedButton(
                 child: Text("Log in"),
-                onPressed: () {
+                onPressed: () async {
+                  String id = await createUser();
+                  print(id);
                   this.user.setAllFields(
                       "id",
                       "username",
