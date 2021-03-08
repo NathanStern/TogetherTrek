@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/MessagesView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/PostsView.dart';
@@ -41,9 +42,12 @@ class _HomeViewState extends State<HomeView> {
           child: FittedBox(
               child: FloatingActionButton(
                   onPressed: () {
-                    print("Create new post");
                     showDialog(
-                        context: context, builder: (context) => _buildDialog());
+                        context: context,
+                        builder: (context) => buildStandardDialog(
+                            context,
+                            "Create Post",
+                            "This function has not been implemented yet. This is just a test dialog."));
                   },
                   child: Icon(Icons.add))));
     } else if (_selectedIndex == 0) {
@@ -53,26 +57,17 @@ class _HomeViewState extends State<HomeView> {
           child: FittedBox(
               child: FloatingActionButton(
                   onPressed: () {
-                    print("Create new message");
+                    showDialog(
+                        context: context,
+                        builder: (context) => buildStandardDialog(
+                            context,
+                            "New Message",
+                            "This function has not been implemented yet. This is just a test dialog."));
                   },
                   child: Icon(Icons.add))));
     } else {
       return null;
     }
-  }
-
-  Widget _buildDialog() {
-    return AlertDialog(
-      title: Text("Test popup"),
-      actions: [
-        TextButton(
-          child: Text("Close"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        )
-      ],
-    );
   }
 
   @override
