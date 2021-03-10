@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require("../models/index.js");
 const Post = db.posts;
 
 // Creates an entry in the posts table

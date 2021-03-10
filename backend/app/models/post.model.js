@@ -1,20 +1,19 @@
 module.exports = mongoose => {
   var schema = mongoose.Schema(
-    /* temporary schema we'll need to fill in our own schema */
     {
+      author_id: mongoose.Types.ObjectId,
       title: String,
       description: String,
-      published: Boolean
-    },
-    { timestamps: true}
+      post_date: Date,
+      destinations: [{
+        country: String,
+        city: String,
+        region: String
+      }]
+    }
   );
 
-  schema.method("toJSON", function() {
-    const { __v, _id, ...object } = this.toObject();
-    object.id = _id;
-    return object;
-  });
 
   const Post = mongoose.model("post", schema);
   return Post;
-  };
+};

@@ -1,24 +1,27 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+// Main app file
+const config = require("./app/config/config.js");
 const cors = require("cors");
+const express = require("express");
+const fileUpload = require('express-fileupload');
 
 const app = express();
 
-var corsOptions = {
-  origin: "http://localhost:3001"
-};
+// Allow file uploading
+app.use(fileUpload({
+    createParentPath: true
+}));
 
-app.use(cors(corsOptions));
+// Enable cross origin resource sharing
+app.use(cors());
 
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
+// Specify request body should be parsed as json
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-
-const db = require("./app/models");
+// Connect to the database
+const db = require("./app/models/index.js");
 db.mongoose
-  .connect(db.url, {
+  .connect(config.db.url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -30,20 +33,20 @@ db.mongoose
     process.exit();
   });
 
-// simple route
+// index route
 app.get("/", (req, res) => {
   res.json({message: "Welcome to TogetherTrek."});
 });
 
-require("./app/routes/message_board.routes")(app);
-require("./app/routes/message.routes")(app);
-require("./app/routes/post.routes")(app);
-require("./app/routes/trip_photo.routes")(app);
-require("./app/routes/trip.routes")(app);
-require("./app/routes/user.routes")(app);
+require("./app/routes/message_board.routes.js")(app);
+require("./app/routes/message.routes.js")(app);
+require("./app/routes/post.routes.js")(app);
+require("./app/routes/trip_photo.routes.js")(app);
+require("./app/routes/trip.routes.js")(app);
+require("./app/routes/user.routes.js")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 3001;
+const PORT = config.app.port
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
