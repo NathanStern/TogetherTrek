@@ -4,7 +4,10 @@ const Post = db.posts;
 // Creates an entry in the posts table
 exports.create = (req, res) => {
     // Validate all expected fields were passed
-    
+    if (!req.body) {
+      res.status(400).send({ message: "no body." });
+      return;
+    }
     if (!req.body.title) {
       res.status(400).send({ message: "title can not be empty." });
       return;

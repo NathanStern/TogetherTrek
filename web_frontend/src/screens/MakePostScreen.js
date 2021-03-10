@@ -4,9 +4,19 @@ const MakePostScreen = () => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [destinations, setDestinations] = useState('')
+    const [response, setResponse] = useState('')
     const handleSubmit = () => {
         console.log(`Title is ${title}, description: ${description}, destinations: ${destinations}`)
+        callAPI();
     }
+    
+    const callAPI = () => {
+        fetch("http://localhost:3001/post/test")
+            .then(res => res.text())
+            .then(res => setResponse(res));
+    }
+    
+
     return (
         <div>
             <h3 className='col-lg-4'> New Post</h3>
@@ -25,6 +35,7 @@ const MakePostScreen = () => {
                 </div>
                 <button >Post</button>
             </form>
+            <p className='api'><label> resp: {response} </label></p>
         </div>
     )
 }
