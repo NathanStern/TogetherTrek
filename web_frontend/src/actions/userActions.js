@@ -5,6 +5,9 @@ import {
 	USER_LOGIN_SUCCESS,
 	USER_REGISTER_FAIL,
 	USER_REGISTER_SUCCESS,
+	USER_UPDATE_PROFILE_REQUEST,
+	USER_UPDATE_PROFILE_SUCCESS,
+	USER_UPDATE_PROFILE_FAIL,
 } from '../constants/userConstants'
 import axios from 'axios'
 export const login = (email, password) => async (dispatch) => {
@@ -70,7 +73,7 @@ export const register = (
 				'Content-Type': 'application/json',
 			},
 		}
-		const { data } = await axios.post('http://localhost:3001/users', {
+		const newUser = {
 			username: username,
 			password: password,
 			email: email,
@@ -93,7 +96,8 @@ export const register = (
 			trip_ids: [],
 			message_board_ids: [],
 			friend_ids: [],
-		})
+		}
+		const { data } = await axios.post('http://localhost:3001/users', newUser)
 		console.log(data)
 		dispatch({
 			type: USER_REGISTER_SUCCESS,
@@ -110,7 +114,12 @@ export const register = (
 				type: USER_LOGIN_SUCCESS,
 				payload: data,
 			})
-			localStorage.setItem('userInfo', JSON.stringify(data))
+
+			localStorage.setItem('userInfo', JSON.stringify(newUser))
+			// localStorage.setItem(
+			// 	'userInfo',
+			// 	JSON.stringify([...newUser, { _id: data }])
+			// )
 		}
 	} catch (error) {
 		dispatch({
@@ -119,6 +128,44 @@ export const register = (
 				error.response && error.response.data.message
 					? error.response.data.message
 					: error.response,
+		})
+	}
+}
+
+export const updateUserProfile = (user) => async (dispatch, getState) => {
+	try {
+		dispatch({
+			type: USER_UPDATE_PROFILE_REQUEST,
+		})
+
+		const {
+			userLogin: { userInfo },
+		} = getState()
+
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}
+		console.log(userInfo)
+		console.log(userInfo._id)
+		console.log(`http://localhost:3001/users/${userInfo._id}`)
+		const { data } = await axios.put(
+			`http://localhost:3001/users/${userInfo._id}`,
+			user
+		)
+
+		dispatch({
+			type: USER_UPDATE_PROFILE_SUCCESS,
+			payload: data,
+		})
+	} catch (error) {
+		dispatch({
+			type: USER_UPDATE_PROFILE_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
 		})
 	}
 }

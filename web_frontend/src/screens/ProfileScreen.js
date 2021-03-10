@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col, Container } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -9,12 +10,20 @@ const logo = {
 	width: 64,
 	height: 64,
 }
-const ProfileScreen = ({}) => {
+const ProfileScreen = ({ location, history }) => {
 	const dispatch = useDispatch()
 
 	//user info contains information about the user
 	const { userInfo } = useSelector((state) => state.userLogin)
 	console.log(userInfo)
+
+	const redirect = '/'
+
+	useEffect(() => {
+		if (!userInfo) {
+			history.push(redirect)
+		}
+	}, [history, userInfo, redirect])
 
 	return (
 		<Row>
