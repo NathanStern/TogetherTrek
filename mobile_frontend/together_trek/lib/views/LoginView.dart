@@ -3,6 +3,7 @@ import 'package:together_trek/models/LocationModel.dart';
 import 'package:together_trek/models/ProfilePicModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/api/UserWrapper.dart';
+import 'package:together_trek/utils/DialogUtil.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({Key key, this.user}) : super(key: key);
@@ -32,10 +33,17 @@ class _LoginViewState extends State<LoginView> {
                     _firstLogin = false;
                     String id = await createUser();
                     print(id);
-                    UserModel user = await getUser(id);
-                    print(user.location.toString());
-                    this.user.setAllFieldsFromUser(user);
-                    Navigator.pop(context);
+                    UserModel fetchedUser = await getUser(id);
+                    print(fetchedUser.location.toString());
+                    this.user.setAllFieldsFromUser(fetchedUser);
+                    Navigator.popUntil(context, ModalRoute.withName("/"));
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (context) => buildStandardDialog(
+                            context,
+                            "Log in",
+                            "A login attempt is already in progress. Please wait for it to finish before trying again."));
                   }
                 },
               )

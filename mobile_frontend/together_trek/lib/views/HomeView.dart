@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/MessagesView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/PostsView.dart';
@@ -40,10 +41,14 @@ class _HomeViewState extends State<HomeView> {
           width: 60,
           child: FittedBox(
               child: FloatingActionButton(
+                  tooltip: "Create Post",
                   onPressed: () {
-                    print("Create new post");
                     showDialog(
-                        context: context, builder: (context) => _buildDialog());
+                        context: context,
+                        builder: (context) => buildStandardDialog(
+                            context,
+                            "Create Post",
+                            "This function has not been implemented yet. This is just a test dialog."));
                   },
                   child: Icon(Icons.add))));
     } else if (_selectedIndex == 0) {
@@ -52,27 +57,19 @@ class _HomeViewState extends State<HomeView> {
           width: 60,
           child: FittedBox(
               child: FloatingActionButton(
+                  tooltip: "New Message",
                   onPressed: () {
-                    print("Create new message");
+                    showDialog(
+                        context: context,
+                        builder: (context) => buildStandardDialog(
+                            context,
+                            "New Message",
+                            "This function has not been implemented yet. This is just a test dialog."));
                   },
                   child: Icon(Icons.add))));
     } else {
       return null;
     }
-  }
-
-  Widget _buildDialog() {
-    return AlertDialog(
-      title: Text("Test popup"),
-      actions: [
-        TextButton(
-          child: Text("Close"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        )
-      ],
-    );
   }
 
   @override
@@ -101,19 +98,24 @@ class _HomeViewState extends State<HomeView> {
           children: [
             DrawerHeader(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("PLACEHOLDER TITLE"),
-                        Text("PLACEHOLDER TEXT")
+                        Text("TogetherTrek",
+                            style:
+                                TextStyle(fontSize: 30, color: Colors.white)),
+                        Text("Travel Together",
+                            style: TextStyle(
+                                color: Colors.grey[100], fontSize: 18))
                       ],
                     )
                   ],
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.deepOrange,
-                )),
+                decoration: BoxDecoration(color: Colors.deepOrange)),
             ListTile(
               title: Text("Home"),
               onTap: () {
