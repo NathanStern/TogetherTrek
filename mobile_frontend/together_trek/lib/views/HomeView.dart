@@ -103,10 +103,12 @@ class _HomeViewState extends State<HomeView> {
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("TogetherTrek", style: TextStyle(fontSize: 30)),
+                        Text("TogetherTrek",
+                            style:
+                                TextStyle(fontSize: 30, color: Colors.white)),
                         Text("Travel Together",
                             style: TextStyle(
-                                color: Colors.grey[850], fontSize: 18))
+                                color: Colors.grey[100], fontSize: 18))
                       ],
                     )
                   ],
