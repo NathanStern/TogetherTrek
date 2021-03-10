@@ -6,11 +6,13 @@ import {
 	userRegisterReducer,
 	userUpdateProfileReducer,
 } from './reducers/userReducers'
+import { tripsGetReducer } from './reducers/tripsReducers'
 
 const reducer = combineReducers({
 	userLogin: userLoginReducer,
 	userRegister: userRegisterReducer,
 	userUpdateProfile: userUpdateProfileReducer,
+	tripsGet: tripsGetReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

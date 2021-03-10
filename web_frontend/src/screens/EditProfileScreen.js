@@ -147,6 +147,11 @@ const EditProfileScreen = ({ location, history }) => {
 				<Button type='submit' variant='primary'>
 					Update
 				</Button>
+				<Row>
+					<Col>
+						<Link to={'/profile'}>Back To Profile</Link>
+					</Col>
+				</Row>
 			</Form>
 		</FormContainer>
 	)
