@@ -96,12 +96,17 @@ class _HomeViewState extends State<HomeView> {
           children: [
             DrawerHeader(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("PLACEHOLDER TITLE"),
-                        Text("PLACEHOLDER TEXT")
+                        Text("TogetherTrek",
+                            style:
+                                TextStyle(fontSize: 30, color: Colors.white)),
+                        Text("Travel Together",
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.grey[100]))
                       ],
                     )
                   ],
