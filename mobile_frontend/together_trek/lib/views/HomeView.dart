@@ -41,6 +41,7 @@ class _HomeViewState extends State<HomeView> {
           width: 60,
           child: FittedBox(
               child: FloatingActionButton(
+                  tooltip: "Create Post",
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -56,6 +57,7 @@ class _HomeViewState extends State<HomeView> {
           width: 60,
           child: FittedBox(
               child: FloatingActionButton(
+                  tooltip: "New Message",
                   onPressed: () {
                     showDialog(
                         context: context,
