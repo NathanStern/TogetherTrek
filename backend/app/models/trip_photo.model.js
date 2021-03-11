@@ -3,7 +3,7 @@ module.exports = mongoose => {
     {
       author_id: mongoose.Types.ObjectId,
       post_date: Date,
-      link: String,
+      filename: String,
       trip_id: mongoose.Types.ObjectId
     }
   );

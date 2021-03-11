@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:together_trek/models/LocationModel.dart';
 import 'package:together_trek/models/ProfilePicModel.dart';
 import 'package:flutter/material.dart';
@@ -29,23 +31,32 @@ class UserModel extends ChangeNotifier {
   bool _empty = false;
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    List<dynamic> coords = json['location']['coordinates'];
+    if (json['location']['coordinates'].isEmpty) {
+      coords = [0, 0];
+    }
+
+    //print(json['profile_pic']);
+
+    // ProfilePicModel profilePic = new ProfilePicModel(
+    //     json['profile_pic']['url'], json['profile_pic']['uploadDate']);
     return UserModel(
-      id: json['_id'],
-      username: json['username'],
-      email: json['email'],
-      birthdate: json['birthdate'],
-      gender: json['gender'],
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      profilePic: new ProfilePicModel.empty(),
-      verified: false,
-      notificationsEnabled: false,
-      locationEnabled: false,
-      postIds: json['post_ids'],
-      tripIds: json['trip_ids'],
-      messageBoardIds: json['message_board_ids'],
-      friendIds: json['friend_ids'],
-      location: new LocationModel(json['location']['coordinates']),
+      id: json['_id'] ?? "",
+      username: json['username'] ?? "",
+      email: json['email'] ?? "",
+      birthdate: json['birthdate'] ?? "",
+      gender: json['gender'] ?? "",
+      firstName: json['first_name'] ?? "",
+      lastName: json['last_name'] ?? "",
+      //profilePic: null,
+      verified: json['verified'] ?? false,
+      notificationsEnabled: json['notifications_enabled'] ?? false,
+      locationEnabled: json['location_enabled'] ?? false,
+      postIds: json['post_ids'] ?? [],
+      tripIds: json['trip_ids'] ?? [],
+      messageBoardIds: json['message_board_ids'] ?? [],
+      friendIds: json['friend_ids'] ?? [],
+      location: new LocationModel(coords),
     );
   }
 
@@ -85,7 +96,7 @@ class UserModel extends ChangeNotifier {
     this.tripIds = [];
     this.messageBoardIds = [];
     this.friendIds = [];
-    this.location = null;
+    this.location = new LocationModel.empty();
     this._empty = true;
   }
 
@@ -229,4 +240,25 @@ class UserModel extends ChangeNotifier {
     this.friendIds.remove(friendId);
     notifyListeners();
   }
+
+  Map<String, dynamic> toJson() => {
+        '_id': this.id,
+        'username': this.username,
+        'email': this.email,
+        'birthdate': this.birthdate,
+        'gender': this.gender,
+        'first_name': this.firstName,
+        'last_name': this.lastName,
+        'profile_pic': this.profilePic,
+        'verified': this.verified,
+        'notifications_enabled': this.notificationsEnabled,
+        'location_enabled': this.locationEnabled,
+        'post_ids': this.postIds.toList(),
+        'trip_ids': this.tripIds.toList(),
+        'message_board_ids': this.messageBoardIds.toList(),
+        'friend_ids': this.friendIds.toList(),
+        'location': {
+          'coordinates': this.location.coordinates.toList(),
+        }
+      };
 }

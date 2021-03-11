@@ -101,6 +101,8 @@ const RegisterScreen = ({ location, history }) => {
 					<Form.Control as='select' onChange={(e) => setGender(e.target.value)}>
 						<option>Female</option>
 						<option>Male</option>
+						<option>Other</option>
+						<option>Prefer Not to Say</option>
 					</Form.Control>
 				</Form.Group>
 
@@ -114,7 +116,7 @@ const RegisterScreen = ({ location, history }) => {
 					></Form.Control>
 				</Form.Group>
 				<Form.Group controlId='password'>
-					<Form.Label>Password Address</Form.Label>
+					<Form.Label>Password</Form.Label>
 					<Form.Control
 						type='password'
 						placeholder='Enter password'

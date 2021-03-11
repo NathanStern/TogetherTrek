@@ -1,0 +1,18 @@
+PUT http://localhost:3001/users/60495fc7b5fdd90169bdd591
+Content-Type: application/json
+
+{
+"location": {},
+"post_ids": [ ],
+"trip_ids": [ ],
+"message_board_ids": [ ],
+"friend_ids": [ ],
+"username": "TestingFront",
+"password": "password",
+"email": "test@front.end",
+"birthdate": "2001-01-01T00:00:00.000Z",
+"gender": "Male",
+"first_name": "test",
+"last_name": "front",
+"__v": 0
+}
