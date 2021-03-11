@@ -1,3 +1,4 @@
+const { mongoose } = require("../models/index.js");
 const db = require("../models/index.js");
 const Post = db.posts;
 
@@ -16,7 +17,7 @@ exports.create = (req, res) => {
       res.status(400).send({ message: "description can not be empty." });
       return;
     }
-    if (!req.body.postDate) {
+    if (!req.body.post_date) {
       res.status(400).send({ message: "postDate can not be empty." });
       return;
     }
@@ -26,10 +27,11 @@ exports.create = (req, res) => {
     }
   
     const post = new Post({
+      author_id: "604459603d6da00bc06c2cbd",
       title: req.body.title,
       description: req.body.description,
-      postDate: req.body.postDate,
-      destinations: req.body.destinations,
+      post_date: req.body.post_date,
+      destinations: req.body.destinations
     });
   
     post

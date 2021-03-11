@@ -2,6 +2,9 @@ module.exports = app => {
   const post_controller = require("../controllers/post.controller.js");
   var router = require("express").Router();
 
+    router.get("/test", function(req, res) {
+        res.send("API is working properly");
+    });
   // Creates an entry in the posts table
   router.post("/", post_controller.create);
 
