@@ -13,7 +13,10 @@ Future<String> createUser() async {
     'birthdate': '1990-01-01',
     'gender': 'Male',
     'first_name': 'Nathan',
-    'last_name': 'Stern'
+    'last_name': 'Stern',
+    'location': {
+      'coordinates': [0, 0]
+    },
   });
   http.Response response = await httpPost('users', data);
 
