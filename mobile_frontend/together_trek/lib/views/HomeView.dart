@@ -7,7 +7,6 @@ import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/HomeDrawerView.dart';
 import 'package:together_trek/views/MessagesView.dart';
-import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/PostsView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
 import 'package:provider/provider.dart';
