@@ -240,6 +240,18 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Put User By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								},
+								"description": "PUT request to update user profile"
+							},
+							"response": []
 						}
 					]
 				},
@@ -439,6 +451,38 @@
 					"response": []
 				},
 				{
+					"name": "Delete Text Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{site}}:{{port}}/messages/{{message-id}}",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"messages",
+								"{{message-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Add Image Message",
 					"event": [
 						{
@@ -504,6 +548,38 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Delete Image Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{site}}:{{port}}/messages/{{message-id}}",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"messages",
+								"{{message-id}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -524,7 +600,7 @@
 									"pm.test(\"Response test\", function() {\r",
 									"    pm.response.to.be.withBody;\r",
 									"    \r",
-									"    postman.setEnvironmentVariable(\"id\", pm.response.text());\r",
+									"    postman.setEnvironmentVariable(\"photo-id\", pm.response.text());\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -567,6 +643,38 @@
 							"port": "{{port}}",
 							"path": [
 								"trip_photos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Photo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{site}}:{{port}}/trip_photos/{{photo-id}}",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"trip_photos",
+								"{{photo-id}}"
 							]
 						}
 					},
