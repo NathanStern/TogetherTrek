@@ -12,6 +12,8 @@ class ProfilePicModel {
     this.uploadDate = "";
   }
 
+  Map<String, dynamic> toJson() => {url: this.url, uploadDate: this.uploadDate};
+
   @override
   String toString() {
     return "url: ${this.url} date: ${this.uploadDate}";

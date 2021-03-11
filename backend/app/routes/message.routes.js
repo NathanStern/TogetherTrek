@@ -1,5 +1,6 @@
 module.exports = app => {
-  const message_controller = require("../controllers/message.controller.js");
+  const message_controller =
+  require("../controllers/message.controller.js");
   var router = require("express").Router();
 
   // Creates an entry in the messages table

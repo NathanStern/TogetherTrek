@@ -32,3 +32,17 @@ exports.upload = (file) => {
     }
   });
 };
+
+exports.delete = (file_key) => {
+  let params = {
+    Bucket: bucket,
+    Key: file_key
+  };
+  s3.deleteObject(params, function(err, data) {
+    if (err) {
+      console.log("Error deleting file from S3:");
+      console.log(err);
+      throw err;
+    }
+  });
+};
