@@ -1,4 +1,5 @@
 const db = require("../models/index.js");
+const jwt = require('jsonwebtoken');
 const User = db.users;
 
 // Creates an entry in the users table
@@ -55,6 +56,47 @@ exports.create = (req, res) => {
     });
   });
 };
+
+// Logs the User in
+exports.login = (req, res) => {
+  User.find({username: req.body.username})
+    .exec()
+    .then(user => {
+      if (user.length < 1) {
+        return res.status(401).json({
+          // We should definitely change this later so there is no indication as to what the user did to screw up the login.
+          message: "Username does not exist."
+        });
+      }
+      // this will change once we add encryption
+      if (req.body.password == user[0].password) {
+          const token = jwt.sign({
+            username: user[0].username,
+            id: user[0].id
+          },
+          process.env.JWT_KEY,
+          {
+            expiresIn: "2h"
+          });
+          return res.status(200).json({
+            message: "Authentication successful!",
+            token: token
+          });
+      }
+      else {
+        return res.status(401).json({
+          // We should definitely change this later so there is no indication as to what the user did to screw up the login.
+          message: "Incorrect Password."
+        })
+      }
+    })
+    .catch(err =>{
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+}
 
 // Retrieves an entry from the users table by id
 exports.findOne = (req, res) => {
