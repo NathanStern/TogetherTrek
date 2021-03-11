@@ -53,7 +53,7 @@ const MakePostScreen = ()  => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: "from frontend!",
+            body: JSON.stringify({ title: '${title}',
                     description: "im going on vacation yoooo",
                     post_date: "1990-01-01",
                     destinations: [{
@@ -74,31 +74,28 @@ const MakePostScreen = ()  => {
         
     };
     
-
-    //render = () => {
-        return (
-            <div>
-                <h3 className='col-lg-4'> New Post</h3>
-                <form onSubmit={handleSubmit}>
-                    <div className='form-group'>
-                        <label> Title:  </label>
-                        <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} />
-                    </div>
-                    
-                    <div className='form-group'>
-                        <label> Description:</label>
-                        <input type="text" value={description} onChange={(event) => setDescription(event.target.value)} />
-                    </div>
-                    <div className='form-group'>
-                        <label> Destinations:</label>
-                        <input type="text" value={destinations} onChange={(event) => setDestinations(event.target.value)} />
-                    </div>
-                    <button >Post</button>
-                </form>
+    return (
+        <div>
+            <h3 className='col-lg-4'> New Post</h3>
+            <form onSubmit={handleSubmit}>
+                <div className='form-group'>
+                    <label> Title:  </label>
+                    <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} />
+                </div>
                 
-            </div>
-        );
-   // }
+                <div className='form-group'>
+                    <label> Description:</label>
+                    <input type="text" value={description} onChange={(event) => setDescription(event.target.value)} />
+                </div>
+                <div className='form-group'>
+                    <label> Destinations:</label>
+                    <input type="text" value={destinations} onChange={(event) => setDestinations(event.target.value)} />
+                </div>
+                <button >Post</button>
+            </form>
+            
+        </div>
+    );
     
 }
 
