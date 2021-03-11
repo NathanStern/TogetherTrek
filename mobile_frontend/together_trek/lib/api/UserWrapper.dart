@@ -7,13 +7,16 @@ import 'package:http/http.dart' as http;
 // testing version of createUser()
 Future<String> createUser() async {
   String data = jsonEncode(<String, dynamic>{
-    'username': 'johndoe',
+    'username': 'mobiletest',
     'password': 'password',
-    'email': 'email@gmail.com',
+    'email': 'mobiletest@gmail.com',
     'birthdate': '1990-01-01',
     'gender': 'Male',
-    'first_name': 'Ryan',
-    'last_name': 'Gamble'
+    'first_name': 'Nathan',
+    'last_name': 'Stern',
+    'location': {
+      'coordinates': [0, 0]
+    },
   });
   http.Response response = await httpPost('users', data);
 

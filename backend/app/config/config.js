@@ -13,7 +13,7 @@ const prod = {
 
 const test = {
  app: {
-   port: 3001
+   port: (process.env.PORT || 3001)
  },
  db: {
    url: "mongodb+srv://test:test@cluster0.snpmm.mongodb.net/testing?retryWrites=true&w=majority"

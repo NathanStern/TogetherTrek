@@ -5,9 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "together_trek",
+            "name": "TogetherTrek Debug",
+            "type": "dart",
             "request": "launch",
-            "type": "dart"
+            "program": "lib/main.dart",
+            "flutterMode": "debug"
+        },
+        {
+            "name": "TogetherTrek Profile",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "TogetherTrek Release",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "flutterMode": "release"
         }
     ]
 }

@@ -1,9 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:together_trek/models/UserModel.dart';
+import 'package:together_trek/utils/DialogUtil.dart';
+import 'package:together_trek/views/HomeDrawerView.dart';
 import 'package:together_trek/views/MessagesView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/PostsView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   _HomeViewState createState() => _HomeViewState();
@@ -14,6 +21,7 @@ class _HomeViewState extends State<HomeView> {
   int _counter = 0;
 
   Future<PackageInfo> packageInfo = PackageInfo.fromPlatform();
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   static List<Widget> _widgetOptions = <Widget>[
     MessagesView(),
@@ -27,12 +35,6 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-  void _increment() {
-    setState(() {
-      _counter = _counter + 1;
-    });
-  }
-
   Widget _actionButton(int index) {
     if (_selectedIndex == 1) {
       return Container(
@@ -40,10 +42,14 @@ class _HomeViewState extends State<HomeView> {
           width: 60,
           child: FittedBox(
               child: FloatingActionButton(
+                  tooltip: "Create Post",
                   onPressed: () {
-                    print("Create new post");
                     showDialog(
-                        context: context, builder: (context) => _buildDialog());
+                        context: context,
+                        builder: (context) => buildStandardDialog(
+                            context,
+                            "Create Post",
+                            "This function has not been implemented yet. This is just a test dialog."));
                   },
                   child: Icon(Icons.add))));
     } else if (_selectedIndex == 0) {
@@ -52,8 +58,14 @@ class _HomeViewState extends State<HomeView> {
           width: 60,
           child: FittedBox(
               child: FloatingActionButton(
+                  tooltip: "New Message",
                   onPressed: () {
-                    print("Create new message");
+                    showDialog(
+                        context: context,
+                        builder: (context) => buildStandardDialog(
+                            context,
+                            "New Message",
+                            "This function has not been implemented yet. This is just a test dialog."));
                   },
                   child: Icon(Icons.add))));
     } else {
@@ -61,19 +73,30 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  Widget _buildDialog() {
-    return AlertDialog(
-      title: Text("Test popup"),
-      actions: [
-        TextButton(
-          child: Text("Close"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        )
-      ],
-    );
+  UserModel user;
+
+  Future<UserModel> _getUserData() async {
+    user = context.read<UserModel>();
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    String userString = _prefs.getString('user');
+    //print(userString);
+
+    if (userString == null || userString == "") {
+      await _prefs.setString('user', jsonEncode(user));
+      userString = _prefs.getString('user');
+    }
+
+    UserModel readUser = UserModel.fromJson(jsonDecode(userString));
+
+    user.setAllFieldsFromUser(readUser);
+
+    await Future.delayed(Duration(milliseconds: 1500), () {});
+    user.setAllFieldsFromUser(user);
+    return user;
   }
+
+  Future<UserModel> readUser;
 
   @override
   Widget build(BuildContext context) {
@@ -95,95 +118,6 @@ class _HomeViewState extends State<HomeView> {
           onTap: _onTappedItem,
         ),
         floatingActionButton: _actionButton(_selectedIndex),
-        drawer: Drawer(
-            child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        Text("PLACEHOLDER TITLE"),
-                        Text("PLACEHOLDER TEXT")
-                      ],
-                    )
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.deepOrange,
-                )),
-            ListTile(
-              title: Text("Home"),
-              onTap: () {
-                Navigator.pop(context);
-                _onTappedItem(1);
-              },
-            ),
-            ListTile(
-              title: Text("Messages"),
-              onTap: () {
-                Navigator.pop(context);
-                _onTappedItem(0);
-              },
-            ),
-            ListTile(
-                title: Text("Profile"),
-                onTap: () {
-                  Navigator.pop(context);
-                  _onTappedItem(2);
-                }),
-            ListTile(
-              title: Text("My Trips"),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            PlaceholderView(title: "My Trips")));
-              },
-            ),
-            ListTile(
-              title: Text("My Posts"),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            PlaceholderView(title: "My Posts")));
-              },
-            ),
-            ListTile(
-              title: Text("Settings"),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            PlaceholderView(title: "Settings")));
-              },
-            ),
-            ListTile(),
-            ListTile(),
-            ListTile(),
-            Divider(),
-            FutureBuilder<PackageInfo>(
-                future: packageInfo,
-                builder: (BuildContext context,
-                    AsyncSnapshot<PackageInfo> snapshot) {
-                  if (snapshot.hasData) {
-                    return ListTile(
-                        title: Text(
-                            "Build: ${snapshot.data.version} (${snapshot.data.buildNumber})"));
-                  } else {
-                    return ListTile(title: Text("No build info"));
-                  }
-                })
-          ],
-        )));
+        drawer: createDrawer(context, user, _onTappedItem, packageInfo));
   }
 }

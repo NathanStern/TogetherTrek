@@ -3,7 +3,7 @@ import 'dart:convert';
 import "package:http/http.dart" as http;
 
 // Replace the <base url of api> with actual url when testing and deploying
-String baseURL = "51594c2e5782.ngrok.io";
+String baseURL = "together-trek-testing.herokuapp.com";
 
 Future<http.Response> httpGet(String requestExtension) {
   return http.get(Uri.https(baseURL, requestExtension));

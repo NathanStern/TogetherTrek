@@ -20,22 +20,29 @@ const Header = () => {
 					</LinkContainer>
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
 					{userInfo ? (
-						<NavDropdown
-							title={userInfo.username}
-							// title={
-							// 	<span className='text-primary my-auto'>
-							// 		{userInfo.username}
-							// 	</span>
-							// }
-							id='username'
-						>
-							<LinkContainer to='/profile'>
-								<NavDropdown.Item>Profile</NavDropdown.Item>
-							</LinkContainer>
-							<NavDropdown.Item onClick={logoutHandler}>
-								Logout
-							</NavDropdown.Item>
-						</NavDropdown>
+						<>
+							<Nav className='ml-auto'>
+								<LinkContainer to='./posts'>
+									<Nav.Link>Posts</Nav.Link>
+								</LinkContainer>
+							</Nav>
+							<NavDropdown
+								title={userInfo.username}
+								// title={
+								// 	<span className='text-primary my-auto'>
+								// 		{userInfo.username}
+								// 	</span>
+								// }<
+								id='username'
+							>
+								<LinkContainer to='/profile'>
+									<NavDropdown.Item>Profile</NavDropdown.Item>
+								</LinkContainer>
+								<NavDropdown.Item onClick={logoutHandler}>
+									Logout
+								</NavDropdown.Item>
+							</NavDropdown>
+						</>
 					) : (
 						<Navbar.Collapse id='basic-navbar-nav'>
 							<Nav className='ml-auto'>
