@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:together_trek/api/UserWrapper.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:provider/provider.dart';
@@ -88,9 +89,10 @@ Widget createDrawer(BuildContext context, UserModel user,
           tileColor: Colors.redAccent,
           onTap: () async {
             Navigator.pop(context);
+            UserModel user = context.read<UserModel>();
+            print(await deleteUser(user.id));
             SharedPreferences prefs = await SharedPreferences.getInstance();
             await prefs.setString('user', jsonEncode(new UserModel.empty()));
-            UserModel user = context.read<UserModel>();
             user.setAllFieldsFromUser(UserModel.empty());
           },
         ),

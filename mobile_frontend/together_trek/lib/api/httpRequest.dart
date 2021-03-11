@@ -26,5 +26,8 @@ Future<http.Response> httpPut(String requestExtension, String body) {
 }
 
 Future<http.Response> httpDelete(String requestExtension) {
-  return http.delete(Uri.https(baseURL, requestExtension));
+  return http.delete(Uri.https(baseURL, requestExtension),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      });
 }
