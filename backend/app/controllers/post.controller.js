@@ -27,7 +27,7 @@ exports.create = (req, res) => {
     }
   
     const post = new Post({
-      author_id: "604459603d6da00bc06c2cbd",
+      author_id: req.body.author_id,
       title: req.body.title,
       description: req.body.description,
       post_date: req.body.post_date,
