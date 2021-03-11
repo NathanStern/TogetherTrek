@@ -240,18 +240,6 @@
 								}
 							},
 							"response": []
-						},
-						{
-							"name": "Put User By Id",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": ""
-								},
-								"description": "PUT request to update user profile"
-							},
-							"response": []
 						}
 					]
 				},
