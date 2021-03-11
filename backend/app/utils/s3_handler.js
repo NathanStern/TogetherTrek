@@ -46,3 +46,18 @@ exports.delete = (file_key) => {
     }
   });
 };
+
+exports.findOne = (file_key, res) => {
+  let params = {
+    Bucket: bucket,
+    Key: file_key
+  };
+  s3.getObject(params, function(err, data) {
+    if (err) {
+      console.log("Error finding file in S3:");
+      console.log(err);
+      throw err;
+    }
+    res.send(data);
+  });
+};
