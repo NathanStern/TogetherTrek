@@ -12,7 +12,6 @@ const ProfileScreen = ({ location, history }) => {
 	const [myPosts, setMyPosts] = useState([])
 	//user info contains information about the user
 	const { userInfo } = useSelector((state) => state.userLogin)
-	console.log(userInfo)
 	const profilePic =
 		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
 	const redirect = '/'
@@ -21,12 +20,10 @@ const ProfileScreen = ({ location, history }) => {
 		try {
 			const allPosts = await axios.get('http://localhost:3001/posts/')
 
-			console.log(allPosts.data)
 			const usersPosts = allPosts.data.filter(
 				(el) => parseInt(el.author_id) === userInfo._id
 			)
 			setMyPosts(usersPosts)
-			console.log(myPosts)
 		} catch {}
 	}, [])
 
@@ -50,7 +47,10 @@ const ProfileScreen = ({ location, history }) => {
 			</Col>
 			<Col md={3}>
 				<h2>My Posts</h2>
-				<Post
+				{myPosts.map((el) => (
+					<Post post={el} key={el._id} />
+				))}
+				{/* <Post
 					post={{
 						_id: '3',
 						author_id: '1',
@@ -67,7 +67,7 @@ const ProfileScreen = ({ location, history }) => {
 						],
 						__v: 0,
 					}}
-				/>
+				/> */}
 			</Col>
 			<Col md={3}>
 				<h2>My Trips</h2>

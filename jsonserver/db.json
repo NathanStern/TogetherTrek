@@ -78,10 +78,11 @@
 	],
 	"posts": [
 		{
+			"id": "3",
 			"_id": "3",
 			"author_id": "1",
-			"title": "titleeee",
-			"description": "im going on vacation",
+			"title": "Looking for Travel Buddy!",
+			"description": "The dates are very flexible - this will either happen between sep-dec, or jan-mar, depending on availability & what happens with Covid. This post is mainly just to see if there's any interest! :) ",
 			"post_date": "1990-01-01T00:00:00.000+00:00",
 			"destinations": [
 				{
