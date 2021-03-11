@@ -30,6 +30,15 @@
 										],
 										"type": "text/javascript"
 									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"email\", _.random(1,1000000).toString() + \"@gmail.com\")"
+										],
+										"type": "text/javascript"
+									}
 								}
 							],
 							"request": {
@@ -37,7 +46,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\t\"username\": \"johndoe\",\r\n\t\"password\": \"password\",\r\n\t\"email\": \"email@gmail.com\",\r\n\t\"birthdate\": \"1990-01-01\",\r\n\t\"gender\": \"Male\",\r\n\t\"first_name\": \"Ryan\",\r\n\t\"last_name\": \"Gamble\"\r\n}",
+									"raw": "{\r\n    \"username\": \"testuname\",\r\n    \"password\": \"testpword\",\r\n    \"email\": \"{{email}}\",\r\n    \"birthdate\": \"1991-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"first_name\": \"testI\",\r\n    \"last_name\": \"testL\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -75,12 +84,12 @@
 											"    // We should add a check that password is not included when the endpoint is changed to not send it back\r",
 											"    var jsonData = pm.response.json();\r",
 											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"id\"));\r",
-											"    pm.expect(jsonData.username).to.eql(\"johndoe\");\r",
-											"    pm.expect(jsonData.email).to.eql(\"email@gmail.com\");\r",
-											"    pm.expect(jsonData.birthdate).to.eql(\"1990-01-01T00:00:00.000Z\")\r",
+											"    pm.expect(jsonData.username).to.eql(\"testuname\");\r",
+											"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email\"));\r",
+											"    pm.expect(jsonData.birthdate).to.eql(\"1991-01-01T00:00:00.000Z\")\r",
 											"    pm.expect(jsonData.gender).to.eql(\"Male\")\r",
-											"    pm.expect(jsonData.first_name).to.eql(\"Ryan\")\r",
-											"    pm.expect(jsonData.last_name).to.eql(\"Gamble\")\r",
+											"    pm.expect(jsonData.first_name).to.eql(\"testI\")\r",
+											"    pm.expect(jsonData.last_name).to.eql(\"testL\")\r",
 											"})  "
 										],
 										"type": "text/javascript"
@@ -105,7 +114,7 @@
 							"response": []
 						},
 						{
-							"name": "Get User By Email",
+							"name": "Get User By Criteria",
 							"event": [
 								{
 									"listen": "test",
@@ -122,12 +131,12 @@
 											"    // We should add a check that password is not included when the endpoint is changed to not send it back\r",
 											"    var jsonData = pm.response.json()[0];\r",
 											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"id\"));\r",
-											"    pm.expect(jsonData.username).to.eql(\"johndoe\");\r",
-											"    pm.expect(jsonData.email).to.eql(\"email@gmail.com\");\r",
-											"    pm.expect(jsonData.birthdate).to.eql(\"1990-01-01T00:00:00.000Z\")\r",
+											"    pm.expect(jsonData.username).to.eql(\"testuname\");\r",
+											"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email\"));\r",
+											"    pm.expect(jsonData.birthdate).to.eql(\"1991-01-01T00:00:00.000Z\")\r",
 											"    pm.expect(jsonData.gender).to.eql(\"Male\")\r",
-											"    pm.expect(jsonData.first_name).to.eql(\"Ryan\")\r",
-											"    pm.expect(jsonData.last_name).to.eql(\"Gamble\")\r",
+											"    pm.expect(jsonData.first_name).to.eql(\"testI\")\r",
+											"    pm.expect(jsonData.last_name).to.eql(\"testL\")\r",
 											"})  "
 										],
 										"type": "text/javascript"
@@ -138,7 +147,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{site}}:{{port}}/users?email=email@gmail.com&username=johndoe",
+									"raw": "{{site}}:{{port}}/users?email={{email}}&username=testuname",
 									"host": [
 										"{{site}}"
 									],
@@ -149,11 +158,11 @@
 									"query": [
 										{
 											"key": "email",
-											"value": "email@gmail.com"
+											"value": "{{email}}"
 										},
 										{
 											"key": "username",
-											"value": "johndoe"
+											"value": "testuname"
 										}
 									]
 								}
@@ -300,6 +309,268 @@
 							""
 						]
 					}
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Add User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response test\", function() {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    \r",
+									"    postman.setEnvironmentVariable(\"user-id\", pm.response.text());\r",
+									"    postman.setEnvironmentVariable(\"message-board-id\", \"60495fd323e4d3826cba09cb\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", _.random(1,1000000).toString() + \"@gmail.com\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"testuname\",\r\n    \"password\": \"testpword\",\r\n    \"email\": \"{{email}}\",\r\n    \"birthdate\": \"1991-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"first_name\": \"testI\",\r\n    \"last_name\": \"testL\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{site}}:{{port}}/users",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Text Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response test\", function() {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    \r",
+									"    postman.setEnvironmentVariable(\"message-id\", pm.response.text());\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "author_id",
+									"value": "{{user-id}}",
+									"type": "text"
+								},
+								{
+									"key": "message_board_id",
+									"value": "{{message-board-id}}",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "text",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "test string",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{site}}:{{port}}/messages",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Image Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response test\", function() {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    \r",
+									"    postman.setEnvironmentVariable(\"message-id\", pm.response.text());\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "./app/tests/test_assets/test-image.png"
+								},
+								{
+									"key": "author_id",
+									"value": "{{user-id}}",
+									"type": "text"
+								},
+								{
+									"key": "message_board_id",
+									"value": "{{message-board-id}}",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "image",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{site}}:{{port}}/messages",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Trip_Photos",
+			"item": [
+				{
+					"name": "Add Photo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response test\", function() {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    \r",
+									"    postman.setEnvironmentVariable(\"id\", pm.response.text());\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "./app/tests/test_assets/test-image.png"
+								},
+								{
+									"key": "author_id",
+									"value": "604459603d6da00bc06c2cbd",
+									"type": "text"
+								},
+								{
+									"key": "trip_id",
+									"value": "60445c76a3041c53e897352c",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{site}}:{{port}}/trip_photos",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"trip_photos"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
