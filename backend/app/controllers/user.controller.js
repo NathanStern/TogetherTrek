@@ -63,7 +63,9 @@ exports.findOne = (req, res) => {
   User.findById(id)
     .then(data => {
       if (!data) {
-        res.status(404).send({ message: `Could not find User with id=${id}.` });
+        res.status(404).send({
+          message: `Could not find User with id=${id}.`
+        });
       }
       else {
         // TODO: We should remove the password field and maybe other fields from
@@ -72,9 +74,9 @@ exports.findOne = (req, res) => {
       }
     })
     .catch(err => {
-      res
-        .status(500)
-        .send({ message: `Error retrieving User with id=${id}.` });
+      res.status(500).send({
+        message: `Error retrieving User with id=${id}.`
+      });
     });
 };
 
@@ -90,12 +92,19 @@ exports.findAll = (req, res) => {
   // Retrieve records that match the requirements
   User.find(condition)
     .then(data => {
-      res.send(data);
+      if (!data) {
+        res.status(404).send({
+          message: `Could not find Users matching criteria.`
+        });
+      }
+      else {
+        res.send(data);
+      }
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving users."
+          err.message || "Some error occurred while retrieving Users."
       });
     });
 };
