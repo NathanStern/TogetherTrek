@@ -4,71 +4,35 @@ import { Row, Col } from 'react-bootstrap'
 const MakePostScreen = ()  => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [destinations, setDestinations] = useState('')
+    const [country, setCountry] = useState('')
+    const [city, setCity] = useState('')
+    const [region, setRegion] = useState('')
     const [responseToPost, setResponse1] = useState('')
-    const [responseR, setResponsePost] = useState('')
-    const handleSubmit = () => {
-        console.log(`Title is ${title}, description: ${description}, destinations: ${destinations}`);
-        callAPI();
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        console.log(`Title is ${title}, description: ${description}, destinations: ${country}`);
+        callAPI(title, description, country, city, region)
     }
     
     
-    const callAPI = () => {
+    const callAPI = (title, description, country, city, region) => {
         console.log("api");
-        // fetch("http://localhost:3001/post")
-        //     .then(res => res.text())
-        //     .then(res => setResponse(res));
-        // var request = new Request('http://localhost:3001/post',{
-        //     form: ',
-        //     method: 'post',
-        //     mode: 'cors'
-        // });
-
-        // fetch(request).then(function(data){
-        //     return data;
-        // });
-        // const responseR = fetch("http://localhost:3001/post", {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //     },
-        //     body: {
-        //         "title": "titleeee",
-        //         "description": "im going on vacation",
-        //         "post_date": "1990-01-01",
-        //         "destinations": [{
-        //             "country": "USA",
-        //             "city": "Indy",
-        //             "region": "Indiana"
-        //         }]
-        //     },
-        //   });
-        //   const body = responseR.text();
-        //   this.setState({ responseR: body });
-        //   console.log(responseR)
-        const rep = fetch("http://localhost:3001/posts/test")
-            .then(res => res.text())
-            .then(res => setResponse1(res));
-            console.log(rep);
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: '${title}',
-                    description: "im going on vacation yoooo",
-                    post_date: "1990-01-01",
+            body: JSON.stringify({ title: title,
+                    description: description,
+                    post_date: Date.now(),
                     destinations: [{
-                        country: "USA",
-                        city: "Indy",
-                        region: "Indiana"
+                        country: country,
+                        city: city,
+                        region: region
                     }] 
                 })
         };
         fetch("http://localhost:3001/posts", requestOptions)
             .then(response => response.json())
-            .then(res => res.text())
-            .then(res => setResponse1(res))
-            .then(data => this.setState({ responseR: data }));
-            console.log("response " + responseR);
+            .then(res => setResponse1(JSON.stringify(res)));
             console.log("response1 " + responseToPost);
             
         
@@ -88,8 +52,16 @@ const MakePostScreen = ()  => {
                     <input type="text" value={description} onChange={(event) => setDescription(event.target.value)} />
                 </div>
                 <div className='form-group'>
-                    <label> Destinations:</label>
-                    <input type="text" value={destinations} onChange={(event) => setDestinations(event.target.value)} />
+                    <label> Country:</label>
+                    <input type="text" value={country} onChange={(event) => setCountry(event.target.value)} />
+                </div>
+                <div className='form-group'>
+                    <label> City:</label>
+                    <input type="text" value={city} onChange={(event) => setCity(event.target.value)} />
+                </div>
+                <div className='form-group'>
+                    <label> Region:</label>
+                    <input type="text" value={region} onChange={(event) => setRegion(event.target.value)} />
                 </div>
                 <button >Post</button>
             </form>
