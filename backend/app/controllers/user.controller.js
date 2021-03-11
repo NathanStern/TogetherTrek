@@ -127,3 +127,131 @@ exports.delete = (req, res) => {
       });
     });
 };
+
+// Sets a users profile pic to a new image
+exports.setProfilePic = (req, res) => {
+  const user_id = req.params.id;
+
+  // Validate all expected fields were passed
+  if (!req.files || !req.files.file) {
+    res.status(400).send({ message: "file can not be empty." });
+    return;
+  }
+  const file = req.files.file;
+
+  // Validate file is an image
+  if (!file.mimetype.startsWith('image')) {
+    res.status(400).send({ message: "file must be type image." });
+    return;
+  }
+
+  // Get the user entry from the database
+  const user = User.findById(user_id);
+  if (!user) {
+    res.status(404).send({
+      message: `User with id=${user_id} not found.`
+    });
+    return;
+  }
+
+  // Rename the file so that it is unique in S3
+  file.name = `${user_id}${path.parse(file.name).ext}`;
+  let new_pic_filename = file.name;
+
+  // Save the old profile pic filename
+  let old_pic_filename = user.profile_pic.filename;
+  console.log("old_pic_filename:");
+  console.log(old_pic_filename);
+
+  // If there is an old profile pic, get it then delete it from S3
+  let old_pic = null;
+  try {
+    old_pic = s3_handler.get(old_pic_filename);
+    s3_handler.delete(old_pic_filename);
+  }
+  catch (err) {
+    res.status(500).send({
+      message: err.message || "Could not get old profile pic."
+    });
+    return;
+  }
+
+  // Upload the new profile pic to S3
+  try {
+    s3_handler.upload(file);
+  }
+  catch (err) {
+    // Could not upload new profile pic so attempt to restore old one
+    try {
+      s3_handler.upload(old_pic);
+    }
+    catch (err) {
+      res.status(500).send({
+        // TODO: We probably want a better way to handle this so that pictures
+        // can't be lost
+        message: err.message || "Could not restore old profile pic, picture lost.";
+      });
+      return;
+    }
+    res.status(500).send({
+      message: err.message || "Could not upload new profile pic."
+    });
+    return;
+  }
+
+  user.profile_pic.filename = new_pic_filename;
+  user.profile_pic.upload_date = Date.now();
+
+  user.save()
+  .then(data => {
+    res.send({
+      message: "success"
+    });
+  })
+  .catch(err => {
+    // Could not save user so attempt to restore old pic and delete the new one
+    try {
+      s3_handler.delete(new_pic_filename);
+      s3_handler.upload(old_pic);
+    }
+    catch (err) {
+      res.status(500).send({
+        // TODO: We probably want a better way to handle this so that pictures
+        // can't be lost
+        message: err.message || "Could not restore old profile pic, picture lost.";
+      });
+      return;
+    }
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while updating profile pic."
+    });
+  });
+}
+
+// Gets a users profile pic
+exports.getProfilePic = (req, res) => {
+  const user_id = req.params.id;
+
+  // Get the user entry from the database
+  const user = User.findById(user_id);
+  if (!user) {
+    res.status(404).send({
+      message: `User with id=${user_id} not found.`
+    });
+    return;
+  }
+
+  // Get the profile pic and return it
+  let profile_pic = null;
+  try {
+    profile_pic = s3_handler.get(user.profile_pic.filename);
+    res.send(profile_pic);
+  }
+  catch (err) {
+    res.status(500).send({
+      message: err.message || "Could not get profile pic."
+    });
+    return;
+  }
+}
