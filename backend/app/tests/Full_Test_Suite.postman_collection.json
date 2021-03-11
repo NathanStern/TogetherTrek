@@ -468,7 +468,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "./test_assets/test-image.png"
+									"src": ".app/tests/test_assets/test-image.png"
 								},
 								{
 									"key": "author_id",
@@ -540,7 +540,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "./test_assets/test-image.png"
+									"src": ".app/tests/test_assets/test-image.png"
 								},
 								{
 									"key": "author_id",
