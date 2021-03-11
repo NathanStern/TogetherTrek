@@ -112,6 +112,8 @@ const EditProfileScreen = ({ location, history }) => {
 					>
 						<option>Female</option>
 						<option>Male</option>
+						<option>Other</option>
+						<option>Prefer Not to Say</option>
 					</Form.Control>
 				</Form.Group>
 

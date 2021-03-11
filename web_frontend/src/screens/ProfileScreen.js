@@ -35,6 +35,9 @@ const ProfileScreen = ({ location, history }) => {
 				<Link to={'/editprofile'}>Edit Profile</Link>
 			</Col>
 			<Col md={3}>
+				<h2>My Posts</h2>
+			</Col>
+			<Col md={3}>
 				<h2>My Trips</h2>
 			</Col>
 		</Row>

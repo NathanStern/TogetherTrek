@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { TRIPS_GET_REQUEST } from '../constants/userConstants'
-export const login = (email, password) => async (dispatch) => {
+export const getTrips = (email, password) => async (dispatch) => {
 	try {
 		dispatch({
 			type: TRIPS_GET_REQUEST,

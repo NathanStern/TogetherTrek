@@ -132,7 +132,16 @@ export const register = (
 	}
 }
 
-export const updateUserProfile = (user) => async (dispatch, getState) => {
+export const updateUserProfile = (
+	username,
+	firstName,
+	lastName,
+	gender,
+	birthdate,
+	email,
+	password
+) => async (dispatch, getState) => {
+	console.log(username, firstName, lastName, gender, birthdate, email, password)
 	try {
 		dispatch({
 			type: USER_UPDATE_PROFILE_REQUEST,
@@ -147,18 +156,64 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 				'Content-Type': 'application/json',
 			},
 		}
-		console.log(userInfo)
+
+		// const newUser = {
+		// 	username: username,
+		// 	password: password,
+		// 	email: email,
+		// 	birthdate: birthdate,
+		// 	gender: gender,
+		// 	first_name: firstName,
+		// 	last_name: lastName,
+		// 	profile_pic: {
+		// 		upload_date: '',
+		// 		link: '',
+		// 	},
+		// 	verified: 'False',
+		// 	notifications_enabled: 'False',
+		// 	location_enabled: 'False',
+		// 	location: {
+		// 		type: 'Point',
+		// 		coordinates: [],
+		// 	},
+		// 	post_ids: [],
+		// 	trip_ids: [],
+		// 	message_board_ids: [],
+		// 	friend_ids: [],
+		// 	_id: userInfo._id,
+		// }
+
+		const newUser = {
+			location: userInfo.location,
+			post_ids: userInfo.post_ids,
+			trip_ids: userInfo.trip_ids,
+			message_board_ids: userInfo.message_board_ids,
+			friend_ids: userInfo.friend_ids,
+			_id: userInfo._id,
+			username: username,
+			password: password,
+			email: email,
+			birthdate: birthdate,
+			gender: gender,
+			first_name: firstName,
+			last_name: lastName,
+			_v: userInfo._v,
+		}
+
+		console.log(newUser)
 		console.log(userInfo._id)
 		console.log(`http://localhost:3001/users/${userInfo._id}`)
 		const { data } = await axios.put(
 			`http://localhost:3001/users/${userInfo._id}`,
-			user
+			newUser,
+			config
 		)
 
 		dispatch({
 			type: USER_UPDATE_PROFILE_SUCCESS,
 			payload: data,
 		})
+		localStorage.setItem('userInfo', JSON.stringify(data))
 	} catch (error) {
 		dispatch({
 			type: USER_UPDATE_PROFILE_FAIL,
