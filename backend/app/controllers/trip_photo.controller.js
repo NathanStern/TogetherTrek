@@ -121,5 +121,38 @@ exports.update = (req, res) => {
 
 // Deletes an entry in the trip_photos table by id
 exports.delete = (req, res) => {
+  const trip_photo_id = req.params.id;
 
+  // Get the trip_photo object so we can delete the image
+  Trip_Photo.findById(trip_photo_id)
+  .then(data => {
+    if (!data) {
+      res.status(404).send({
+        message: `Could not find Trip_Photo with id=${trip_photo_id}.`
+      });
+    } else {
+
+      // Delete the image from S3
+      const filename = data.filename;
+      try {
+        s3_handler.delete(filename);
+      }
+      catch (err) {
+        res.status(500).send({
+          message: err.message || "Failed to delete image."
+        });
+        return;
+      }
+
+      // Delete the trip_photo entry in the database
+      data.delete();
+      res.send("success");
+      return;
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: `Error retrieving Trip_Photo with id=${trip_photo_id}.`
+    });
+  });
 }

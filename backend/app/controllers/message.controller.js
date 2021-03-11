@@ -174,5 +174,40 @@ exports.update = (req, res) => {
 
 // Deletes an entry in the messages table by id
 exports.delete = (req, res) => {
+  const message_id = req.params.id;
 
+  // Get the message object so we can check if we need to delete an image
+  Message.findById(message_id)
+  .then(data => {
+    if (!data) {
+      res.status(404).send({
+        message: `Could not find Message with id=${message_id}.`
+      });
+    } else {
+
+      // If the message is an image, delete it from S3
+      if (data.type == "image") {
+        const filename = data.data;
+        try {
+          s3_handler.delete(filename);
+        }
+        catch (err) {
+          res.status(500).send({
+            message: err.message || "Failed to delete image."
+          });
+          return;
+        }
+      }
+
+      // Delete the message entry in the database
+      data.delete();
+      res.send("success");
+      return;
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: `Error retrieving Trip_Photo with id=${trip_photo_id}.`
+    });
+  });
 }
