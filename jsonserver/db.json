@@ -1,10 +1,10 @@
 {
 	"users": [
 		{
-			"id": 1,
+			"_id": 1,
 			"username": "justinh",
 			"password": "password",
-			"email": "justinhay686@gmail.com",
+			"email": "test@test.com",
 			"birthdate": "12/30/2000",
 			"gender": "Male",
 			"first_name": "Justin",
@@ -26,7 +26,7 @@
 			"friend_ids": [25, 2]
 		},
 		{
-			"id": 2,
+			"_id": "604459603d6da00bc06c2cbd",
 			"username": "ryangamble",
 			"password": "secret-password123",
 			"email": "ryangamble@gmail.com",
@@ -73,7 +73,25 @@
 			"trip_ids": [],
 			"message_board_ids": [],
 			"friend_ids": [],
-			"id": 4
+			"_id": 4
+		}
+	],
+	"posts": [
+		{
+			"_id": "3",
+			"author_id": "1",
+			"title": "titleeee",
+			"description": "im going on vacation",
+			"post_date": "1990-01-01T00:00:00.000+00:00",
+			"destinations": [
+				{
+					"_id": "60495093a7908e0c2001fc9e",
+					"country": "USA",
+					"city": "Indy",
+					"region": "Indiana"
+				}
+			],
+			"__v": 0
 		}
 	]
 }
