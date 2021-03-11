@@ -5,6 +5,9 @@ module.exports = app => {
   // Creates an entry in the users table
   router.post("/", user_controller.create);
 
+  // Logs the User in
+  router.post("/login", user_controller.login);
+
   // Retrieves an entry from the users table by id
   router.get("/:id", user_controller.findOne);
 
