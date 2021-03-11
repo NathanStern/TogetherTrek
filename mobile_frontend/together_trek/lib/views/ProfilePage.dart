@@ -178,7 +178,53 @@ class ProfilePage extends StatelessWidget {
           ),
           Container(
             height: 330,
-            
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                Container(
+                  width: 300.0,
+                  height: 300.0,
+                  alignment: Alignment.center,
+                  child: Image.network("https://images.pexels.com/photos/41952/neil-armstrong-armstrong-astronaut-space-suit-41952.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"),
+                ),
+                Container(
+                  width: 300.0,
+                  height: 300.0,
+                  alignment: Alignment.center,
+                  child: Image.network("https://images.pexels.com/photos/41952/neil-armstrong-armstrong-astronaut-space-suit-41952.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"),
+                ),
+                Container(
+                  width: 300.0,
+                  height: 300.0,
+                  alignment: Alignment.center,
+                  child: Image.network("https://images.pexels.com/photos/41952/neil-armstrong-armstrong-astronaut-space-suit-41952.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"),
+                ),
+                Container(
+                  width: 300.0,
+                  height: 300.0,
+                  alignment: Alignment.center,
+                  child: Image.network("https://images.pexels.com/photos/41952/neil-armstrong-armstrong-astronaut-space-suit-41952.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"),
+                ),
+                Container(
+                  width: 300.0,
+                  height: 300.0,
+                  alignment: Alignment.center,
+                  child: Image.network("https://images.pexels.com/photos/41952/neil-armstrong-armstrong-astronaut-space-suit-41952.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"),
+                ),
+                Container(
+                  width: 300.0,
+                  height: 300.0,
+                  alignment: Alignment.center,
+                  child: Image.network("https://images.pexels.com/photos/41952/neil-armstrong-armstrong-astronaut-space-suit-41952.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"),
+                ),
+                Container(
+                  width: 300.0,
+                  height: 300.0,
+                  alignment: Alignment.center,
+                  child: Image.network("https://images.pexels.com/photos/41952/neil-armstrong-armstrong-astronaut-space-suit-41952.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"),
+                )
+              ]
+            )
           ),
           SizedBox(
             height: 20.0,
@@ -191,7 +237,7 @@ class ProfilePage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(80.0)
               ),
-              elevation: 0.0,
+              elevation: 1.0,
                 padding: EdgeInsets.all(0.0),
               child: Ink(
                 decoration: BoxDecoration(
@@ -205,7 +251,7 @@ class ProfilePage extends StatelessWidget {
                 child: Container(
                   constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
                   alignment: Alignment.center,
-                  child: Text("Contact me",
+                  child: Text("Edit Profile",
                   style: TextStyle(color: Colors.white, fontSize: 26.0, fontWeight:FontWeight.w300),
                   ),
                 ),
