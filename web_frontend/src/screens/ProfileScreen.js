@@ -29,32 +29,38 @@ const ProfileScreen = ({ location, history }) => {
 	}, [history, userInfo, redirect])
 
 	return (
-		<Row>
-			<Col md={3}>
-				<h2>User Profile</h2>
-				<img src={profilePic} alt='profile pic' width='100' height='100' />
-				<div>Username: {userInfo.username}</div>
-				<div>First Name: {userInfo.first_name}</div>
-				<div>Last Name: {userInfo.last_name}</div>
-				<div>Birthday: {userInfo.birthdate}</div>
-				<div>Gender: {userInfo.gender}</div>
-				<Link to={'/editprofile'}>Edit Profile</Link>
-			</Col>
-			<Col md={3}>
-				<h2>My Posts</h2>
-				{deletePost.loading && (
-					<Message variant='success'>Post Deleted</Message>
-				)}
-				{updatePost.loading && <Message variant='success'>Post Edited</Message>}
-				{posts &&
-					posts.map((el) => (
-						<Post post={el} key={el._id} personal={personal} />
-					))}
-			</Col>
-			<Col md={3}>
-				<h2>My Trips</h2>
-			</Col>
-		</Row>
+		<>
+			{userInfo && (
+				<Row>
+					<Col md={3}>
+						<h2>User Profile</h2>
+						<img src={profilePic} alt='profile pic' width='100' height='100' />
+						<div>Username: {userInfo.username}</div>
+						<div>First Name: {userInfo.first_name}</div>
+						<div>Last Name: {userInfo.last_name}</div>
+						<div>Birthday: {userInfo.birthdate}</div>
+						<div>Gender: {userInfo.gender}</div>
+						<Link to={'/editprofile'}>Edit Profile</Link>
+					</Col>
+					<Col md={3}>
+						<h2>My Posts</h2>
+						{deletePost.loading && (
+							<Message variant='success'>Post Deleted</Message>
+						)}
+						{updatePost.loading && (
+							<Message variant='success'>Post Edited</Message>
+						)}
+						{posts &&
+							posts.map((el) => (
+								<Post post={el} key={el._id} personal={personal} />
+							))}
+					</Col>
+					<Col md={3}>
+						<h2>My Trips</h2>
+					</Col>
+				</Row>
+			)}
+		</>
 	)
 }
 

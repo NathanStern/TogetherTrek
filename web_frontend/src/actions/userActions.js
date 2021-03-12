@@ -161,32 +161,6 @@ export const updateUserProfile = (
 			},
 		}
 
-		// const newUser = {
-		// 	username: username,
-		// 	password: password,
-		// 	email: email,
-		// 	birthdate: birthdate,
-		// 	gender: gender,
-		// 	first_name: firstName,
-		// 	last_name: lastName,
-		// 	profile_pic: {
-		// 		upload_date: '',
-		// 		link: '',
-		// 	},
-		// 	verified: 'False',
-		// 	notifications_enabled: 'False',
-		// 	location_enabled: 'False',
-		// 	location: {
-		// 		type: 'Point',
-		// 		coordinates: [],
-		// 	},
-		// 	post_ids: [],
-		// 	trip_ids: [],
-		// 	message_board_ids: [],
-		// 	friend_ids: [],
-		// 	_id: userInfo._id,
-		// }
-
 		const newUser = {
 			location: userInfo.location,
 			post_ids: userInfo.post_ids,
