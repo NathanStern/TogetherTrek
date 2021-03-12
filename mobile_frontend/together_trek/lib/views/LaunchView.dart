@@ -10,7 +10,6 @@ class LaunchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // LoadedPostsModel posts = context.read<LoadedPostsModel>();
     Future.delayed(Duration(seconds: 2), () async {
       // await _loadPosts(context, posts);
       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
