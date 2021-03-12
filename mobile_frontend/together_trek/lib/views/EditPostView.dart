@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:together_trek/models/PostModel.dart';
 
 import 'package:together_trek/api/PostWrapper.dart';
