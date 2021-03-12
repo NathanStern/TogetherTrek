@@ -73,19 +73,18 @@ exports.login = (req, res) => {
       }
       // this will change once we add encryption
       if (req.body.password == user[0].password) {
-		  console.log(config.app.JWT_KEY+"-------------------------");
-          const token = jwt.sign({
-            username: user[0].username,
-            id: user[0].id
-          },
-          config.app.JWT_KEY,
-          {
-            expiresIn: "2h"
-          });
-          return res.status(200).json({
-            message: "Authentication successful!",
-            token: token
-          });
+        const token = jwt.sign({
+          username: user[0].username,
+          id: user[0].id
+        },
+        config.app.JWT_KEY,
+        {
+          expiresIn: "2h"
+        });
+        return res.status(200).json({
+          message: "Authentication successful!",
+          token: token
+        });
       }
       else {
         return res.status(401).json({
@@ -194,7 +193,6 @@ exports.delete = (req, res) => {
 // Sets a users profile pic to a new image
 exports.setProfilePic = (req, res) => {
   const user_id = req.params.id;
-	console.log("set");
 
   // Validate all expected fields were passed
   if (!req.files || !req.files.file) {

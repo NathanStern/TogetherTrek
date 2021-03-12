@@ -158,33 +158,35 @@ let message;
 // Retrieves an entry from the messages table by id
 exports.findOne = (req, res) => {
   const message_id = req.params.id;
-  console.log(message_id + "--------------------------------------------------------------------------------");
   Message.findById(message_id)
-  .then(data => {
-    if (!data) {
+  .then(message => {
+    if (!message) {
       res.status(404).send({
         message: `Could not find Message with id=${message_id}.`
       });
     } else {
-      if (data.type == "image") {
-        const filename = data.data;
-        try {
-          s3_handler.findOne(filename);
-        }
-        catch (err) {
+      if (message.type == "image") {
+        const filename = message.data;
+        s3_handler.findOne(filename)
+        .then(image => {
+          res.send(image);
+          return;
+        })
+        .catch(err => {
           res.status(500).send({
             message: err.message || "Failed to find image."
           });
           return;
-        }
+        });
+      } else {
+        res.send(message.data);
+        return;
       }
-      res.send("success");
-      return;
     }
   })
   .catch(err => {
     res.status(500).send({
-      message: `Error retrieving Trip_Photo with id=${trip_photo_id}.`
+      message: `Error retrieving Message with id=${message_id}.`
     });
   });
 }
