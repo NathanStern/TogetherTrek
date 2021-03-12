@@ -132,6 +132,7 @@ let message;
 
     // Upload the file to S3
     s3_handler.upload(file)
+    .then(data => {})
     .catch(err => {
       message.delete();
       res.status(500).send({
