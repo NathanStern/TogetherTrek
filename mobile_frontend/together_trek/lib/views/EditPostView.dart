@@ -11,30 +11,32 @@ class EditPostView extends StatefulWidget {
 
   _EditPostViewState createState() => _EditPostViewState(post: post);
 }
+
 class _EditPostViewState extends State<EditPostView> {
-   _EditPostViewState({this.post});
+  _EditPostViewState({this.post});
   PostModel post;
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Edit Post"),
-        ),
-        body: MyCustomForm(post: post),
-       
+        title: Text("Edit Post"),
+      ),
+      body: MyCustomForm(post: post),
     );
   }
 }
+
 class MyCustomForm extends StatefulWidget {
-   MyCustomForm({Key key, this.post}) : super(key: key);
+  MyCustomForm({Key key, this.post}) : super(key: key);
   PostModel post;
   @override
   MyCustomFormState createState() {
     return MyCustomFormState(post: post);
   }
 }
+
 class MyCustomFormState extends State<MyCustomForm> {
-   MyCustomFormState({this.post});
+  MyCustomFormState({this.post});
   PostModel post;
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -77,9 +79,9 @@ class MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
             onSaved: (value) {
-                setState(() {
+              setState(() {
                 _title = value;
-                });
+              });
             },
           ),
           TextFormField(
@@ -92,8 +94,8 @@ class MyCustomFormState extends State<MyCustomForm> {
             },
             onSaved: (val) => setState(() => _description = val),
           ),
-            TextFormField(
-              initialValue: _country,
+          TextFormField(
+            initialValue: _country,
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please enter some text';
@@ -102,8 +104,8 @@ class MyCustomFormState extends State<MyCustomForm> {
             },
             onSaved: (val) => setState(() => _country = val),
           ),
-            TextFormField(
-              initialValue: _city,
+          TextFormField(
+            initialValue: _city,
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please enter some text';
@@ -112,8 +114,8 @@ class MyCustomFormState extends State<MyCustomForm> {
             },
             onSaved: (val) => setState(() => _city = val),
           ),
-            TextFormField(
-              initialValue: _region,
+          TextFormField(
+            initialValue: _region,
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please enter some text';
@@ -122,22 +124,22 @@ class MyCustomFormState extends State<MyCustomForm> {
             },
             onSaved: (val) => setState(() => _region = val),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Validate returns true if the form is valid, or false
                 // otherwise.
                 if (_formKey.currentState.validate()) {
                   final form = _formKey.currentState;
                   form.save();
                   // If the form is valid, display a Snackbar.
-                  updatePost(context, _id, _title, _description, _country, _city, _region);
-                   Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
-                    );
+                  await updatePost(context, _id, _title, _description, _country,
+                      _city, _region, post);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeView()),
+                  );
                 }
               },
               child: Text('Submit'),
