@@ -30,3 +30,10 @@ Future<UserModel> getUser(String id) async {
 
   return UserModel.fromJson(jsonDecode(response.body));
 }
+
+Future<int> deleteUser(String id) async {
+  print(id);
+  http.Response response = await httpDelete('users/${id}');
+
+  return response.statusCode;
+}
