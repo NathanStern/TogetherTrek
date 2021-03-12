@@ -106,7 +106,19 @@ exports.create = (req, res) => {
 
 // Retrieves an entry from the trip_photos table by id
 exports.findOne = (req, res) => {
+  const id = req.params.filename;
 
+	User.findOne(id)
+		.then((data) => {
+			if (!data) {
+				res.status(404).send({ message: `Could not find Photo with filename=${id}.` })
+			} else {
+				res.send(data)
+			}
+		})
+		.catch((err) => {
+			res.status(500).send({ message: `Error retrieving Photo with filename=${id}.` })
+		})
 }
 
 // Retrieves entries from the trip_photos table by search criteria
