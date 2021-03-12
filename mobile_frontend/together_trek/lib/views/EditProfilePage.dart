@@ -16,6 +16,13 @@ class EditProfilePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(
+              "Update your profile",
+              style: TextStyle(
+                        color: Colors.redAccent,
+                        fontStyle: FontStyle.normal,
+                        fontSize: 28.0),
+            ),
             TextFormField(
               decoration: const InputDecoration(
                 hintText: 'Enter your First Name',),
