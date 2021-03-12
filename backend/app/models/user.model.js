@@ -13,7 +13,7 @@ module.exports = mongoose => {
       last_name: String,
       profile_pic: {
         upload_date: Date,
-        link: String
+        filename: String
       },
       verified: Boolean,
       notifications_enabled: Boolean,
