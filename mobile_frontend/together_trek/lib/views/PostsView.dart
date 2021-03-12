@@ -10,9 +10,9 @@ class PostsView extends StatefulWidget {
 class _PostsViewState extends State<PostsView> {
   List<PostModel> posts = [];
 
-  Future<bool> _savePosts() async {
+  Future<List<PostModel>> _savePosts() async {
     posts = await getPosts();
-    return true;
+    return posts;
   }
 
   Future<List<PostModel>> postsInit = getPosts();
@@ -20,6 +20,7 @@ class _PostsViewState extends State<PostsView> {
   @override
   Widget build(BuildContext context) {
     print(posts);
+    _savePosts();
     if (posts.isNotEmpty) {
       return RefreshIndicator(
         child: ListView.builder(
