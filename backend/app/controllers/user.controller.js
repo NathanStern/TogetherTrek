@@ -221,6 +221,7 @@ exports.setProfilePic = (req, res) => {
 
 		  // Attempt to upload the new profile pic to S3
 			s3_handler.upload(file)
+			.then(data => {})
 			.catch(err => {
 				res.status(500).send({
 					message: err.message || "Could not upload new profile pic."
