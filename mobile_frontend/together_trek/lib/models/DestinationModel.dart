@@ -15,7 +15,7 @@ class DestinationModel {
   }
 
   Map<String, dynamic> toJson() => {
-        '_id': this.id,
+        //'_id': this.id,
         'country': this.country,
         'region': this.region,
         'city': this.city

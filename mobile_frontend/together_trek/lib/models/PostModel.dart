@@ -48,7 +48,7 @@ class PostModel {
   }
 
   Map<String, dynamic> toJson() => {
-        '_id': this.id,
+        //'_id': this.id,
         'author_id': this.authorId,
         'title': this.title,
         'description': this.description,
