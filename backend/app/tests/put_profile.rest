@@ -1,18 +1,18 @@
-PUT http://localhost:3001/users/60495fc7b5fdd90169bdd591
+PUT https://together-trek-testing.herokuapp.com/users/6047fa7173acb538b8de4f29
 Content-Type: application/json
 
 {
 "location": {},
-"post_ids": [ ],
+"post_ids": ["604b41c985aa570015418840", "604b34ba85aa570015418825", "604b34dc85aa570015418828"],
 "trip_ids": [ ],
 "message_board_ids": [ ],
 "friend_ids": [ ],
-"username": "TestingFront",
+"username": "TestWebFront",
 "password": "password",
-"email": "test@front.end",
+"email": "testweb@front.end",
 "birthdate": "2001-01-01T00:00:00.000Z",
 "gender": "Male",
-"first_name": "test",
-"last_name": "front",
+"first_name": "Front",
+"last_name": "Test",
 "__v": 0
 }
