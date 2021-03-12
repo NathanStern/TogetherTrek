@@ -3,7 +3,6 @@ import 'dart:convert';
 import "package:together_trek/api/httpRequest.dart";
 import 'package:together_trek/models/UserModel.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 
 // testing version of createUser()
 Future<String> createUser() async {
@@ -30,8 +29,4 @@ Future<UserModel> getUser(String id) async {
   http.Response response = await httpGet('users/${id}');
 
   return UserModel.fromJson(jsonDecode(response.body));
-}
-
-Image getProfilePic(String id) {
-  return Image.network('http://localhost:3001/users/profile-pic/${id}');
 }
