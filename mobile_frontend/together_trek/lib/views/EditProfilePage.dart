@@ -33,7 +33,7 @@ class EditProfilePage extends StatelessWidget {
               color: Colors.redAccent,
               child: Text('Confirm'),
               onPressed: () {
-                Navigator.pop(context);
+                
               },
             ),
             TextFormField(
@@ -46,7 +46,7 @@ class EditProfilePage extends StatelessWidget {
               color: Colors.redAccent,
               child: Text('Confirm'),
               onPressed: () {
-                Navigator.pop(context);
+                
               },
             ),
             TextFormField(
@@ -59,7 +59,7 @@ class EditProfilePage extends StatelessWidget {
               color: Colors.redAccent,
               child: Text('Confirm'),
               onPressed: () {
-                Navigator.pop(context);
+                
               },
             ),
             TextFormField(
@@ -72,7 +72,7 @@ class EditProfilePage extends StatelessWidget {
               color: Colors.redAccent,
               child: Text('Confirm'),
               onPressed: () {
-                Navigator.pop(context);
+                
               },
             ),
             TextFormField(
@@ -85,7 +85,7 @@ class EditProfilePage extends StatelessWidget {
               color: Colors.redAccent,
               child: Text('Confirm'),
               onPressed: () {
-                Navigator.pop(context);
+                
               },
             ),
             TextFormField(
@@ -98,7 +98,7 @@ class EditProfilePage extends StatelessWidget {
               color: Colors.redAccent,
               child: Text('Confirm'),
               onPressed: () {
-                Navigator.pop(context);
+                
               },
             ),
             SizedBox(
