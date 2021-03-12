@@ -305,7 +305,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/C:/Users/Zepherxis/Documents/test-image.png"
+											"src": "./test_assets/test-image.png"
 										}
 									],
 									"options": {
@@ -538,7 +538,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/C:/Users/Zepherxis/Documents/test-image.png"
+											"src": "./test_assets/test-image.png"
 										},
 										{
 											"key": "author_id",
@@ -718,7 +718,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/C:/Users/Zepherxis/Documents/test-image.png"
+											"src": "./test_assets/test-image.png"
 										},
 										{
 											"key": "author_id",
