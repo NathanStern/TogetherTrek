@@ -8,7 +8,7 @@ name: Heroku Auto-Deploy
 on:
   push:
     branches:
-      - master
+      - heroku_autodeploy
 
 jobs:
   build:
