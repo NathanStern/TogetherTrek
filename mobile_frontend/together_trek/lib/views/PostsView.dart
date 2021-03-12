@@ -46,17 +46,6 @@ class _PostsViewState extends State<PostsView> {
                         child: ListTile(title: Text(posts.posts[index].title))),
                   ],
                 ));
-            return ListTile(
-              title: Text(posts.posts[index].title),
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (context) => buildStandardDialog(
-                        context,
-                        posts.posts[index].title,
-                        posts.posts[index].description));
-              },
-            );
           }),
       onRefresh: () async {
         List<PostModel> retrievedPosts = await getPosts();
