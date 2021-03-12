@@ -1,4 +1,3 @@
-import 'dart:js';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -6,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
 import 'package:together_trek/views/EditPRofilePage.dart';
-import 'ProfileInfoView.dart';
+import 'package:together_trek/views/ProfileInfoView.dart';
 
 dynamic first = 'Neil';
 dynamic last = 'Armstrong';

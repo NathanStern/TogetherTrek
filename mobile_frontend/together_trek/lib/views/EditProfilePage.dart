@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -19,33 +18,39 @@ class EditProfilePage extends StatelessWidget {
             Text(
               "Update your profile",
               style: TextStyle(
-                        color: Colors.redAccent,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 28.0),
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 28.0),
             ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'Enter your First Name',),
+                hintText: 'Enter your First Name',
+              ),
             ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'Enter your Last Name',),
+                hintText: 'Enter your Last Name',
+              ),
             ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'Enter your Destination',),
+                hintText: 'Enter your Destination',
+              ),
             ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'Enter your Budget',),
+                hintText: 'Enter your Budget',
+              ),
             ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'Enter your travel Date',),
+                hintText: 'Enter your travel Date',
+              ),
             ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'Enter your Bio',),
+                hintText: 'Enter your Bio',
+              ),
             ),
             SizedBox(
               height: 10.0,
