@@ -9,6 +9,7 @@ import {
 // import { tripsGetReducer } from './reducers/tripsReducers'
 import {
 	deleteMyPostReducer,
+	getAllPostsReducer,
 	getMyPostsReducer,
 	updateMyPostReducer,
 } from './reducers/postsReducer'
@@ -18,6 +19,7 @@ const reducer = combineReducers({
 	userRegister: userRegisterReducer,
 	userUpdateProfile: userUpdateProfileReducer,
 	getMyPosts: getMyPostsReducer,
+	getAllPosts: getAllPostsReducer,
 	deleteMyPost: deleteMyPostReducer,
 	updateMyPost: updateMyPostReducer,
 	// allTripsGet: allTripsGetReducer,
@@ -31,9 +33,14 @@ const myPostsFromStorage = localStorage.getItem('userPosts')
 	? JSON.parse(localStorage.getItem('userPosts'))
 	: null
 
+const allPostsFromStorage = localStorage.getItem('allPosts')
+	? JSON.parse(localStorage.getItem('allPosts'))
+	: null
+
 const initialState = {
 	userLogin: { userInfo: userInfoFromStorage },
 	myPosts: { myPosts: myPostsFromStorage },
+	allPosts: { allPosts: allPostsFromStorage },
 }
 
 const middleware = [thunk]

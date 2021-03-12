@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
 "location": {},
-"post_ids": ["604b250ff8ea280015d74252", "604b2524f8ea280015d74255"],
+"post_ids": ["604b34b485aa570015418822", "604b34ba85aa570015418825", "604b34dc85aa570015418828"],
 "trip_ids": [ ],
 "message_board_ids": [ ],
 "friend_ids": [ ],

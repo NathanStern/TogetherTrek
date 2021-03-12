@@ -13,9 +13,11 @@ const ProfileScreen = ({ location, history }) => {
 	// const myPosts = useSelector((state) => state.myPosts)
 	const { userInfo } = useSelector((state) => state.userLogin)
 	const { myPosts } = useSelector((state) => state.getMyPosts)
-	const { loading, error, success } = useSelector((state) => state.deleteMyPost)
+	const deletePost = useSelector((state) => state.deleteMyPost)
+	const updatePost = useSelector((state) => state.updateMyPost)
 	const [posts, setPosts] = [myPosts]
 	const [toDelete, setToDelete] = useState('')
+	const personal = true
 	const profilePic =
 		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
 	const redirect = '/'
@@ -40,10 +42,14 @@ const ProfileScreen = ({ location, history }) => {
 			</Col>
 			<Col md={3}>
 				<h2>My Posts</h2>
-				{loading && <Loader />}
-				{success && <Message variant='success'>Post Deleted</Message>}
-				{error && <Message variant='danger'>{error}</Message>}
-				{posts && posts.map((el) => <Post post={el} key={el._id} />)}
+				{deletePost.loading && (
+					<Message variant='success'>Post Deleted</Message>
+				)}
+				{updatePost.loading && <Message variant='success'>Post Edited</Message>}
+				{posts &&
+					posts.map((el) => (
+						<Post post={el} key={el._id} personal={personal} />
+					))}
 			</Col>
 			<Col md={3}>
 				<h2>My Trips</h2>

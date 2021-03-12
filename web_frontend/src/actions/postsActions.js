@@ -1,6 +1,9 @@
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
 import {
+	ALLPOSTS_GET_FAIL,
+	ALLPOSTS_GET_REQUEST,
+	ALLPOSTS_GET_SUCCESS,
 	MYPOSTS_DELETE_FAIL,
 	MYPOSTS_DELETE_REQUEST,
 	MYPOSTS_DELETE_SUCCESS,
@@ -23,7 +26,6 @@ const getPost = async (post_id) => {
 }
 
 export const getMyPosts = () => async (dispatch, getState) => {
-	// const path = 'http://localhost:3001'
 	try {
 		dispatch({
 			type: MYPOSTS_GET_REQUEST,
@@ -36,6 +38,7 @@ export const getMyPosts = () => async (dispatch, getState) => {
 				'Content-Type': 'application/json',
 			},
 		}
+		console.log('user info post ids')
 		console.log(userInfo.post_ids)
 		let myPosts = []
 		userInfo.post_ids.map((el) =>
@@ -123,6 +126,35 @@ export const updateMyPost = (post) => async (dispatch, getState) => {
 	} catch (error) {
 		dispatch({
 			type: MYPOSTS_UPDATE_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.response,
+		})
+	}
+}
+
+export const getPosts = (email, password) => async (dispatch) => {
+	try {
+		dispatch({
+			type: ALLPOSTS_GET_REQUEST,
+		})
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}
+
+		const allPosts = await axios.get(`${path}/posts`)
+
+		dispatch({
+			type: ALLPOSTS_GET_SUCCESS,
+			payload: allPosts.data,
+		})
+		localStorage.setItem('allPosts', JSON.stringify(allPosts.data))
+	} catch (error) {
+		dispatch({
+			type: ALLPOSTS_GET_FAIL,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message

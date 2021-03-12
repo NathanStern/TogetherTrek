@@ -6,7 +6,7 @@ import { login } from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getMyPosts } from '../actions/postsActions'
+import { getMyPosts, getPosts } from '../actions/postsActions'
 const LoginScreen = ({ history, location }) => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -28,6 +28,7 @@ const LoginScreen = ({ history, location }) => {
 		e.preventDefault()
 		dispatch(login(email, password)).then((e) => {
 			dispatch(getMyPosts())
+			dispatch(getPosts())
 		})
 	}
 

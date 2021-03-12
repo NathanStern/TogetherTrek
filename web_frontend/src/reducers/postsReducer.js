@@ -1,4 +1,7 @@
 import {
+	ALLPOSTS_GET_FAIL,
+	ALLPOSTS_GET_REQUEST,
+	ALLPOSTS_GET_SUCCESS,
 	MYPOSTS_DELETE_FAIL,
 	MYPOSTS_DELETE_REQUEST,
 	MYPOSTS_DELETE_SUCCESS,
@@ -17,6 +20,19 @@ export const getMyPostsReducer = (state = {}, action) => {
 		case MYPOSTS_GET_SUCCESS:
 			return { loading: false, myPosts: action.payload }
 		case MYPOSTS_GET_FAIL:
+			return { loading: false, error: action.payload }
+		default:
+			return state
+	}
+}
+
+export const getAllPostsReducer = (state = {}, action) => {
+	switch (action.type) {
+		case ALLPOSTS_GET_REQUEST:
+			return { loading: true }
+		case ALLPOSTS_GET_SUCCESS:
+			return { loading: false, allPosts: action.payload }
+		case ALLPOSTS_GET_FAIL:
 			return { loading: false, error: action.payload }
 		default:
 			return state

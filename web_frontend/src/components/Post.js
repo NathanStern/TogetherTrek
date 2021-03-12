@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteMyPost, updateMyPost } from '../actions/postsActions'
 
-const Post = ({ post }) => {
+const Post = ({ post, personal }) => {
 	// console.log(post)
 	const dispatch = useDispatch()
 	const [show, setShow] = useState(true)
@@ -35,6 +35,8 @@ const Post = ({ post }) => {
 				description: description,
 			})
 		)
+		setEdit(!edit)
+		setShow(!show)
 	}
 	const editHandler = async (e) => {
 		e.preventDefault()
@@ -60,25 +62,27 @@ const Post = ({ post }) => {
 						<Card.Text>{description}</Card.Text>
 						<Card.Text>{post.post_date}</Card.Text>
 
-						<Container>
-							<Row>
-								<Col>
-									<Button
-										variant='primary'
-										onClick={(e) => {
-											deleteHandler(e)
-										}}
-									>
-										Delete
-									</Button>
-								</Col>
-								<Col>
-									<Button variant='primary' onClick={editHandler}>
-										Edit
-									</Button>
-								</Col>
-							</Row>
-						</Container>
+						{personal && (
+							<Container>
+								<Row>
+									<Col>
+										<Button
+											variant='primary'
+											onClick={(e) => {
+												deleteHandler(e)
+											}}
+										>
+											Delete
+										</Button>
+									</Col>
+									<Col>
+										<Button variant='primary' onClick={editHandler}>
+											Edit
+										</Button>
+									</Col>
+								</Row>
+							</Container>
+						)}
 					</Card.Body>
 				</Card>
 			)}

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
-import { getMyPosts } from '../actions/postsActions'
+import { getMyPosts, getPosts } from '../actions/postsActions'
 import { login } from '../actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
@@ -10,7 +10,9 @@ const HomeScreen = () => {
 	const { userInfo, loading } = useSelector((state) => state.userLogin)
 
 	useEffect(() => {
+		dispatch(getPosts())
 		dispatch(getMyPosts())
+
 		if (userInfo) {
 			dispatch(login(userInfo.email, userInfo.password))
 		}

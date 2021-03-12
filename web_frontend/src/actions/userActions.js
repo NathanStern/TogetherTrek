@@ -24,7 +24,7 @@ export const login = (email, password) => async (dispatch) => {
 		}
 
 		const users = await axios.get(`${path}/users`)
-		console.log(users.data.find((e) => e.id === 1))
+		// console.log(users.data.find((e) => e.id === 1))
 
 		const data = users.data.find(
 			(e) => e.email === email && e.password === password
