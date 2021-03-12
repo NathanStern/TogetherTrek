@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
-import 'package:together_trek/models/PostModel.dart';
+import 'package:together_trek/models/TokenModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/HomeView.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +17,7 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => UserModel.empty()),
     ChangeNotifierProvider(create: (context) => posts),
+    ChangeNotifierProvider(create: (context) => TokenModel(token: ""))
   ], child: MyApp()));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setEnabledSystemUIOverlays(
@@ -42,12 +43,21 @@ class MyApp extends StatelessWidget {
     user.setAllFieldsFromUser(readUser);
 
     user.setAllFieldsFromUser(user);
-    //print("all fields set");
+  }
+
+  Future<void> _getJWT(BuildContext context) async {
+    TokenModel token = context.read<TokenModel>();
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    String readToken = _prefs.getString('jwt');
+
+    token.setFields(readToken);
   }
 
   @override
   Widget build(BuildContext context) {
     _getUserData(context);
+    _getJWT(context);
     return MaterialApp(
         title: 'TogetherTrek',
         theme: ThemeData(
