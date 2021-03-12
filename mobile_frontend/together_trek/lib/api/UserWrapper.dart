@@ -3,6 +3,8 @@ import 'dart:convert';
 import "package:together_trek/api/httpRequest.dart";
 import 'package:together_trek/models/UserModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/painting.dart';
+
 
 // testing version of createUser()
 Future<String> createUser() async {
@@ -36,4 +38,8 @@ Future<int> deleteUser(String id) async {
   http.Response response = await httpDelete('users/${id}');
 
   return response.statusCode;
+}
+
+Future<NetworkImage> getProfilePic(String id) {
+  return getNetworkImage('users/profile-pic/${id}');
 }

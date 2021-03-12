@@ -9,6 +9,7 @@ class ProfilePage extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
+    UserModel user = context.watch<UserModel>();
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -29,18 +30,14 @@ class ProfilePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CircleAvatar(
-                      
-                      backgroundImage: NetworkImage(
-                        "https://www.biography.com/.image/t_share/MTIwNjA4NjMzNDA3NTcxNDY4/neil-armstrong-9188943-2-402.jpg",
-                      ),
+                      backgroundImage: user.profilePic,
                       radius: 50.0,
-                      
                     ),
                     SizedBox(
                       height: 10.0,
                     ),
                     Text(
-                      "Neil Armstrong",
+                      user.username,
                       style: TextStyle(
                         fontSize: 22.0,
                         color: Colors.white,
