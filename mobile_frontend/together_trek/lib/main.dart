@@ -3,14 +3,22 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:together_trek/api/PostWrapper.dart';
+import 'package:together_trek/models/LoadedPostsModel.dart';
+import 'package:together_trek/models/TokenModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/HomeView.dart';
 import 'package:flutter/material.dart';
 import 'package:together_trek/views/LaunchView.dart';
 
 void main() async {
-  runApp(ChangeNotifierProvider(
-      create: (context) => UserModel.empty(), child: MyApp()));
+  LoadedPostsModel posts =
+      LoadedPostsModel(posts: List.from((await getPosts()).reversed));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => UserModel.empty()),
+    ChangeNotifierProvider(create: (context) => posts),
+    ChangeNotifierProvider(create: (context) => TokenModel(token: ""))
+  ], child: MyApp()));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setEnabledSystemUIOverlays(
       [SystemUiOverlay.top, SystemUiOverlay.bottom]);
@@ -35,12 +43,21 @@ class MyApp extends StatelessWidget {
     user.setAllFieldsFromUser(readUser);
 
     user.setAllFieldsFromUser(user);
-    //print("all fields set");
+  }
+
+  Future<void> _getJWT(BuildContext context) async {
+    TokenModel token = context.read<TokenModel>();
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    String readToken = _prefs.getString('jwt');
+
+    token.setFields(readToken);
   }
 
   @override
   Widget build(BuildContext context) {
     _getUserData(context);
+    _getJWT(context);
     return MaterialApp(
         title: 'TogetherTrek',
         theme: ThemeData(
@@ -60,7 +77,7 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         // home: MyHomePage(title: 'TogetherTrek'),
-        //home: HomeView(),
+        // home: LaunchView(),
         debugShowCheckedModeBanner: false,
         initialRoute: '/launch',
         routes: {

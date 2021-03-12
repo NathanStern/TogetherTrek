@@ -3,11 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:together_trek/api/PostWrapper.dart';
+import 'package:together_trek/api/httpRequest.dart';
+import 'package:together_trek/models/DestinationModel.dart';
+import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/HomeDrawerView.dart';
+import 'package:together_trek/views/MakePostView.dart';
 import 'package:together_trek/views/MessagesView.dart';
-import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/PostsView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
 import 'package:provider/provider.dart';
@@ -44,12 +48,10 @@ class _HomeViewState extends State<HomeView> {
               child: FloatingActionButton(
                   tooltip: "Create Post",
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => buildStandardDialog(
-                            context,
-                            "Create Post",
-                            "This function has not been implemented yet. This is just a test dialog."));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MakePostView()),
+                    );
                   },
                   child: Icon(Icons.add))));
     } else if (_selectedIndex == 0) {
