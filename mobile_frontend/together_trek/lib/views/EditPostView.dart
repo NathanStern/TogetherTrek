@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
 
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/views/HomeView.dart';
+import 'package:provider/provider.dart';
 
 class EditPostView extends StatefulWidget {
   EditPostView({Key key, this.post}) : super(key: key);
@@ -72,9 +74,10 @@ class MyCustomFormState extends State<MyCustomForm> {
         children: <Widget>[
           TextFormField(
             initialValue: _title,
+            decoration: InputDecoration(hintText: "Title"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a title';
               }
               return null;
             },
@@ -86,9 +89,10 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
           TextFormField(
             initialValue: _description,
+            decoration: InputDecoration(hintText: "Description"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a description';
               }
               return null;
             },
@@ -96,9 +100,10 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
           TextFormField(
             initialValue: _country,
+            decoration: InputDecoration(hintText: "Country"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a country';
               }
               return null;
             },
@@ -106,9 +111,10 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
           TextFormField(
             initialValue: _city,
+            decoration: InputDecoration(hintText: "City"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a city';
               }
               return null;
             },
@@ -116,9 +122,10 @@ class MyCustomFormState extends State<MyCustomForm> {
           ),
           TextFormField(
             initialValue: _region,
+            decoration: InputDecoration(hintText: "State/Region"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a region';
               }
               return null;
             },
@@ -133,13 +140,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                 if (_formKey.currentState.validate()) {
                   final form = _formKey.currentState;
                   form.save();
-                  // If the form is valid, display a Snackbar.
+
                   await updatePost(context, _id, _title, _description, _country,
                       _city, _region, post);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeView()),
-                  );
+                  Navigator.pop(context);
+                  LoadedPostsModel loadedPosts =
+                      context.read<LoadedPostsModel>();
+                  loadedPosts.notifyListeners();
                 }
               },
               child: Text('Submit'),
