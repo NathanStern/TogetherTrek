@@ -96,9 +96,9 @@ Widget createDrawer(BuildContext context, UserModel user,
           onTap: () async {
             Navigator.pop(context);
             UserModel user = context.read<UserModel>();
-            print(await deleteUser(user.id));
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            await prefs.setString('user', jsonEncode(new UserModel.empty()));
+            prefs.setString('user', jsonEncode(new UserModel.empty()));
+            prefs.setString('jwt', "");
             user.setAllFieldsFromUser(UserModel.empty());
           },
         ),
@@ -197,8 +197,8 @@ Widget createDrawer(BuildContext context, UserModel user,
           title: Text("Log in"),
           onTap: () {
             Navigator.pop(context);
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => LoginView()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LoginView(user: user)));
           },
         ),
         ListTile(),

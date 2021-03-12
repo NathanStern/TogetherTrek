@@ -3,6 +3,8 @@ import 'dart:convert';
 import "package:together_trek/api/httpRequest.dart";
 import 'package:together_trek/models/UserModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:together_trek/utils/JWTUtil.dart';
 
 // testing version of createUser()
 Future<String> createUser() async {
@@ -37,6 +39,18 @@ Future<int> deleteUser(String id) async {
   return response.statusCode;
 }
 
-Future<UserModel> userLogin(String data) async {
+Future<int> userLogin(String data) async {
   http.Response response = await httpPost('users/login', data);
+
+  if (response.statusCode != 200) {
+    return response.statusCode;
+  }
+
+  Map<String, dynamic> json = jsonDecode(response.body);
+
+  Map<String, dynamic> token = JwtDecoder.decode(json['token']);
+
+  saveJWT(json['token']);
+
+  return response.statusCode;
 }

@@ -28,8 +28,7 @@ class LaunchView extends StatelessWidget {
                   Image(
                       image: ResizeImage(AssetImage('lib/resources/logo.jpg'),
                           allowUpscaling: true,
-                          height:
-                              (MediaQuery.of(context).size.height / 2).toInt()),
+                          height: (MediaQuery.of(context).size.height ~/ 2)),
                       width: (MediaQuery.of(context).size.width / 1)),
                 ],
               ),
