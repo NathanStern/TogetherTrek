@@ -5,7 +5,6 @@ const config = require('../config/config.js')
 const db = require('../models/index.js')
 const s3_handler = require('../utils/s3_handler.js')
 const User = db.users
-
 // Creates an entry in the users table
 exports.create = (req, res) => {
 	// Validate all expected fields were passed
