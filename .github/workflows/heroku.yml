@@ -8,10 +8,10 @@ name: Heroku Auto-Deploy
 on:
   push:
     branches:
-      - heroku_autodeploy
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
