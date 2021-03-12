@@ -133,7 +133,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   final form = _formKey.currentState;
                   form.save();
                   // If the form is valid, display a Snackbar.
-                  updatePost(context, _title, _id, _description, _country, _city, _region);
+                  updatePost(context, _id, _title, _description, _country, _city, _region);
                    Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => HomeView()),
