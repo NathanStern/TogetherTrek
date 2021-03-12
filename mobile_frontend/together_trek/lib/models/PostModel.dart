@@ -1,39 +1,58 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class PostModel extends ChangeNotifier {
+import 'package:together_trek/models/DestinationModel.dart';
+
+class PostModel {
   String id;
   String authorId;
   String title;
   String description;
   String postDate;
-  List<String> destinations;
+  List<DestinationModel> destinations;
 
-  PostModel(String id, String authorId, String title, String description,
-      String postDate, List<String> destinations) {
-    this.id = id;
-    this.authorId = authorId;
-    this.title = title;
-    this.description = description;
-    this.postDate = postDate;
-    this.destinations = destinations;
+  PostModel(
+      {this.id,
+      this.authorId,
+      this.title,
+      this.description,
+      this.postDate,
+      this.destinations});
 
-    notifyListeners();
+  factory PostModel.fromJson(Map<String, dynamic> json) {
+    List<DestinationModel> dests = [];
+
+    for (int i = 0; i < json['destinations'].length; i++) {
+      dests.add(new DestinationModel.fromJson(json['destinations'][i]));
+    }
+    return PostModel(
+        id: json['_id'],
+        authorId: json['author_id'] ?? "null",
+        title: json['title'],
+        description: json['description'],
+        postDate: json['post_date'],
+        destinations: dests);
   }
 
   // getters are implicit
 
   void setTitle(String newTitle) {
     this.title = newTitle;
-    notifyListeners();
   }
 
   void setDescription(String newDesc) {
     this.description = newDesc;
-    notifyListeners();
   }
 
-  void addDestination(String newDest) {
+  void addDestination(DestinationModel newDest) {
     this.destinations.add(newDest);
-    notifyListeners();
   }
+
+  Map<String, dynamic> toJson() => {
+        '_id': this.id,
+        'author_id': this.authorId,
+        'title': this.title,
+        'description': this.description,
+        'post_date': this.postDate,
+        'destinations': this.destinations.toList()
+      };
 }

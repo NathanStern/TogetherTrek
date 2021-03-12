@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:together_trek/api/PostWrapper.dart';
+import 'package:together_trek/models/DestinationModel.dart';
+import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/HomeDrawerView.dart';
@@ -42,13 +45,30 @@ class _HomeViewState extends State<HomeView> {
           child: FittedBox(
               child: FloatingActionButton(
                   tooltip: "Create Post",
-                  onPressed: () {
+                  onPressed: () async {
+                    DestinationModel dest = DestinationModel(
+                        id: "testing",
+                        city: "West Lafayette",
+                        country: "USA",
+                        region: "Midwest");
+                    List<DestinationModel> dests = [];
+                    dests.add(dest);
+                    dests.add(dest);
+                    PostModel post = PostModel(
+                        id: "testing123",
+                        authorId: "nathanmobiletest",
+                        title: "Travelling to Midwest",
+                        description:
+                            "Hey guys, I'm travelling to the midwest soon and I'm looking for some people to go with.",
+                        postDate: "1990-01-01",
+                        destinations: dests);
                     showDialog(
                         context: context,
                         builder: (context) => buildStandardDialog(
                             context,
                             "Create Post",
-                            "This function has not been implemented yet. This is just a test dialog."));
+                            "${post.title}\n${post.description}\n\n${jsonEncode(post)}"));
+                    print(await getPosts());
                   },
                   child: Icon(Icons.add))));
     } else if (_selectedIndex == 0) {

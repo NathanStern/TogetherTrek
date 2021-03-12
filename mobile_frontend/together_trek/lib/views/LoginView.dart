@@ -23,6 +23,7 @@ class _LoginViewState extends State<LoginView> {
   UserModel user;
   @override
   Widget build(BuildContext context) {
+    user = context.read<UserModel>();
     return Scaffold(
         appBar: AppBar(title: Text("Log In")),
         body: Container(
