@@ -8,15 +8,21 @@ import 'package:together_trek/views/ProfileInfoView.dart';
 import 'package:together_trek/views/EditPRofilePage.dart';
 import 'ProfileInfoView.dart';
 
+dynamic first = 'Neil';
+dynamic last = 'Armstrong';
+dynamic destination = 'The Moon';
+dynamic budget = '25.4B';
+dynamic date = '7.16.1969';
+dynamic bio = 'One small step for man, one giant leap for mankind';
+
 class ProfilePage extends StatelessWidget {
   Future navigateToEditProfilePage(context) async {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => EditProfilePage()));
   }
-  UserModel user;
+
   @override
   Widget build(BuildContext context) {
-    user = context.watch<UserModel>();
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -44,7 +50,7 @@ class ProfilePage extends StatelessWidget {
                         height: 10.0,
                       ),
                       Text(
-                        "Neil Armstrong",
+                        first + " " + last,
                         style: TextStyle(
                           fontSize: 22.0,
                           color: Colors.white,
@@ -79,7 +85,7 @@ class ProfilePage extends StatelessWidget {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      "The Moon",
+                                      destination,
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.orangeAccent,
@@ -103,7 +109,7 @@ class ProfilePage extends StatelessWidget {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      "25.4B",
+                                      budget,
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.orangeAccent,
@@ -127,7 +133,7 @@ class ProfilePage extends StatelessWidget {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      "July/16/1969",
+                                      date,
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.orangeAccent,
@@ -163,7 +169,7 @@ class ProfilePage extends StatelessWidget {
                     height: 10.0,
                   ),
                   Text(
-                    'One small step for man, one giant leap for mankind.',
+                    bio,
                     style: TextStyle(
                       fontSize: 22.0,
                       fontStyle: FontStyle.italic,
