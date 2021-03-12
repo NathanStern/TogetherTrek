@@ -98,7 +98,7 @@ const Post = ({ post, personal }) => {
 						></Form.Control>
 					</Form.Group>
 					<Form.Group controlId='exampleForm.ControlTextarea1'>
-						<Form.Label>Example textarea</Form.Label>
+						<Form.Label>Description</Form.Label>
 						<Form.Control
 							as='textarea'
 							rows={10}
