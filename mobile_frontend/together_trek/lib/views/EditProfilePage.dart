@@ -22,35 +22,84 @@ class EditProfilePage extends StatelessWidget {
                   fontStyle: FontStyle.normal,
                   fontSize: 28.0),
             ),
+            
             TextFormField(
               decoration: const InputDecoration(
                 hintText: 'Enter your First Name',
               ),
+            ),
+            RaisedButton(
+              textColor: Colors.white,
+              color: Colors.redAccent,
+              child: Text('Confirm'),
+              onPressed: () {
+                
+              },
             ),
             TextFormField(
               decoration: const InputDecoration(
                 hintText: 'Enter your Last Name',
               ),
             ),
+            RaisedButton(
+              textColor: Colors.white,
+              color: Colors.redAccent,
+              child: Text('Confirm'),
+              onPressed: () {
+                
+              },
+            ),
             TextFormField(
               decoration: const InputDecoration(
                 hintText: 'Enter your Destination',
               ),
+            ),
+            RaisedButton(
+              textColor: Colors.white,
+              color: Colors.redAccent,
+              child: Text('Confirm'),
+              onPressed: () {
+                
+              },
             ),
             TextFormField(
               decoration: const InputDecoration(
                 hintText: 'Enter your Budget',
               ),
             ),
+            RaisedButton(
+              textColor: Colors.white,
+              color: Colors.redAccent,
+              child: Text('Confirm'),
+              onPressed: () {
+                
+              },
+            ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'Enter your travel Date',
+                hintText: 'Enter your Birthdate',
               ),
+            ),
+            RaisedButton(
+              textColor: Colors.white,
+              color: Colors.redAccent,
+              child: Text('Confirm'),
+              onPressed: () {
+                
+              },
             ),
             TextFormField(
               decoration: const InputDecoration(
                 hintText: 'Enter your Bio',
               ),
+            ),
+            RaisedButton(
+              textColor: Colors.white,
+              color: Colors.redAccent,
+              child: Text('Confirm'),
+              onPressed: () {
+                
+              },
             ),
             SizedBox(
               height: 10.0,
@@ -58,7 +107,7 @@ class EditProfilePage extends StatelessWidget {
             RaisedButton(
               textColor: Colors.white,
               color: Colors.redAccent,
-              child: Text('Finish Editing'),
+              child: Text('Return to Profile Page'),
               onPressed: () {
                 Navigator.pop(context);
               },

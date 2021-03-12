@@ -10,9 +10,9 @@ import 'package:together_trek/views/ProfileInfoView.dart';
 dynamic first = 'Neil';
 dynamic last = 'Armstrong';
 dynamic destination = 'The Moon';
-dynamic budget = '25.4B';
-dynamic date = '7.16.1969';
+dynamic date = '8/5/1930';
 dynamic bio = 'One small step for man, one giant leap for mankind';
+dynamic gender = 'Male';
 
 class ProfilePage extends StatelessWidget {
   Future navigateToEditProfilePage(context) async {
@@ -20,8 +20,10 @@ class ProfilePage extends StatelessWidget {
         context, MaterialPageRoute(builder: (context) => EditProfilePage()));
   }
 
+  UserModel user;
   @override
   Widget build(BuildContext context) {
+    user = context.watch<UserModel>();
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -73,7 +75,31 @@ class ProfilePage extends StatelessWidget {
                                 child: Column(
                                   children: <Widget>[
                                     Text(
-                                      "Traveling to",
+                                      "Gender",
+                                      style: TextStyle(
+                                        color: Colors.redAccent,
+                                        fontSize: 22.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5.0,
+                                    ),
+                                    Text(
+                                      this.user.gender,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.orangeAccent,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Travelling to",
                                       style: TextStyle(
                                         color: Colors.redAccent,
                                         fontSize: 22.0,
@@ -97,31 +123,7 @@ class ProfilePage extends StatelessWidget {
                                 child: Column(
                                   children: <Widget>[
                                     Text(
-                                      "Budget",
-                                      style: TextStyle(
-                                        color: Colors.redAccent,
-                                        fontSize: 22.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5.0,
-                                    ),
-                                    Text(
-                                      budget,
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        color: Colors.orangeAccent,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "Date",
+                                      "Birthdate",
                                       style: TextStyle(
                                         color: Colors.redAccent,
                                         fontSize: 22.0,
