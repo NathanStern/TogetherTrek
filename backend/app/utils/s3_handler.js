@@ -47,7 +47,7 @@ exports.delete = (file_key) => {
   });
 };
 
-exports.findOne = (file_key, res) => {
+exports.findOne = (file_key) => {
   let params = {
     Bucket: bucket,
     Key: file_key
@@ -58,6 +58,6 @@ exports.findOne = (file_key, res) => {
       console.log(err);
       throw err;
     }
-    res.send(data);
+    return data;
   });
 };
