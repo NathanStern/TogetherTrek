@@ -1,4 +1,5 @@
 const aws = require("aws-sdk");
+
 // const multer = require("multer");
 // const multerS3 = require("multer-s3");
 
@@ -24,13 +25,8 @@ exports.upload = (file) => {
     Key: file.name,
     Body: blob
   };
-  s3.upload(params, (err, data) => {
-    if (err) {
-      console.log("Error uploading file to S3:");
-      console.log(err);
-      throw err;
-    }
-  });
+  let request = s3.upload(params);
+  return request.promise();
 };
 
 exports.delete = (file_key) => {
@@ -38,11 +34,15 @@ exports.delete = (file_key) => {
     Bucket: bucket,
     Key: file_key
   };
-  s3.deleteObject(params, function(err, data) {
-    if (err) {
-      console.log("Error deleting file from S3:");
-      console.log(err);
-      throw err;
-    }
-  });
+  let request = s3.deleteObject(params);
+  return request.promise();
+};
+
+exports.findOne = (file_key) => {
+  let params = {
+    Bucket: bucket,
+    Key: file_key
+  };
+  let request = s3.getObject(params);
+  return request.promise();
 };

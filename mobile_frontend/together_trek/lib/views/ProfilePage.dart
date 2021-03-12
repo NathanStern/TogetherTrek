@@ -9,8 +9,8 @@ class ProfilePage extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return SingleChildScrollView(
+      child: Column(
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
