@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hex/hex.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:sha3/sha3.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/api/UserWrapper.dart';
@@ -51,9 +53,13 @@ class _LoginViewState extends State<LoginView> {
         // print(_usernameController.text);
         // print(_passwordController.text);
 
+        SHA3 test = SHA3(256, SHA3_PADDING, 256);
+        test.update(utf8.encode(_passwordController.text));
+        List<int> hash = test.digest();
+
         int response = await userLogin(jsonEncode(<String, dynamic>{
           'username': '${_usernameController.text}',
-          'password': '${_passwordController.text}'
+          'password': '${HEX.encode(hash)}'
         }));
 
         if (response != 200) {
@@ -122,7 +128,7 @@ class _LoginViewState extends State<LoginView> {
                                   hintText: "Username",
                                 ),
                                 controller: _usernameController,
-                                autofocus: true,
+                                autofocus: false,
                                 focusNode: _usernameFocus,
                                 keyboardType: TextInputType.name,
                                 autocorrect: false,
