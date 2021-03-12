@@ -4,7 +4,8 @@ env = env.replace(/\s+/g, '');
 
 const prod = {
  app: {
-   port: 3000
+   port: 3000,
+   JWT_KEY: "secret"
  },
  db: {
    url: "mongodb+srv://test:test@cluster0.snpmm.mongodb.net/production?retryWrites=true&w=majority"
@@ -13,7 +14,8 @@ const prod = {
 
 const test = {
  app: {
-   port: (process.env.PORT || 3001)
+   port: (process.env.PORT || 3001),
+   JWT_KEY: "secret"
  },
  db: {
    url: "mongodb+srv://test:test@cluster0.snpmm.mongodb.net/testing?retryWrites=true&w=majority"
