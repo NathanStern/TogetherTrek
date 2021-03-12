@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
 import 'package:together_trek/views/EditPRofilePage.dart';
-
 import 'ProfileInfoView.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -14,8 +13,10 @@ class ProfilePage extends StatelessWidget {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => EditProfilePage()));
   }
+  UserModel user;
   @override
   Widget build(BuildContext context) {
+    user = context.watch<UserModel>();
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[

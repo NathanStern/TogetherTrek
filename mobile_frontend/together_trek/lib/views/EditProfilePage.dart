@@ -11,11 +11,38 @@ import 'ProfileInfoView.dart';
 class EditProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
+    return Scaffold(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            TextFormField(
+              decoration: const InputDecoration(
+                hintText: 'Enter your First Name',),
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                hintText: 'Enter your Last Name',),
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                hintText: 'Enter your Destination',),
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                hintText: 'Enter your Budget',),
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                hintText: 'Enter your travel Date',),
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                hintText: 'Enter your Bio',),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
             RaisedButton(
               textColor: Colors.white,
               color: Colors.redAccent,
