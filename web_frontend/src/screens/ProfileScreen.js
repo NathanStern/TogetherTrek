@@ -5,27 +5,20 @@ import { useDispatch, useSelector } from 'react-redux'
 import Post from '../components/Post'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import axios from 'axios'
+import { getMyPosts, deleteMyPost } from '../actions/postsActions'
 
 const ProfileScreen = ({ location, history }) => {
 	const dispatch = useDispatch()
-	const [myPosts, setMyPosts] = useState([])
 	//user info contains information about the user
+	// const myPosts = useSelector((state) => state.myPosts)
 	const { userInfo } = useSelector((state) => state.userLogin)
+	const { myPosts } = useSelector((state) => state.getMyPosts)
+	const { loading, error, success } = useSelector((state) => state.deleteMyPost)
+	const [posts, setPosts] = [myPosts]
+	const [toDelete, setToDelete] = useState('')
 	const profilePic =
 		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
 	const redirect = '/'
-
-	useEffect(async () => {
-		try {
-			const allPosts = await axios.get('http://localhost:3001/posts/')
-
-			const usersPosts = allPosts.data.filter(
-				(el) => parseInt(el.author_id) === userInfo._id
-			)
-			setMyPosts(usersPosts)
-		} catch {}
-	}, [])
 
 	useEffect(() => {
 		if (!userInfo) {
@@ -47,27 +40,10 @@ const ProfileScreen = ({ location, history }) => {
 			</Col>
 			<Col md={3}>
 				<h2>My Posts</h2>
-				{myPosts.map((el) => (
-					<Post post={el} key={el._id} />
-				))}
-				{/* <Post
-					post={{
-						_id: '3',
-						author_id: '1',
-						title: 'Title',
-						description: 'im going on vacation',
-						post_date: '1990-01-01T00:00:00.000+00:00',
-						destinations: [
-							{
-								_id: '60495093a7908e0c2001fc9e',
-								country: 'USA',
-								city: 'Indy',
-								region: 'Indiana',
-							},
-						],
-						__v: 0,
-					}}
-				/> */}
+				{loading && <Loader />}
+				{success && <Message variant='success'>Post Deleted</Message>}
+				{error && <Message variant='danger'>{error}</Message>}
+				{posts && posts.map((el) => <Post post={el} key={el._id} />)}
 			</Col>
 			<Col md={3}>
 				<h2>My Trips</h2>

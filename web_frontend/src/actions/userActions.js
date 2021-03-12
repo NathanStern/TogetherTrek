@@ -9,7 +9,9 @@ import {
 	USER_UPDATE_PROFILE_SUCCESS,
 	USER_UPDATE_PROFILE_FAIL,
 } from '../constants/userConstants'
+import { path } from '../constants/pathConstant'
 import axios from 'axios'
+
 export const login = (email, password) => async (dispatch) => {
 	try {
 		dispatch({
@@ -20,22 +22,23 @@ export const login = (email, password) => async (dispatch) => {
 				'Content-Type': 'application/json',
 			},
 		}
-		const users = await axios.get('http://localhost:3001/users')
+
+		const users = await axios.get(`${path}/users`)
 		console.log(users.data.find((e) => e.id === 1))
 
 		const data = users.data.find(
 			(e) => e.email === email && e.password === password
 		)
-		dispatch({
-			type: USER_LOGIN_SUCCESS,
-			payload: data,
-		})
 		if (!data) {
 			dispatch({
 				type: USER_LOGIN_FAIL,
 				payload: 'Login Failed',
 			})
 		} else {
+			dispatch({
+				type: USER_LOGIN_SUCCESS,
+				payload: data,
+			})
 			localStorage.setItem('userInfo', JSON.stringify(data))
 		}
 	} catch (error) {
@@ -51,6 +54,7 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
 	localStorage.removeItem('userInfo')
+	localStorage.removeItem('userPosts')
 	dispatch({ type: USER_LOGIN_LOGOUT })
 }
 
@@ -97,7 +101,7 @@ export const register = (
 			message_board_ids: [],
 			friend_ids: [],
 		}
-		const { data } = await axios.post('http://localhost:3001/users', newUser)
+		const { data } = await axios.post(`${path}/users`, newUser)
 		console.log(data)
 		dispatch({
 			type: USER_REGISTER_SUCCESS,
@@ -200,11 +204,11 @@ export const updateUserProfile = (
 			_v: userInfo._v,
 		}
 
-		console.log(newUser)
-		console.log(userInfo._id)
-		console.log(`http://localhost:3001/users/${userInfo._id}`)
+		// console.log(newUser)
+		// console.log(userInfo._id)
+		// console.log(`http://localhost:3001/users/${userInfo._id}`)
 		const { data } = await axios.put(
-			`http://localhost:3001/users/${userInfo._id}`,
+			`${path}/users/${userInfo._id}`,
 			newUser,
 			config
 		)

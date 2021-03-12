@@ -1,56 +1,131 @@
-import React, { useEffect } from 'react'
-import { Card, ListGroup, Button, Container, Row, Col } from 'react-bootstrap'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import {
+	Card,
+	ListGroup,
+	Button,
+	Container,
+	Row,
+	Col,
+	Form,
+} from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteMyPost, updateMyPost } from '../actions/postsActions'
 
 const Post = ({ post }) => {
-	const deleteHandler = async (e) => {
+	// console.log(post)
+	const dispatch = useDispatch()
+	const [show, setShow] = useState(true)
+	const [edit, setEdit] = useState(false)
+
+	const [title, setTitle] = useState(post.title)
+	const [description, setDescription] = useState(post.description)
+
+	const deleteHandler = (e) => {
 		e.preventDefault()
-		try {
-			const { data } = await axios.delete(
-				`http://localhost:3001/posts/${post._id}`
-			)
-		} catch {}
+		setShow(true)
+		dispatch(deleteMyPost(post))
+	}
+
+	const updateHandler = (e) => {
+		e.preventDefault()
+		dispatch(
+			updateMyPost({
+				...post,
+				title: title,
+				description: description,
+			})
+		)
+	}
+	const editHandler = async (e) => {
+		e.preventDefault()
+		setEdit(!edit)
+		setShow(!show)
 	}
 	useEffect(() => {}, [deleteHandler])
-	//needs to be implemented
-	const editHandler = (e) => {
-		e.preventDefault()
-	}
 	return (
-		<Card style={{ width: '18rem' }}>
-			<Card.Body>
-				<Card.Title>{post.title}</Card.Title>
-				<Card.Subtitle className='mb-2 text-muted'>
-					<ListGroup>
-						{post.destinations.map((dest) => (
-							<ListGroup.Item key={dest._id}>
-								{dest.country} ->{dest.city} -> {dest.region}{' '}
-							</ListGroup.Item>
-						))}
-					</ListGroup>
-				</Card.Subtitle>
-				<Card.Text>{post.description}</Card.Text>
+		<>
+			{show && (
+				<Card style={{ width: '18rem' }}>
+					<Card.Body>
+						<Card.Title>{title}</Card.Title>
+						<Card.Subtitle className='mb-2 text-muted'>
+							<ListGroup>
+								{post.destinations.map((dest) => (
+									<ListGroup.Item key={dest._id}>
+										{dest.country} ->{dest.city} -> {dest.region}{' '}
+									</ListGroup.Item>
+								))}
+							</ListGroup>
+						</Card.Subtitle>
+						<Card.Text>{description}</Card.Text>
+						<Card.Text>{post.post_date}</Card.Text>
 
-				{/* <Card.Link href='#'>Card Link</Card.Link> */}
-				{/* <Card.Link href='#'>Another Link</Card.Link> */}
-				<Card.Text>{post.post_date}</Card.Text>
+						<Container>
+							<Row>
+								<Col>
+									<Button
+										variant='primary'
+										onClick={(e) => {
+											deleteHandler(e)
+										}}
+									>
+										Delete
+									</Button>
+								</Col>
+								<Col>
+									<Button variant='primary' onClick={editHandler}>
+										Edit
+									</Button>
+								</Col>
+							</Row>
+						</Container>
+					</Card.Body>
+				</Card>
+			)}
+			{edit && (
+				<Form onSubmit={updateHandler}>
+					<Form.Group controlId='text'>
+						<Form.Label>Title</Form.Label>
+						<Form.Control
+							type='text'
+							placeholder='Enter Title'
+							value={title}
+							onChange={(e) => setTitle(e.target.value)}
+						></Form.Control>
+					</Form.Group>
+					<Form.Group controlId='exampleForm.ControlTextarea1'>
+						<Form.Label>Example textarea</Form.Label>
+						<Form.Control
+							as='textarea'
+							rows={10}
+							placeholder='Enter Description'
+							value={description}
+							onChange={(e) => setDescription(e.target.value)}
+						></Form.Control>
+					</Form.Group>
 
-				<Container>
-					<Row>
-						<Col>
-							<Button variant='primary' onClick={deleteHandler}>
-								Delete
-							</Button>
-						</Col>
-						<Col>
-							<Button variant='primary' onClick={editHandler}>
-								Edit
-							</Button>
-						</Col>
-					</Row>
-				</Container>
-			</Card.Body>
-		</Card>
+					<Container>
+						<Row>
+							<Col>
+								<Button
+									variant='primary'
+									onClick={(e) => {
+										updateHandler(e)
+									}}
+								>
+									Update
+								</Button>
+							</Col>
+							<Col>
+								<Button variant='primary' onClick={editHandler}>
+									Back
+								</Button>
+							</Col>
+						</Row>
+					</Container>
+				</Form>
+			)}
+		</>
 	)
 }
 
