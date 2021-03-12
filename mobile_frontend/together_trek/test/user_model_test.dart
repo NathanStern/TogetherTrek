@@ -107,7 +107,7 @@ void main() {
 
     Random gen = new Random();
 
-    int numTests = gen.nextInt(50);
+    int numTests = gen.nextInt(50) + 5;
 
     List<String> testArr = [];
 

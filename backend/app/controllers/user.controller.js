@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
+const config = require("../config/config.js");
 const db = require("../models/index.js");
 const s3_handler = require("../utils/s3_handler.js");
 const User = db.users;
@@ -72,11 +73,12 @@ exports.login = (req, res) => {
       }
       // this will change once we add encryption
       if (req.body.password == user[0].password) {
+		  console.log(config.app.JWT_KEY+"-------------------------");
           const token = jwt.sign({
             username: user[0].username,
             id: user[0].id
           },
-          process.env.JWT_KEY,
+          config.app.JWT_KEY,
           {
             expiresIn: "2h"
           });
