@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - main
-      - mobile_registration
   pull_request:
     branches: [ main ]
 
