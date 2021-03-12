@@ -7,6 +7,7 @@ import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/api/UserWrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
+import 'package:together_trek/views/RegistrationView.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({Key key, this.user}) : super(key: key);
@@ -167,6 +168,15 @@ class _LoginViewState extends State<LoginView> {
                                 },
                                 child: Text("Submit"),
                               ),
+                              Text("Don't have an account?"),
+                              TextButton(
+                                child: Text("Register"),
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          RegistrationView()));
+                                },
+                              )
                             ],
                           )),
                     )
