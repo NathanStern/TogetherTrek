@@ -32,8 +32,11 @@ Future<UserModel> getUser(String id) async {
 }
 
 Future<int> deleteUser(String id) async {
-  print(id);
   http.Response response = await httpDelete('users/${id}');
 
   return response.statusCode;
+}
+
+Future<UserModel> userLogin(String data) async {
+  http.Response response = await httpPost('users/login', data);
 }
