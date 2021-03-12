@@ -1,5 +1,6 @@
-const db = require('../models/index.js')
-const User = db.users
+const db = require("../models/index.js");
+const jwt = require('jsonwebtoken');
+const User = db.users;
 
 // Creates an entry in the users table
 exports.create = (req, res) => {
@@ -55,6 +56,47 @@ exports.create = (req, res) => {
 		})
 }
 
+// Logs the User in
+exports.login = (req, res) => {
+  User.find({username: req.body.username})
+    .exec()
+    .then(user => {
+      if (user.length < 1) {
+        return res.status(401).json({
+          // We should definitely change this later so there is no indication as to what the user did to screw up the login.
+          message: "Username does not exist."
+        });
+      }
+      // this will change once we add encryption
+      if (req.body.password == user[0].password) {
+          const token = jwt.sign({
+            username: user[0].username,
+            id: user[0].id
+          },
+          process.env.JWT_KEY,
+          {
+            expiresIn: "2h"
+          });
+          return res.status(200).json({
+            message: "Authentication successful!",
+            token: token
+          });
+      }
+      else {
+        return res.status(401).json({
+          // We should definitely change this later so there is no indication as to what the user did to screw up the login.
+          message: "Incorrect Password."
+        })
+      }
+    })
+    .catch(err =>{
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+}
+
 // Retrieves an entry from the users table by id
 exports.findOne = (req, res) => {
 	const id = req.params.id
@@ -95,29 +137,30 @@ exports.findAll = (req, res) => {
 		})
 }
 
-// Updates an entry in the users table by id
+// Updates a password users table by id
 exports.update = (req, res) => {
-	if (!req.body) {
-		return res.status(400).send({
-			message: 'Data to update can not be empty!',
-		})
-	}
+  if (!req.body) {
+    return res.status(400).send({
+      message: "Cannot update User with empty data"
+    })
+  }
 
-	const id = req.params.id
+  const id = req.params.id;
 
-	User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
-		.then((data) => {
-			if (!data) {
-				res.status(404).send({
-					message: `Cannot update Profile with id=${id}. Maybe Profile was not found!`,
-				})
-			} else res.send({ message: 'Profile was updated successfully.' })
-		})
-		.catch((err) => {
-			res.status(500).send({
-				message: 'Error updating Profile with id=' + id,
-			})
-		})
+  User.findByIdAndUpdate(id, req.body, {useFindAndModify: false})
+    .then(data => {
+      if (!data) {
+        res.status(404).send({message: `Could not find User with id=${id}.`});
+      }
+      else {
+        res.send({message: "User was updated successfully!"});
+      }
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({message: `Error retrieving User with id=${id}.`});
+    });
 }
 
 // Deletes an entry in the users table by id
