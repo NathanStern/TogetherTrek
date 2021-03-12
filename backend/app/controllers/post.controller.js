@@ -99,7 +99,7 @@ exports.create = (req, res) => {
   
     const id = req.params.id;
   
-    User.findByIdAndUpdate(id, req.body, {useFindAndModify: false})
+    Post.findByIdAndUpdate(id, req.body, {useFindAndModify: false})
       .then(data => {
         if (!data) {
           res.status(404).send({message: `Could not find Post with id=${id}.`});
