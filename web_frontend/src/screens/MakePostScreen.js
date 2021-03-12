@@ -1,26 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Router, Link } from 'react-router-dom'
 import { component } from 'react'
 import { Row, Col } from 'react-bootstrap'
-const MakePostScreen = ()  => {
+const MakePostScreen = ({ history, location })  => {
+    const { userInfo } = useSelector((state) => state.userLogin)
+    const redirect = '/'
+    const [author_id, setUserId] = useState('')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [country, setCountry] = useState('')
     const [city, setCity] = useState('')
     const [region, setRegion] = useState('')
     const [responseToPost, setResponse1] = useState('')
+
+    useEffect(() => {
+		if (!userInfo) {
+			history.push(redirect)
+		}
+	}, [history, userInfo, redirect])
+
     const handleSubmit = (event) => {
         event.preventDefault()
         console.log(`Title is ${title}, description: ${description}, destinations: ${country}`);
-        callAPI(title, description, country, city, region)
+        setUserId(userInfo._id)
+        callAPI(title, description, country, city, region, author_id)
+        history.push('/posts')
     }
     
     
-    const callAPI = (title, description, country, city, region) => {
-        console.log("api");
+    const callAPI = (title, description, country, city, region, author_id) => {
+        console.log(author_id);
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title: title,
+                    author_id: author_id,
                     description: description,
                     post_date: Date.now(),
                     destinations: [{
