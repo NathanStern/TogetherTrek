@@ -131,16 +131,14 @@ let message;
     });
 
     // Upload the file to S3
-    try {
-      s3_handler.upload(file);
-    }
-    catch (err) {
+    s3_handler.upload(file)
+    .catch(err => {
       message.delete();
       res.status(500).send({
         message: err.message || "Failed to upload image."
       });
       return;
-    }
+    });
 
     // Return the message id to the user
     res.send(message_id);
@@ -188,15 +186,13 @@ exports.delete = (req, res) => {
       // If the message is an image, delete it from S3
       if (data.type == "image") {
         const filename = data.data;
-        try {
-          s3_handler.delete(filename);
-        }
-        catch (err) {
+        s3_handler.delete(filename)
+        .catch(err => {
           res.status(500).send({
             message: err.message || "Failed to delete image."
           });
           return;
-        }
+        });
       }
 
       // Delete the message entry in the database
