@@ -22,7 +22,7 @@ const Post = ({ post, personal }) => {
 
 	const deleteHandler = (e) => {
 		e.preventDefault()
-		setShow(true)
+		setShow(!show)
 		dispatch(deleteMyPost(post))
 	}
 
