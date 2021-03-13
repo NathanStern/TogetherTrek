@@ -367,7 +367,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  //_formKey.currentState.validate();
+                                  _formKey.currentState.validate();
                                   //await _login();
                                   await _register();
                                 },
