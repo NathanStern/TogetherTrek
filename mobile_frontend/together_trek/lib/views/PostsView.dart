@@ -37,16 +37,11 @@ class _PostsViewState extends State<PostsView> {
                         enableFeedback: true,
                         splashColor: Colors.deepOrangeAccent,
                         onTap: () {
-                          // showDialog(
-                          //     context: context,
-                          //     builder: (context) => buildStandardDialog(
-                          //         context,
-                          //         posts.posts[index].title,
-                          //         posts.posts[index].description));
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => EditPostView(post: posts.posts[index]))
-                                  );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditPostView(post: posts.posts[index])));
                         },
                         child: ListTile(title: Text(posts.posts[index].title))),
                   ],

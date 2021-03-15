@@ -15,10 +15,9 @@ class _MakePostViewState extends State<MakePostView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("New Post"),
-        ),
-        body: MyCustomForm(),
-       
+        title: Text("New Post"),
+      ),
+      body: MyCustomForm(),
     );
   }
 }
@@ -29,6 +28,7 @@ class MyCustomForm extends StatefulWidget {
     return MyCustomFormState();
   }
 }
+
 class MyCustomFormState extends State<MyCustomForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -52,55 +52,59 @@ class MyCustomFormState extends State<MyCustomForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
+            decoration: InputDecoration(hintText: "Title"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a title';
               }
               return null;
             },
             onSaved: (value) {
-                setState(() {
+              setState(() {
                 _title = value;
-                });
+              });
             },
           ),
           TextFormField(
+            decoration: InputDecoration(hintText: "Description"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a description';
               }
               return null;
             },
             onSaved: (val) => setState(() => _description = val),
           ),
-            TextFormField(
+          TextFormField(
+            decoration: InputDecoration(hintText: "Country"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a country';
               }
               return null;
             },
             onSaved: (val) => setState(() => _country = val),
           ),
-            TextFormField(
+          TextFormField(
+            decoration: InputDecoration(hintText: "City"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a city';
               }
               return null;
             },
             onSaved: (val) => setState(() => _city = val),
           ),
-            TextFormField(
+          TextFormField(
+            decoration: InputDecoration(hintText: "State/Region"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a region';
               }
               return null;
             },
             onSaved: (val) => setState(() => _region = val),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
@@ -111,11 +115,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                   final form = _formKey.currentState;
                   form.save();
                   // If the form is valid, display a Snackbar.
-                  makePost(context, _title, _description, _country, _city, _region);
-                   Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
-                    );
+                  makePost(
+                      context, _title, _description, _country, _city, _region);
+                  Navigator.pop(context);
                 }
               },
               child: Text('Submit'),

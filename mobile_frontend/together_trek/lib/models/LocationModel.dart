@@ -23,4 +23,6 @@ class LocationModel {
     }
     return "x: ${this.coordinates[0]} y: ${this.coordinates[1]}";
   }
+
+  Map<String, dynamic> toJson() => {'coordinates': this.coordinates};
 }

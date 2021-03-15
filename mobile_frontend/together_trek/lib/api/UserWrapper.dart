@@ -7,24 +7,10 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:together_trek/utils/JWTUtil.dart';
 
 // testing version of createUser()
-Future<String> createUser() async {
-  String data = jsonEncode(<String, dynamic>{
-    'username': 'mobiletest',
-    'password': 'password',
-    'email': 'mobiletest@gmail.com',
-    'birthdate': '1990-01-01',
-    'gender': 'Male',
-    'first_name': 'Nathan',
-    'last_name': 'Stern',
-    'location': {
-      'coordinates': [0, 0]
-    },
-  });
+Future<int> createUser(String data) async {
   http.Response response = await httpPost('users', data);
 
-  String id = response.body;
-
-  return id;
+  return response.statusCode;
 }
 
 Future<UserModel> getUser(String id) async {

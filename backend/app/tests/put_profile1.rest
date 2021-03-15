@@ -1,0 +1,19 @@
+
+PUT https://together-trek-testing.herokuapp.com/users/604b481385aa570015418847
+Content-Type: application/json
+
+{
+"location": {},
+"post_ids": ["604b4cd385aa57001541884a", "604b4e2a85aa57001541884c", "604b4f4185aa57001541884e"],
+"trip_ids": [ ],
+"message_board_ids": [ ],
+"friend_ids": [ ],
+"username": "Abdugaliyev",
+"password": "password",
+"email": "nemoymail@gmail.com",
+"birthdate": "2001-01-01T00:00:00.000Z",
+"gender": "Male",
+"first_name": "Adil",
+"last_name": "Abdugaliyev",
+"__v": 0
+}
