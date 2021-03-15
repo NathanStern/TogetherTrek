@@ -69,6 +69,40 @@
 					]
 				},
 				{
+					"name": "Update Tests",
+					"item": [
+						{
+							"name": "Update User",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "username",
+											"value": "johndoe",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/users/{{user-id}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"users",
+										"{{user-id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Get Tests",
 					"item": [
 						{
@@ -89,7 +123,7 @@
 											"    // We should add a check that password is not included when the endpoint is changed to not send it back\r",
 											"    var jsonData = pm.response.json();\r",
 											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"user-id\"));\r",
-											"    pm.expect(jsonData.username).to.eql(\"testuname\");\r",
+											"    pm.expect(jsonData.username).to.eql(\"johndoe\");\r",
 											"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email\"));\r",
 											"    pm.expect(jsonData.birthdate).to.eql(\"1991-01-01T00:00:00.000Z\")\r",
 											"    pm.expect(jsonData.gender).to.eql(\"Male\")\r",
@@ -136,7 +170,7 @@
 											"    // We should add a check that password is not included when the endpoint is changed to not send it back\r",
 											"    var jsonData = pm.response.json()[0];\r",
 											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"user-id\"));\r",
-											"    pm.expect(jsonData.username).to.eql(\"testuname\");\r",
+											"    pm.expect(jsonData.username).to.eql(\"johndoe\");\r",
 											"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email\"));\r",
 											"    pm.expect(jsonData.birthdate).to.eql(\"1991-01-01T00:00:00.000Z\")\r",
 											"    pm.expect(jsonData.gender).to.eql(\"Male\")\r",
@@ -152,7 +186,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{site}}:{{port}}/users?email={{email}}&username=testuname",
+									"raw": "{{site}}:{{port}}/users?email={{email}}&username=johndoe",
 									"host": [
 										"{{site}}"
 									],
@@ -167,7 +201,7 @@
 										},
 										{
 											"key": "username",
-											"value": "testuname"
+											"value": "johndoe"
 										}
 									]
 								}
@@ -419,6 +453,50 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get Post By Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"\r",
+											"    // We should add a check that password is not included when the endpoint is changed to not send it back\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"post-id\"));\r",
+											"    pm.expect(jsonData.title).to.eql(\"titleeee\");\r",
+											"    pm.expect(jsonData.description).to.eql(\"im going on vacation\");\r",
+											"    pm.expect(jsonData.post_date).to.eql(\"1990-01-01T00:00:00.000Z\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{site}}:{{port}}/posts/{{post-id}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"posts",
+										"{{post-id}}"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -444,7 +522,7 @@
 											"pm.test(\"Response test\", function() {\r",
 											"    pm.response.to.be.withBody;\r",
 											"    \r",
-											"    postman.setEnvironmentVariable(\"photo-id\", pm.response.text());\r",
+											"    postman.setEnvironmentVariable(\"trip-photo-id\", pm.response.text());\r",
 											"})"
 										],
 										"type": "text/javascript"
@@ -487,6 +565,43 @@
 									"port": "{{port}}",
 									"path": [
 										"trip_photos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Tests",
+					"item": [
+						{
+							"name": "Get Trip Photo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{site}}:{{port}}/trip_photos/{{trip-photo-id}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"trip_photos",
+										"{{trip-photo-id}}"
 									]
 								}
 							},
@@ -711,6 +826,38 @@
 					"response": []
 				},
 				{
+					"name": "Delete Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{site}}:{{port}}/posts/{{post-id}}",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"posts",
+								"{{post-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Delete Trip Photo",
 					"event": [
 						{
@@ -729,14 +876,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{site}}:{{port}}/trip_photos/{{photo-id}}",
+							"raw": "{{site}}:{{port}}/trip_photos/{{trip-photo-id}}",
 							"host": [
 								"{{site}}"
 							],
 							"port": "{{port}}",
 							"path": [
 								"trip_photos",
-								"{{photo-id}}"
+								"{{trip-photo-id}}"
 							]
 						}
 					},

@@ -296,67 +296,67 @@ exports.getProfilePic = (req, res) => {
 
 // Sets a users profile pic to a new image
 exports.setProfilePic = (req, res) => {
-	const user_id = req.params.id
+  const user_id = req.params.id;
 
-	// Validate all expected fields were passed
-	if (!req.files || !req.files.file) {
-		res.status(400).send({ message: 'file can not be empty.' })
-		return
-	}
-	const file = req.files.file
+  // Validate all expected fields were passed
+  if (!req.files || !req.files.file) {
+    res.status(400).send({ message: "file can not be empty." });
+    return;
+  }
+  const file = req.files.file;
 
-	// Validate file is an image
-	if (!file.mimetype.startsWith('image')) {
-		res.status(400).send({ message: 'file must be type image.' })
-		return
-	}
+  // Validate file is an image
+  if (!file.mimetype.startsWith('image')) {
+    res.status(400).send({ message: "file must be type image." });
+    return;
+  }
 
-	// Get the user entry from the database
-	const user = User.findById(user_id)
-		.then((user) => {
-			if (!user) {
-				res.status(404).send({
-					message: `Could not find User with id=${user_id}.`,
-				})
-			} else {
-				// Rename the file so that it is unique in S3
-				file.name = `${user_id}${path.parse(file.name).ext}`
-				let new_pic_filename = file.name
+  // Get the user entry from the database
+  const user = User.findById(user_id)
+	.then(user => {
+    if (!user) {
+      res.status(404).send({
+        message: `Could not find User with id=${user_id}.`
+      });
+    } else {
+			// Rename the file so that it is unique in S3
+		  file.name = `${user_id}${path.parse(file.name).ext}`;
+		  let new_pic_filename = file.name;
 
-				// Attempt to upload the new profile pic to S3
-				s3_handler.upload(file).catch((err) => {
-					res.status(500).send({
-						message: err.message || 'Could not upload new profile pic.',
-					})
-					return
-				})
+		  // Attempt to upload the new profile pic to S3
+			s3_handler.upload(file)
+			.then(data => {})
+			.catch(err => {
+				res.status(500).send({
+					message: err.message || "Could not upload new profile pic."
+				});
+				return;
+			});
 
-				// Update the user profile_pic filename and upload_date
-				user.profile_pic.filename = new_pic_filename
-				user.profile_pic.upload_date = Date.now()
+			// Update the user profile_pic filename and upload_date
+		  user.profile_pic.filename = new_pic_filename;
+		  user.profile_pic.upload_date = Date.now();
 
-				user
-					.save()
-					.then((data) => {
-						res.send({
-							message: 'success',
-						})
-						return
-					})
-					.catch((err) => {
-						res.status(500).send({
-							message:
-								err.message ||
-								'Some error occurred while updating profile pic.',
-						})
-					})
-			}
-		})
-		.catch((err) => {
-			res.status(500).send({
-				message: `Some error occurred while retrieving User with id=${user_id}.`,
-			})
-		})
+		  user.save()
+		  .then(data => {
+		    res.send({
+		      message: "success"
+		    });
+				return;
+		  })
+		  .catch(err => {
+		    res.status(500).send({
+		      message:
+		        err.message || "Some error occurred while updating profile pic."
+		    });
+		  });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: `Some error occurred while retrieving User with id=${user_id}.`
+    });
+  });
 }
 
 // Gets a users profile pic
