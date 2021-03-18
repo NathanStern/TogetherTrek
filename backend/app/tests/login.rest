@@ -1,0 +1,7 @@
+POST https://together-trek-testing.herokuapp.com/users/login
+Content-Type: application/json
+
+{
+    "username": "Ttttest",
+    "password": "a03ab19b866fc585b5cb1812a2f63ca861e7e7643ee5d43fd7106b623725fd67"
+}

@@ -37,10 +37,15 @@ const allPostsFromStorage = localStorage.getItem('allPosts')
 	? JSON.parse(localStorage.getItem('allPosts'))
 	: null
 
+const tokenFromStorage = localStorage.getItem('myToken')
+	? JSON.parse(localStorage.getItem('myToken'))
+	: null
+
 const initialState = {
 	userLogin: { userInfo: userInfoFromStorage },
 	myPosts: { myPosts: myPostsFromStorage },
 	allPosts: { allPosts: allPostsFromStorage },
+	token: { token: tokenFromStorage },
 }
 
 const middleware = [thunk]

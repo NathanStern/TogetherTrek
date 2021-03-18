@@ -7,6 +7,10 @@ import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, getPosts } from '../actions/postsActions'
+import { sha3_256 } from 'js-sha3'
+import jwt_decode from 'jwt-decode'
+import axios from 'axios'
+import { path } from '../constants/pathConstant'
 const LoginScreen = ({ history, location }) => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -24,9 +28,17 @@ const LoginScreen = ({ history, location }) => {
 		}
 	}, [history, userInfo, redirect])
 
-	const submitHandler = (e) => {
+	const submitHandler = async (e) => {
 		e.preventDefault()
-		dispatch(login(email, password)).then((e) => {
+		const hashedPassword = sha3_256(password)
+		console.log(`hashed password in login is ${hashedPassword}`)
+		const { data } = await axios.post(`${path}/users/login`, {
+			username: email,
+			password: hashedPassword,
+		})
+		const decoded = jwt_decode(data.token)
+		console.log(decoded)
+		dispatch(login(decoded)).then((e) => {
 			dispatch(getMyPosts())
 			dispatch(getPosts())
 		})
@@ -39,10 +51,10 @@ const LoginScreen = ({ history, location }) => {
 			{loading && <Loader />}
 			<Form onSubmit={submitHandler}>
 				<Form.Group controlId='email'>
-					<Form.Label>Email Address</Form.Label>
+					<Form.Label>Username</Form.Label>
 					<Form.Control
-						type='email'
-						placeholder='Enter Email'
+						type='username'
+						placeholder='Enter Username'
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 					/>

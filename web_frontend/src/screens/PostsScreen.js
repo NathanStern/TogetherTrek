@@ -20,7 +20,10 @@ const PostsScreen = ({ history }) => {
 		<>
 			{allPosts && (
 				<Container>
-					{allPosts && allPosts.map((el) => <Post post={el} key={el._id} />)}
+					{allPosts &&
+						allPosts.map((el) => (
+							<Post post={el} key={el._id} personal={false} />
+						))}
 				</Container>
 			)}
 		</>

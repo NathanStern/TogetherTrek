@@ -4,17 +4,19 @@ import { getMyPosts, getPosts } from '../actions/postsActions'
 import { login } from '../actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
-
+import jwt_decode from 'jwt-decode'
 const HomeScreen = () => {
 	const dispatch = useDispatch()
 	const { userInfo, loading } = useSelector((state) => state.userLogin)
-
+	let token = ''
+	// console.log(token)
 	useEffect(() => {
 		dispatch(getPosts())
 		dispatch(getMyPosts())
 
 		if (userInfo) {
-			dispatch(login(userInfo.email, userInfo.password))
+			token = JSON.parse(localStorage.getItem('myToken'))
+			dispatch(login(token))
 		}
 	}, [])
 

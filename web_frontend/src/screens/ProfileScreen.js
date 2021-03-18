@@ -17,7 +17,6 @@ const ProfileScreen = ({ location, history }) => {
 	const updatePost = useSelector((state) => state.updateMyPost)
 	const [posts, setPosts] = [myPosts]
 	const [toDelete, setToDelete] = useState('')
-	const personal = true
 	const profilePic =
 		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
 	const redirect = '/'
@@ -52,7 +51,7 @@ const ProfileScreen = ({ location, history }) => {
 						)}
 						{posts &&
 							posts.map((el) => (
-								<Post post={el} key={el._id} personal={personal} />
+								<Post post={el} key={el._id} personal={true} />
 							))}
 					</Col>
 					<Col md={3}>

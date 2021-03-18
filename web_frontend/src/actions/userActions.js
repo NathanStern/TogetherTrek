@@ -11,36 +11,24 @@ import {
 } from '../constants/userConstants'
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
-
-export const login = (email, password) => async (dispatch) => {
+import { sha3_256 } from 'js-sha3'
+import jwt_decode from 'jwt-decode'
+let token = ''
+export const login = (tok) => async (dispatch) => {
 	try {
 		dispatch({
 			type: USER_LOGIN_REQUEST,
 		})
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		}
-
-		const users = await axios.get(`${path}/users`)
-		// console.log(users.data.find((e) => e.id === 1))
-
-		const data = users.data.find(
-			(e) => e.email === email && e.password === password
-		)
-		if (!data) {
-			dispatch({
-				type: USER_LOGIN_FAIL,
-				payload: 'Login Failed',
-			})
-		} else {
-			dispatch({
-				type: USER_LOGIN_SUCCESS,
-				payload: data,
-			})
-			localStorage.setItem('userInfo', JSON.stringify(data))
-		}
+		console.log(token)
+		token = tok
+		const { data } = await axios.get(`${path}/users/${token.id}`)
+		console.log(data)
+		dispatch({
+			type: USER_LOGIN_SUCCESS,
+			payload: data,
+		})
+		localStorage.setItem('userInfo', JSON.stringify(data))
+		localStorage.setItem('myToken', JSON.stringify(tok))
 	} catch (error) {
 		dispatch({
 			type: USER_LOGIN_FAIL,
@@ -55,6 +43,7 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
 	localStorage.removeItem('userInfo')
 	localStorage.removeItem('userPosts')
+	localStorage.removeItem('myToken')
 	dispatch({ type: USER_LOGIN_LOGOUT })
 }
 
@@ -178,9 +167,6 @@ export const updateUserProfile = (
 			_v: userInfo._v,
 		}
 
-		// console.log(newUser)
-		// console.log(userInfo._id)
-		// console.log(`http://localhost:3001/users/${userInfo._id}`)
 		const { data } = await axios.put(
 			`${path}/users/${userInfo._id}`,
 			newUser,
