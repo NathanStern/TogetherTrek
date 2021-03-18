@@ -8,6 +8,9 @@ import {
 	USER_UPDATE_PROFILE_REQUEST,
 	USER_UPDATE_PROFILE_SUCCESS,
 	USER_UPDATE_PROFILE_FAIL,
+	USER_GET_FRIENDS_REQUEST,
+	USER_GET_FRIENDS_FAIL,
+	USER_GET_FRIENDS_SUCCESS,
 } from '../constants/userConstants'
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
@@ -121,6 +124,52 @@ export const register = (
 				error.response && error.response.data.message
 					? error.response.data.message
 					: error.response,
+		})
+	}
+}
+
+const getFriend = async (friend_id) => {
+	try {
+		const post = await axios.get(`${path}/users/${friend_id}`)
+		console.log(post.data)
+		return post.data
+	} catch (err) {
+		console.log(err)
+	}
+}
+
+export const getUserFriends = () => async (dispatch, getState) => {
+	dispatch({
+		type: USER_GET_FRIENDS_REQUEST,
+	})
+	try {
+		const {
+			userLogin: { userInfo },
+		} = getState()
+
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}
+		let friends = []
+		userInfo.friend_ids.map((el) =>
+			getFriend(el).then((res) => {
+				friends.push(res)
+			})
+		)
+		const myFriends = friends
+		dispatch({
+			type: USER_GET_FRIENDS_SUCCESS,
+			payload: myFriends,
+		})
+	} catch (error) {
+		dispatch({
+			type: USER_GET_FRIENDS_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
 		})
 	}
 }

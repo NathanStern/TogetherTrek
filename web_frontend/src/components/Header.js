@@ -22,6 +22,9 @@ const Header = () => {
 					{userInfo ? (
 						<>
 							<Nav className='ml-auto'>
+								<LinkContainer to='/friends'>
+									<Nav.Link>Friends</Nav.Link>
+								</LinkContainer>
 								<LinkContainer to='/posts'>
 									<Nav.Link>Posts</Nav.Link>
 								</LinkContainer>
@@ -41,9 +44,6 @@ const Header = () => {
 								<LinkContainer to='/profile'>
 									<NavDropdown.Item>Profile</NavDropdown.Item>
 								</LinkContainer>
-								{/* <LinkContainer to='/post'>
-									<NavDropdown.Item>New Post</NavDropdown.Item>
-								</LinkContainer> */}
 								<NavDropdown.Item onClick={logoutHandler}>
 									Logout
 								</NavDropdown.Item>

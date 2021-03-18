@@ -7,7 +7,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, deleteMyPost } from '../actions/postsActions'
 
-const ProfileScreen = ({ location, history }) => {
+const PersonalProfileScreen = ({ location, history }) => {
 	const dispatch = useDispatch()
 	//user info contains information about the user
 	// const myPosts = useSelector((state) => state.myPosts)
@@ -63,4 +63,4 @@ const ProfileScreen = ({ location, history }) => {
 	)
 }
 
-export default ProfileScreen
+export default PersonalProfileScreen

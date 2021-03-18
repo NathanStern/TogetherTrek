@@ -9,6 +9,9 @@ import {
 	USER_UPDATE_PROFILE_FAIL,
 	USER_UPDATE_PROFILE_REQUEST,
 	USER_UPDATE_PROFILE_SUCCESS,
+	USER_GET_FRIENDS_REQUEST,
+	USER_GET_FRIENDS_SUCCESS,
+	USER_GET_FRIENDS_FAIL,
 } from '../constants/userConstants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -21,6 +24,19 @@ export const userLoginReducer = (state = {}, action) => {
 			return { loading: false, error: action.payload }
 		case USER_LOGIN_LOGOUT:
 			return {}
+		default:
+			return state
+	}
+}
+
+export const userGetFriendsReducer = (state = {}, action) => {
+	switch (action.type) {
+		case USER_GET_FRIENDS_REQUEST:
+			return { loading: true }
+		case USER_GET_FRIENDS_SUCCESS:
+			return { loading: false, friendsInfo: action.payload }
+		case USER_GET_FRIENDS_FAIL:
+			return { loading: false, error: action.payload }
 		default:
 			return state
 	}

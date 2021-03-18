@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { getMyPosts, getPosts } from '../actions/postsActions'
-import { login } from '../actions/userActions'
+import { getUserFriends, login } from '../actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import jwt_decode from 'jwt-decode'
@@ -18,7 +18,7 @@ const HomeScreen = () => {
 
 		if (userInfo) {
 			token = JSON.parse(localStorage.getItem('myToken'))
-			dispatch(login(token))
+			dispatch(login(token)).then((e) => dispatch(getUserFriends()))
 		}
 	}, [])
 

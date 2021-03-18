@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../actions/userActions'
+import { getUserFriends, login } from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -41,6 +41,7 @@ const LoginScreen = ({ history, location }) => {
 		dispatch(login(decoded)).then((e) => {
 			dispatch(getMyPosts())
 			dispatch(getPosts())
+			dispatch(getUserFriends())
 		})
 	}
 
