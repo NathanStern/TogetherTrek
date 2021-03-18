@@ -6,6 +6,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { updateUserProfile } from '../actions/userActions'
+import { sha3_256 } from 'js-sha3'
 
 const logo = {
 	uri:
@@ -38,7 +39,8 @@ const EditProfileScreen = ({ location, history }) => {
 	const { loading, success, error } = userUpdateProfile
 	const submitHandler = (e) => {
 		e.preventDefault()
-		if (password !== confirmPassword) {
+		const hashPassword = sha3_256(confirmPassword)
+		if (password !== hashPassword) {
 			setMessage('Passwords do not match')
 		} else {
 			dispatch(
@@ -124,15 +126,6 @@ const EditProfileScreen = ({ location, history }) => {
 						placeholder='Enter Last Name'
 						value={birthdate}
 						onChange={(e) => setBirthdate(e.target.value)}
-					></Form.Control>
-				</Form.Group>
-				<Form.Group controlId='password'>
-					<Form.Label>Password</Form.Label>
-					<Form.Control
-						type='password'
-						placeholder='Enter password'
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
 					></Form.Control>
 				</Form.Group>
 

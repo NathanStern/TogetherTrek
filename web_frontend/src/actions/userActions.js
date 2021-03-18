@@ -65,7 +65,7 @@ export const register = (
 	gender,
 	birthdate,
 	email,
-	password
+	hashPassword
 ) => async (dispatch) => {
 	try {
 		dispatch({
@@ -79,7 +79,7 @@ export const register = (
 		}
 		const newUser = {
 			username: username,
-			password: password,
+			password: hashPassword,
 			email: email,
 			birthdate: birthdate,
 			gender: gender,

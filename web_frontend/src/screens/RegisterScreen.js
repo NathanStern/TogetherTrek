@@ -6,6 +6,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { register } from '../actions/userActions'
+import { sha3_256 } from 'js-sha3'
 
 const RegisterScreen = ({ location, history }) => {
 	const [username, setUsername] = useState('')
@@ -32,9 +33,12 @@ const RegisterScreen = ({ location, history }) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault()
+		const hashPassword = sha3_256(password)
+
 		if (password !== confirmPassword) {
 			setMessage('Passwords do not match')
 		} else {
+			console.log(hashPassword)
 			dispatch(
 				register(
 					username,
@@ -43,7 +47,7 @@ const RegisterScreen = ({ location, history }) => {
 					gender,
 					birthdate,
 					email,
-					password
+					hashPassword
 				)
 			)
 		}
