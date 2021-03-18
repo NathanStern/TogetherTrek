@@ -88,7 +88,9 @@ const Post = ({ post, personal }) => {
 							<Container>
 								<Row>
 									<Col>
-										<Link to='./'>`Author's` Profile</Link>
+										<Link to={`/profile/${post.author_id}`}>
+											`Author's` Profile
+										</Link>
 									</Col>
 								</Row>
 							</Container>

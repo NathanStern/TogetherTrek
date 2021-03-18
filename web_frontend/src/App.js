@@ -14,6 +14,7 @@ import PostsScreen from './screens/PostsScreen'
 import EditPostScreen from './screens/EditPostScreen'
 import MakePostScreen from './screens/MakePostScreen'
 import CreatePostScreen from './screens/CreatePostScreen'
+import PersonalProfileScreen from './screens/PersonalProfileScreen'
 
 function App() {
 	return (
@@ -26,12 +27,13 @@ function App() {
 					<Route path='/login' component={LoginScreen} />
 					<Route path='/search' component={SearchScreen} exact />
 					<Route path='/createtrip' component={CreateTripScreen} />
-					<Route path='/profile' component={ProfileScreen} />
+					<Route path='/profile' component={PersonalProfileScreen} exact />
 					<Route path='/post' component={MakePostScreen} />
 					<Route path='/editpost' component={EditPostScreen} />
 					<Route path='/posts' component={PostsScreen} />
 					<Route path='/editprofile' component={EditProfileScreen} exact />
 					<Route path='/createpost' component={CreatePostScreen} />
+					<Route path='/profile/:id' component={ProfileScreen} exact />
 				</Container>
 			</main>
 			<Footer />
