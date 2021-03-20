@@ -238,7 +238,7 @@
 											"    pm.response.to.be.json;\r",
 											"\r",
 											"    // We should add a check that password is not included when the endpoint is changed to not send it back\r",
-											"    var jsonData = pm.response.json();\r",
+											"    var jsonData = pm.response.json()[0];\r",
 											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"user-id-1\"));\r",
 											"    pm.expect(jsonData.username).to.eql(pm.environment.get(\"username-1\"));\r",
 											"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email-1\"));\r",
