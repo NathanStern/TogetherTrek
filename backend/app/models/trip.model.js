@@ -10,7 +10,7 @@ module.exports = mongoose => {
       end_date: Date,
       creator_id: mongoose.Types.ObjectId,
       participant_ids: [mongoose.Types.ObjectId],
-      join_requests: [mongoose.Type.ObjectId]
+      join_requests: [mongoose.Types.ObjectId]
     }
   );
 
