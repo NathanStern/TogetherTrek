@@ -6,6 +6,7 @@ import 'package:flutter/painting.dart';
 // Replace the <base url of api> with actual url when testing and deploying
 String baseURL = "together-trek-testing.herokuapp.com";
 
+
 Future<http.Response> httpGet(String requestExtension) {
   return http.get(Uri.https(baseURL, requestExtension));
 }

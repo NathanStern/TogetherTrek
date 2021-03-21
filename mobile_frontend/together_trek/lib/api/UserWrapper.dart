@@ -42,6 +42,6 @@ Future<int> userLogin(String data) async {
   return response.statusCode;
 }
 
-Future<NetworkImage> getProfilePic(String id) {
+NetworkImage getProfilePic(String id) {
   return getNetworkImage('users/profile-pic/${id}');
 }

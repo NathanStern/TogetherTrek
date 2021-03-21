@@ -6,6 +6,7 @@ import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
 import 'package:together_trek/views/EditPRofilePage.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
+import 'package:together_trek/api/UserWrapper.dart' as UserWrapper;
 
 dynamic first = 'Neil';
 dynamic last = 'Armstrong';
@@ -23,41 +24,33 @@ class ProfilePage extends StatelessWidget {
   UserModel user;
   @override
   Widget build(BuildContext context) {
-    UserModel user = context.watch<UserModel>();
+    user = context.watch<UserModel>();
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.redAccent, Colors.orangeAccent]
-              )
-            ),
-            child: Container(
-              width: double.infinity,
-              height: 320.0,
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CircleAvatar(
-                      backgroundImage: user.profilePic,
-                      radius: 50.0,
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Text(
-                      user.username,
-                      style: TextStyle(
-                        fontSize: 22.0,
-                        color: Colors.white,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.redAccent, Colors.orangeAccent])),
+              child: Container(
+                width: double.infinity,
+                height: 320.0,
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CircleAvatar(
+                        backgroundImage:  UserWrapper.getProfilePic("604abdfd74a9bd37f8120b46"),
+                        radius: 50.0,
+                      ),
+                      SizedBox(
+                        height: 10.0,
                       ),
                       Text(
-                        first + " " + last,
+                        this.user.firstName + " " + this.user.lastName,
                         style: TextStyle(
                           fontSize: 22.0,
                           color: Colors.white,
@@ -140,7 +133,7 @@ class ProfilePage extends StatelessWidget {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      date,
+                                      this.user.birthdate,
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.orangeAccent,

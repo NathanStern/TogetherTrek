@@ -37,11 +37,6 @@ class UserModel extends ChangeNotifier {
       coords = [0, 0];
     }
 
-    //print(json['profile_pic']);
-
-    // ProfilePicModel profilePic = new ProfilePicModel(
-    //     json['profile_pic']['url'], json['profile_pic']['uploadDate']);
-
     NetworkImage profilePic = UserWrapper.getProfilePic("604abdfd74a9bd37f8120b46");
     return UserModel(
       id: json['_id'] ?? "",
@@ -51,7 +46,6 @@ class UserModel extends ChangeNotifier {
       gender: json['gender'] ?? "",
       firstName: json['first_name'] ?? "",
       lastName: json['last_name'] ?? "",
-      //profilePic: null,
       profilePic: profilePic,
       verified: json['verified'] ?? false,
       notificationsEnabled: json['notifications_enabled'] ?? false,
