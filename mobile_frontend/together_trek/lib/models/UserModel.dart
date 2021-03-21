@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 
 import 'package:together_trek/api/UserWrapper.dart' as UserWrapper;
 import 'package:together_trek/models/LocationModel.dart';
 import 'package:together_trek/models/ProfilePicModel.dart';
-import 'package:flutter/material.dart';
 
 /*
   This is the UserModel class for the application. It defines how all data will

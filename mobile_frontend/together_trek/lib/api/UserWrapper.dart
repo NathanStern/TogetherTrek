@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'package:flutter/painting.dart';
+import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 import "package:together_trek/api/httpRequest.dart";
 import 'package:together_trek/models/UserModel.dart';
-import 'package:http/http.dart' as http;
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:together_trek/utils/JWTUtil.dart';
-import 'package:flutter/painting.dart';
 
 // testing version of createUser()
 Future<int> createUser(String data) async {
