@@ -1,18 +1,80 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:provider/provider.dart';
+import 'package:together_trek/models/TokenModel.dart';
+import 'package:together_trek/models/UserModel.dart';
+import 'package:together_trek/utils/DialogUtil.dart';
 
-class LaunchView extends StatelessWidget {
-  void _loadPosts(BuildContext context, LoadedPostsModel posts) async {
+class LaunchView extends StatefulWidget {
+  _LaunchViewState createState() => _LaunchViewState();
+}
+
+class _LaunchViewState extends State<LaunchView> {
+  void _loadPosts(BuildContext context) async {
+    LoadedPostsModel posts = context.read<LoadedPostsModel>();
     posts.resetPosts(List.from((await getPosts()).reversed));
+  }
+
+  Future<void> _getUserData(BuildContext context) async {
+    UserModel user = context.read<UserModel>();
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    String userString = _prefs.getString('user');
+
+    if (userString == null) {
+      await _prefs.setString('user', jsonEncode(user));
+      userString = _prefs.getString('user');
+    }
+
+    UserModel readUser = UserModel.fromJson(jsonDecode(userString));
+
+    user.setAllFieldsFromUser(readUser);
+
+    user.setAllFieldsFromUser(user);
+  }
+
+  Future<void> _getJWT(BuildContext context) async {
+    TokenModel token = context.read<TokenModel>();
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    String readToken = _prefs.getString('jwt');
+
+    token.setFields(readToken);
+  }
+
+  void _refreshNetwork() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 2), () async {
+    Future.delayed(Duration(seconds: 1), () async {
       // await _loadPosts(context, posts);
+      await _getUserData(context);
+      await _getJWT(context);
+      await _loadPosts(context);
       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+    }).timeout(Duration(seconds: 10), onTimeout: () {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return buildActionDialog(
+                context,
+                "Network Error",
+                "The request to load application data timed out.",
+                _refreshNetwork);
+          });
+    }).catchError((err) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return buildActionDialog(
+                context, "Network Error", err.toString(), _refreshNetwork);
+          });
     });
     return Scaffold(
         backgroundColor: Colors.white,

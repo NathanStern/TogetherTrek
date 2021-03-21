@@ -48,50 +48,28 @@ class _PostsViewState extends State<PostsView> {
                 ));
           }),
       onRefresh: () async {
-        List<PostModel> retrievedPosts = await getPosts();
+        List<PostModel> retrievedPosts =
+            await getPosts().timeout(Duration(seconds: 10), onTimeout: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return buildStandardDialog(context, "Network Error",
+                    "There was an error retrieving posts from the server.");
+              });
+          return this.posts.posts;
+        }).catchError((err) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return buildStandardDialog(
+                    context, "Network Error", err.toString());
+              });
+          return this.posts.posts;
+        });
         setState(() {
           _savePosts(retrievedPosts);
         });
       },
     );
-    // } else {
-    //   return Container(
-    //       child: FutureBuilder(
-    //           future: null,
-    //           builder: (BuildContext context,
-    //               AsyncSnapshot<List<PostModel>> snapshot) {
-    //             if (snapshot.hasData) {
-    //               return RefreshIndicator(
-    //                 child: ListView.builder(
-    //                     itemCount: snapshot.data.length,
-    //                     itemBuilder: (BuildContext context, int index) {
-    //                       return ListTile(
-    //                         title: Text(snapshot.data[index].title),
-    //                         onTap: () {
-    //                           showDialog(
-    //                               context: context,
-    //                               builder: (context) => buildStandardDialog(
-    //                                   context,
-    //                                   snapshot.data[index].title,
-    //                                   snapshot.data[index].description));
-    //                         },
-    //                       );
-    //                     }),
-    //                 onRefresh: () async {
-    //                   setState(() {});
-    //                 },
-    //               );
-    //             } else {
-    //               return Column(
-    //                   crossAxisAlignment: CrossAxisAlignment.center,
-    //                   mainAxisAlignment: MainAxisAlignment.center,
-    //                   children: [
-    //                     Row(
-    //                         mainAxisAlignment: MainAxisAlignment.center,
-    //                         crossAxisAlignment: CrossAxisAlignment.center,
-    //                         children: [CircularProgressIndicator()]),
-    //                   ]);
-    //             }
-    //           }));
   }
 }
