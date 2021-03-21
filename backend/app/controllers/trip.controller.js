@@ -1,4 +1,5 @@
 const db = require("../models/index.js");
+const Trip = db.trips;
 
 
 // Creates an entry in the trips table
@@ -155,8 +156,6 @@ exports.request_to_join = (req, res) => {
 
   Trip.findById(trip_id)
   .then(trip => {
-    console.log("trip");
-    console.log(trip);
       trip.join_requests.push(requesting_id);
       trip.save()
       .then(data => {
