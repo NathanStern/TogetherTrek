@@ -170,7 +170,18 @@ exports.findOne = (req, res) => {
         const filename = message.data;
         s3_handler.findOne(filename)
         .then(image => {
-          res.send(image);
+          if (!image) {
+            res.status(404).send({
+              message: `Could not find image.`,
+            })
+            return;
+          }
+          if (filename.includes("jpeg") || filename.includes("jpg"))
+            res.writeHead(200, {'Content-Type': 'image/jpeg'});
+          else
+            res.writeHead(200, {'Content-Type': 'image/png'});
+          res.write(image.Body, 'binary');
+          res.end(null, 'binary');
           return;
         })
         .catch(err => {
