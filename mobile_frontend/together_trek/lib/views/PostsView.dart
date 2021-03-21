@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
-import 'package:provider/provider.dart';
 import 'package:together_trek/views/EditPostView.dart';
 
 class PostsView extends StatefulWidget {

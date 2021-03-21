@@ -1,10 +1,10 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import "package:together_trek/api/httpRequest.dart";
-import 'package:together_trek/models/PostModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+
+import "package:together_trek/api/httpRequest.dart";
+import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 
 Future<List<PostModel>> getPosts() async {

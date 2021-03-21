@@ -1,13 +1,13 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:hex/hex.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sha3/sha3.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/api/UserWrapper.dart';
-import 'package:provider/provider.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/RegistrationView.dart';
 

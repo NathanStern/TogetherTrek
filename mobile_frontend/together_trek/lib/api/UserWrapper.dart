@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 import "package:together_trek/api/httpRequest.dart";
 import 'package:together_trek/models/UserModel.dart';
-import 'package:http/http.dart' as http;
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:together_trek/utils/JWTUtil.dart';
 
 // testing version of createUser()
@@ -33,9 +33,7 @@ Future<int> userLogin(String data) async {
   }
 
   Map<String, dynamic> json = jsonDecode(response.body);
-
   Map<String, dynamic> token = JwtDecoder.decode(json['token']);
-
   saveJWT(json['token']);
 
   return response.statusCode;

@@ -1,11 +1,11 @@
 import 'dart:convert';
-
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/api/UserWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
-import 'package:provider/provider.dart';
 import 'package:together_trek/models/TokenModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';

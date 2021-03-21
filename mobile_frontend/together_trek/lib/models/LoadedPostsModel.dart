@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:together_trek/models/PostModel.dart';
 
 class LoadedPostsModel extends ChangeNotifier {
