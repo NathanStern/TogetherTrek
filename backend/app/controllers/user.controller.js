@@ -1,10 +1,12 @@
-const jwt = require('jsonwebtoken')
 const path = require('path')
 
 const config = require('../config/config.js')
 const db = require('../models/index.js')
 const s3_handler = require('../utils/s3_handler.js')
-const User = db.users
+const token_helper = require('../utils/token_helper.js')
+
+const User = db.users;
+
 
 // Creates an entry in the users table
 exports.create = (req, res) => {
@@ -51,7 +53,7 @@ exports.create = (req, res) => {
 	user
 		.save(user)
 		.then((data) => {
-			res.send(data.id)
+			res.send(data.id);
 		})
 		.catch((err) => {
 			res.status(500).send({
@@ -62,6 +64,11 @@ exports.create = (req, res) => {
 
 // Logs the User in
 exports.login = (req, res) => {
+	if (!req.body.username) {
+		res.status(400).send({ message: 'username can not be empty.' })
+		return
+	}
+
 	User.find({ username: req.body.username })
 		.exec()
 		.then((user) => {
@@ -73,16 +80,7 @@ exports.login = (req, res) => {
 			}
 			// this will change once we add encryption
 			if (req.body.password == user[0].password) {
-				const token = jwt.sign(
-					{
-						username: user[0].username,
-						id: user[0].id,
-					},
-					config.app.JWT_KEY,
-					{
-						expiresIn: '2h',
-					}
-				)
+				const token = token_helper.generateToken();
 				return res.status(200).json({
 					message: 'Authentication successful!',
 					token: token,

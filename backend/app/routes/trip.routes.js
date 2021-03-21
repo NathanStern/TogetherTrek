@@ -20,5 +20,8 @@ module.exports = app => {
   // Make a request to join a trip
   router.put("/join-trip/:id", trip_controller.request_to_join);
 
+  // Remove a user from a trip
+  router.put("/remove-user/:id", trip_controller.removeUser);
+
   app.use("/trips", router);
 };

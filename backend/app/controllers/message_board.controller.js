@@ -1,6 +1,7 @@
-const db = require("../models/index.js");
 const config = require('../config/config.js')
-const jwt = require('jsonwebtoken')
+const db = require("../models/index.js");
+const token_helper = require('../utils/token_helper.js')
+
 const Message_Board = db.message_boards;
 const User = db.users;
 const Messages = db.messages;
@@ -41,7 +42,7 @@ exports.findOne = (req, res) => {
 
     let messages;
     let retrieved_data;
-    
+
     Message_Board.findById(id)
         .then(async (data) => {
             if (!data) {
@@ -74,25 +75,15 @@ exports.findOne = (req, res) => {
 exports.findAll = (req, res) => {
     let requirements = req.query;
 
-    let headers = req.headers;
-    let token = headers["authorization"];
-
-    if (!token) {
-        res.status(401).send({ message: "Client did not send JWT with request in header", });
-        return;
-    }
-
-    let decoded_token;
+    // Get the decoded authorization token
     try {
-        decoded_token = jwt.verify(`${token}`, config.app.JWT_KEY);
+      const decoded_token = token_helper.getDecodedToken(req.headers);
     } catch (err) {
-        res.status(500).send({
-            message: err.message || "Invalid JWT."
-        });
-        return;
+      res.status(err[0]).send({ meesage: err[1] });
+      return;
     }
 
-    let id = decoded_token["id"];
+    const id = decoded_token["id"];
 
     Message_Board.find({ user_ids: `${id}` }).then(async (data) => {
         let num_boards = data.length;
@@ -128,7 +119,7 @@ exports.findAll = (req, res) => {
                 if (board_messages.length == 0) {
                     board_messages[0] = {};
                 }
-                
+
                 found_boards.push({
                     _id: message_board["_id"],
                     user_ids: message_board["user_ids"],
@@ -188,7 +179,7 @@ exports.findAllId = (req, res) => {
                 if (board_messages.length == 0) {
                     board_messages[0] = {};
                 }
-                
+
                 found_boards.push({
                     _id: message_board["_id"],
                     user_ids: message_board["user_ids"],
