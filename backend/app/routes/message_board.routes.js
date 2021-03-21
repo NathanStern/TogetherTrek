@@ -10,7 +10,7 @@ module.exports = app => {
   router.get("/:id", message_board_controller.findOne);
 
   // Retrieves entries from the message_boards table by user id
-  router.get("/all/:id", message_board_controller.findAllId);
+  router.get("/summary/:id", message_board_controller.findAllId);
 
   // Retrieves entries from the message_boards table by user id encoded in JWT
   router.get("/", message_board_controller.findAll);

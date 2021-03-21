@@ -119,6 +119,7 @@ exports.findAll = (req, res) => {
                 }
                 let board_messages = await Messages.find({ message_board_id: message_board['_id'] })
                     .sort({ _id: -1 })
+                    .limit(1)
                     .catch((error => {
                         res.status(500).send({ message: error.message || "unable to retrieve messages from the database" });
                         return;
@@ -178,6 +179,7 @@ exports.findAllId = (req, res) => {
                 }
                 let board_messages = await Messages.find({ message_board_id: message_board['_id'] })
                     .sort({ _id: -1 })
+                    .limit(1)
                     .catch((error => {
                         res.status(500).send({ message: error.message || "unable to retrieve messages from the database" });
                         return;
@@ -194,8 +196,6 @@ exports.findAllId = (req, res) => {
                     latest_message: board_messages[0],
                  });
             }
-            // let message_boards = JSON.stringify(data[0]);
-            // console.log(message_boards);
             res.send(found_boards);
         }
         return;
