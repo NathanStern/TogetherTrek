@@ -1113,6 +1113,86 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Trips",
+			"item": [
+				{
+					"name": "Create",
+					"item": [
+						{
+							"name": "Add trip",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    \r",
+											"    postman.setEnvironmentVariable(\"trip-id-1\", pm.response.text());\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"destination\": {\r\n        \"country\": \"USA\",\r\n        \"city\": \"Indy\",\r\n        \"region\": \"Indiana\"\r\n      },\r\n    \"start_date\": \"1990-01-01\",\r\n    \"end_date\": \"2020-01-01\",\r\n    \"creator_id\": \"604459603d6da00bc06c2cbd\",\r\n    \"participant_ids\": [\"604a5c46dee7f11f5098634b\"]\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/trips",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"trips"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Trip",
+					"item": [
+						{
+							"name": "Get Trip By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{site}}:{{port}}/users/{{post-id-1}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"users",
+										"{{post-id-1}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
 		}
 	],
 	"event": [
