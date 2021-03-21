@@ -451,7 +451,7 @@ exports.acceptFriendRequest = (req, res) => {
 	}
 	const requesting_user_id = req.body.requesting_user_id;
 
-	User.findById(user_id)
+	User.findById(current_user_id)
 	.then(current_user => {
 		User.findById(requesting_user_id)
 		.then(async requesting_user => {

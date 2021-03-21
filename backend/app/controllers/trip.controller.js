@@ -184,7 +184,7 @@ exports.acceptJoinRequest = (req, res) => {
   const trip_id = req.params.id;
 
   // Validate expected fields are present
-  if (!req.body.requesting_id) {
+  if (!req.body.requesting_user_id) {
       res.status(400).send({ message: 'requesting_user_id can not be empty.' })
       return;
   }
