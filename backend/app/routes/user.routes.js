@@ -27,7 +27,10 @@ module.exports = app => {
   router.get("/profile-pic/:id", user_controller.getProfilePic);
 
   // Make a friend request
-  router.put("/add-friend/:id", user_controller.makeFriendRequest);
-  
+  router.put("/request-friend/:id", user_controller.makeFriendRequest);
+
+  // Accept a friend request
+  router.put("/accept-friend/:id", user_controller.acceptFriendRequest);
+
   app.use("/users", router);
 };

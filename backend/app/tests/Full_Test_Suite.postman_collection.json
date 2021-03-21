@@ -473,7 +473,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"requesting_id\": \"{{user-id-2}}\"\r\n}",
+									"raw": "{\r\n    \"requesting_user_id\": \"{{user-id-2}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -481,14 +481,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{site}}:{{port}}/users/add-friend/{{user-id-1}}",
+									"raw": "{{site}}:{{port}}/users/request-friend/{{user-id-1}}",
 									"host": [
 										"{{site}}"
 									],
 									"port": "{{port}}",
 									"path": [
 										"users",
-										"add-friend",
+										"request-friend",
 										"{{user-id-1}}"
 									]
 								}
@@ -1268,21 +1268,21 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "requesting_id",
+											"key": "requesting_user_id",
 											"value": "{{user-id-1}}",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{site}}:{{port}}/trips/join-trip/{{trip-id-1}}",
+									"raw": "{{site}}:{{port}}/trips/request-join/{{trip-id-1}}",
 									"host": [
 										"{{site}}"
 									],
 									"port": "{{port}}",
 									"path": [
 										"trips",
-										"join-trip",
+										"request-join",
 										"{{trip-id-1}}"
 									]
 								}

@@ -1,5 +1,8 @@
 const db = require("../models/index.js");
+const array_helper = require('../utils/array_helper.js');
+
 const Trip = db.trips;
+const User = db.users;
 
 
 // Creates an entry in the trips table
@@ -143,20 +146,19 @@ exports.delete = (req, res) => {
 }
 
 // Make a request to join a trip
-exports.request_to_join = (req, res) => {
+exports.makeJoinRequest = (req, res) => {
   const trip_id = req.params.id;
 
   // Validate expected fields are present
-  if (!req.body.requesting_id) {
-      res.status(400).send({ message: 'requesting_id can not be empty.' })
+  if (!req.body.requesting_user_id) {
+      res.status(400).send({ message: 'requesting_user_id can not be empty.' })
       return;
   }
-
-  const requesting_id = req.body.requesting_id;
+  const requesting_user_id = req.body.requesting_user_id;
 
   Trip.findById(trip_id)
   .then(trip => {
-      trip.join_requests.push(requesting_id);
+      trip.join_requests.push(requesting_user_id);
       trip.save()
       .then(data => {
           res.send({
@@ -169,6 +171,63 @@ exports.request_to_join = (req, res) => {
               message: err.message || "Could not update join_requests array."
           });
       });
+  })
+  .catch(err => {
+      res.status(500).send({
+          message: err.message || "Could not retrieve trip."
+      });
+  });
+}
+
+// Accept a request to join a trip
+exports.acceptJoinRequest = (req, res) => {
+  const trip_id = req.params.id;
+
+  // Validate expected fields are present
+  if (!req.body.requesting_id) {
+      res.status(400).send({ message: 'requesting_user_id can not be empty.' })
+      return;
+  }
+
+  const requesting_user_id = req.body.requesting_user_id;
+
+  Trip.findById(trip_id)
+  .then(trip => {
+    User.findById(requesting_user_id)
+    .then(async requesting_user => {
+      // Move the requesting_user_id from the current trips's join_requests list
+      // to the trip's participant_ids list
+      trip.join_requests = array_helper.removeValueFromArray(
+        requesting_user_id, trip.join_requests
+      );
+      trip.participant_ids.push(requesting_user_id);
+      await trip.save()
+      .catch(err => {
+          res.status(500).send({
+              message: err.message || "Could not update trip."
+          });
+          return;
+      });
+
+      // Add the trip_id to the requesting user's trip_ids list
+      requesting_user.trip_ids.push(trip_id);
+      requesting_user.save()
+      .then(data => {
+        res.send({ message: "success" });
+        return;
+      })
+      .catch(err => {
+          res.status(500).send({
+              message: err.message || "Could not update requesting user."
+          });
+          return;
+      });
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: err.message || "Could not retrieve requesting user."
+        });
+    });
   })
   .catch(err => {
       res.status(500).send({
