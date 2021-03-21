@@ -8,12 +8,8 @@ import 'package:together_trek/views/EditPRofilePage.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
 import 'package:together_trek/api/UserWrapper.dart' as UserWrapper;
 
-dynamic first = 'Neil';
-dynamic last = 'Armstrong';
 dynamic destination = 'The Moon';
-dynamic date = '8/5/1930';
 dynamic bio = 'One small step for man, one giant leap for mankind';
-dynamic gender = 'Male';
 
 class ProfilePage extends StatelessWidget {
   Future navigateToEditProfilePage(context) async {
@@ -43,7 +39,7 @@ class ProfilePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       CircleAvatar(
-                        backgroundImage:  UserWrapper.getProfilePic("604abdfd74a9bd37f8120b46"),
+                        backgroundImage: this.user.profilePic,
                         radius: 50.0,
                       ),
                       SizedBox(

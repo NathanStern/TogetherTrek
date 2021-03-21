@@ -20,7 +20,7 @@ class UserModel extends ChangeNotifier {
   String gender;
   String firstName;
   String lastName;
-  NetworkImage profilePic;
+  ImageProvider profilePic;
   bool verified;
   bool notificationsEnabled;
   bool locationEnabled;
@@ -37,7 +37,13 @@ class UserModel extends ChangeNotifier {
       coords = [0, 0];
     }
 
-    NetworkImage profilePic = UserWrapper.getProfilePic("604abdfd74a9bd37f8120b46");
+    ImageProvider profilePic;
+    if (json['profile_pic'] == null) {
+      profilePic = AssetImage('lib/resources/default-profile-pic.jpg');
+    } else {
+      profilePic = UserWrapper.getProfilePic(json['_id']);
+    }
+
     return UserModel(
       id: json['_id'] ?? "",
       username: json['username'] ?? "",
@@ -153,7 +159,7 @@ class UserModel extends ChangeNotifier {
       String gender,
       String firstName,
       String lastName,
-      NetworkImage profilePic,
+      AssetImage profilePic,
       bool verified,
       bool notificationsEnabled,
       bool locationEnabled,
