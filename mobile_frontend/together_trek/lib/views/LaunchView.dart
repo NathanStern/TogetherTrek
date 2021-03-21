@@ -81,7 +81,10 @@ class _LaunchViewState extends State<LaunchView> {
           context: context,
           builder: (context) {
             return buildActionDialog(
-                context, "Network Error", err.toString(), _refreshNetwork);
+                context,
+                "Network Error",
+                "A network error occurred. You might not be connected to the internet.",
+                _refreshNetwork);
           });
     });
     return Scaffold(

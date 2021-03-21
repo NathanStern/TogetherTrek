@@ -50,9 +50,6 @@ class _LoginViewState extends State<LoginView> {
           currentNode.unfocus();
         }
 
-        // print(_usernameController.text);
-        // print(_passwordController.text);
-
         SHA3 test = SHA3(256, SHA3_PADDING, 256);
         test.update(utf8.encode(_passwordController.text));
         List<int> hash = test.digest();
@@ -105,7 +102,6 @@ class _LoginViewState extends State<LoginView> {
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  //crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Card(
                       elevation: 3,
@@ -158,7 +154,24 @@ class _LoginViewState extends State<LoginView> {
                                 textInputAction: TextInputAction.go,
                                 autofillHints: [AutofillHints.password],
                                 onFieldSubmitted: (val) async {
-                                  await _login();
+                                  await _login().timeout(Duration(seconds: 15),
+                                      onTimeout: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return buildStandardDialog(
+                                              context,
+                                              "Network Error",
+                                              "There was an error contacting the server.");
+                                        });
+                                  }).catchError((err) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return buildStandardDialog(context,
+                                              "Network Error", err.toString());
+                                        });
+                                  });
                                 },
                                 validator: (value) {
                                   if (value.isEmpty) {
