@@ -104,19 +104,45 @@ exports.create = (req, res) => {
 
 // Retrieves an entry from the trip_photos table by id
 exports.findOne = (req, res) => {
-  const id = req.params.filename;
+  const trip_photo_id = req.params.id;
 
-	User.findOne(id)
-		.then((data) => {
-			if (!data) {
-				res.status(404).send({ message: `Could not find Photo with filename=${id}.` })
-			} else {
-				res.send(data)
-			}
-		})
-		.catch((err) => {
-			res.status(500).send({ message: `Error retrieving Photo with filename=${id}.` })
-		})
+  Trip_Photo.findById(trip_photo_id)
+  .then(trip_photo => {
+    if (!trip_photo) {
+      res.status(404).send({
+        message: `Could not find Trip_Photo with id=${trip_photo_id}.`
+      });
+    } else {
+      const filename = trip_photo.filename;
+      s3_handler.findOne(filename)
+      .then(image => {
+        if (!image) {
+          res.status(404).send({
+            message: `Could not find image.`,
+          })
+          return;
+        }
+        if (filename.includes("jpeg") || filename.includes("jpg"))
+          res.writeHead(200, {'Content-Type': 'image/jpeg'});
+        else
+          res.writeHead(200, {'Content-Type': 'image/png'});
+        res.write(image.Body, 'binary');
+        res.end(null, 'binary');
+        return;
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: err.message || "Failed to find photo."
+        });
+        return;
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: `Error retrieving Trip_Photo with id=${trip_photo_id}.`
+    });
+  });
 }
 
 // Retrieves entries from the trip_photos table by search criteria

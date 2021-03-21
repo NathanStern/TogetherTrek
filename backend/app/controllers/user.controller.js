@@ -376,26 +376,26 @@ exports.getProfilePic = (req, res) => {
 				filename = user.profile_pic.filename;
 				s3_handler
 					.findOne(filename)
-					.then(profile_pic => {
-						if (!profile_pic) {
+					.then(image => {
+						if (!image) {
 							res.status(404).send({
 								message: `Could not find profile pic.`,
 							})
-							return
+							return;
 						}
 						if (filename.includes("jpeg") || filename.includes("jpg"))
 							res.writeHead(200, {'Content-Type': 'image/jpeg'});
 						else
 							res.writeHead(200, {'Content-Type': 'image/png'});
-						res.write(profile_pic.Body, 'binary');
+						res.write(image.Body, 'binary');
 						res.end(null, 'binary');
-						return
+						return;
 					})
 					.catch((err) => {
 						res.status(500).send({
 							message: err.message || 'Could not get profile pic.',
 						})
-						return
+						return;
 					})
 			}
 		})
