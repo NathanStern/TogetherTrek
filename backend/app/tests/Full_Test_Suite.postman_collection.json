@@ -12,7 +12,7 @@
 					"name": "Create",
 					"item": [
 						{
-							"name": "Add User",
+							"name": "Add User 1",
 							"event": [
 								{
 									"listen": "test",
@@ -25,7 +25,7 @@
 											"pm.test(\"Response test\", function() {\r",
 											"    pm.response.to.be.withBody;\r",
 											"    \r",
-											"    postman.setEnvironmentVariable(\"user-id\", pm.response.text());\r",
+											"    postman.setEnvironmentVariable(\"user-id-1\", pm.response.text());\r",
 											"})"
 										],
 										"type": "text/javascript"
@@ -35,7 +35,8 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"pm.environment.set(\"email\", _.random(1,1000000).toString() + \"@gmail.com\")"
+											"pm.environment.set(\"email-1\", _.random(1,1000000).toString() + \"@gmail.com\")\r",
+											"pm.environment.set(\"username-1\", _.random(1,1000000).toString())"
 										],
 										"type": "text/javascript"
 									}
@@ -46,7 +47,63 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"testuname\",\r\n    \"password\": \"testpword\",\r\n    \"email\": \"{{email}}\",\r\n    \"birthdate\": \"1991-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"first_name\": \"testI\",\r\n    \"last_name\": \"testL\"\r\n}",
+									"raw": "{\r\n    \"username\": \"{{username-1}}\",\r\n    \"password\": \"testpword\",\r\n    \"email\": \"{{email-1}}\",\r\n    \"birthdate\": \"1991-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"first_name\": \"testI\",\r\n    \"last_name\": \"testL\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/users",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add User 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    \r",
+											"    postman.setEnvironmentVariable(\"user-id-2\", pm.response.text());\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"email-2\", _.random(1,1000000).toString() + \"@gmail.com\")\r",
+											"pm.environment.set(\"username-2\", _.random(1,1000000).toString())"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"{{username-2}}\",\r\n    \"password\": \"testpword\",\r\n    \"email\": \"{{email-2}}\",\r\n    \"birthdate\": \"1991-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"first_name\": \"testI\",\r\n    \"last_name\": \"testL\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -73,6 +130,19 @@
 					"item": [
 						{
 							"name": "Update User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -80,21 +150,21 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "username",
-											"value": "johndoe",
+											"key": "first_name",
+											"value": "John",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{site}}:{{port}}/users/{{user-id}}",
+									"raw": "{{site}}:{{port}}/users/{{user-id-1}}",
 									"host": [
 										"{{site}}"
 									],
 									"port": "{{port}}",
 									"path": [
 										"users",
-										"{{user-id}}"
+										"{{user-id-1}}"
 									]
 								}
 							},
@@ -122,12 +192,12 @@
 											"\r",
 											"    // We should add a check that password is not included when the endpoint is changed to not send it back\r",
 											"    var jsonData = pm.response.json();\r",
-											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"user-id\"));\r",
-											"    pm.expect(jsonData.username).to.eql(\"johndoe\");\r",
-											"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email\"));\r",
+											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"user-id-1\"));\r",
+											"    pm.expect(jsonData.username).to.eql(pm.environment.get(\"username-1\"));\r",
+											"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email-1\"));\r",
 											"    pm.expect(jsonData.birthdate).to.eql(\"1991-01-01T00:00:00.000Z\")\r",
 											"    pm.expect(jsonData.gender).to.eql(\"Male\")\r",
-											"    pm.expect(jsonData.first_name).to.eql(\"testI\")\r",
+											"    pm.expect(jsonData.first_name).to.eql(\"John\")\r",
 											"    pm.expect(jsonData.last_name).to.eql(\"testL\")\r",
 											"})  "
 										],
@@ -139,14 +209,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{site}}:{{port}}/users/{{user-id}}",
+									"raw": "{{site}}:{{port}}/users/{{user-id-1}}",
 									"host": [
 										"{{site}}"
 									],
 									"port": "{{port}}",
 									"path": [
 										"users",
-										"{{user-id}}"
+										"{{user-id-1}}"
 									]
 								}
 							},
@@ -169,12 +239,12 @@
 											"\r",
 											"    // We should add a check that password is not included when the endpoint is changed to not send it back\r",
 											"    var jsonData = pm.response.json()[0];\r",
-											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"user-id\"));\r",
-											"    pm.expect(jsonData.username).to.eql(\"johndoe\");\r",
-											"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email\"));\r",
+											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"user-id-1\"));\r",
+											"    pm.expect(jsonData.username).to.eql(pm.environment.get(\"username-1\"));\r",
+											"    pm.expect(jsonData.email).to.eql(pm.environment.get(\"email-1\"));\r",
 											"    pm.expect(jsonData.birthdate).to.eql(\"1991-01-01T00:00:00.000Z\")\r",
 											"    pm.expect(jsonData.gender).to.eql(\"Male\")\r",
-											"    pm.expect(jsonData.first_name).to.eql(\"testI\")\r",
+											"    pm.expect(jsonData.first_name).to.eql(\"John\")\r",
 											"    pm.expect(jsonData.last_name).to.eql(\"testL\")\r",
 											"})  "
 										],
@@ -186,7 +256,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{site}}:{{port}}/users?email={{email}}&username=johndoe",
+									"raw": "{{site}}:{{port}}/users?email={{email-1}}&username={{username-1}}",
 									"host": [
 										"{{site}}"
 									],
@@ -197,11 +267,11 @@
 									"query": [
 										{
 											"key": "email",
-											"value": "{{email}}"
+											"value": "{{email-1}}"
 										},
 										{
 											"key": "username",
-											"value": "johndoe"
+											"value": "{{username-1}}"
 										}
 									]
 								}
@@ -231,6 +301,8 @@
 											"    // We should add a check that password is not included when the endpoint is changed to not send it back\r",
 											"    var jsonData = pm.response.json();\r",
 											"    pm.expect(jsonData.message).to.eql(\"Authentication successful!\");\r",
+											"\r",
+											"    postman.setEnvironmentVariable(\"user-1-jwt\", jsonData.token);\r",
 											"})  "
 										],
 										"type": "text/javascript"
@@ -245,7 +317,7 @@
 									"formdata": [
 										{
 											"key": "username",
-											"value": "testuname",
+											"value": "{{username-1}}",
 											"type": "text"
 										},
 										{
@@ -307,15 +379,10 @@
 											"type": "file",
 											"src": "./test_assets/test-image.png"
 										}
-									],
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
+									]
 								},
 								"url": {
-									"raw": "{{site}}:{{port}}/users/profile-pic/{{user-id}}",
+									"raw": "{{site}}:{{port}}/users/profile-pic/{{user-id-1}}",
 									"host": [
 										"{{site}}"
 									],
@@ -323,7 +390,7 @@
 									"path": [
 										"users",
 										"profile-pic",
-										"{{user-id}}"
+										"{{user-id-1}}"
 									]
 								}
 							},
@@ -352,7 +419,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{site}}:{{port}}/users/profile-pic/{{user-id}}",
+									"raw": "{{site}}:{{port}}/users/profile-pic/{{user-id-1}}",
 									"host": [
 										"{{site}}"
 									],
@@ -360,7 +427,69 @@
 									"path": [
 										"users",
 										"profile-pic",
-										"{{user-id}}"
+										"{{user-id-1}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Friend Request Tests",
+					"item": [
+						{
+							"name": "Make Friend Request",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"email\", _.random(1,1000000).toString() + \"@gmail.com\")"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    \r",
+											"    postman.setEnvironmentVariable(\"username\", pm.response.text());\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"requesting_id\": \"{{user-id-2}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/users/add-friend/{{user-id-1}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"users",
+										"add-friend",
+										"{{user-id-1}}"
 									]
 								}
 							},
@@ -538,11 +667,11 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "./test_assets/test-image.png"
+											"src": "/C:/Users/Zepherxis/Documents/test-image.png"
 										},
 										{
 											"key": "author_id",
-											"value": "604459603d6da00bc06c2cbd",
+											"value": "{{user-id-1}}",
 											"type": "text"
 										},
 										{
@@ -550,12 +679,7 @@
 											"value": "60445c76a3041c53e897352c",
 											"type": "text"
 										}
-									],
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
+									]
 								},
 								"url": {
 									"raw": "{{site}}:{{port}}/trip_photos",
@@ -655,7 +779,7 @@
 									"formdata": [
 										{
 											"key": "author_id",
-											"value": "{{user-id}}",
+											"value": "{{user-id-1}}",
 											"type": "text"
 										},
 										{
@@ -718,11 +842,11 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "./test_assets/test-image.png"
+											"src": "/C:/Users/Zepherxis/Documents/test-image.png"
 										},
 										{
 											"key": "author_id",
-											"value": "{{user-id}}",
+											"value": "{{user-id-1}}",
 											"type": "text"
 										},
 										{
@@ -791,167 +915,202 @@
 			]
 		},
 		{
-			"name": "Cleanup",
+			"name": "Message_Boards",
 			"item": [
 				{
-					"name": "Delete User",
-					"event": [
+					"name": "Create",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{site}}:{{port}}/users/{{user-id}}",
-							"host": [
-								"{{site}}"
+							"name": "Add Message Board",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Test\", function() {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"pm.test(\"Response Test\", function() {",
+											"    pm.response.to.be.withBody;",
+											"",
+											"    postman.setEnvironmentVariable(\"message-board-id\", pm.response.text());",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"port": "{{port}}",
-							"path": [
-								"users",
-								"{{user-id}}"
-							]
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_ids\": [\"{{user-id-1}}\", \"{{user-id-2}}\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/message_boards",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"message_boards"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Delete Post",
-					"event": [
+					"name": "Get Tests",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{site}}:{{port}}/posts/{{post-id}}",
-							"host": [
-								"{{site}}"
+							"name": "Get User's Message Boards",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Test\", function() {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"pm.test(\"Response Test\", function() {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"",
+											"    // need to check that the data is formatted correctly, but idk how to do this dynamically",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData[0]._id).to.eql(pm.environment.get(\"message-board-id\"));",
+											"    pm.expect(jsonData[0].user_ids[0]).to.eql(pm.environment.get(\"user-id-1\"));",
+											"    pm.expect(jsonData[0].user_ids[1]).to.eql(pm.environment.get(\"user-id-2\"));",
+											"    pm.expect(jsonData[0].other_users[0].id).to.eql(pm.environment.get(\"user-id-2\"));",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"port": "{{port}}",
-							"path": [
-								"posts",
-								"{{post-id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Trip Photo",
-					"event": [
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{site}}:{{port}}/message_boards/all/{{user-id-1}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"message_boards",
+										"all",
+										"{{user-id-1}}"
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{site}}:{{port}}/trip_photos/{{trip-photo-id}}",
-							"host": [
-								"{{site}}"
+							"name": "Get User's Message Boards JWT",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Test\", function() {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"pm.test(\"Response Test\", function() {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"",
+											"    // need to check that the data is formatted correctly, but idk how to do this dynamically",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData[0]._id).to.eql(pm.environment.get(\"message-board-id\"));",
+											"    pm.expect(jsonData[0].user_ids[0]).to.eql(pm.environment.get(\"user-id-1\"));",
+											"    pm.expect(jsonData[0].user_ids[1]).to.eql(pm.environment.get(\"user-id-2\"));",
+											"    pm.expect(jsonData[0].other_users[0].id).to.eql(pm.environment.get(\"user-id-2\"));",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"port": "{{port}}",
-							"path": [
-								"trip_photos",
-								"{{trip-photo-id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Text Message",
-					"event": [
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{user-1-jwt}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{site}}:{{port}}/message_boards/",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"message_boards",
+										""
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{site}}:{{port}}/messages/{{text-message-id}}",
-							"host": [
-								"{{site}}"
+							"name": "Get Specific Message Board",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Test\", function() {",
+											"    pm.response.to.have.status(200)",
+											"})",
+											"",
+											"pm.test(\"Response Test\", function() {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"",
+											"    var jsonData = pm.response.json();",
+											"",
+											"    // need to make extended tests for when all messages are included in response",
+											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"message-board-id\"));",
+											"    pm.expect(jsonData.user_ids[0]).to.eql(pm.environment.get(\"user-id-1\"));",
+											"    pm.expect(jsonData.user_ids[1]).to.eql(pm.environment.get(\"user-id-2\"));",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"port": "{{port}}",
-							"path": [
-								"messages",
-								"{{text-message-id}}"
-							]
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{site}}:{{port}}/message_boards/{{message-board-id}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"message_boards",
+										"{{message-board-id}}"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Image Message",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{site}}:{{port}}/messages/{{image-message-id}}",
-							"host": [
-								"{{site}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"messages",
-								"{{image-message-id}}"
-							]
-						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
