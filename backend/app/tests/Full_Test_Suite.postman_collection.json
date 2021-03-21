@@ -679,7 +679,12 @@
 											"value": "60445c76a3041c53e897352c",
 											"type": "text"
 										}
-									]
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
 								"url": {
 									"raw": "{{site}}:{{port}}/trip_photos",
@@ -1146,7 +1151,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"destination\": {\r\n        \"country\": \"USA\",\r\n        \"city\": \"Indy\",\r\n        \"region\": \"Indiana\"\r\n      },\r\n    \"start_date\": \"1990-01-01\",\r\n    \"end_date\": \"2020-01-01\",\r\n    \"creator_id\": \"604459603d6da00bc06c2cbd\",\r\n    \"participant_ids\": [\"604a5c46dee7f11f5098634b\"]\r\n\r\n}",
+									"raw": "{\r\n    \"destination\": {\r\n        \"country\": \"USA\",\r\n        \"city\": \"Indy\",\r\n        \"region\": \"Indiana\"\r\n      },\r\n    \"start_date\": \"1990-01-01\",\r\n    \"end_date\": \"2020-01-01\",\r\n    \"creator_id\": \"{{user-id-1}}\",\r\n    \"participant_ids\": [\"{{user-id-1}}\"]\r\n\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1169,22 +1174,116 @@
 					]
 				},
 				{
-					"name": "Get Trip",
+					"name": "Get Tests",
 					"item": [
 						{
 							"name": "Get Trip By Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"trip-id-1\"));\r",
+											"    pm.expect(jsonData.creator_id).to.eql(pm.environment.get(\"user-id-1\"));\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{site}}:{{port}}/users/{{post-id-1}}",
+									"raw": "{{site}}:{{port}}/trips/{{trip-id-1}}",
 									"host": [
 										"{{site}}"
 									],
 									"port": "{{port}}",
 									"path": [
-										"users",
-										"{{post-id-1}}"
+										"trips",
+										"{{trip-id-1}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Request to Join Tests",
+					"item": [
+						{
+							"name": "Request to Join Trip",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "requesting_id",
+											"value": "{{user-id-1}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/trips/join-trip/{{trip-id-1}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"trips",
+										"join-trip",
+										"{{trip-id-1}}"
 									]
 								}
 							},
