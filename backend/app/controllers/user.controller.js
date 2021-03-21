@@ -399,3 +399,40 @@ exports.getProfilePic = (req, res) => {
 			})
 		})
 }
+
+
+// Add friend
+exports.makeFriendRequest = (req, res) => {
+    const user_id = req.params.id;
+	console.log(req.body);
+    if (!req.body.requesting_id) {
+        res.status(400).send({ message: 'requesting_id can not be empty.' })
+        return
+    }
+
+
+    User.findById(user_id)
+    .then(user => {
+        user.friend_requests.push(req.body.requesting_id);
+        user.save()
+        .then(data => {
+            res.send({
+                message: "success"
+            });
+            return;
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Could not update friend_requests array."
+            });
+        });
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Could not retrieve user."
+        });
+		return
+    }) 
+}
