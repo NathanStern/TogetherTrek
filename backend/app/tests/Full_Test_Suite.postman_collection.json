@@ -377,7 +377,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/C:/Users/Zepherxis/Documents/test-image.png"
+											"src": "./test_assets/test-image.png"
 										}
 									]
 								},
@@ -667,7 +667,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/C:/Users/Zepherxis/Documents/test-image.png"
+											"src": "./test_assets/test-image.png"
 										},
 										{
 											"key": "author_id",
@@ -1002,14 +1002,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{site}}:{{port}}/message_boards/all/{{user-id-1}}",
+									"raw": "{{site}}:{{port}}/message_boards/summary/{{user-id-1}}",
 									"host": [
 										"{{site}}"
 									],
 									"port": "{{port}}",
 									"path": [
 										"message_boards",
-										"all",
+										"summary",
 										"{{user-id-1}}"
 									]
 								}
