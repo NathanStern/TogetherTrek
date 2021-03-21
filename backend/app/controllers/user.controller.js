@@ -165,6 +165,29 @@ exports.update = (req, res) => {
 		})
 }
 
+// Updates a password users table by id
+exports.updateSens = (req, res) => {
+	if (!req.body) {
+		return res.status(400).send({
+			message: 'Cannot update User with empty data',
+		})
+	}
+
+	const id = req.params.id
+
+	User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+		.then((data) => {
+			if (!data) {
+				res.status(404).send({ message: `Could not find User with id=${id}.` })
+			} else {
+				res.send({ message: 'User was updated successfully!' })
+			}
+		})
+		.catch((err) => {
+			res.status(500).send({ message: `Error retrieving User with id=${id}.` })
+		})
+}
+
 // Deletes an entry in the users table by id
 exports.delete = (req, res) => {
 	const id = req.params.id

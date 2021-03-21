@@ -17,6 +17,9 @@ module.exports = app => {
   // Updates an entry in the users table by id
   router.put("/:id", user_controller.update);
 
+  // Updates sensitive info (email and password)
+  router.put("/change-sensitive-info/:id", user_controller.updateSens);
+
   // Deletes an entry in the users table by id
   router.delete("/:id", user_controller.delete);
 
