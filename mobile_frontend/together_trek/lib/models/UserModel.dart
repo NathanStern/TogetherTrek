@@ -159,7 +159,7 @@ class UserModel extends ChangeNotifier {
       String gender,
       String firstName,
       String lastName,
-      AssetImage profilePic,
+      ImageProvider profilePic,
       bool verified,
       bool notificationsEnabled,
       bool locationEnabled,

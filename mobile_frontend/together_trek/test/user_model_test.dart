@@ -13,7 +13,7 @@ void main() {
       gender: "Male",
       firstName: "Test",
       lastName: "User",
-      profilePic: new ProfilePicModel.empty(),
+      profilePic: AssetImage('lib/resources/default-profile-pic.jpg'),
       verified: true,
       notificationsEnabled: true,
       locationEnabled: true,
