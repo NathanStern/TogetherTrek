@@ -373,16 +373,22 @@ exports.getProfilePic = (req, res) => {
 				return
 			} else {
 				// Get the profile pic and return it
+				filename = user.profile_pic.filename;
 				s3_handler
-					.findOne(user.profile_pic.filename)
-					.then((profile_pic) => {
+					.findOne(filename)
+					.then(profile_pic => {
 						if (!profile_pic) {
 							res.status(404).send({
 								message: `Could not find profile pic.`,
 							})
 							return
 						}
-						res.send(profile_pic)
+						if (filename.includes("jpeg") || filename.includes("jpg"))
+							res.writeHead(200, {'Content-Type': 'image/jpeg'});
+						else
+							res.writeHead(200, {'Content-Type': 'image/png'});
+						res.write(profile_pic.Body, 'binary');
+						res.end(null, 'binary');
 						return
 					})
 					.catch((err) => {
@@ -398,4 +404,41 @@ exports.getProfilePic = (req, res) => {
 				message: `Error retrieving User with id=${user_id}.`,
 			})
 		})
+}
+
+
+// Add friend
+exports.makeFriendRequest = (req, res) => {
+    const user_id = req.params.id;
+	console.log(req.body);
+    if (!req.body.requesting_id) {
+        res.status(400).send({ message: 'requesting_id can not be empty.' })
+        return
+    }
+
+
+    User.findById(user_id)
+    .then(user => {
+        user.friend_requests.push(req.body.requesting_id);
+        user.save()
+        .then(data => {
+            res.send({
+                message: "success"
+            });
+            return;
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Could not update friend_requests array."
+            });
+        });
+    })
+    .catch(err => {
+        res.status(500).send({
+            message:
+                err.message || "Could not retrieve user."
+        });
+		return
+    })
 }
