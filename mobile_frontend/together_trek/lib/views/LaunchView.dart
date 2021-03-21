@@ -16,7 +16,8 @@ class LaunchView extends StatefulWidget {
 class _LaunchViewState extends State<LaunchView> {
   void _loadPosts(BuildContext context) async {
     LoadedPostsModel posts = context.read<LoadedPostsModel>();
-    posts.resetPosts(List.from((await getPosts()).reversed));
+    // posts.resetPosts(List.from((await getPosts()).reversed));
+    posts.resetPosts(await getPosts());
   }
 
   Future<void> _getUserData(BuildContext context) async {
@@ -58,7 +59,7 @@ class _LaunchViewState extends State<LaunchView> {
       await _getJWT(context);
       await _loadPosts(context);
       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-    }).timeout(Duration(seconds: 10), onTimeout: () {
+    }).timeout(Duration(seconds: 15), onTimeout: () {
       showDialog(
           context: context,
           builder: (context) {

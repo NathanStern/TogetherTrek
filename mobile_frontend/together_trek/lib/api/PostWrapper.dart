@@ -38,8 +38,6 @@ Future<Null> makePost(BuildContext context, String title, String description,
     ]
   });
   http.Response res = await httpPost('posts', data);
-  print(res.statusCode);
-  print(res.body);
 }
 
 Future<String> updatePost(

@@ -170,7 +170,7 @@ class _LoginViewState extends State<LoginView> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  await _login().timeout(Duration(seconds: 10),
+                                  await _login().timeout(Duration(seconds: 15),
                                       onTimeout: () {
                                     showDialog(
                                         context: context,

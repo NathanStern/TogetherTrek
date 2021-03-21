@@ -369,7 +369,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                                 onPressed: () async {
                                   _formKey.currentState.validate();
                                   await _register().timeout(
-                                      Duration(seconds: 10), onTimeout: () {
+                                      Duration(seconds: 15), onTimeout: () {
                                     showDialog(
                                         context: context,
                                         builder: (context) {

@@ -49,7 +49,7 @@ class _PostsViewState extends State<PostsView> {
           }),
       onRefresh: () async {
         List<PostModel> retrievedPosts =
-            await getPosts().timeout(Duration(seconds: 10), onTimeout: () {
+            await getPosts().timeout(Duration(seconds: 15), onTimeout: () {
           showDialog(
               context: context,
               builder: (context) {
