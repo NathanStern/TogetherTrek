@@ -473,7 +473,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"requesting_id\": \"{{user-id-2}}\"\r\n}",
+									"raw": "{\r\n    \"requesting_user_id\": \"{{user-id-2}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -481,14 +481,64 @@
 									}
 								},
 								"url": {
-									"raw": "{{site}}:{{port}}/users/add-friend/{{user-id-1}}",
+									"raw": "{{site}}:{{port}}/users/request-friend/{{user-id-1}}",
 									"host": [
 										"{{site}}"
 									],
 									"port": "{{port}}",
 									"path": [
 										"users",
-										"add-friend",
+										"request-friend",
+										"{{user-id-1}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accept Friend Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"success\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"requesting_user_id\": \"{{user-id-2}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/users/accept-friend/{{user-id-1}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"users",
+										"accept-friend",
 										"{{user-id-1}}"
 									]
 								}
@@ -1240,10 +1290,10 @@
 					]
 				},
 				{
-					"name": "Request to Join Tests",
+					"name": "Join Trip Tests",
 					"item": [
 						{
-							"name": "Request to Join Trip",
+							"name": "Make Join Request",
 							"event": [
 								{
 									"listen": "test",
@@ -1268,22 +1318,80 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "requesting_id",
+											"key": "requesting_user_id",
 											"value": "{{user-id-1}}",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{site}}:{{port}}/trips/join-trip/{{trip-id-1}}",
+									"raw": "{{site}}:{{port}}/trips/request-join/{{trip-id-1}}",
 									"host": [
 										"{{site}}"
 									],
 									"port": "{{port}}",
 									"path": [
 										"trips",
-										"join-trip",
+										"request-join",
 										"{{trip-id-1}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accept Join Request",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"success\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "requesting_user_id",
+											"value": "{{user-id-1}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/trips/accept-join/{{trip-id-1}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"trips",
+										"accept-join",
+										"{{trip-id-1}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
 									]
 								}
 							},
