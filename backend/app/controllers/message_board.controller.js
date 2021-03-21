@@ -50,7 +50,7 @@ exports.findOne = (req, res) => {
                 retrieved_data = data;
             }
 
-            messages = await Messages.find({ author_id: id }).catch((err) => {
+            messages = await Messages.find({ message_board_id: id }).catch((err) => {
                 res.status(500).send({
                     message: err.message || "Some error ocurred while retrieving messages."
                 });
@@ -135,8 +135,6 @@ exports.findAll = (req, res) => {
                     latest_message: board_messages[0],
                  });
             }
-            // let message_boards = JSON.stringify(data[0]);
-            // console.log(message_boards);
             res.send(found_boards);
         }
         return;
