@@ -11,29 +11,32 @@ import SearchScreen from './screens/SearchScreen'
 import CreateTripScreen from './screens/CreateTripScreen'
 import EditProfileScreen from './screens/EditProfileScreen'
 import PostsScreen from './screens/PostsScreen'
+import EditPostScreen from './screens/EditPostScreen'
 import MakePostScreen from './screens/MakePostScreen'
+import CreatePostScreen from './screens/CreatePostScreen'
 
 function App() {
-  return (
-    <Router>
-      <Header />
-      <main className='py-3'>
-        <Container>
-          <Route path='/' component={HomeScreen} exact />
-          <Route path='/register' component={RegisterScreen} />
-          <Route path='/login' component={LoginScreen} />
-          <Route path='/search' component={SearchScreen} exact />
-          <Route path='/createtrip' component={CreateTripScreen} />
-          <Route path='/profile' component={ProfileScreen} />
-          <Route path='/post' component={MakePostScreen} />
-          <Route path='/posts' component={PostsScreen} />
-          <Route path='/editprofile' component={EditProfileScreen} exact />
-        </Container>
-      </main>
-      <Footer />
-    </Router>
-  );
-
+	return (
+		<Router>
+			<Header />
+			<main className='py-3'>
+				<Container>
+					<Route path='/' component={HomeScreen} exact />
+					<Route path='/register' component={RegisterScreen} />
+					<Route path='/login' component={LoginScreen} />
+					<Route path='/search' component={SearchScreen} exact />
+					<Route path='/createtrip' component={CreateTripScreen} />
+					<Route path='/profile' component={ProfileScreen} />
+					<Route path='/post' component={MakePostScreen} />
+					<Route path='/editpost' component={EditPostScreen} />
+					<Route path='/posts' component={PostsScreen} />
+					<Route path='/editprofile' component={EditProfileScreen} exact />
+					<Route path='/createpost' component={CreatePostScreen} />
+				</Container>
+			</main>
+			<Footer />
+		</Router>
+	)
 }
 
 export default App

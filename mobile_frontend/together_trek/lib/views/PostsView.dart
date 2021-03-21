@@ -6,6 +6,7 @@ import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:provider/provider.dart';
+import 'package:together_trek/views/EditPostView.dart';
 
 class PostsView extends StatefulWidget {
   _PostsViewState createState() => _PostsViewState();
@@ -36,12 +37,11 @@ class _PostsViewState extends State<PostsView> {
                         enableFeedback: true,
                         splashColor: Colors.deepOrangeAccent,
                         onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) => buildStandardDialog(
-                                  context,
-                                  posts.posts[index].title,
-                                  posts.posts[index].description));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditPostView(post: posts.posts[index])));
                         },
                         child: ListTile(title: Text(posts.posts[index].title))),
                   ],

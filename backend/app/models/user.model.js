@@ -13,7 +13,7 @@ module.exports = mongoose => {
       last_name: String,
       profile_pic: {
         upload_date: Date,
-        link: String
+        filename: String
       },
       verified: Boolean,
       notifications_enabled: Boolean,
@@ -25,6 +25,7 @@ module.exports = mongoose => {
         },
         coordinates: [Number]
       },
+      friend_requests: [mongoose.Types.ObjectId],
       post_ids: [mongoose.Types.ObjectId],
       trip_ids: [mongoose.Types.ObjectId],
       message_board_ids: [mongoose.Types.ObjectId],

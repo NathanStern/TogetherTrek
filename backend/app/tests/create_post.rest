@@ -1,0 +1,25 @@
+POST https://together-trek-testing.herokuapp.com/posts
+Content-Type: application/json
+
+{
+
+	"author_id": "6047fa7173acb538b8de4f29",
+	"title": "Travelling to Midwest",
+	"description": "Hey guys, I'm travelling to the midwest soon and I'm looking for some people to go with.",
+	"post_date": "1990-01-01T00:00:00.000Z",
+	"destinations": [
+	{
+	"_id": "604aba15d0f61b0015dd4692",
+	"country": "USA",
+	"region": "Midwest",
+	"city": "West Lafayette"
+	},
+	{
+	"_id": "604aba15d0f61b0015dd4693",
+	"country": "USA",
+	"region": "Midwest",
+	"city": "West Lafayette"
+	}
+],
+	"__v": 0
+}

@@ -20,5 +20,14 @@ module.exports = app => {
   // Deletes an entry in the users table by id
   router.delete("/:id", user_controller.delete);
 
+  // Sets a users profile pic to a new image
+  router.put("/profile-pic/:id", user_controller.setProfilePic);
+
+  // Gets a users profile pic
+  router.get("/profile-pic/:id", user_controller.getProfilePic);
+
+  // Make a friend request
+  router.put("/add-friend/:id", user_controller.makeFriendRequest);
+  
   app.use("/users", router);
 };

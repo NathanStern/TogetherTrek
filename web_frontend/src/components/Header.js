@@ -25,6 +25,9 @@ const Header = () => {
 								<LinkContainer to='./posts'>
 									<Nav.Link>Posts</Nav.Link>
 								</LinkContainer>
+								<LinkContainer to='./createpost'>
+									<Nav.Link>New Post</Nav.Link>
+								</LinkContainer>
 							</Nav>
 							<NavDropdown
 								title={userInfo.username}
@@ -38,6 +41,9 @@ const Header = () => {
 								<LinkContainer to='/profile'>
 									<NavDropdown.Item>Profile</NavDropdown.Item>
 								</LinkContainer>
+								{/* <LinkContainer to='/post'>
+									<NavDropdown.Item>New Post</NavDropdown.Item>
+								</LinkContainer> */}
 								<NavDropdown.Item onClick={logoutHandler}>
 									Logout
 								</NavDropdown.Item>

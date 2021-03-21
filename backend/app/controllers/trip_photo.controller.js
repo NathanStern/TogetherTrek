@@ -78,16 +78,14 @@ exports.create = (req, res) => {
     });
 
     // Upload the file to S3
-    try {
-      s3_handler.upload(file);
-    }
-    catch (err) {
+    s3_handler.upload(file)
+    .catch(err => {
       trip_photo.delete();
       res.status(500).send({
         message: err.message || "Failed to upload image."
       });
       return;
-    }
+    });
 
     // Return the trip_photo id to the user
     res.send(trip_photo_id);
@@ -143,18 +141,15 @@ exports.delete = (req, res) => {
         message: `Could not find Trip_Photo with id=${trip_photo_id}.`
       });
     } else {
-
       // Delete the image from S3
       const filename = data.filename;
-      try {
-        s3_handler.delete(filename);
-      }
-      catch (err) {
+      s3_handler.delete(filename)
+      .catch(errr => {
         res.status(500).send({
           message: err.message || "Failed to delete image."
         });
         return;
-      }
+      });
 
       // Delete the trip_photo entry in the database
       data.delete();
