@@ -301,6 +301,8 @@
 											"    // We should add a check that password is not included when the endpoint is changed to not send it back\r",
 											"    var jsonData = pm.response.json();\r",
 											"    pm.expect(jsonData.message).to.eql(\"Authentication successful!\");\r",
+											"\r",
+											"    postman.setEnvironmentVariable(\"user-1-jwt\", jsonData.token);\r",
 											"})  "
 										],
 										"type": "text/javascript"
@@ -377,12 +379,7 @@
 											"type": "file",
 											"src": "./test_assets/test-image.png"
 										}
-									],
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
+									]
 								},
 								"url": {
 									"raw": "{{site}}:{{port}}/users/profile-pic/{{user-id-1}}",
@@ -918,199 +915,282 @@
 			]
 		},
 		{
-			"name": "Cleanup",
+			"name": "Message_Boards",
 			"item": [
 				{
-					"name": "Delete User 1",
-					"event": [
+					"name": "Create",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{site}}:{{port}}/users/{{user-id-1}}",
-							"host": [
-								"{{site}}"
+							"name": "Add Message Board",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Test\", function() {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"pm.test(\"Response Test\", function() {",
+											"    pm.response.to.be.withBody;",
+											"",
+											"    postman.setEnvironmentVariable(\"message-board-id\", pm.response.text());",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"port": "{{port}}",
-							"path": [
-								"users",
-								"{{user-id-1}}"
-							]
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_ids\": [\"{{user-id-1}}\", \"{{user-id-2}}\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/message_boards",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"message_boards"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Delete User 2",
-					"event": [
+					"name": "Get Tests",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{site}}:{{port}}/users/{{user-id-2}}",
-							"host": [
-								"{{site}}"
+							"name": "Get User's Message Boards",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Test\", function() {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"pm.test(\"Response Test\", function() {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"",
+											"    // need to check that the data is formatted correctly, but idk how to do this dynamically",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData[0]._id).to.eql(pm.environment.get(\"message-board-id\"));",
+											"    pm.expect(jsonData[0].user_ids[0]).to.eql(pm.environment.get(\"user-id-1\"));",
+											"    pm.expect(jsonData[0].user_ids[1]).to.eql(pm.environment.get(\"user-id-2\"));",
+											"    pm.expect(jsonData[0].other_users[0].id).to.eql(pm.environment.get(\"user-id-2\"));",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"port": "{{port}}",
-							"path": [
-								"users",
-								"{{user-id-2}}"
-							]
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{site}}:{{port}}/message_boards/summary/{{user-id-1}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"message_boards",
+										"summary",
+										"{{user-id-1}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User's Message Boards JWT",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Test\", function() {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"pm.test(\"Response Test\", function() {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"",
+											"    // need to check that the data is formatted correctly, but idk how to do this dynamically",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData[0]._id).to.eql(pm.environment.get(\"message-board-id\"));",
+											"    pm.expect(jsonData[0].user_ids[0]).to.eql(pm.environment.get(\"user-id-1\"));",
+											"    pm.expect(jsonData[0].user_ids[1]).to.eql(pm.environment.get(\"user-id-2\"));",
+											"    pm.expect(jsonData[0].other_users[0].id).to.eql(pm.environment.get(\"user-id-2\"));",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{user-1-jwt}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{site}}:{{port}}/message_boards/",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"message_boards",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Specific Message Board",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status Test\", function() {",
+											"    pm.response.to.have.status(200)",
+											"})",
+											"",
+											"pm.test(\"Response Test\", function() {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"",
+											"    var jsonData = pm.response.json();",
+											"",
+											"    // need to make extended tests for when all messages are included in response",
+											"    pm.expect(jsonData._id).to.eql(pm.environment.get(\"message-board-id\"));",
+											"    pm.expect(jsonData.user_ids[0]).to.eql(pm.environment.get(\"user-id-1\"));",
+											"    pm.expect(jsonData.user_ids[1]).to.eql(pm.environment.get(\"user-id-2\"));",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{site}}:{{port}}/message_boards/{{message-board-id}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"message_boards",
+										"{{message-board-id}}"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
+				}
+			]
+		},
+		{
+			"name": "Trips",
+			"item": [
+				{
+					"name": "Create",
+					"item": [
+						{
+							"name": "Add trip",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    \r",
+											"    postman.setEnvironmentVariable(\"trip-id-1\", pm.response.text());\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"destination\": {\r\n        \"country\": \"USA\",\r\n        \"city\": \"Indy\",\r\n        \"region\": \"Indiana\"\r\n      },\r\n    \"start_date\": \"1990-01-01\",\r\n    \"end_date\": \"2020-01-01\",\r\n    \"creator_id\": \"604459603d6da00bc06c2cbd\",\r\n    \"participant_ids\": [\"604a5c46dee7f11f5098634b\"]\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/trips",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"trips"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				},
 				{
-					"name": "Delete Post",
-					"event": [
+					"name": "Get Trip",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
+							"name": "Get Trip By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{site}}:{{port}}/users/{{post-id-1}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"users",
+										"{{post-id-1}}"
+									]
+								}
+							},
+							"response": []
 						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{site}}:{{port}}/posts/{{post-id}}",
-							"host": [
-								"{{site}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"posts",
-								"{{post-id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Trip Photo",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{site}}:{{port}}/trip_photos/{{trip-photo-id}}",
-							"host": [
-								"{{site}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"trip_photos",
-								"{{trip-photo-id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Text Message",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{site}}:{{port}}/messages/{{text-message-id}}",
-							"host": [
-								"{{site}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"messages",
-								"{{text-message-id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Image Message",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{site}}:{{port}}/messages/{{image-message-id}}",
-							"host": [
-								"{{site}}"
-							],
-							"port": "{{port}}",
-							"path": [
-								"messages",
-								"{{image-message-id}}"
-							]
-						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
