@@ -23,6 +23,7 @@ class _PostsViewState extends State<PostsView> {
   @override
   Widget build(BuildContext context) {
     posts = context.watch<LoadedPostsModel>();
+    int _toReverse = 1;
     return RefreshIndicator(
       child: ListView.builder(
           itemCount: posts.posts.length,
@@ -56,6 +57,7 @@ class _PostsViewState extends State<PostsView> {
                 return buildStandardDialog(context, "Network Error",
                     "There was an error retrieving posts from the server.");
               });
+          _toReverse = 0;
           return this.posts.posts;
         }).catchError((err) {
           showDialog(
@@ -64,10 +66,15 @@ class _PostsViewState extends State<PostsView> {
                 return buildStandardDialog(
                     context, "Network Error", err.toString());
               });
+          _toReverse = 0;
           return this.posts.posts;
         });
         setState(() {
-          _savePosts(retrievedPosts);
+          if (_toReverse == 1) {
+            _savePosts(retrievedPosts);
+          } else {
+            _toReverse = 1;
+          }
         });
       },
     );
