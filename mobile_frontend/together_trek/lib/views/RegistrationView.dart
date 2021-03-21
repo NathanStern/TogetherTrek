@@ -368,8 +368,24 @@ class _RegistrationViewState extends State<RegistrationView> {
                               ElevatedButton(
                                 onPressed: () async {
                                   _formKey.currentState.validate();
-                                  //await _login();
-                                  await _register();
+                                  await _register().timeout(
+                                      Duration(seconds: 10), onTimeout: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return buildStandardDialog(
+                                              context,
+                                              "Network Error",
+                                              "There was an error contacting the server.");
+                                        });
+                                  }).catchError((err) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return buildStandardDialog(context,
+                                              "Network Error", err.toString());
+                                        });
+                                  });
                                 },
                                 child: Text("Submit"),
                               ),

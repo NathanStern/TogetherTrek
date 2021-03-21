@@ -170,7 +170,24 @@ class _LoginViewState extends State<LoginView> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  await _login();
+                                  await _login().timeout(Duration(seconds: 10),
+                                      onTimeout: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return buildStandardDialog(
+                                              context,
+                                              "Network Error",
+                                              "There was an error contacting the server.");
+                                        });
+                                  }).catchError((err) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return buildStandardDialog(context,
+                                              "Network Error", err.toString());
+                                        });
+                                  });
                                 },
                                 child: Text("Submit"),
                               ),
