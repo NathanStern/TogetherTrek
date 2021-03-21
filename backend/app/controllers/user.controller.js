@@ -373,16 +373,22 @@ exports.getProfilePic = (req, res) => {
 				return
 			} else {
 				// Get the profile pic and return it
+				filename = user.profile_pic.filename;
 				s3_handler
-					.findOne(user.profile_pic.filename)
-					.then((profile_pic) => {
+					.findOne(filename)
+					.then(profile_pic => {
 						if (!profile_pic) {
 							res.status(404).send({
 								message: `Could not find profile pic.`,
 							})
 							return
 						}
-						res.send(profile_pic)
+						if (filename.includes("jpeg") || filename.includes("jpg"))
+							res.writeHead(200, {'Content-Type': 'image/jpeg'});
+						else
+							res.writeHead(200, {'Content-Type': 'image/png'});
+						res.write(profile_pic.Body, 'binary');
+						res.end(null, 'binary');
 						return
 					})
 					.catch((err) => {
@@ -434,5 +440,5 @@ exports.makeFriendRequest = (req, res) => {
                 err.message || "Could not retrieve user."
         });
 		return
-    }) 
+    })
 }
