@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:together_trek/api/PostWrapper.dart';
+import 'package:together_trek/api/UserWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:provider/provider.dart';
 import 'package:together_trek/models/TokenModel.dart';
@@ -35,7 +36,13 @@ class _LaunchViewState extends State<LaunchView> {
 
     user.setAllFieldsFromUser(readUser);
 
-    user.setAllFieldsFromUser(user);
+    if (user.id != "") {
+      UserModel serverUser = await getUser(user.id);
+
+      user.setAllFieldsFromUser(serverUser);
+
+      await _prefs.setString('user', jsonEncode(user));
+    }
   }
 
   Future<void> _getJWT(BuildContext context) async {
