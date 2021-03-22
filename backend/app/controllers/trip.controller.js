@@ -237,6 +237,42 @@ exports.acceptJoinRequest = (req, res) => {
   });
 }
 
+// Decline a request to join a trip
+exports.declineJoinRequest = (req, res) => {
+	const trip_id = req.params.id;
+
+	if (!req.body.requesting_user_id) {
+			res.status(400).send({ message: 'requesting_user_id can not be empty.' })
+			return
+	}
+	const requesting_user_id = req.body.requesting_user_id;
+
+	Trip.findById(trip_id)
+	.then(trip => {
+		// Remove the requesting_user_id from the trip's join_requests list
+		trip.join_requests = array_helper.removeValueFromArray(
+			requesting_user_id, trip.join_requests
+		);
+		trip.save()
+		.then(data => {
+			res.send({ message: "success" });
+			return;
+		})
+		.catch(err => {
+				res.status(500).send({
+						message: err.message || "Could not update trip."
+				});
+				return;
+		});
+	})
+	.catch(err => {
+		res.status(500).send({
+				message: err.message || "Could not retrieve trip."
+		});
+		return;
+	});
+}
+
 exports.removeUser = (req, res) => {
   const trip_id = req.params.id;
 
