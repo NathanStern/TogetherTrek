@@ -724,7 +724,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"title\": \"titleeee\",\r\n    \"description\": \"im going on vacation\",\r\n    \"post_date\": \"1990-01-01\",\r\n    \"destinations\": [{\r\n        \"country\": \"USA\",\r\n        \"city\": \"Indy\",\r\n        \"region\": \"Indiana\"\r\n      }]\r\n\r\n}",
+									"raw": "{\r\n    \"title\": \"titleeee\",\r\n    \"author_id\": \"{{user-id-1}}\",\r\n    \"description\": \"im going on vacation\",\r\n    \"post_date\": \"1990-01-01\",\r\n    \"destinations\": [{\r\n        \"country\": \"USA\",\r\n        \"city\": \"Indy\",\r\n        \"region\": \"Indiana\"\r\n      }]\r\n\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -783,115 +783,6 @@
 									"path": [
 										"posts",
 										"{{post-id}}"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Trip_Photos",
-			"item": [
-				{
-					"name": "Create",
-					"item": [
-						{
-							"name": "Add Trip Photo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status test\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"})\r",
-											"\r",
-											"pm.test(\"Response test\", function() {\r",
-											"    pm.response.to.be.withBody;\r",
-											"    \r",
-											"    postman.setEnvironmentVariable(\"trip-photo-id\", pm.response.text());\r",
-											"})"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"type": "file",
-											"src": "./test_assets/test-image.png"
-										},
-										{
-											"key": "author_id",
-											"value": "{{user-id-1}}",
-											"type": "text"
-										},
-										{
-											"key": "trip_id",
-											"value": "60445c76a3041c53e897352c",
-											"type": "text"
-										}
-									],
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{site}}:{{port}}/trip_photos",
-									"host": [
-										"{{site}}"
-									],
-									"port": "{{port}}",
-									"path": [
-										"trip_photos"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Get Tests",
-					"item": [
-						{
-							"name": "Get Trip Photo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status test\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"})"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{site}}:{{port}}/trip_photos/{{trip-photo-id}}",
-									"host": [
-										"{{site}}"
-									],
-									"port": "{{port}}",
-									"path": [
-										"trip_photos",
-										"{{trip-photo-id}}"
 									]
 								}
 							},
@@ -1044,39 +935,40 @@
 				},
 				{
 					"name": "Get Tests",
-					"item": []
-				},
-				{
-					"name": "Get Image Message",
-					"event": [
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{site}}:{{port}}/messages/{{image-message-id}}",
-							"host": [
-								"{{site}}"
+							"name": "Get Image Message",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"port": "{{port}}",
-							"path": [
-								"messages",
-								"{{image-message-id}}"
-							]
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{site}}:{{port}}/messages/{{image-message-id}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"messages",
+										"{{image-message-id}}"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
@@ -1729,12 +1621,17 @@
 							"response": []
 						}
 					]
-				},
+				}
+			]
+		},
+		{
+			"name": "Trip_Photos",
+			"item": [
 				{
-					"name": "Remove User Tests",
+					"name": "Create",
 					"item": [
 						{
-							"name": "Leave Trip",
+							"name": "Add Trip Photo",
 							"event": [
 								{
 									"listen": "test",
@@ -1746,10 +1643,8 @@
 											"\r",
 											"pm.test(\"Response test\", function() {\r",
 											"    pm.response.to.be.withBody;\r",
-											"    pm.response.to.be.json;\r",
-											"\r",
-											"    var jsonData = pm.response.json();\r",
-											"    pm.expect(jsonData.message).to.eql(\"success\");\r",
+											"    \r",
+											"    postman.setEnvironmentVariable(\"trip-photo-id\", pm.response.text());\r",
 											"})"
 										],
 										"type": "text/javascript"
@@ -1757,41 +1652,48 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{user-1-jwt}}",
-										"type": "text"
-									}
-								],
+								"method": "POST",
+								"header": [],
 								"body": {
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "user_id",
+											"key": "file",
+											"type": "file",
+											"src": "./test_assets/test-image.png"
+										},
+										{
+											"key": "author_id",
 											"value": "{{user-id-1}}",
+											"type": "text"
+										},
+										{
+											"key": "trip_id",
+											"value": "60445c76a3041c53e897352c",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{site}}:{{port}}/trips/remove-user/{{trip-id-1}}",
+									"raw": "{{site}}:{{port}}/trip_photos",
 									"host": [
 										"{{site}}"
 									],
 									"port": "{{port}}",
 									"path": [
-										"trips",
-										"remove-user",
-										"{{trip-id-1}}"
+										"trip_photos"
 									]
 								}
 							},
 							"response": []
-						},
+						}
+					]
+				},
+				{
+					"name": "Get Tests",
+					"item": [
 						{
-							"name": "Remove User From Trip",
+							"name": "Get Trip Photo",
 							"event": [
 								{
 									"listen": "test",
@@ -1799,14 +1701,6 @@
 										"exec": [
 											"pm.test(\"Status test\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
-											"})\r",
-											"\r",
-											"pm.test(\"Response test\", function() {\r",
-											"    pm.response.to.be.withBody;\r",
-											"    pm.response.to.be.json;\r",
-											"\r",
-											"    var jsonData = pm.response.json();\r",
-											"    pm.expect(jsonData.message).to.eql(\"success\");\r",
 											"})"
 										],
 										"type": "text/javascript"
@@ -1814,34 +1708,17 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "{{user-1-jwt}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "user_id",
-											"value": "{{user-id-2}}",
-											"type": "text"
-										}
-									]
-								},
+								"method": "GET",
+								"header": [],
 								"url": {
-									"raw": "{{site}}:{{port}}/trips/remove-user/{{trip-id-1}}",
+									"raw": "{{site}}:{{port}}/trip_photos/{{trip-photo-id}}",
 									"host": [
 										"{{site}}"
 									],
 									"port": "{{port}}",
 									"path": [
-										"trips",
-										"remove-user",
-										"{{trip-id-1}}"
+										"trip_photos",
+										"{{trip-photo-id}}"
 									]
 								}
 							},
