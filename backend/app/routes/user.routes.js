@@ -32,5 +32,8 @@ module.exports = app => {
   // Accept a friend request
   router.put("/accept-friend/:id", user_controller.acceptFriendRequest);
 
+  // Decline a friend request
+  router.put("/decline-friend/:id", user_controller.declineFriendRequest);
+
   app.use("/users", router);
 };
