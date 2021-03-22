@@ -16,7 +16,14 @@ const Friend = ({ friend }) => {
 				<Card.Text>{friend.gender}</Card.Text>
 				<Card.Text>{friend.birthdate}</Card.Text>
 				<Card.Text>{friend.email}</Card.Text>
-				<Button variant='primary'>Remove</Button>
+				<Row>
+					<Col>
+						<Button variant='primary'>Message</Button>
+					</Col>
+					<Col>
+						<Button variant='primary'>Remove</Button>
+					</Col>
+				</Row>
 			</Card.Body>
 		</Card>
 	)

@@ -13,7 +13,7 @@ import {
 	getMyPostsReducer,
 	updateMyPostReducer,
 } from './reducers/postsReducer'
-
+import { myTripsGetReducer } from './reducers/tripsReducers'
 const reducer = combineReducers({
 	userLogin: userLoginReducer,
 	userRegister: userRegisterReducer,
@@ -23,6 +23,7 @@ const reducer = combineReducers({
 	deleteMyPost: deleteMyPostReducer,
 	updateMyPost: updateMyPostReducer,
 	getFriends: userGetFriendsReducer,
+	getMyTrips: myTripsGetReducer,
 	// allTripsGet: allTripsGetReducer,
 })
 
