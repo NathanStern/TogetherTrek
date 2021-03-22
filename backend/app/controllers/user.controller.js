@@ -1,10 +1,10 @@
-const path = require('path');
-const jwt = require('jsonwebtoken')
+const path = require('path')
 
-const config = require('../config/config.js');
-const db = require('../models/index.js');
-const s3_handler = require('../utils/s3_handler.js');
+const config = require('../config/config.js')
+const db = require('../models/index.js')
 const array_helper = require('../utils/array_helper.js');
+const s3_handler = require('../utils/s3_handler.js')
+const token_helper = require('../utils/token_helper.js')
 
 const User = db.users;
 
@@ -54,7 +54,7 @@ exports.create = (req, res) => {
 	user
 		.save(user)
 		.then((data) => {
-			res.send(data.id)
+			res.send(data.id);
 		})
 		.catch((err) => {
 			res.status(500).send({
@@ -65,43 +65,43 @@ exports.create = (req, res) => {
 
 // Logs the User in
 exports.login = (req, res) => {
-	User.find({ username: req.body.username })
+	if (!req.body.username) {
+		res.status(400).send({ message: 'username can not be empty.' })
+		return
+	}
+	const username = req.body.username;
+
+	User.find({ username: username })
 		.exec()
-		.then((user) => {
+		.then(user => {
 			if (user.length < 1) {
-				return res.status(401).json({
+				res.status(401).send({
 					// We should definitely change this later so there is no indication as to what the user did to screw up the login.
 					message: 'Username does not exist.',
-				})
+				});
+				return;
 			}
 			// this will change once we add encryption
 			if (req.body.password == user[0].password) {
-				const token = jwt.sign(
-					{
-						username: user[0].username,
-						id: user[0].id,
-					},
-					config.app.JWT_KEY,
-					{
-						expiresIn: '2h',
-					}
-				)
-				return res.status(200).json({
+				const token = token_helper.generateToken(username, user[0].id);
+				res.status(200).send({
 					message: 'Authentication successful!',
-					token: token,
-				})
+					token: token
+				});
+				return;
 			} else {
-				return res.status(401).json({
+				res.status(401).send({
 					// We should definitely change this later so there is no indication as to what the user did to screw up the login.
-					message: 'Incorrect Password.',
-				})
+					message: 'Incorrect Password.'
+				});
+				return;
 			}
 		})
-		.catch((err) => {
-			console.log(err)
-			res.status(500).json({
-				error: err,
-			})
+		.catch(err => {
+			res.status(500).send({
+				message: err.message || "Could not retrieve user."
+			});
+			return;
 		})
 }
 
