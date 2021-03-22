@@ -20,11 +20,8 @@ module.exports = app => {
   // Make a request to join a trip
   router.put("/request-join/:id", trip_controller.makeJoinRequest);
 
-  // Accept a request to join a trip
+  // Make a request to join a trip
   router.put("/accept-join/:id", trip_controller.acceptJoinRequest);
-
-  // Decline a request to join a trip
-  router.put("/decline-join/:id", trip_controller.declineJoinRequest);
 
   // Remove a user from a trip
   router.put("/remove-user/:id", trip_controller.removeUser);
