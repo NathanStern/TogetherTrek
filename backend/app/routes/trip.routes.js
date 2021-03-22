@@ -26,5 +26,8 @@ module.exports = app => {
   // Decline a request to join a trip
   router.put("/decline-join/:id", trip_controller.declineJoinRequest);
 
+  // Remove a user from a trip
+  router.put("/remove-user/:id", trip_controller.removeUser);
+
   app.use("/trips", router);
 };
