@@ -1,6 +1,8 @@
 const { mongoose } = require("../models/index.js");
 const db = require("../models/index.js");
+const userModel = require("../models/user.model.js");
 const Post = db.posts;
+const User = db.users;
 
 // Creates an entry in the posts table
 exports.create = (req, res) => {
@@ -33,10 +35,24 @@ exports.create = (req, res) => {
       post_date: req.body.post_date,
       destinations: req.body.destinations
     });
-  
+    
+
     post
     .save(post)
-    .then(data => {
+    .then(async (data) => {
+      var user = await User.findById(req.body.author_id)
+      user.post_ids.push(data.id)
+    User.findByIdAndUpdate(req.body.author_id, user, { useFindAndModify: false })
+		.then((data) => {
+			if (!data) {
+				res.status(404).send({ message: `Could not find User with id=${id}.` })
+			} else {
+				res.send({ message: 'User was updated successfully!' })
+			}
+		})
+		.catch((err) => {
+			res.status(500).send({ message: `Error retrieving User with id=${id}.` })
+		})
       res.send(data.id);
     })
     .catch(err => {
