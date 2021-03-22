@@ -84,8 +84,8 @@ exports.create = (req, res) => {
     return;
   }
 
-// Create a message object
-let message;
+  // Create a message object
+  let message;
   if (message_type == "text") {
     message = new Message({
       author_id: author_id,
@@ -107,7 +107,7 @@ let message;
   let message_id = null;
   message
   .save()
-  .then(data => {
+  .then(async data => {
     message_id = data.id
 
     // If the message is text, there is nothing left to do so return
@@ -121,7 +121,7 @@ let message;
 
     // Update the message data with the new filename
     message.data = file.name;
-    message.save()
+    await message.save()
     .catch(err => {
       message.delete();
       res.status(500).send({
@@ -131,8 +131,7 @@ let message;
     });
 
     // Upload the file to S3
-    s3_handler.upload(file)
-    .then(data => {})
+    await s3_handler.upload(file)
     .catch(err => {
       message.delete();
       res.status(500).send({
@@ -170,7 +169,18 @@ exports.findOne = (req, res) => {
         const filename = message.data;
         s3_handler.findOne(filename)
         .then(image => {
-          res.send(image);
+          if (!image) {
+            res.status(404).send({
+              message: `Could not find image.`,
+            })
+            return;
+          }
+          if (filename.includes("jpeg") || filename.includes("jpg"))
+            res.writeHead(200, {'Content-Type': 'image/jpeg'});
+          else
+            res.writeHead(200, {'Content-Type': 'image/png'});
+          res.write(image.Body, 'binary');
+          res.end(null, 'binary');
           return;
         })
         .catch(err => {

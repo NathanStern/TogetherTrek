@@ -1,8 +1,10 @@
+import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
 import 'package:together_trek/models/LocationModel.dart';
 import 'package:together_trek/models/ProfilePicModel.dart';
 import 'package:together_trek/models/UserModel.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'dart:math';
 
 void main() {
   UserModel user = new UserModel(
@@ -13,7 +15,7 @@ void main() {
       gender: "Male",
       firstName: "Test",
       lastName: "User",
-      profilePic: new ProfilePicModel.empty(),
+      profilePic: AssetImage('lib/resources/default-profile-pic.jpg'),
       verified: true,
       notificationsEnabled: true,
       locationEnabled: true,
