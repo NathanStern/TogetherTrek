@@ -1,5 +1,6 @@
 const db = require("../models/index.js");
 const array_helper = require('../utils/array_helper.js')
+const token_helper = require('../utils/token_helper.js')
 
 const Trip = db.trips;
 const User = db.users;
@@ -247,8 +248,9 @@ exports.removeUser = (req, res) => {
   const user_id_to_remove = req.body.user_id;
 
   // Get the decoded authorization token
+  let decoded_token;
   try {
-    const decoded_token = token_helper.getDecodedToken(req.headers);
+    decoded_token = token_helper.getDecodedToken(req.headers);
   } catch (err) {
     res.status(err[0]).send({ meesage: err[1] });
     return;
@@ -259,7 +261,7 @@ exports.removeUser = (req, res) => {
   Trip.findById(trip_id)
   .then(trip => {
     User.findById(user_id_to_remove)
-    .then(user => {
+    .then(async user => {
       if (user_id_to_remove == current_user_id) {
         // If the current user is the one being removed, they are leaving a trip
         if (current_user_id == trip.creator_id) {
@@ -270,7 +272,8 @@ exports.removeUser = (req, res) => {
             .catch(err => {
               res.status(500).send({
                 message: err.message || "Could not delete trip."
-              })
+              });
+              return;
             });
 
             // Remove the trip_id from the user's trip_ids
@@ -294,7 +297,7 @@ exports.removeUser = (req, res) => {
             trip.participant_ids = array_helper.removeValueFromArray(
               user_id_to_remove, trip.participant_ids
             );
-            trip.creator_id = participant_ids[0];
+            trip.creator_id = trip.participant_ids[0];
             await trip.save()
             .catch(err => {
               res.status(500).send({
@@ -352,6 +355,8 @@ exports.removeUser = (req, res) => {
       } else {
         // If the current user is not the one being removed, then they are being
         // removed by another user
+        res.send({ message: "success" });
+        return;
 
         // TODO: implement the following logic
         // if the current_user_id matches the creator_id of the trip
