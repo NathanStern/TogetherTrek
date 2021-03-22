@@ -41,6 +41,10 @@ exports.create = (req, res) => {
     .save(post)
     .then(async (data) => {
       var user = await User.findById(req.body.author_id)
+      if (!user) {
+        res.send(500).send({ message: "Could not update user" });
+        return;
+      }
       user.post_ids.push(data.id)
     User.findByIdAndUpdate(req.body.author_id, user, { useFindAndModify: false })
 		.then((data) => {

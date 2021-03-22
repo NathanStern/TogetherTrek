@@ -1,5 +1,6 @@
 const db = require("../models/index.js");
 const Trip = db.trips;
+const User = db.users;
 
 // Creates an entry in the trips table
 exports.create = (req, res) => {
@@ -40,7 +41,10 @@ exports.create = (req, res) => {
   trip
   .save(trip)
   .then(async (data) => {
-    var user = await User.findById(req.body.author_id)
+    var user = await User.findById(req.body.creator_id)
+    if (!user) {
+        res.status(500).send({ message: "Could not update user." })
+    }
     user.trip_ids.push(data.id)
     User.findByIdAndUpdate(req.body.author_id, user, { useFindAndModify: false })
       .then((data) => {
