@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import "package:http/http.dart" as http;
+import 'package:flutter/painting.dart';
 
 // Replace the <base url of api> with actual url when testing and deploying
 String baseURL = "together-trek-testing.herokuapp.com";
+
 
 Future<http.Response> httpGet(String requestExtension) {
   return http.get(Uri.https(baseURL, requestExtension));
@@ -30,4 +32,8 @@ Future<http.Response> httpDelete(String requestExtension) {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       });
+}
+
+NetworkImage getNetworkImage(String requestExtension) {
+  return NetworkImage("https://" + baseURL + "/" + requestExtension);
 }

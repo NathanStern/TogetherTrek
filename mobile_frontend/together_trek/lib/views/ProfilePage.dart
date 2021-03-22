@@ -1,18 +1,15 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
 import 'package:together_trek/views/EditPRofilePage.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
+import 'package:together_trek/api/UserWrapper.dart' as UserWrapper;
 
-dynamic first = 'Neil';
-dynamic last = 'Armstrong';
 dynamic destination = 'The Moon';
-dynamic date = '8/5/1930';
 dynamic bio = 'One small step for man, one giant leap for mankind';
-dynamic gender = 'Male';
 
 class ProfilePage extends StatelessWidget {
   Future navigateToEditProfilePage(context) async {
@@ -42,16 +39,14 @@ class ProfilePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          "https://www.biography.com/.image/t_share/MTIwNjA4NjMzNDA3NTcxNDY4/neil-armstrong-9188943-2-402.jpg",
-                        ),
+                        backgroundImage: this.user.profilePic,
                         radius: 50.0,
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        first + " " + last,
+                        this.user.firstName + " " + this.user.lastName,
                         style: TextStyle(
                           fontSize: 22.0,
                           color: Colors.white,
@@ -134,7 +129,7 @@ class ProfilePage extends StatelessWidget {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      date,
+                                      this.user.birthdate,
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.orangeAccent,

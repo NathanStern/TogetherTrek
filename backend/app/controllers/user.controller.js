@@ -1,10 +1,13 @@
-const jwt = require('jsonwebtoken')
 const path = require('path')
 
 const config = require('../config/config.js')
 const db = require('../models/index.js')
+const array_helper = require('../utils/array_helper.js');
 const s3_handler = require('../utils/s3_handler.js')
-const User = db.users
+const token_helper = require('../utils/token_helper.js')
+
+const User = db.users;
+
 
 // Creates an entry in the users table
 exports.create = (req, res) => {
@@ -51,7 +54,7 @@ exports.create = (req, res) => {
 	user
 		.save(user)
 		.then((data) => {
-			res.send(data.id)
+			res.send(data.id);
 		})
 		.catch((err) => {
 			res.status(500).send({
@@ -62,43 +65,43 @@ exports.create = (req, res) => {
 
 // Logs the User in
 exports.login = (req, res) => {
-	User.find({ username: req.body.username })
+	if (!req.body.username) {
+		res.status(400).send({ message: 'username can not be empty.' })
+		return
+	}
+	const username = req.body.username;
+
+	User.find({ username: username })
 		.exec()
-		.then((user) => {
+		.then(user => {
 			if (user.length < 1) {
-				return res.status(401).json({
+				res.status(401).send({
 					// We should definitely change this later so there is no indication as to what the user did to screw up the login.
 					message: 'Username does not exist.',
-				})
+				});
+				return;
 			}
 			// this will change once we add encryption
 			if (req.body.password == user[0].password) {
-				const token = jwt.sign(
-					{
-						username: user[0].username,
-						id: user[0].id,
-					},
-					config.app.JWT_KEY,
-					{
-						expiresIn: '2h',
-					}
-				)
-				return res.status(200).json({
+				const token = token_helper.generateToken(username, user[0].id);
+				res.status(200).send({
 					message: 'Authentication successful!',
-					token: token,
-				})
+					token: token
+				});
+				return;
 			} else {
-				return res.status(401).json({
+				res.status(401).send({
 					// We should definitely change this later so there is no indication as to what the user did to screw up the login.
-					message: 'Incorrect Password.',
-				})
+					message: 'Incorrect Password.'
+				});
+				return;
 			}
 		})
-		.catch((err) => {
-			console.log(err)
-			res.status(500).json({
-				error: err,
-			})
+		.catch(err => {
+			res.status(500).send({
+				message: err.message || "Could not retrieve user."
+			});
+			return;
 		})
 }
 
@@ -376,26 +379,26 @@ exports.getProfilePic = (req, res) => {
 				filename = user.profile_pic.filename;
 				s3_handler
 					.findOne(filename)
-					.then(profile_pic => {
-						if (!profile_pic) {
+					.then(image => {
+						if (!image) {
 							res.status(404).send({
 								message: `Could not find profile pic.`,
 							})
-							return
+							return;
 						}
 						if (filename.includes("jpeg") || filename.includes("jpg"))
 							res.writeHead(200, {'Content-Type': 'image/jpeg'});
 						else
 							res.writeHead(200, {'Content-Type': 'image/png'});
-						res.write(profile_pic.Body, 'binary');
+						res.write(image.Body, 'binary');
 						res.end(null, 'binary');
-						return
+						return;
 					})
 					.catch((err) => {
 						res.status(500).send({
 							message: err.message || 'Could not get profile pic.',
 						})
-						return
+						return;
 					})
 			}
 		})
@@ -407,38 +410,127 @@ exports.getProfilePic = (req, res) => {
 }
 
 
-// Add friend
+// Make a friend request
 exports.makeFriendRequest = (req, res) => {
     const user_id = req.params.id;
-	console.log(req.body);
-    if (!req.body.requesting_id) {
-        res.status(400).send({ message: 'requesting_id can not be empty.' })
+    if (!req.body.requesting_user_id) {
+        res.status(400).send({ message: 'requesting_user_id can not be empty.' })
         return
     }
-
+		const requesting_user_id = req.body.requesting_user_id;
 
     User.findById(user_id)
     .then(user => {
-        user.friend_requests.push(req.body.requesting_id);
+        user.friend_requests.push(requesting_user_id);
         user.save()
         .then(data => {
-            res.send({
-                message: "success"
-            });
+            res.send({ message: "success" });
             return;
         })
         .catch(err => {
             res.status(500).send({
-                message:
-                    err.message || "Could not update friend_requests array."
+                message: err.message || "Could not update user."
             });
+						return;
         });
     })
     .catch(err => {
-        res.status(500).send({
-            message:
-                err.message || "Could not retrieve user."
-        });
-		return
-    })
+		    res.status(500).send({
+		        message: err.message || "Could not retrieve user."
+		    });
+				return;
+    });
+}
+
+// Accept a friend request
+exports.acceptFriendRequest = (req, res) => {
+	const current_user_id = req.params.id;
+	if (!req.body.requesting_user_id) {
+			res.status(400).send({ message: 'requesting_user_id can not be empty.' })
+			return
+	}
+	const requesting_user_id = req.body.requesting_user_id;
+
+	User.findById(current_user_id)
+	.then(current_user => {
+		User.findById(requesting_user_id)
+		.then(async requesting_user => {
+			// Move the requesting_user_id from the current user's friend_requests
+			// list to their friend_ids list
+			current_user.friend_requests = array_helper.removeValueFromArray(
+				requesting_user_id, current_user.friend_requests
+			);
+			current_user.friend_ids.push(requesting_user_id);
+			await current_user.save()
+			.catch(err => {
+					res.status(500).send({
+							message: err.message || "Could not update current user."
+					});
+					return;
+			});
+
+			// Add the current_user_id to the friend_ids of the requesting user
+			requesting_user.friend_ids.push(current_user_id);
+			requesting_user.save()
+			.then(data => {
+				res.send({ message: "success" });
+				return;
+			})
+			.catch(err => {
+					res.status(500).send({
+							message: err.message || "Could not update current user."
+					});
+					return;
+			});
+		})
+		.catch(err => {
+				res.status(500).send({
+						message: err.message || "Could not retrieve requesting user."
+				});
+				return;
+		});
+	})
+	.catch(err => {
+			res.status(500).send({
+					message: err.message || "Could not retrieve current user."
+			});
+			return;
+	});
+}
+
+// Decline a friend request
+exports.declineFriendRequest = (req, res) => {
+	const current_user_id = req.params.id;
+
+	if (!req.body.requesting_user_id) {
+			res.status(400).send({ message: 'requesting_user_id can not be empty.' })
+			return
+	}
+	const requesting_user_id = req.body.requesting_user_id;
+
+	User.findById(current_user_id)
+	.then(current_user => {
+		// Remove the requesting_user_id from the current user's friend_requests
+		// list
+		current_user.friend_requests = array_helper.removeValueFromArray(
+			requesting_user_id, current_user.friend_requests
+		);
+		current_user.save()
+		.then(data => {
+			res.send({ message: "success" });
+			return;
+		})
+		.catch(err => {
+				res.status(500).send({
+						message: err.message || "Could not update current user."
+				});
+				return;
+		});
+	})
+	.catch(err => {
+		res.status(500).send({
+				message: err.message || "Could not retrieve current user."
+		});
+		return;
+	});
 }
