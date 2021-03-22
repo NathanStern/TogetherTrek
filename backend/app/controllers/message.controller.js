@@ -84,8 +84,8 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a message object
-  let message;
+// Create a message object
+let message;
   if (message_type == "text") {
     message = new Message({
       author_id: author_id,
@@ -107,7 +107,7 @@ exports.create = (req, res) => {
   let message_id = null;
   message
   .save()
-  .then(async data => {
+  .then(data => {
     message_id = data.id
 
     // If the message is text, there is nothing left to do so return
@@ -121,7 +121,7 @@ exports.create = (req, res) => {
 
     // Update the message data with the new filename
     message.data = file.name;
-    await message.save()
+    message.save()
     .catch(err => {
       message.delete();
       res.status(500).send({
@@ -131,7 +131,8 @@ exports.create = (req, res) => {
     });
 
     // Upload the file to S3
-    await s3_handler.upload(file)
+    s3_handler.upload(file)
+    .then(data => {})
     .catch(err => {
       message.delete();
       res.status(500).send({

@@ -62,13 +62,13 @@ exports.create = (req, res) => {
   let trip_photo_id;
   trip_photo
   .save(trip_photo)
-  .then(async data => {
+  .then(data => {
     trip_photo_id = data.id
     file.name = `${trip_photo_id}${path.parse(file.name).ext}`
 
     // Update the trip_photo filename with the new filename
     trip_photo.filename = file.name;
-    await trip_photo.save()
+    trip_photo.save()
     .catch(err => {
       trip_photo.delete();
       res.status(500).send({
@@ -78,7 +78,7 @@ exports.create = (req, res) => {
     });
 
     // Upload the file to S3
-    await s3_handler.upload(file)
+    s3_handler.upload(file)
     .catch(err => {
       trip_photo.delete();
       res.status(500).send({
