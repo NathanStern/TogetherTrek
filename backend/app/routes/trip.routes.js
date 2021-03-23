@@ -14,6 +14,9 @@ module.exports = app => {
   // Updates an entry in the trips table by id
   router.put("/:id", trip_controller.update);
 
+  // deletes a user from the specified trip
+  router.put("/remove-user/:id", trip_controller.deleteUser);
+
   // Deletes an entry in the trips table by id
   router.delete("/:id", trip_controller.delete);
 

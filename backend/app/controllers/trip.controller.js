@@ -122,6 +122,29 @@ exports.update = (req, res) => {
         });
 }
 
+// deletes a user from the specified trip
+exports.deleteUser = (req, res) => {
+    if (!req.body) {
+		return res.status(400).send({
+			message: 'No user id specified to delete',
+		})
+	}
+    const id = req.params.id;
+    Trip.findById(id)
+		.then((data) => {
+			if (!data) {
+				res.status(404).send({ message: `Could not find Trip with id=${id}.` })
+			} else {
+				// TODO: We should remove the password field and maybe other fields from
+				// the response
+				data.body.params.body
+			}
+		})
+		.catch((err) => {
+			res.status(500).send({ message: `Error retrieving Trip with id=${id}.` })
+		})
+}
+
 // Deletes an entry in the trips table by id
 exports.delete = (req, res) => {
   const id = req.params.id;
