@@ -1,10 +1,11 @@
 import 'dart:convert';
-
-import 'package:together_trek/models/LocationModel.dart';
-import 'package:together_trek/models/ProfilePicModel.dart';
 import 'package:flutter/material.dart';
 
-/* 
+import 'package:together_trek/api/UserWrapper.dart' as UserWrapper;
+import 'package:together_trek/models/LocationModel.dart';
+import 'package:together_trek/models/ProfilePicModel.dart';
+
+/*
   This is the UserModel class for the application. It defines how all data will
   be stored for a user. Theoretically, some of these fields will only be filled
   if, and only if, the user that was retrieved from the server is the currently
@@ -19,7 +20,7 @@ class UserModel extends ChangeNotifier {
   String gender;
   String firstName;
   String lastName;
-  ProfilePicModel profilePic;
+  ImageProvider profilePic;
   bool verified;
   bool notificationsEnabled;
   bool locationEnabled;
@@ -36,10 +37,13 @@ class UserModel extends ChangeNotifier {
       coords = [0, 0];
     }
 
-    //print(json['profile_pic']);
+    ImageProvider profilePic;
+    if (json['profile_pic'] == null) {
+      profilePic = AssetImage('lib/resources/default-profile-pic.jpg');
+    } else {
+      profilePic = UserWrapper.getProfilePic(json['_id']);
+    }
 
-    // ProfilePicModel profilePic = new ProfilePicModel(
-    //     json['profile_pic']['url'], json['profile_pic']['uploadDate']);
     return UserModel(
       id: json['_id'] ?? "",
       username: json['username'] ?? "",
@@ -48,7 +52,7 @@ class UserModel extends ChangeNotifier {
       gender: json['gender'] ?? "",
       firstName: json['first_name'] ?? "",
       lastName: json['last_name'] ?? "",
-      //profilePic: null,
+      profilePic: profilePic,
       verified: json['verified'] ?? false,
       notificationsEnabled: json['notifications_enabled'] ?? false,
       locationEnabled: json['location_enabled'] ?? false,
@@ -155,7 +159,7 @@ class UserModel extends ChangeNotifier {
       String gender,
       String firstName,
       String lastName,
-      ProfilePicModel profilePic,
+      ImageProvider profilePic,
       bool verified,
       bool notificationsEnabled,
       bool locationEnabled,

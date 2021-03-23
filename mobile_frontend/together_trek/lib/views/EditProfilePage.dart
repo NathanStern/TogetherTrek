@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -19,33 +18,88 @@ class EditProfilePage extends StatelessWidget {
             Text(
               "Update your profile",
               style: TextStyle(
-                        color: Colors.redAccent,
-                        fontStyle: FontStyle.normal,
-                        fontSize: 28.0),
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 28.0),
+            ),
+            
+            TextFormField(
+              decoration: const InputDecoration(
+                hintText: 'Enter your First Name',
+              ),
+            ),
+            RaisedButton(
+              textColor: Colors.white,
+              color: Colors.redAccent,
+              child: Text('Confirm'),
+              onPressed: () {
+                
+              },
             ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'Enter your First Name',),
+                hintText: 'Enter your Last Name',
+              ),
+            ),
+            RaisedButton(
+              textColor: Colors.white,
+              color: Colors.redAccent,
+              child: Text('Confirm'),
+              onPressed: () {
+                
+              },
             ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'Enter your Last Name',),
+                hintText: 'Enter your Destination',
+              ),
+            ),
+            RaisedButton(
+              textColor: Colors.white,
+              color: Colors.redAccent,
+              child: Text('Confirm'),
+              onPressed: () {
+                
+              },
             ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'Enter your Destination',),
+                hintText: 'Enter your Budget',
+              ),
+            ),
+            RaisedButton(
+              textColor: Colors.white,
+              color: Colors.redAccent,
+              child: Text('Confirm'),
+              onPressed: () {
+                
+              },
             ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'Enter your Budget',),
+                hintText: 'Enter your Birthdate',
+              ),
+            ),
+            RaisedButton(
+              textColor: Colors.white,
+              color: Colors.redAccent,
+              child: Text('Confirm'),
+              onPressed: () {
+                
+              },
             ),
             TextFormField(
               decoration: const InputDecoration(
-                hintText: 'Enter your travel Date',),
+                hintText: 'Enter your Bio',
+              ),
             ),
-            TextFormField(
-              decoration: const InputDecoration(
-                hintText: 'Enter your Bio',),
+            RaisedButton(
+              textColor: Colors.white,
+              color: Colors.redAccent,
+              child: Text('Confirm'),
+              onPressed: () {
+                
+              },
             ),
             SizedBox(
               height: 10.0,
@@ -53,7 +107,7 @@ class EditProfilePage extends StatelessWidget {
             RaisedButton(
               textColor: Colors.white,
               color: Colors.redAccent,
-              child: Text('Finish Editing'),
+              child: Text('Return to Profile Page'),
               onPressed: () {
                 Navigator.pop(context);
               },

@@ -1,18 +1,14 @@
-import 'dart:js';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
 import 'package:together_trek/views/EditPRofilePage.dart';
-import 'ProfileInfoView.dart';
+import 'package:together_trek/views/ProfileInfoView.dart';
+import 'package:together_trek/api/UserWrapper.dart' as UserWrapper;
 
-dynamic first = 'Neil';
-dynamic last = 'Armstrong';
 dynamic destination = 'The Moon';
-dynamic budget = '25.4B';
-dynamic date = '7.16.1969';
 dynamic bio = 'One small step for man, one giant leap for mankind';
 
 class ProfilePage extends StatelessWidget {
@@ -21,8 +17,10 @@ class ProfilePage extends StatelessWidget {
         context, MaterialPageRoute(builder: (context) => EditProfilePage()));
   }
 
+  UserModel user;
   @override
   Widget build(BuildContext context) {
+    user = context.watch<UserModel>();
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -41,16 +39,14 @@ class ProfilePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          "https://www.biography.com/.image/t_share/MTIwNjA4NjMzNDA3NTcxNDY4/neil-armstrong-9188943-2-402.jpg",
-                        ),
+                        backgroundImage: this.user.profilePic,
                         radius: 50.0,
                       ),
                       SizedBox(
                         height: 10.0,
                       ),
                       Text(
-                        first + " " + last,
+                        this.user.firstName + " " + this.user.lastName,
                         style: TextStyle(
                           fontSize: 22.0,
                           color: Colors.white,
@@ -74,7 +70,31 @@ class ProfilePage extends StatelessWidget {
                                 child: Column(
                                   children: <Widget>[
                                     Text(
-                                      "Traveling to",
+                                      "Gender",
+                                      style: TextStyle(
+                                        color: Colors.redAccent,
+                                        fontSize: 22.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5.0,
+                                    ),
+                                    Text(
+                                      this.user.gender,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.orangeAccent,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      "Travelling to",
                                       style: TextStyle(
                                         color: Colors.redAccent,
                                         fontSize: 22.0,
@@ -98,7 +118,7 @@ class ProfilePage extends StatelessWidget {
                                 child: Column(
                                   children: <Widget>[
                                     Text(
-                                      "Budget",
+                                      "Birthdate",
                                       style: TextStyle(
                                         color: Colors.redAccent,
                                         fontSize: 22.0,
@@ -109,31 +129,7 @@ class ProfilePage extends StatelessWidget {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      budget,
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        color: Colors.orangeAccent,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "Date",
-                                      style: TextStyle(
-                                        color: Colors.redAccent,
-                                        fontSize: 22.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5.0,
-                                    ),
-                                    Text(
-                                      date,
+                                      this.user.birthdate,
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.orangeAccent,

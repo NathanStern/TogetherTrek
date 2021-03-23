@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
 
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/views/HomeView.dart';
+import 'package:provider/provider.dart';
 
 class EditPostView extends StatefulWidget {
   EditPostView({Key key, this.post}) : super(key: key);
@@ -11,30 +13,32 @@ class EditPostView extends StatefulWidget {
 
   _EditPostViewState createState() => _EditPostViewState(post: post);
 }
+
 class _EditPostViewState extends State<EditPostView> {
-   _EditPostViewState({this.post});
+  _EditPostViewState({this.post});
   PostModel post;
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Edit Post"),
-        ),
-        body: MyCustomForm(post: post),
-       
+        title: Text("Edit Post"),
+      ),
+      body: MyCustomForm(post: post),
     );
   }
 }
+
 class MyCustomForm extends StatefulWidget {
-   MyCustomForm({Key key, this.post}) : super(key: key);
+  MyCustomForm({Key key, this.post}) : super(key: key);
   PostModel post;
   @override
   MyCustomFormState createState() {
     return MyCustomFormState(post: post);
   }
 }
+
 class MyCustomFormState extends State<MyCustomForm> {
-   MyCustomFormState({this.post});
+  MyCustomFormState({this.post});
   PostModel post;
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -70,74 +74,79 @@ class MyCustomFormState extends State<MyCustomForm> {
         children: <Widget>[
           TextFormField(
             initialValue: _title,
+            decoration: InputDecoration(hintText: "Title"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a title';
               }
               return null;
             },
             onSaved: (value) {
-                setState(() {
+              setState(() {
                 _title = value;
-                });
+              });
             },
           ),
           TextFormField(
             initialValue: _description,
+            decoration: InputDecoration(hintText: "Description"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a description';
               }
               return null;
             },
             onSaved: (val) => setState(() => _description = val),
           ),
-            TextFormField(
-              initialValue: _country,
+          TextFormField(
+            initialValue: _country,
+            decoration: InputDecoration(hintText: "Country"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a country';
               }
               return null;
             },
             onSaved: (val) => setState(() => _country = val),
           ),
-            TextFormField(
-              initialValue: _city,
+          TextFormField(
+            initialValue: _city,
+            decoration: InputDecoration(hintText: "City"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a city';
               }
               return null;
             },
             onSaved: (val) => setState(() => _city = val),
           ),
-            TextFormField(
-              initialValue: _region,
+          TextFormField(
+            initialValue: _region,
+            decoration: InputDecoration(hintText: "State/Region"),
             validator: (value) {
               if (value.isEmpty) {
-                return 'Please enter some text';
+                return 'Please enter a region';
               }
               return null;
             },
             onSaved: (val) => setState(() => _region = val),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Validate returns true if the form is valid, or false
                 // otherwise.
                 if (_formKey.currentState.validate()) {
                   final form = _formKey.currentState;
                   form.save();
-                  // If the form is valid, display a Snackbar.
-                  updatePost(context, _title, _id, _description, _country, _city, _region);
-                   Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeView()),
-                    );
+
+                  await updatePost(context, _id, _title, _description, _country,
+                      _city, _region, post);
+                  Navigator.pop(context);
+                  LoadedPostsModel loadedPosts =
+                      context.read<LoadedPostsModel>();
+                  loadedPosts.notifyListeners();
                 }
               },
               child: Text('Submit'),
