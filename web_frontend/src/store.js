@@ -16,6 +16,7 @@ import {
 	updateMyPostReducer,
 } from './reducers/postsReducer'
 import { myTripsGetReducer } from './reducers/tripsReducers'
+import { profileAddMessageBoardReducer } from './reducers/profilesReducer'
 const reducer = combineReducers({
 	userLogin: userLoginReducer,
 	userRegister: userRegisterReducer,
@@ -28,6 +29,7 @@ const reducer = combineReducers({
 	getMyTrips: myTripsGetReducer,
 	rejectFriendRequest: userRejectFriendReducer,
 	acceptFriendRequest: userAcceptFriendReducer,
+	profileAddMessageBoard: profileAddMessageBoardReducer,
 	// allTripsGet: allTripsGetReducer,
 })
 

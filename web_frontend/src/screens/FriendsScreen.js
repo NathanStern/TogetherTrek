@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import { Button, Card, Col, Container, ListGroup, Row } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+
 import Friend from '../components/Friend'
 import axios from 'axios'
 import { path } from '../constants/pathConstant'
+import { addMessageBoard } from '../actions/profilesActions'
 const FriendsScreen = () => {
+	const dispatch = useDispatch()
+
 	const { userInfo } = useSelector((state) => state.userLogin)
 	const { friendsInfo } = useSelector((state) => state.getFriends)
-	const [members, setMembers] = useState([])
+	const [members, setMembers] = useState([userInfo])
 	const [show, setShow] = useState(false)
 	console.log(friendsInfo)
 	const editHandler = (e) => {
@@ -21,9 +25,14 @@ const FriendsScreen = () => {
 		members.forEach((e) => {
 			user_ids.push(e._id)
 		})
-		console.log(user_ids)
-		const { data } = await axios.post(`${path}/message_boards`)
+		// const data = '228'
+		// console.log(user_ids)
+		const { data } = await axios.post(`${path}/message_boards`, {
+			user_ids: user_ids,
+		})
 		console.log(data)
+
+		dispatch(addMessageBoard(user_ids, data))
 	}
 
 	return (
