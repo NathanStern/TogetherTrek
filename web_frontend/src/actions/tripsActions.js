@@ -6,7 +6,7 @@ import {
 } from '../constants/tripsConstants'
 import { path } from '../constants/pathConstant'
 export const getAllTrips = (email, password) => async (dispatch) => {}
-const token = JSON.parse(localStorage.getItem('myToken'))
+const token = JSON.parse(localStorage.getItem('encToken'))
 
 export const getMyTrips = () => async (dispatch, getState) => {
 	try {

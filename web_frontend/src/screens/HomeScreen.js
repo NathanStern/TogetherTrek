@@ -12,12 +12,14 @@ const HomeScreen = () => {
 	const dispatch = useDispatch()
 	const { userInfo, loading } = useSelector((state) => state.userLogin)
 	let token = ''
-
+	let encToken = ''
 	useEffect(() => {
 		if (userInfo) {
 			dispatch(getPosts())
 			token = JSON.parse(localStorage.getItem('myToken'))
-			dispatch(login(token)).then((e) => dispatch(getUserFriends()))
+			encToken = JSON.parse(localStorage.getItem('encToken'))
+
+			dispatch(login(token, encToken)).then((e) => dispatch(getUserFriends()))
 			dispatch(getMyPosts())
 			dispatch(getMyTrips())
 		}

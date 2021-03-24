@@ -37,7 +37,7 @@ const LoginScreen = ({ history, location }) => {
 			password: hashedPassword,
 		})
 		const decoded = jwt_decode(data.token)
-		console.log(decoded)
+		localStorage.setItem('encToken', JSON.stringify(data.token))
 		dispatch(login(decoded, data.token)).then((e) => {
 			dispatch(getMyPosts())
 			dispatch(getPosts())

@@ -20,7 +20,6 @@ export const login = (tok, tok2) => async (dispatch) => {
 		dispatch({
 			type: USER_LOGIN_REQUEST,
 		})
-		console.log(token)
 		token = tok
 		const { data } = await axios.get(`${path}/users/${token.id}`)
 		console.log(data)
@@ -45,6 +44,7 @@ export const logout = () => (dispatch) => {
 	localStorage.removeItem('userInfo')
 	localStorage.removeItem('userPosts')
 	localStorage.removeItem('myToken')
+	localStorage.removeItem('encToken')
 	dispatch({ type: USER_LOGIN_LOGOUT })
 }
 

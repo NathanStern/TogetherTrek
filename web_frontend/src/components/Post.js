@@ -99,7 +99,7 @@ const Post = ({ post, personal }) => {
 				</Card>
 			)}
 			{edit && (
-				<Form onSubmit={updateHandler}>
+				<Form onSubmit={updateHandler} style={{ width: '18rem' }}>
 					<Form.Group controlId='text'>
 						<Form.Label>Title</Form.Label>
 						<Form.Control

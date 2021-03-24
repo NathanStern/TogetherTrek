@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card } from 'react-bootstrap'
 
-const TripRequest = ({ trip }) => {
+const TripRequest = () => {
 	const [show, setShow] = useState(true)
 
 	return (

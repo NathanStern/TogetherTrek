@@ -17,7 +17,7 @@ import CreatePostScreen from './screens/CreatePostScreen'
 import PersonalProfileScreen from './screens/PersonalProfileScreen'
 import FriendsScreen from './screens/FriendsScreen'
 import NotificationsScreen from './screens/NotificationsScreen'
-
+import CreateMessageBoard from './screens/CreateMessageBoard'
 function App() {
 	return (
 		<Router>
@@ -38,6 +38,7 @@ function App() {
 					<Route path='/profile/:id' component={ProfileScreen} exact />
 					<Route path='/friends' component={FriendsScreen} />
 					<Route path='/notifications' component={NotificationsScreen} />
+					<Route path='/createmessageboard' component={CreateMessageBoard} />
 				</Container>
 			</main>
 			<Footer />
