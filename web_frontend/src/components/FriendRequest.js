@@ -5,7 +5,7 @@ import { path } from '../constants/pathConstant'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { acceptFriend, rejectFriend } from '../actions/friendActions'
-const FriendRequestNotification = ({ friend_id, user_id }) => {
+const FriendRequest = ({ friend_id, user_id }) => {
 	const [friendInfo, setFriendInfo] = useState({})
 	const dispatch = useDispatch()
 	const [show, setShow] = useState(true)
@@ -61,4 +61,4 @@ const FriendRequestNotification = ({ friend_id, user_id }) => {
 	)
 }
 
-export default FriendRequestNotification
+export default FriendRequest

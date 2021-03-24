@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import jwt_decode from 'jwt-decode'
 import { useLocation } from 'react-router'
+import { getMyTrips } from '../actions/tripsActions'
 
 const HomeScreen = () => {
 	const dispatch = useDispatch()
@@ -13,12 +14,12 @@ const HomeScreen = () => {
 	let token = ''
 
 	useEffect(() => {
-		dispatch(getPosts())
-		dispatch(getMyPosts())
-
 		if (userInfo) {
+			dispatch(getPosts())
 			token = JSON.parse(localStorage.getItem('myToken'))
 			dispatch(login(token)).then((e) => dispatch(getUserFriends()))
+			dispatch(getMyPosts())
+			dispatch(getMyTrips())
 		}
 	}, [])
 

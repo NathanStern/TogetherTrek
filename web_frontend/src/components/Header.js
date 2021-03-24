@@ -31,9 +31,11 @@ const Header = () => {
 								<LinkContainer to='/createpost'>
 									<Nav.Link>New Post</Nav.Link>
 								</LinkContainer>
-								<LinkContainer to='/notifications'>
-									<Nav.Link>Notifications</Nav.Link>
-								</LinkContainer>
+								{userInfo.friend_requests.length > 0 && (
+									<LinkContainer to='/notifications'>
+										<Nav.Link>Notifications</Nav.Link>
+									</LinkContainer>
+								)}
 							</Nav>
 							<NavDropdown
 								title={userInfo.username}

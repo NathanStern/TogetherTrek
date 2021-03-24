@@ -2,7 +2,7 @@ import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
-import FriendRequestNotification from '../components/FriendRequestNotification'
+import FriendRequest from '../components/FriendRequest'
 import Message from '../components/Message'
 const NotificationsScreen = () => {
 	const { userInfo } = useSelector((state) => state.userLogin)
@@ -23,11 +23,7 @@ const NotificationsScreen = () => {
 						<Col>
 							<h2>Friend Requests</h2>
 							{userInfo.friend_requests.map((el) => (
-								<FriendRequestNotification
-									friend_id={el}
-									key={el}
-									user_id={userInfo._id}
-								/>
+								<FriendRequest friend_id={el} key={el} user_id={userInfo._id} />
 							))}
 						</Col>
 						<Col>

@@ -38,7 +38,7 @@ const LoginScreen = ({ history, location }) => {
 		})
 		const decoded = jwt_decode(data.token)
 		console.log(decoded)
-		dispatch(login(decoded)).then((e) => {
+		dispatch(login(decoded, data.token)).then((e) => {
 			dispatch(getMyPosts())
 			dispatch(getPosts())
 			dispatch(getUserFriends())

@@ -15,7 +15,7 @@ import {
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
 let token = ''
-export const login = (tok) => async (dispatch) => {
+export const login = (tok, tok2) => async (dispatch) => {
 	try {
 		dispatch({
 			type: USER_LOGIN_REQUEST,
@@ -26,7 +26,7 @@ export const login = (tok) => async (dispatch) => {
 		console.log(data)
 		dispatch({
 			type: USER_LOGIN_SUCCESS,
-			payload: data,
+			payload: { ...data, token: tok2 },
 		})
 		localStorage.setItem('userInfo', JSON.stringify(data))
 		localStorage.setItem('myToken', JSON.stringify(tok))
