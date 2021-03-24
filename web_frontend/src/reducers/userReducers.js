@@ -12,9 +12,12 @@ import {
 	USER_GET_FRIENDS_REQUEST,
 	USER_GET_FRIENDS_SUCCESS,
 	USER_GET_FRIENDS_FAIL,
-	USER_DELETE_FRIEND_REQUEST,
-	USER_DELETE_FRIEND_FAIL,
-	USER_DELETE_FRIEND_SUCCESS,
+	USER_REJECT_FRIEND_REQUEST,
+	USER_REJECT_FRIEND_SUCCESS,
+	USER_REJECT_FRIEND_FAIL,
+	USER_ACCEPT_FRIEND_REQUEST,
+	USER_ACCEPT_FRIEND_SUCCESS,
+	USER_ACCEPT_FRIEND_FAIL,
 } from '../constants/userConstants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -45,19 +48,30 @@ export const userGetFriendsReducer = (state = {}, action) => {
 	}
 }
 
-export const userDeleteFriendReducer = (state = {}, action) => {
+export const userRejectFriendReducer = (state = {}, action) => {
 	switch (action.type) {
-		case USER_DELETE_FRIEND_REQUEST:
+		case USER_REJECT_FRIEND_REQUEST:
 			return { loading: true }
-		case USER_DELETE_FRIEND_SUCCESS:
-			return { loading: false }
-		case USER_DELETE_FRIEND_FAIL:
+		case USER_REJECT_FRIEND_SUCCESS:
+			return { loading: false, success: true }
+		case USER_REJECT_FRIEND_FAIL:
 			return { loading: false, error: action.payload }
 		default:
 			return state
 	}
 }
-
+export const userAcceptFriendReducer = (state = {}, action) => {
+	switch (action.type) {
+		case USER_ACCEPT_FRIEND_REQUEST:
+			return { loading: true }
+		case USER_ACCEPT_FRIEND_SUCCESS:
+			return { loading: false, success: true }
+		case USER_ACCEPT_FRIEND_FAIL:
+			return { loading: false, error: action.payload }
+		default:
+			return state
+	}
+}
 export const userRegisterReducer = (state = {}, action) => {
 	switch (action.type) {
 		case USER_REGISTER_REQUEST:

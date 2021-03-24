@@ -31,6 +31,9 @@ const Header = () => {
 								<LinkContainer to='/createpost'>
 									<Nav.Link>New Post</Nav.Link>
 								</LinkContainer>
+								<LinkContainer to='/notifications'>
+									<Nav.Link>Notifications</Nav.Link>
+								</LinkContainer>
 							</Nav>
 							<NavDropdown
 								title={userInfo.username}

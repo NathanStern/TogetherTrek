@@ -11,14 +11,9 @@ import {
 	USER_GET_FRIENDS_REQUEST,
 	USER_GET_FRIENDS_FAIL,
 	USER_GET_FRIENDS_SUCCESS,
-	USER_DELETE_FRIEND_REQUEST,
-	USER_DELETE_FRIEND_FAIL,
-	USER_DELETE_FRIEND_SUCCESS,
 } from '../constants/userConstants'
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
-import { sha3_256 } from 'js-sha3'
-import jwt_decode from 'jwt-decode'
 let token = ''
 export const login = (tok) => async (dispatch) => {
 	try {
@@ -109,12 +104,11 @@ export const register = (
 				payload: 'ERROR',
 			})
 		} else {
-			dispatch({
-				type: USER_LOGIN_SUCCESS,
-				payload: data,
-			})
-
-			localStorage.setItem('userInfo', JSON.stringify(newUser))
+			// dispatch({
+			// 	type: USER_LOGIN_SUCCESS,
+			// 	payload: data,
+			// })
+			// localStorage.setItem('userInfo', JSON.stringify(newUser))
 			// localStorage.setItem(
 			// 	'userInfo',
 			// 	JSON.stringify([...newUser, { _id: data }])
@@ -169,31 +163,6 @@ export const getUserFriends = () => async (dispatch, getState) => {
 	} catch (error) {
 		dispatch({
 			type: USER_GET_FRIENDS_FAIL,
-			payload:
-				error.response && error.response.data.message
-					? error.response.data.message
-					: error.message,
-		})
-	}
-}
-
-export const deleteFriend = (friend_id) => async (dispatch, getState) => {
-	dispatch({
-		type: USER_DELETE_FRIEND_REQUEST,
-	})
-	try {
-		const {
-			userLogin: { userInfo },
-		} = getState()
-
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		}
-	} catch (error) {
-		dispatch({
-			type: USER_DELETE_FRIEND_FAIL,
 			payload:
 				error.response && error.response.data.message
 					? error.response.data.message

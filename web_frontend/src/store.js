@@ -6,7 +6,8 @@ import {
 	userRegisterReducer,
 	userUpdateProfileReducer,
 	userGetFriendsReducer,
-	userDeleteFriendReducer,
+	userRejectFriendReducer,
+	userAcceptFriendReducer,
 } from './reducers/userReducers'
 import {
 	deleteMyPostReducer,
@@ -25,7 +26,8 @@ const reducer = combineReducers({
 	updateMyPost: updateMyPostReducer,
 	getFriends: userGetFriendsReducer,
 	getMyTrips: myTripsGetReducer,
-	deleteFriend: userDeleteFriendReducer,
+	rejectFriendRequest: userRejectFriendReducer,
+	acceptFriendRequest: userAcceptFriendReducer,
 	// allTripsGet: allTripsGetReducer,
 })
 
