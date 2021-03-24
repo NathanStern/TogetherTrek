@@ -14,6 +14,7 @@ const PersonalProfileScreen = ({ location, history, useParams }) => {
 
 	const [profileInfo, setProfileInfo] = useState({})
 	const { userInfo } = useSelector((state) => state.userLogin)
+	const [message, setMessage] = useState(null)
 
 	const { pathname } = useLocation()
 	const id = pathname.split('/')[2]
@@ -33,11 +34,25 @@ const PersonalProfileScreen = ({ location, history, useParams }) => {
 
 	const addFriend = (e) => {
 		e.preventDefault()
+		axios
+			.put(`${path}/users/request-friend/${profileInfo._id}`, {
+				requesting_user_id: userInfo._id,
+			})
+			.then((res) => {
+				setMessage('Friend Request is Sent')
+				setTimeout(() => {
+					setMessage(null)
+				}, 1000)
+			})
+
+		console.log('Sent friend request')
 	}
 
 	return (
 		<>
-			{userInfo && (
+			{message && <Message variant='success'>{message}</Message>}
+
+			{profileInfo && (
 				<Row>
 					<Col md={3}>
 						<h2>User Profile</h2>

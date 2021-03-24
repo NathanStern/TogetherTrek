@@ -16,6 +16,7 @@ import MakePostScreen from './screens/MakePostScreen'
 import CreatePostScreen from './screens/CreatePostScreen'
 import PersonalProfileScreen from './screens/PersonalProfileScreen'
 import FriendsScreen from './screens/FriendsScreen'
+import NotificationsScreen from './screens/NotificationsScreen'
 
 function App() {
 	return (
@@ -36,6 +37,7 @@ function App() {
 					<Route path='/createpost' component={CreatePostScreen} />
 					<Route path='/profile/:id' component={ProfileScreen} exact />
 					<Route path='/friends' component={FriendsScreen} />
+					<Route path='/notifications' component={NotificationsScreen} />
 				</Container>
 			</main>
 			<Footer />
