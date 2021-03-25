@@ -20,9 +20,10 @@ export const getMyTrips = () => async (dispatch, getState) => {
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${token}`,
+				Authorization: `${token}`,
 			},
 		}
+		console.log(` token is ${token}`)
 
 		const { data } = await axios.get(`${path}/message_boards`, config)
 
