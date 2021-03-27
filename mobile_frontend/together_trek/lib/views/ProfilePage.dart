@@ -27,12 +27,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<ProfilePage> {
-
-  String text = 'Text';
+  String text = '';
   UserModel user;
   @override
   Widget build(BuildContext context) {
     user = context.watch<UserModel>();
+    text = this.user.username;
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -254,7 +254,7 @@ class _FirstScreenState extends State<ProfilePage> {
             width: 300.00,
             child: RaisedButton(
                 onPressed: () {
-                _awaitReturnValueFromSecondScreen(context);
+                  _awaitReturnValueFromSecondScreen(context);
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
@@ -287,9 +287,7 @@ class _FirstScreenState extends State<ProfilePage> {
     );
   }
 
-
   void _awaitReturnValueFromSecondScreen(BuildContext context) async {
-
     // start the SecondScreen and wait for it to finish with a result
     final result = await Navigator.push(
         context,
@@ -299,7 +297,7 @@ class _FirstScreenState extends State<ProfilePage> {
 
     // after the SecondScreen result comes back update the Text widget with it
     setState(() {
-      text = result;
+      this.user.username = result;
     });
   }
 }
@@ -322,13 +320,12 @@ class _SecondScreenState extends State<SecondScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
           Padding(
             padding: const EdgeInsets.all(32.0),
             child: TextField(
               controller: textFieldController,
               decoration: const InputDecoration(
-                hintText: 'Enter your Name',
+                hintText: 'Enter your UserName',
               ),
               style: TextStyle(
                 fontSize: 24,
@@ -336,7 +333,6 @@ class _SecondScreenState extends State<SecondScreen> {
               ),
             ),
           ),
-
           RaisedButton(
             child: Text(
               'Confirm',
@@ -346,7 +342,6 @@ class _SecondScreenState extends State<SecondScreen> {
               _sendDataBack(context);
             },
           )
-
         ],
       ),
     );
