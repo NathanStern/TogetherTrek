@@ -27,12 +27,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<ProfilePage> {
-  String text = '';
+
   UserModel user;
   @override
   Widget build(BuildContext context) {
     user = context.watch<UserModel>();
-    text = this.user.username;
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -58,7 +58,7 @@ class _FirstScreenState extends State<ProfilePage> {
                         height: 10.0,
                       ),
                       Text(
-                        text,
+                        this.user.username,
                         style: TextStyle(
                           fontSize: 22.0,
                           color: Colors.white,
