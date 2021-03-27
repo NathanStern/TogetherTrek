@@ -8,15 +8,27 @@ import 'package:together_trek/views/EditPRofilePage.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
 import 'package:together_trek/api/UserWrapper.dart' as UserWrapper;
 
+import 'package:flutter/material.dart';
+
 dynamic destination = 'The Moon';
 dynamic bio = 'One small step for man, one giant leap for mankind';
+void main() {
+  runApp(MaterialApp(
+    title: 'Flutter',
+    home: ProfilePage(),
+  ));
+}
 
-class ProfilePage extends StatelessWidget {
-  Future navigateToEditProfilePage(context) async {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => EditProfilePage()));
+class ProfilePage extends StatefulWidget {
+  @override
+  _FirstScreenState createState() {
+    return _FirstScreenState();
   }
+}
 
+class _FirstScreenState extends State<ProfilePage> {
+
+  String text = 'Text';
   UserModel user;
   @override
   Widget build(BuildContext context) {
@@ -46,7 +58,7 @@ class ProfilePage extends StatelessWidget {
                         height: 10.0,
                       ),
                       Text(
-                        this.user.firstName + " " + this.user.lastName,
+                        text,
                         style: TextStyle(
                           fontSize: 22.0,
                           color: Colors.white,
@@ -242,7 +254,7 @@ class ProfilePage extends StatelessWidget {
             width: 300.00,
             child: RaisedButton(
                 onPressed: () {
-                  navigateToEditProfilePage(context);
+                _awaitReturnValueFromSecondScreen(context);
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
@@ -273,5 +285,76 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+
+  void _awaitReturnValueFromSecondScreen(BuildContext context) async {
+
+    // start the SecondScreen and wait for it to finish with a result
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SecondScreen(),
+        ));
+
+    // after the SecondScreen result comes back update the Text widget with it
+    setState(() {
+      text = result;
+    });
+  }
+}
+
+class SecondScreen extends StatefulWidget {
+  @override
+  _SecondScreenState createState() {
+    return _SecondScreenState();
+  }
+}
+
+class _SecondScreenState extends State<SecondScreen> {
+  // this allows us to access the TextField text
+  TextEditingController textFieldController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Second screen')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+
+          Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: TextField(
+              controller: textFieldController,
+              decoration: const InputDecoration(
+                hintText: 'Enter your Name',
+              ),
+              style: TextStyle(
+                fontSize: 24,
+                color: Colors.black,
+              ),
+            ),
+          ),
+
+          RaisedButton(
+            child: Text(
+              'Confirm',
+              style: TextStyle(fontSize: 24),
+            ),
+            onPressed: () {
+              _sendDataBack(context);
+            },
+          )
+
+        ],
+      ),
+    );
+  }
+
+  // get the text in the TextField and send it back to the FirstScreen
+  void _sendDataBack(BuildContext context) {
+    String textToSendBack = textFieldController.text;
+    Navigator.pop(context, textToSendBack);
   }
 }
