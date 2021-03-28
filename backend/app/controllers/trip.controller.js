@@ -5,7 +5,6 @@ const token_helper = require('../utils/token_helper.js')
 const Trip = db.trips;
 const User = db.users;
 
-
 // Creates an entry in the trips table
 exports.create = (req, res) => {
  // Validate all expected fields were passed
@@ -274,6 +273,7 @@ exports.declineJoinRequest = (req, res) => {
 }
 
 exports.removeUser = (req, res) => {
+  var fail = 0;
   const trip_id = req.params.id;
 
   // Validate expected fields are present
@@ -300,6 +300,7 @@ exports.removeUser = (req, res) => {
     .then(async user => {
       if (user_id_to_remove == current_user_id) {
         // If the current user is the one being removed, they are leaving a trip
+
         if (current_user_id == trip.creator_id) {
           if (trip.participant_ids.length == 1) {
             // If the current user is leaving their own trip and they are the
@@ -309,8 +310,10 @@ exports.removeUser = (req, res) => {
               res.status(500).send({
                 message: err.message || "Could not delete trip."
               });
-              return;
+              fail = 1;
             });
+            if (fail)
+              return;
 
             // Remove the trip_id from the user's trip_ids
             user.trip_ids = array_helper.removeValueFromArray(
@@ -319,29 +322,67 @@ exports.removeUser = (req, res) => {
             user.save()
             .then(data => {
               res.send({ message: "success" });
-              return;
             })
             .catch(err => {
               res.status(500).send({
                 message: err.message || "Could not update user."
               });
-              return;
             });
+            return;
           } else {
             // If the current user is leaving their own trip and there are other
             // users in the trip, make one of them the new trip owner
-            trip.participant_ids = array_helper.removeValueFromArray(
-              user_id_to_remove, trip.participant_ids
-            );
             trip.creator_id = trip.participant_ids[0];
-            await trip.save()
-            .catch(err => {
-              res.status(500).send({
-                message: err.message || "Could not update trip."
-              });
-              return;
-            });
           }
+        }
+
+        // Remove the user_id from the trip's participant_ids
+        trip.participant_ids = array_helper.removeValueFromArray(
+          user_id_to_remove, trip.participant_ids
+        );
+        await trip.save()
+        .catch(err => {
+          res.status(500).send({
+            message: err.message || "Could not update trip."
+          });
+          fail = 1;
+        });
+        if (fail)
+          return;
+
+        // Remove the trip_id from the user's trip_ids
+        user.trip_ids = array_helper.removeValueFromArray(
+          trip_id, user.trip_ids
+        );
+        user.save()
+        .then(data => {
+          res.send({ message: "success" });
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: err.message || "Could not update user."
+          });
+          fail = 1
+        });
+        if (fail)
+          return;
+      } else {
+        // If the current user is not the one being removed, they must be
+        // removed by the trip owner
+        if (current_user_id == trip.creator_id) {
+          // If the current user is the trip owner, remove the user
+          trip.participant_ids = array_helper.removeValueFromArray(
+            user_id_to_remove, trip.participant_ids
+          );
+          await trip.save()
+          .catch(err => {
+            res.status(500).send({
+              message: err.message || "Could not update trip."
+            });
+            fail = 1;
+          });
+          if (fail)
+            return;
 
           // Remove the trip_id from the user's trip_ids
           user.trip_ids = array_helper.removeValueFromArray(
@@ -359,51 +400,12 @@ exports.removeUser = (req, res) => {
             return;
           });
         } else {
-          // If the current user is leaving somebody else's trip, remove the
-          // user_id_to_remove from the trip's participant_ids
-          trip.participant_ids = array_helper.removeValueFromArray(
-            user_id_to_remove, trip.participant_ids
-          );
-          await trip.save()
-          .catch(err => {
-            res.status(500).send({
-              message: err.message || "Could not update trip."
-            });
-            return;
+          // If the user making the request is not the trip owner, return an error
+          res.status(500).send({
+              message: err.message || "Could not update trip because current user doesn't have permission."
           });
-
-          // Remove the trip_id from the user's trip_ids
-          user.trip_ids = array_helper.removeValueFromArray(
-            trip_id, user.trip_ids
-          );
-          user.save()
-          .then(data => {
-            res.send({ message: "success" });
-            return;
-          })
-          .catch(err => {
-            res.status(500).send({
-              message: err.message || "Could not update user."
-            });
-            return;
-          });
+          return;
         }
-      } else {
-        // If the current user is not the one being removed, then they are being
-        // removed by another user
-        res.send({ message: "success" });
-        return;
-
-        // TODO: implement the following logic
-        // if the current_user_id matches the creator_id of the trip
-        // then the current user owns the trip and therefore has permission to
-        // remove other users from the trip so remove the user_id_to_remove from
-        // the trip's participant_ids then remove the trip_id from the
-        // user's list of trip_ids
-
-        // if the current_user_id does not match the creator_id of the trip
-        // then the current user does not own the trip and therefore does not have
-        // permission to remove other users from it so return an error
       }
     })
     .catch(err => {
