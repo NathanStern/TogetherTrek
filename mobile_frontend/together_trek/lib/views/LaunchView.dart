@@ -1,18 +1,91 @@
-import 'package:flutter/material.dart';
-import 'package:together_trek/api/PostWrapper.dart';
-import 'package:together_trek/models/LoadedPostsModel.dart';
+import 'dart:convert';
 import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LaunchView extends StatelessWidget {
-  void _loadPosts(BuildContext context, LoadedPostsModel posts) async {
-    posts.resetPosts(List.from((await getPosts()).reversed));
+import 'package:together_trek/api/PostWrapper.dart';
+import 'package:together_trek/api/UserWrapper.dart';
+import 'package:together_trek/models/LoadedPostsModel.dart';
+import 'package:together_trek/models/TokenModel.dart';
+import 'package:together_trek/models/UserModel.dart';
+import 'package:together_trek/utils/DialogUtil.dart';
+
+class LaunchView extends StatefulWidget {
+  _LaunchViewState createState() => _LaunchViewState();
+}
+
+class _LaunchViewState extends State<LaunchView> {
+  void _loadPosts(BuildContext context) async {
+    LoadedPostsModel posts = context.read<LoadedPostsModel>();
+    // posts.resetPosts(List.from((await getPosts()).reversed));
+    posts.resetPosts(await getPosts());
+  }
+
+  Future<void> _getUserData(BuildContext context) async {
+    UserModel user = context.read<UserModel>();
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    String userString = _prefs.getString('user');
+
+    if (userString == null) {
+      await _prefs.setString('user', user.id);
+      userString = _prefs.getString('user');
+    }
+
+    // UserModel readUser = UserModel.fromJson(jsonDecode(userString));
+
+    // user.setAllFieldsFromUser(readUser);
+
+    if (userString != "") {
+      UserModel serverUser = await getUser(userString);
+
+      user.setAllFieldsFromUser(serverUser);
+
+      await _prefs.setString('user', user.id);
+    }
+  }
+
+  Future<void> _getJWT(BuildContext context) async {
+    TokenModel token = context.read<TokenModel>();
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    String readToken = _prefs.getString('jwt');
+
+    token.setFields(readToken);
+  }
+
+  void _refreshNetwork() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 2), () async {
+    Future.delayed(Duration(seconds: 1), () async {
       // await _loadPosts(context, posts);
+      await _getUserData(context);
+      await _getJWT(context);
+      await _loadPosts(context);
       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+    }).timeout(Duration(seconds: 15), onTimeout: () {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return buildActionDialog(
+                context,
+                "Network Error",
+                "The request to load application data timed out.",
+                _refreshNetwork);
+          });
+    }).catchError((err) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return buildActionDialog(
+                context,
+                "Network Error",
+                "${err.toString()} A network error occurred. You might not be connected to the internet.",
+                _refreshNetwork);
+          });
     });
     return Scaffold(
         backgroundColor: Colors.white,

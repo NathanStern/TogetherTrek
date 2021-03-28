@@ -1,3 +1,4 @@
+import '../index.css';
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col, Container, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
@@ -6,6 +7,7 @@ import Post from '../components/Post'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, deleteMyPost } from '../actions/postsActions'
+import { path } from '../constants/pathConstant'
 
 const ProfileScreen = ({ location, history }) => {
 	const dispatch = useDispatch()
@@ -18,15 +20,22 @@ const ProfileScreen = ({ location, history }) => {
 	const [posts, setPosts] = [myPosts]
 	const [toDelete, setToDelete] = useState('')
 	const personal = true
-	const profilePic =
-		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
 	const redirect = '/'
+	let profilePic
 
 	useEffect(() => {
 		if (!userInfo) {
 			history.push(redirect)
 		}
 	}, [history, userInfo, redirect])
+
+	if (userInfo) {
+		if (userInfo.profile_pic) {
+			profilePic = path + `/users/profile-pic/${userInfo._id}`
+		} else {
+			profilePic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+		}
+	}
 
 	return (
 		<>

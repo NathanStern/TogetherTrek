@@ -1,3 +1,4 @@
+import '../index.css';
 import React, { useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { getMyPosts, getPosts } from '../actions/postsActions'
@@ -14,7 +15,7 @@ const HomeScreen = () => {
 		dispatch(getMyPosts())
 
 		if (userInfo) {
-			dispatch(login(userInfo.email, userInfo.password))
+			dispatch(login(userInfo.username, userInfo.password))
 		}
 	}, [])
 

@@ -1,3 +1,4 @@
+import '../index.css';
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
@@ -8,7 +9,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, getPosts } from '../actions/postsActions'
 const LoginScreen = ({ history, location }) => {
-	const [email, setEmail] = useState('')
+	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 
 	const dispatch = useDispatch()
@@ -26,7 +27,7 @@ const LoginScreen = ({ history, location }) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault()
-		dispatch(login(email, password)).then((e) => {
+		dispatch(login(username, password)).then((e) => {
 			dispatch(getMyPosts())
 			dispatch(getPosts())
 		})
@@ -38,13 +39,13 @@ const LoginScreen = ({ history, location }) => {
 			{error && <Message variant='danger'>{error}</Message>}
 			{loading && <Loader />}
 			<Form onSubmit={submitHandler}>
-				<Form.Group controlId='email'>
-					<Form.Label>Email Address</Form.Label>
+				<Form.Group controlId='username'>
+					<Form.Label>Username</Form.Label>
 					<Form.Control
-						type='email'
-						placeholder='Enter Email'
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						type='name'
+						placeholder='Enter Username'
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
 					/>
 				</Form.Group>
 				<Form.Group controlId='password'>
@@ -63,7 +64,7 @@ const LoginScreen = ({ history, location }) => {
 			</Button>
 			<Row className='py-3'>
 				<Col>
-					New Customer?{' '}
+					New User?{' '}
 					<Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
 						Register
 					</Link>
