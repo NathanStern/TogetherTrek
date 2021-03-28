@@ -5,8 +5,6 @@ const token_helper = require('../utils/token_helper.js')
 const Trip = db.trips;
 const User = db.users;
 
-let fail = 0;
-
 // Creates an entry in the trips table
 exports.create = (req, res) => {
  // Validate all expected fields were passed
@@ -239,6 +237,7 @@ exports.acceptJoinRequest = (req, res) => {
 }
 
 exports.removeUser = (req, res) => {
+  var fail = 0;
   const trip_id = req.params.id;
 
   // Validate expected fields are present
@@ -274,8 +273,8 @@ exports.removeUser = (req, res) => {
           .catch(err => {
             res.status(500).send({
               message: err.message || "Could not delete trip."
-              fail = 1;
             });
+            fail = 1;
           });
           if (fail)
             return;
@@ -293,11 +292,11 @@ exports.removeUser = (req, res) => {
         .catch(err => {
           res.status(500).send({
             message: err.message || "Could not update trip."
-            fail = 1;
           });
-          if (fail)
-            return;
+          fail = 1;
         });
+        if (fail)
+          return;
 
         // Remove the trip_id from the user's trip_ids
         user.trip_ids = array_helper.removeValueFromArray(
