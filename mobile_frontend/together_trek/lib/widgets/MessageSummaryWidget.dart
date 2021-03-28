@@ -43,6 +43,17 @@ Widget createMessageSummaryWidget(MessageSummaryModel messageBoard) {
   }
   String timestamp =
       "${date.hour}:${date.minute} $halfDay ${months[date.month - 1]} ${date.day}";
+
+  String messagePreview = "";
+
+  if (messageBoard.latestMessage.type == "text") {
+    messagePreview = messageBoard.latestMessage.data.length > 35
+        ? messageBoard.latestMessage.data
+            .replaceRange(33, messageBoard.latestMessage.data.length, "...")
+        : messageBoard.latestMessage.data;
+  } else {
+    messagePreview = "Image";
+  }
   return Container(
     child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
@@ -74,15 +85,7 @@ Widget createMessageSummaryWidget(MessageSummaryModel messageBoard) {
                       padding: EdgeInsets.only(bottom: 10, left: 12),
                       child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                              messageBoard.latestMessage.data.length > 35
-                                  ? messageBoard.latestMessage.data
-                                      .replaceRange(
-                                          33,
-                                          messageBoard
-                                              .latestMessage.data.length,
-                                          "...")
-                                  : messageBoard.latestMessage.data,
+                          child: Text(messagePreview,
                               style: TextStyle(color: Colors.grey))),
                     )),
                     Spacer(),

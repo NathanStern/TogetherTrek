@@ -14,6 +14,7 @@ class _MessagesViewState extends State<MessagesView> {
   void _getMessages(MessageSummaryListModel summaries) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     summaries.setAllFields(await getMessageSummaries(prefs.getString("jwt")));
+    setState(() {});
   }
 
   @override
