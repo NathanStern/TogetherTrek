@@ -314,6 +314,21 @@ exports.removeUser = (req, res) => {
             });
             if (fail)
               return;
+
+            // Remove the trip_id from the user's trip_ids
+            user.trip_ids = array_helper.removeValueFromArray(
+              trip_id, user.trip_ids
+            );
+            user.save()
+            .then(data => {
+              res.send({ message: "success" });
+            })
+            .catch(err => {
+              res.status(500).send({
+                message: err.message || "Could not update user."
+              });
+            });
+            return;
           } else {
             // If the current user is leaving their own trip and there are other
             // users in the trip, make one of them the new trip owner
