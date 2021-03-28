@@ -25,7 +25,19 @@ exports.create = (req, res) => {
 
     message_board
         .save(message_board)
-        .then((data) => {
+        .then(async (data) => {
+            for (var i = 0; i < req.body.user_ids.length; i++) {
+                try{
+                    var user = await User.findById(req.body.user_ids[i]);
+                    user.message_board_ids.push(data.id);
+                    User.findByIdAndUpdate(req.body.user_ids[i], user, { useFindAndModify: false });
+                } catch (err) {
+                    res.status(500).send({
+                        message: err.message || "There was an error updating the users in the message board."
+                    });
+                    return;
+                }
+            }
             res.send(data.id);
         })
         .catch((err) => {
