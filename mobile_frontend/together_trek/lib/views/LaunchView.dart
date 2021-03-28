@@ -28,20 +28,20 @@ class _LaunchViewState extends State<LaunchView> {
     String userString = _prefs.getString('user');
 
     if (userString == null) {
-      await _prefs.setString('user', jsonEncode(user));
+      await _prefs.setString('user', user.id);
       userString = _prefs.getString('user');
     }
 
-    UserModel readUser = UserModel.fromJson(jsonDecode(userString));
+    // UserModel readUser = UserModel.fromJson(jsonDecode(userString));
 
-    user.setAllFieldsFromUser(readUser);
+    // user.setAllFieldsFromUser(readUser);
 
-    if (user.id != "") {
-      UserModel serverUser = await getUser(user.id);
+    if (userString != "") {
+      UserModel serverUser = await getUser(userString);
 
       user.setAllFieldsFromUser(serverUser);
 
-      await _prefs.setString('user', jsonEncode(user));
+      await _prefs.setString('user', user.id);
     }
   }
 
@@ -83,7 +83,7 @@ class _LaunchViewState extends State<LaunchView> {
             return buildActionDialog(
                 context,
                 "Network Error",
-                "A network error occurred. You might not be connected to the internet.",
+                "${err.toString()} A network error occurred. You might not be connected to the internet.",
                 _refreshNetwork);
           });
     });
