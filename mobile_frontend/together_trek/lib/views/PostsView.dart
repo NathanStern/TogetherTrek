@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
-import 'package:provider/provider.dart';
 import 'package:together_trek/views/EditPostView.dart';
 
 class PostsView extends StatefulWidget {
@@ -23,6 +22,7 @@ class _PostsViewState extends State<PostsView> {
   @override
   Widget build(BuildContext context) {
     posts = context.watch<LoadedPostsModel>();
+    int _toReverse = 1;
     return RefreshIndicator(
       child: ListView.builder(
           itemCount: posts.posts.length,
@@ -48,50 +48,34 @@ class _PostsViewState extends State<PostsView> {
                 ));
           }),
       onRefresh: () async {
-        List<PostModel> retrievedPosts = await getPosts();
+        List<PostModel> retrievedPosts =
+            await getPosts().timeout(Duration(seconds: 15), onTimeout: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return buildStandardDialog(context, "Network Error",
+                    "There was an error retrieving posts from the server.");
+              });
+          _toReverse = 0;
+          return this.posts.posts;
+        }).catchError((err) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return buildStandardDialog(
+                    context, "Network Error", err.toString());
+              });
+          _toReverse = 0;
+          return this.posts.posts;
+        });
         setState(() {
-          _savePosts(retrievedPosts);
+          if (_toReverse == 1) {
+            _savePosts(retrievedPosts);
+          } else {
+            _toReverse = 1;
+          }
         });
       },
     );
-    // } else {
-    //   return Container(
-    //       child: FutureBuilder(
-    //           future: null,
-    //           builder: (BuildContext context,
-    //               AsyncSnapshot<List<PostModel>> snapshot) {
-    //             if (snapshot.hasData) {
-    //               return RefreshIndicator(
-    //                 child: ListView.builder(
-    //                     itemCount: snapshot.data.length,
-    //                     itemBuilder: (BuildContext context, int index) {
-    //                       return ListTile(
-    //                         title: Text(snapshot.data[index].title),
-    //                         onTap: () {
-    //                           showDialog(
-    //                               context: context,
-    //                               builder: (context) => buildStandardDialog(
-    //                                   context,
-    //                                   snapshot.data[index].title,
-    //                                   snapshot.data[index].description));
-    //                         },
-    //                       );
-    //                     }),
-    //                 onRefresh: () async {
-    //                   setState(() {});
-    //                 },
-    //               );
-    //             } else {
-    //               return Column(
-    //                   crossAxisAlignment: CrossAxisAlignment.center,
-    //                   mainAxisAlignment: MainAxisAlignment.center,
-    //                   children: [
-    //                     Row(
-    //                         mainAxisAlignment: MainAxisAlignment.center,
-    //                         crossAxisAlignment: CrossAxisAlignment.center,
-    //                         children: [CircularProgressIndicator()]),
-    //                   ]);
-    //             }
-    //           }));
   }
 }
