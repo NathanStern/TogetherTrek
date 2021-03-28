@@ -69,39 +69,35 @@ exports.login = (req, res) => {
 		res.status(400).send({ message: 'username can not be empty.' })
 		return
 	}
-	const username = req.body.username;
 
-	User.find({ username: username })
+	User.find({ username: req.body.username })
 		.exec()
-		.then(user => {
+		.then((user) => {
 			if (user.length < 1) {
-				res.status(401).send({
+				return res.status(401).json({
 					// We should definitely change this later so there is no indication as to what the user did to screw up the login.
 					message: 'Username does not exist.',
-				});
-				return;
+				})
 			}
 			// this will change once we add encryption
 			if (req.body.password == user[0].password) {
-				const token = token_helper.generateToken(username, user[0].id);
-				res.status(200).send({
+				const token = token_helper.generateToken(usrname, id);
+				return res.status(200).json({
 					message: 'Authentication successful!',
-					token: token
-				});
-				return;
+					token: token,
+				})
 			} else {
-				res.status(401).send({
+				return res.status(401).json({
 					// We should definitely change this later so there is no indication as to what the user did to screw up the login.
-					message: 'Incorrect Password.'
-				});
-				return;
+					message: 'Incorrect Password.',
+				})
 			}
 		})
-		.catch(err => {
-			res.status(500).send({
-				message: err.message || "Could not retrieve user."
-			});
-			return;
+		.catch((err) => {
+			console.log(err)
+			res.status(500).json({
+				error: err,
+			})
 		})
 }
 
