@@ -1,3 +1,4 @@
+import '../index.css';
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col, Container, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
