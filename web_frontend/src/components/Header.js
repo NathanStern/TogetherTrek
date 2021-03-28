@@ -28,6 +28,9 @@ const Header = () => {
 								<LinkContainer to='./createpost'>
 									<Nav.Link>New Post</Nav.Link>
 								</LinkContainer>
+								<LinkContainer to='./createtrip'>
+									<Nav.Link>New Trip</Nav.Link>
+								</LinkContainer>
 							</Nav>
 							<NavDropdown
 								title={userInfo.username}
