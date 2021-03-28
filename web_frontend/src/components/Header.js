@@ -33,8 +33,15 @@ const Header = () => {
 										<span class="white-text">New Post</span>
 									</Nav.Link>
 								</LinkContainer>
+								<LinkContainer to='./trips'>
+									<Nav.Link>
+										<span class="white-text">Trips</span>
+									</Nav.Link>
+								</LinkContainer>
 								<LinkContainer to='./createtrip'>
-									<Nav.Link>New Trip</Nav.Link>
+									<Nav.Link>
+										<span class="white-text">New Trip</span>
+									</Nav.Link>
 								</LinkContainer>
 							</Nav>
 							<NavDropdown

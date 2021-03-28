@@ -13,6 +13,13 @@ import {
 	getMyPostsReducer,
 	updateMyPostReducer,
 } from './reducers/postsReducer'
+import {
+	getMyTripsReducer,
+	getAllTripsReducer,
+	updateMyTripReducer,
+	deleteMyTripReducer,
+	leaveTripReducer
+} from './reducers/tripsReducers'
 
 const reducer = combineReducers({
 	userLogin: userLoginReducer,
@@ -22,7 +29,11 @@ const reducer = combineReducers({
 	getAllPosts: getAllPostsReducer,
 	deleteMyPost: deleteMyPostReducer,
 	updateMyPost: updateMyPostReducer,
-	// allTripsGet: allTripsGetReducer,
+	getMyTrips: getMyTripsReducer,
+	getAllTrips: getAllTripsReducer,
+	updateMyTrip: updateMyTripReducer,
+	deleteMyTrip: deleteMyTripReducer,
+	leaveTrip: leaveTripReducer
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
@@ -37,10 +48,20 @@ const allPostsFromStorage = localStorage.getItem('allPosts')
 	? JSON.parse(localStorage.getItem('allPosts'))
 	: null
 
+const myTripsFromStorage = localStorage.getItem('userTrips')
+	? JSON.parse(localStorage.getItem('userPosts'))
+	: null
+
+const allTripsFromStorage = localStorage.getItem('allTrips')
+	? JSON.parse(localStorage.getItem('allPosts'))
+	: null
+
 const initialState = {
 	userLogin: { userInfo: userInfoFromStorage },
 	myPosts: { myPosts: myPostsFromStorage },
 	allPosts: { allPosts: allPostsFromStorage },
+	myTrips: { myTrips: myTripsFromStorage },
+	allTrips: { allTrips: allTripsFromStorage }
 }
 
 const middleware = [thunk]

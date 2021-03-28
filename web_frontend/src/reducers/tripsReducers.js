@@ -11,6 +11,9 @@ import {
 	MYTRIPS_UPDATE_FAIL,
 	MYTRIPS_UPDATE_REQUEST,
 	MYTRIPS_UPDATE_SUCCESS,
+	MYTRIPS_LEAVE_REQUEST,
+	MYTRIPS_LEAVE_SUCCESS,
+	MYTRIPS_LEAVE_FAIL
 } from '../constants/tripsConstants'
 
 export const getMyTripsReducer = (state = {}, action) => {
@@ -59,6 +62,19 @@ export const deleteMyTripReducer = (state = {}, action) => {
 		case MYTRIPS_DELETE_SUCCESS:
 			return { loading: false, success: true }
 		case MYTRIPS_DELETE_FAIL:
+			return { loading: false, error: action.payload }
+		default:
+			return state
+	}
+}
+
+export const leaveTripReducer = (state = {}, action) => {
+	switch (action.type) {
+		case MYTRIPS_LEAVE_REQUEST:
+			return { loading: true }
+		case MYTRIPS_LEAVE_SUCCESS:
+			return { loading: false, success: true }
+		case MYTRIPS_LEAVE_FAIL:
 			return { loading: false, error: action.payload }
 		default:
 			return state

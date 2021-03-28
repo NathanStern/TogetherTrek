@@ -19,31 +19,32 @@ const CreateTripScreen = ({ history }) => {
 		e.preventDefault()
 		try {
 			const res = await axios.post(`${path}/trips`, {
-                destination:{
+          destination:{
 						country: country,
 						city: city,
 						region: region,
 					},
-				start_date: startDate,
-                end_date: endDate,
-                creator_id: userInfo._id,
-                participant_ids: [userInfo._id],
+					start_date: startDate,
+		      end_date: endDate,
+		      creator_id: userInfo._id,
+		      participant_ids: [userInfo._id],
 			})
-            console.log(res);
-			// await axios.put(`${path}/users/${userInfo._id}`, {
-			// 	...userInfo,
-			// 	trip_ids: userInfo.trip_ids.concat(res.data),
-			// })
+
+			await axios.put(`${path}/users/${userInfo._id}`, {
+				trip_ids: userInfo.trip_ids.concat(res.data),
+			})
 			setMessage('Trip Added')
 			history.push('/')
-		} catch {}
+		} catch(e) {
+			console.log(e);
+		}
 	}
 
 	return (
 		<>
 			{message && <Message variant='success'>{message}</Message>}
 			<Form>
-                <Form.Group controlId='date'>
+      	<Form.Group controlId='date'>
 					<Form.Label>Enter Start Date</Form.Label>
 					<Form.Control
 						type='date'
