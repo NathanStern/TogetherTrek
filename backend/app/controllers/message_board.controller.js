@@ -76,8 +76,9 @@ exports.findAll = (req, res) => {
     let requirements = req.query;
 
     // Get the decoded authorization token
+    let decoded_token;
     try {
-      const decoded_token = token_helper.getDecodedToken(req.headers);
+      decoded_token = token_helper.getDecodedToken(req.headers);
     } catch (err) {
       res.status(err[0]).send({ meesage: err[1] });
       return;
