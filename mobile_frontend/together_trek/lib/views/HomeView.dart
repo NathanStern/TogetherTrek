@@ -14,6 +14,7 @@ import 'package:together_trek/views/MakePostView.dart';
 import 'package:together_trek/views/MessagesView.dart';
 import 'package:together_trek/views/PostsView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
+import 'package:together_trek/views/NotificationView.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
@@ -30,7 +31,8 @@ class _HomeViewState extends State<HomeView> {
   static List<Widget> _widgetOptions = <Widget>[
     MessagesView(),
     PostsView(),
-    ProfilePage()
+    ProfilePage(),
+    NotificationView(),
   ];
 
   void _onTappedItem(int index) {
@@ -108,13 +110,29 @@ class _HomeViewState extends State<HomeView> {
         ),
         body: _widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
-          items: [
+          //backgroundColor: Colors.orange,//this will not change background color
+          showUnselectedLabels: true,
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                icon: Icon(Icons.message_outlined), label: "Messages"),
+              icon: Icon(Icons.message),
+              label: 'Messages',
+              backgroundColor: Colors.deepOrange,
+            ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: "Home"),
+              icon: Icon(Icons.home),
+              label: 'Home',
+              backgroundColor: Colors.deepOrange,
+            ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline), label: "Profile")
+              icon: Icon(Icons.person),
+              label: 'Profile',
+              backgroundColor: Colors.deepOrange,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add_alert_rounded),
+              label: 'Notification',
+              backgroundColor: Colors.deepOrange,
+            ),
           ],
           currentIndex: _selectedIndex,
           onTap: _onTappedItem,
