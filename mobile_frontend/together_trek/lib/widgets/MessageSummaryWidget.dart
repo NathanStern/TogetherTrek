@@ -36,10 +36,39 @@ Widget createMessageSummaryWidget(MessageSummaryModel messageBoard) {
                             padding: EdgeInsets.all(10),
                             child: Text("${_expandMessageNames(messageBoard)}",
                                 style: TextStyle(
-                                    fontSize: 16, color: Colors.grey[850]))))
+                                    fontSize: 16, color: Colors.grey[850])))),
                   ],
                 ),
-                Row()
+                Row(
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                          padding:
+                              EdgeInsets.only(bottom: 10, right: 10, left: 10),
+                          child: Text(
+                              messageBoard.latestMessage.data.length > 35
+                                  ? messageBoard.latestMessage.data
+                                      .replaceRange(
+                                          33,
+                                          messageBoard
+                                              .latestMessage.data.length,
+                                          "...")
+                                  : messageBoard.latestMessage.data,
+                              style: TextStyle(color: Colors.grey))),
+                    ),
+                    Spacer(flex: 2),
+                    Flexible(
+                        flex: 1,
+                        child: Container(
+                            padding: EdgeInsets.only(
+                                bottom: 10, right: 10, left: 10),
+                            child: Text(DateTime.tryParse(
+                                    messageBoard.latestMessage.postDate)
+                                .toLocal()
+                                .toString())))
+                  ],
+                )
               ],
             ))),
   );

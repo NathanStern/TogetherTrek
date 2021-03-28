@@ -12,6 +12,7 @@ import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/HomeDrawerView.dart';
 import 'package:together_trek/views/MakePostView.dart';
 import 'package:together_trek/views/MessagesView.dart';
+import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/PostsView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
 import 'package:provider/provider.dart';
@@ -62,12 +63,18 @@ class _HomeViewState extends State<HomeView> {
               child: FloatingActionButton(
                   tooltip: "New Message",
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => buildStandardDialog(
-                            context,
-                            "New Message",
-                            "This function has not been implemented yet. This is just a test dialog."));
+                    // showDialog(
+                    //     context: context,
+                    //     builder: (context) => buildStandardDialog(
+                    //         context,
+                    //         "New Message",
+                    //         "This function has not been implemented yet. This is just a test dialog."));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PlaceholderView(
+                                  title: "New Message",
+                                )));
                   },
                   child: Icon(Icons.add))));
     } else {
