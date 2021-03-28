@@ -45,8 +45,9 @@ Widget createMessageSummaryWidget(MessageSummaryModel messageBoard) {
       "${date.hour}:${date.minute} $halfDay ${months[date.month - 1]} ${date.day}";
   return Container(
     child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
         child: InkWell(
-            borderRadius: BorderRadius.circular(2.5),
+            borderRadius: BorderRadius.circular(3),
             enableFeedback: true,
             splashColor: Colors.deepOrangeAccent,
             onTap: () {},

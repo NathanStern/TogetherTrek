@@ -28,12 +28,15 @@ class _PostsViewState extends State<PostsView> {
           itemCount: posts.posts.length,
           itemBuilder: (BuildContext context, int index) {
             return Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(3)),
                 elevation: 2,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InkWell(
+                        borderRadius: BorderRadius.circular(2.5),
                         enableFeedback: true,
                         splashColor: Colors.deepOrangeAccent,
                         onTap: () {
