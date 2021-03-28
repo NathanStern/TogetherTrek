@@ -116,22 +116,22 @@ class _HomeViewState extends State<HomeView> {
             BottomNavigationBarItem(
               icon: Icon(Icons.message),
               label: 'Messages',
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.deepOrange,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.deepOrange,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: 'Profile',
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.deepOrange,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.add_alert_rounded),
               label: 'Notification',
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.deepOrange,
             ),
           ],
           currentIndex: _selectedIndex,
