@@ -350,61 +350,20 @@ exports.removeUser = (req, res) => {
           });
         }
       } else {
-        // If the current user is not the one being removed, then they are being
-        // removed by another user
-
-        // TODO: implement the following logic
-        // if the current_user_id matches the creator_id of the trip
-        // then the current user owns the trip and therefore has permission to
-        // remove other users from the trip so remove the user_id_to_remove from
-        // the trip's participant_ids then remove the trip_id from the
-        // user's list of trip_ids
-
         // if the current_user_id does not match the creator_id of the trip
         // then the current user does not own the trip and therefore does not have
         // permission to remove other users from it so return an error
         if (current_user_id == trip.creator_id) {
-          if (trip.participant_ids.length == 1) {
-            // If the current user is leaving their own trip and they are the
-            // last user in the trip, delete the trip
-            await trip.delete()
-            .catch(err => {
-              res.status(500).send({
-                message: err.message || "Could not delete trip."
-              })
-            });
-
-            // Remove the trip_id from the user's trip_ids
-            user.trip_ids = array_helper.removeValueFromArray(
-              trip_id, user.trip_ids
-            );
-            user.save()
-            .then(data => {
-              res.send({ message: "success" });
-              return;
-            })
-            .catch(err => {
-              res.status(500).send({
-                message: err.message || "Could not update user."
-              });
-              return;
-            });
-          } else {
             // If the current user is leaving their own trip and there are other
             // users in the trip, make one of them the new trip owner
-            trip.participant_ids = array_helper.removeValueFromArray(
-              user_id_to_remove, trip.participant_ids
-            );
-            trip.creator_id = participant_ids[0];
-            await trip.save()
-            .catch(err => {
-              res.status(500).send({
-                message: err.message || "Could not update trip."
-              });
-              return;
+          await trip.save()
+          .catch(err => {
+            res.status(500).send({
+              message: err.message || "Could not update trip."
             });
-          }
-
+            return;
+          });
+          
           // Remove the trip_id from the user's trip_ids
           user.trip_ids = array_helper.removeValueFromArray(
             trip_id, user.trip_ids
