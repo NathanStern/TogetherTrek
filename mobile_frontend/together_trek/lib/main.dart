@@ -12,11 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:together_trek/views/LaunchView.dart';
 
 void main() async {
-  LoadedPostsModel posts =
-      LoadedPostsModel(posts: List.from((await getPosts()).reversed));
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => UserModel.empty()),
-    ChangeNotifierProvider(create: (context) => posts),
+    ChangeNotifierProvider(create: (context) => LoadedPostsModel.empty()),
     ChangeNotifierProvider(create: (context) => TokenModel(token: ""))
   ], child: MyApp()));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -26,38 +24,8 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-
-  Future<void> _getUserData(BuildContext context) async {
-    UserModel user = context.read<UserModel>();
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-
-    String userString = _prefs.getString('user');
-
-    if (userString == null) {
-      await _prefs.setString('user', jsonEncode(user));
-      userString = _prefs.getString('user');
-    }
-
-    UserModel readUser = UserModel.fromJson(jsonDecode(userString));
-
-    user.setAllFieldsFromUser(readUser);
-
-    user.setAllFieldsFromUser(user);
-  }
-
-  Future<void> _getJWT(BuildContext context) async {
-    TokenModel token = context.read<TokenModel>();
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-
-    String readToken = _prefs.getString('jwt');
-
-    token.setFields(readToken);
-  }
-
   @override
   Widget build(BuildContext context) {
-    _getUserData(context);
-    _getJWT(context);
     return MaterialApp(
         title: 'TogetherTrek',
         theme: ThemeData(

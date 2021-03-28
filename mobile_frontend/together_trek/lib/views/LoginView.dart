@@ -1,13 +1,13 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:hex/hex.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sha3/sha3.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/api/UserWrapper.dart';
-import 'package:provider/provider.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/RegistrationView.dart';
 
@@ -49,9 +49,6 @@ class _LoginViewState extends State<LoginView> {
         if (!currentNode.hasPrimaryFocus) {
           currentNode.unfocus();
         }
-
-        // print(_usernameController.text);
-        // print(_passwordController.text);
 
         SHA3 test = SHA3(256, SHA3_PADDING, 256);
         test.update(utf8.encode(_passwordController.text));
@@ -105,7 +102,6 @@ class _LoginViewState extends State<LoginView> {
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  //crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Card(
                       elevation: 3,
@@ -158,7 +154,24 @@ class _LoginViewState extends State<LoginView> {
                                 textInputAction: TextInputAction.go,
                                 autofillHints: [AutofillHints.password],
                                 onFieldSubmitted: (val) async {
-                                  await _login();
+                                  await _login().timeout(Duration(seconds: 15),
+                                      onTimeout: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return buildStandardDialog(
+                                              context,
+                                              "Network Error",
+                                              "There was an error contacting the server.");
+                                        });
+                                  }).catchError((err) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return buildStandardDialog(context,
+                                              "Network Error", err.toString());
+                                        });
+                                  });
                                 },
                                 validator: (value) {
                                   if (value.isEmpty) {
@@ -170,7 +183,24 @@ class _LoginViewState extends State<LoginView> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  await _login();
+                                  await _login().timeout(Duration(seconds: 15),
+                                      onTimeout: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return buildStandardDialog(
+                                              context,
+                                              "Network Error",
+                                              "There was an error contacting the server.");
+                                        });
+                                  }).catchError((err) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return buildStandardDialog(context,
+                                              "Network Error", err.toString());
+                                        });
+                                  });
                                 },
                                 child: Text("Submit"),
                               ),
