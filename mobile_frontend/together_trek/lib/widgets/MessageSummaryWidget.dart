@@ -5,6 +5,21 @@ import 'package:together_trek/models/MessageSummaryListModel.dart';
 
 import 'package:together_trek/models/MessageSummaryModel.dart';
 
+List<String> months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec'
+];
+
 String _expandMessageNames(MessageSummaryModel messageBoard) {
   String expandedNames = "";
 
@@ -21,9 +36,17 @@ String _expandMessageNames(MessageSummaryModel messageBoard) {
 }
 
 Widget createMessageSummaryWidget(MessageSummaryModel messageBoard) {
+  DateTime date = DateTime.tryParse(messageBoard.latestMessage.postDate);
+  String halfDay = "AM";
+  if (date.hour >= 12) {
+    halfDay = "PM";
+  }
+  String timestamp =
+      "${date.hour}:${date.minute} $halfDay ${months[date.month - 1]} ${date.day}";
   return Container(
     child: Card(
         child: InkWell(
+            borderRadius: BorderRadius.circular(2.5),
             enableFeedback: true,
             splashColor: Colors.deepOrangeAccent,
             onTap: () {},
@@ -32,20 +55,24 @@ Widget createMessageSummaryWidget(MessageSummaryModel messageBoard) {
                 Row(
                   children: <Widget>[
                     Flexible(
-                        child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Text("${_expandMessageNames(messageBoard)}",
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.grey[850])))),
+                      child: Container(
+                          padding: EdgeInsets.all(10),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                  "${_expandMessageNames(messageBoard)}",
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.grey[850])))),
+                    )
                   ],
                 ),
                 Row(
                   children: [
                     Flexible(
-                      flex: 1,
-                      child: Container(
-                          padding:
-                              EdgeInsets.only(bottom: 10, right: 10, left: 10),
+                        child: Container(
+                      padding: EdgeInsets.only(bottom: 10, left: 12),
+                      child: Align(
+                          alignment: Alignment.centerLeft,
                           child: Text(
                               messageBoard.latestMessage.data.length > 35
                                   ? messageBoard.latestMessage.data
@@ -56,17 +83,17 @@ Widget createMessageSummaryWidget(MessageSummaryModel messageBoard) {
                                           "...")
                                   : messageBoard.latestMessage.data,
                               style: TextStyle(color: Colors.grey))),
-                    ),
-                    Spacer(flex: 2),
+                    )),
+                    Spacer(),
                     Flexible(
-                        flex: 1,
                         child: Container(
-                            padding: EdgeInsets.only(
-                                bottom: 10, right: 10, left: 10),
-                            child: Text(DateTime.tryParse(
-                                    messageBoard.latestMessage.postDate)
-                                .toLocal()
-                                .toString())))
+                            padding: EdgeInsets.only(bottom: 10, right: 12),
+                            child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  timestamp,
+                                  style: TextStyle(color: Colors.grey),
+                                ))))
                   ],
                 )
               ],

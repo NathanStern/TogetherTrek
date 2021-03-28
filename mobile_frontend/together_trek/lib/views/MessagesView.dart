@@ -21,16 +21,28 @@ class _MessagesViewState extends State<MessagesView> {
     MessageSummaryListModel summaries = context.read<MessageSummaryListModel>();
     if (summaries.messageBoards.isEmpty) {
       _getMessages(summaries);
-      return Container(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Nothing Here",
-                style: TextStyle(fontSize: 18, color: Colors.grey))
-          ],
-        )
-      ]));
+      return RefreshIndicator(
+          onRefresh: () {},
+          child: Container(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Nothing Here",
+                        style: TextStyle(fontSize: 18, color: Colors.grey)),
+                  ],
+                ),
+                ElevatedButton(
+                  child: Text("Refresh"),
+                  onPressed: () async {
+                    await _getMessages(summaries);
+                    setState(() {});
+                    return true;
+                  },
+                ),
+              ])));
     }
     return RefreshIndicator(
         child: ListView.builder(
