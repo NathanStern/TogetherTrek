@@ -1672,7 +1672,12 @@
 											"value": "60445c76a3041c53e897352c",
 											"type": "text"
 										}
-									]
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
 								"url": {
 									"raw": "{{site}}:{{port}}/trip_photos",
