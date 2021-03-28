@@ -493,3 +493,8 @@ exports.acceptFriendRequest = (req, res) => {
 			return;
 	});
 }
+
+// invites a User to a Trip
+exports.inviteUser = (req, res) => {
+
+}
