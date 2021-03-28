@@ -1,3 +1,4 @@
+import '../index.css';
 import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
@@ -23,10 +24,14 @@ const Header = () => {
 						<>
 							<Nav className='ml-auto'>
 								<LinkContainer to='./posts'>
-									<Nav.Link>Posts</Nav.Link>
+									<Nav.Link>
+										<span class="white-text">Posts</span>
+									</Nav.Link>
 								</LinkContainer>
 								<LinkContainer to='./createpost'>
-									<Nav.Link>New Post</Nav.Link>
+									<Nav.Link>
+										<span class="white-text">New Post</span>
+									</Nav.Link>
 								</LinkContainer>
 							</Nav>
 							<NavDropdown
@@ -36,7 +41,7 @@ const Header = () => {
 								// 		{userInfo.username}
 								// 	</span>
 								// }<
-								id='username'
+								id='nav-dropdown'
 							>
 								<LinkContainer to='/profile'>
 									<NavDropdown.Item>Profile</NavDropdown.Item>
