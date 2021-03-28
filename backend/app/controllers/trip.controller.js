@@ -43,7 +43,23 @@ exports.create = (req, res) => {
 
   trip
   .save(trip)
-  .then(data => {
+  .then(async (data) => {
+    var user = await User.findById(req.body.creator_id)
+    if (!user) {
+        res.status(500).send({ message: "Could not update user." })
+    }
+    user.trip_ids.push(data.id)
+    User.findByIdAndUpdate(req.body.author_id, user, { useFindAndModify: false })
+      .then((data) => {
+          if (!data) {
+              res.status(404).send({ message: `Could not find User with id=${id}.` })
+          } else {
+              res.send({ message: 'User was updated successfully!' })
+          }
+      })
+      .catch((err) => {
+          res.status(500).send({ message: `Error retrieving User with id=${id}.` })
+      })
     res.send(data.id);
   })
   .catch(err => {
