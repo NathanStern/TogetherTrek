@@ -265,23 +265,24 @@ exports.removeUser = (req, res) => {
       if (user_id_to_remove == current_user_id) {
         // If the current user is the one being removed, they are leaving a trip
 
-        if (current_user_id == trip.creator_id
-          && trip.participant_ids.length == 1) {
-          // If the current user is leaving their own trip and they are the
-          // last user in the trip, delete the trip
-          await trip.delete()
-          .catch(err => {
-            res.status(500).send({
-              message: err.message || "Could not delete trip."
+        if (current_user_id == trip.creator_id) {
+          if (trip.participant_ids.length == 1) {
+            // If the current user is leaving their own trip and they are the
+            // last user in the trip, delete the trip
+            await trip.delete()
+            .catch(err => {
+              res.status(500).send({
+                message: err.message || "Could not delete trip."
+              });
+              fail = 1;
             });
-            fail = 1;
-          });
-          if (fail)
-            return;
-        } else {
-          // If the current user is leaving their own trip and there are other
-          // users in the trip, make one of them the new trip owner
-          trip.creator_id = trip.participant_ids[0];
+            if (fail)
+              return;
+          } else {
+            // If the current user is leaving their own trip and there are other
+            // users in the trip, make one of them the new trip owner
+            trip.creator_id = trip.participant_ids[0];
+          }
         }
 
         // Remove the user_id from the trip's participant_ids
