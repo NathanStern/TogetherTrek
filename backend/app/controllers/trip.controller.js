@@ -353,12 +353,13 @@ exports.removeUser = (req, res) => {
           });
         }
       } else {
-        // if the current_user_id does not match the creator_id of the trip
-        // then the current user does not own the trip and therefore does not have
-        // permission to remove other users from it so return an error
+        // If the current user is not the one being removed, they must be
+        // removed by the trip owner
         if (current_user_id == trip.creator_id) {
-            // If the current user is leaving their own trip and there are other
-            // users in the trip, make one of them the new trip owner
+          // If the current user is the trip owner, remove the user
+          trip.participant_ids = array_helper.removeValueFromArray(
+            user_id_to_remove, trip.participant_ids
+          );
           await trip.save()
           .catch(err => {
             res.status(500).send({
@@ -383,8 +384,7 @@ exports.removeUser = (req, res) => {
             return;
           });
         } else {
-          // If the current user is leaving somebody else's trip, remove the
-          // user_id_to_remove from the trip's participant_ids
+          // If the user making the request is not the trip owner, return an error
           res.status(500).send({
               message: err.message || "Could not update trip because current user doesn't have permission."
           });
