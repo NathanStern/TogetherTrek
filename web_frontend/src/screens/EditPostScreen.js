@@ -30,17 +30,6 @@ const EditPostScreen = ({ location, history }) => {
   const [birthdate, setBirthdate] = useState(userInfo.birthdate)
   const dispatch = useDispatch()
 
-  const [username, setUsername] = useState(userInfo.username)
-  const [firstName, setFirstName] = useState(userInfo.first_name)
-  const [lastName, setLastName] = useState(userInfo.last_name)
-  const [email, setEmail] = useState(userInfo.email)
-  const [password, setPassword] = useState(userInfo.password)
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [message, setMessage] = useState(null)
-  const [gender, setGender] = useState(userInfo.gender)
-  const [birthdate, setBirthdate] = useState(userInfo.birthdate)
-  const dispatch = useDispatch()
-
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
   const { loading, success, error } = userUpdateProfile
   const submitHandler = (e) => {

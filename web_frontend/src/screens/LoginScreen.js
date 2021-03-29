@@ -8,10 +8,11 @@ import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, getPosts } from '../actions/postsActions'
-import { sha3_256 } from 'js-sha3'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios'
 import { path } from '../constants/pathConstant'
+import { sha3_256 } from 'js-sha3'
+
 const LoginScreen = ({ history, location }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -31,7 +32,7 @@ const LoginScreen = ({ history, location }) => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(login(username, password)).then((e) => {
+    dispatch(login(username, sha3_256(password))).then((e) => {
       dispatch(getMyPosts())
       dispatch(getPosts())
     })

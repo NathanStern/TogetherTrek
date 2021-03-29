@@ -15,32 +15,32 @@ import {
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
 import jwt from 'jwt-decode'
+import { sha3_256 } from 'js-sha3'
 
 export const login = (username, password) => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
     })
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
 
+    const hashedPassword = sha3_256(password)
+    // console.log(`Hashed password is ${hashedPassword}`)
     axios
       .post(`${path}/users/login`, { username, password })
       .then((res) => {
         const token = res.data.token
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        }
         const user_id = jwt(token)['id']
-
         axios
           .get(`${path}/users/${user_id}`)
           .then((res) => {
             let user = res.data
-            console.log('user:')
-            console.log(user)
             user['token'] = token
-            console.log(user)
 
             localStorage.setItem('userInfo', JSON.stringify(user))
 
@@ -173,6 +173,7 @@ export const getUserFriends = () => async (dispatch, getState) => {
     type: USER_GET_FRIENDS_REQUEST,
   })
   try {
+    console.log('Get User Friends')
     const {
       userLogin: { userInfo },
     } = getState()
@@ -182,6 +183,7 @@ export const getUserFriends = () => async (dispatch, getState) => {
         'Content-Type': 'application/json',
       },
     }
+    console.log(userInfo)
     let friends = []
     userInfo.friend_ids.map((el) =>
       getFriend(el).then((res) => {

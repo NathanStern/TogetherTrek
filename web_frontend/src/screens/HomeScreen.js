@@ -17,14 +17,15 @@ const HomeScreen = () => {
   useEffect(() => {
     if (userInfo) {
       dispatch(getPosts())
-      token = JSON.parse(localStorage.getItem('myToken'))
-      encToken = JSON.parse(localStorage.getItem('encToken'))
+      // token = JSON.parse(localStorage.getItem('myToken'))
+      // encToken = JSON.parse(localStorage.getItem('encToken'))
       dispatch(login(userInfo.username, userInfo.password)).then((e) =>
-        dispatch(getUserFriends())
+        setTimeout(() => {
+          dispatch(getUserFriends())
+          dispatch(getMyPosts())
+          dispatch(getMyTrips())
+        }, 1200)
       )
-      dispatch(login(token, encToken)).then((e) => dispatch(getUserFriends()))
-      dispatch(getMyPosts())
-      dispatch(getMyTrips())
     }
   }, [])
 
