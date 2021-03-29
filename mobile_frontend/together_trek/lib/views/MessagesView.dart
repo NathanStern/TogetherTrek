@@ -24,7 +24,6 @@ class _MessagesViewState extends State<MessagesView> {
       Future.delayed(Duration(seconds: 0), () async {
         await _getMessages(summaries);
         setState(() {});
-        return true;
       });
       return RefreshIndicator(
           onRefresh: () {},
