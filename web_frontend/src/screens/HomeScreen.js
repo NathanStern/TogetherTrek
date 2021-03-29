@@ -1,5 +1,5 @@
 import '../index.css'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { getMyPosts, getPosts } from '../actions/postsActions'
 import { getUserFriends, login } from '../actions/userActions'
@@ -11,14 +11,18 @@ import { getMyTrips } from '../actions/tripsActions'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
-  const { userInfo, loading } = useSelector((state) => state.userLogin)
+  const { userInfo } = useSelector((state) => state.userLogin)
+  const [loading, setLoading] = useState(false)
   let token = ''
   let encToken = ''
+  let load = true
   useEffect(() => {
     if (userInfo) {
       dispatch(getPosts())
-      // token = JSON.parse(localStorage.getItem('myToken'))
-      // encToken = JSON.parse(localStorage.getItem('encToken'))
+      setLoading(true)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1600)
       dispatch(login(userInfo.username, userInfo.password)).then((e) =>
         setTimeout(() => {
           dispatch(getUserFriends())

@@ -16,7 +16,7 @@ const Header = () => {
     <header>
       <Navbar bg='primary' variant='dark' expand='lg' id='navbarColor01'>
         <Container>
-          <LinkContainer to='./'>
+          <LinkContainer to='/'>
             <Navbar.Brand>TogetherTrek</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -24,24 +24,30 @@ const Header = () => {
             <>
               <Nav className='ml-auto'>
                 <LinkContainer to='/friends'>
-                  <Nav.Link>Friends</Nav.Link>
+                  <Nav.Link>
+                    <span class='white-text'>Friends</span>
+                  </Nav.Link>
                 </LinkContainer>
-                <LinkContainer to='./posts'>
+                <LinkContainer to='/posts'>
                   <Nav.Link>
                     <span class='white-text'>Posts</span>
                   </Nav.Link>
                 </LinkContainer>
-                <LinkContainer to='./createpost'>
+                <LinkContainer to='/createpost'>
                   <Nav.Link>
                     <span class='white-text'>New Post</span>
                   </Nav.Link>
                 </LinkContainer>
-                <LinkContainer to='./createtrip'>
-                  <Nav.Link>New Trip</Nav.Link>
+                <LinkContainer to='/createtrip'>
+                  <Nav.Link>
+                    <span class='white-text'>New Trip</span>
+                  </Nav.Link>
                 </LinkContainer>
                 {userInfo.friend_requests.length > 0 && (
                   <LinkContainer to='/notifications'>
-                    <Nav.Link>Notifications</Nav.Link>
+                    <Nav.Link>
+                      <span class='white-text'>Notifications</span>
+                    </Nav.Link>
                   </LinkContainer>
                 )}
               </Nav>

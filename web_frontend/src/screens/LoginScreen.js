@@ -32,6 +32,7 @@ const LoginScreen = ({ history, location }) => {
 
   const submitHandler = (e) => {
     e.preventDefault()
+    // console.log(`hashed password is ${sha3_256(password)}`)
     dispatch(login(username, sha3_256(password))).then((e) => {
       dispatch(getMyPosts())
       dispatch(getPosts())

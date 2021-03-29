@@ -48,7 +48,8 @@ export const getMyPosts = () => async (dispatch, getState) => {
     )
     console.log(myPosts)
     const posts = myPosts
-
+    console.log('my posts')
+    console.log(posts)
     dispatch({
       type: MYPOSTS_GET_SUCCESS,
       payload: posts,
