@@ -15,79 +15,80 @@ const CreateTripScreen = ({ history }) => {
   const [endDate, setEndDate] = useState(new Date())
   const [message, setMessage] = useState('')
 
-  const tripHandler = async (e) => {
-    e.preventDefault()
-    try {
-      const res = await axios.post(`${path}/trips`, {
-        destination: {
-          country: country,
-          city: city,
-          region: region,
-        },
-        start_date: startDate,
-        end_date: endDate,
-        creator_id: userInfo._id,
-        participant_ids: [userInfo._id],
-      })
-      console.log(res)
-      // await axios.put(`${path}/users/${userInfo._id}`, {
-      // 	...userInfo,
-      // 	trip_ids: userInfo.trip_ids.concat(res.data),
-      // })
-      setMessage('Trip Added')
-      history.push('/')
-    } catch {}
-  }
+	const tripHandler = async (e) => {
+		e.preventDefault()
+		try {
+			const res = await axios.post(`${path}/trips`, {
+          destination:{
+						country: country,
+						city: city,
+						region: region,
+					},
+					start_date: startDate,
+		      end_date: endDate,
+		      creator_id: userInfo._id,
+		      participant_ids: [userInfo._id],
+			})
 
-  return (
-    <>
-      {message && <Message variant='success'>{message}</Message>}
-      <Form>
-        <Form.Group controlId='date'>
-          <Form.Label>Enter Start Date</Form.Label>
-          <Form.Control
-            type='date'
-            placeholder='Enter Last Name'
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group controlId='date'>
-          <Form.Label>Enter End Date</Form.Label>
-          <Form.Control
-            type='date'
-            placeholder='Enter Last Name'
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group controlId='text'>
-          <Form.Label>Country</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Enter Country'
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group controlId='text'>
-          <Form.Label>City</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Enter City'
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group controlId='text'>
-          <Form.Label>Region</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Enter Region'
-            value={region}
-            onChange={(e) => setRegion(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+			await axios.put(`${path}/users/${userInfo._id}`, {
+				trip_ids: userInfo.trip_ids.concat(res.data),
+			})
+			setMessage('Trip Added')
+			history.push('/')
+		} catch(e) {
+			console.log(e);
+		}
+	}
+
+	return (
+		<>
+			{message && <Message variant='success'>{message}</Message>}
+			<Form>
+      	<Form.Group controlId='date'>
+					<Form.Label>Enter Start Date</Form.Label>
+					<Form.Control
+						type='date'
+						placeholder='Enter Last Name'
+						value={startDate}
+						onChange={(e) => setStartDate(e.target.value)}
+					></Form.Control>
+				</Form.Group>
+                <Form.Group controlId='date'>
+					<Form.Label>Enter End Date</Form.Label>
+					<Form.Control
+						type='date'
+						placeholder='Enter Last Name'
+						value={endDate}
+						onChange={(e) => setEndDate(e.target.value)}
+					></Form.Control>
+				</Form.Group>
+				<Form.Group controlId='text'>
+					<Form.Label>Country</Form.Label>
+					<Form.Control
+						type='text'
+						placeholder='Enter Country'
+						value={country}
+						onChange={(e) => setCountry(e.target.value)}
+					></Form.Control>
+				</Form.Group>
+				<Form.Group controlId='text'>
+					<Form.Label>City</Form.Label>
+					<Form.Control
+						type='text'
+						placeholder='Enter City'
+						value={city}
+						onChange={(e) => setCity(e.target.value)}
+					></Form.Control>
+				</Form.Group>
+				<Form.Group controlId='text'>
+					<Form.Label>Region</Form.Label>
+					<Form.Control
+						type='text'
+						placeholder='Enter Region'
+						value={region}
+						onChange={(e) => setRegion(e.target.value)}
+					></Form.Control>
+				</Form.Group>
 
         <Button
           variant='primary'

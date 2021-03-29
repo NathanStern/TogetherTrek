@@ -1,16 +1,20 @@
 import {
-  ALLTRIPS_GET_FAIL,
-  ALLTRIPS_GET_REQUEST,
-  ALLTRIPS_GET_SUCCESS,
-  MYTRIPS_DELETE_FAIL,
-  MYTRIPS_DELETE_REQUEST,
-  MYTRIPS_DELETE_SUCCESS,
-  MYTRIPS_GET_FAIL,
-  MYTRIPS_GET_REQUEST,
-  MYTRIPS_GET_SUCCESS,
-  MYTRIPS_UPDATE_FAIL,
-  MYTRIPS_UPDATE_REQUEST,
-  MYTRIPS_UPDATE_SUCCESS,
+
+	ALLTRIPS_GET_FAIL,
+	ALLTRIPS_GET_REQUEST,
+	ALLTRIPS_GET_SUCCESS,
+	MYTRIPS_DELETE_FAIL,
+	MYTRIPS_DELETE_REQUEST,
+	MYTRIPS_DELETE_SUCCESS,
+	MYTRIPS_GET_FAIL,
+	MYTRIPS_GET_REQUEST,
+	MYTRIPS_GET_SUCCESS,
+	MYTRIPS_UPDATE_FAIL,
+	MYTRIPS_UPDATE_REQUEST,
+	MYTRIPS_UPDATE_SUCCESS,
+	MYTRIPS_LEAVE_REQUEST,
+	MYTRIPS_LEAVE_SUCCESS,
+	MYTRIPS_LEAVE_FAIL
 } from '../constants/tripsConstants'
 
 export const getMyTripsReducer = (state = {}, action) => {
@@ -63,4 +67,17 @@ export const deleteMyTripReducer = (state = {}, action) => {
     default:
       return state
   }
+}
+
+export const leaveTripReducer = (state = {}, action) => {
+	switch (action.type) {
+		case MYTRIPS_LEAVE_REQUEST:
+			return { loading: true }
+		case MYTRIPS_LEAVE_SUCCESS:
+			return { loading: false, success: true }
+		case MYTRIPS_LEAVE_FAIL:
+			return { loading: false, error: action.payload }
+		default:
+			return state
+	}
 }

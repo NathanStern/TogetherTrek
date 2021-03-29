@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { getMyPosts, getPosts } from '../actions/postsActions'
 import { getUserFriends, login } from '../actions/userActions'
+import { getMyTrips, getTrips } from '../actions/tripsActions'
+
+
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import jwt_decode from 'jwt-decode'
@@ -32,6 +35,7 @@ const HomeScreen = () => {
       )
     }
   }, [])
+
 
   return (
     <div>

@@ -7,6 +7,7 @@ import { logout } from '../actions/userActions'
 const Header = () => {
   const dispatch = useDispatch()
 
+
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
   const logoutHandler = (e) => {
@@ -64,6 +65,7 @@ const Header = () => {
                   <NavDropdown.Item>Profile</NavDropdown.Item>
                 </LinkContainer>
                 {/* <LinkContainer to='/post'>
+
 									<NavDropdown.Item>New Post</NavDropdown.Item>
 								</LinkContainer> */}
                 <NavDropdown.Item onClick={logoutHandler}>
