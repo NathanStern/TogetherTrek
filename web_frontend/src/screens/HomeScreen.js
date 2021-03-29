@@ -2,6 +2,7 @@ import '../index.css';
 import React, { useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { getMyPosts, getPosts } from '../actions/postsActions'
+import { getMyTrips, getTrips } from '../actions/tripsActions'
 import { login } from '../actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
@@ -13,6 +14,8 @@ const HomeScreen = () => {
 	useEffect(() => {
 		dispatch(getPosts())
 		dispatch(getMyPosts())
+		dispatch(getTrips())
+		dispatch(getMyTrips())
 
 		if (userInfo) {
 			dispatch(login(userInfo.username, userInfo.password))

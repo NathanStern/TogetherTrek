@@ -13,6 +13,9 @@ import {
 	MYTRIPS_UPDATE_FAIL,
 	MYTRIPS_UPDATE_REQUEST,
 	MYTRIPS_UPDATE_SUCCESS,
+	MYTRIPS_LEAVE_REQUEST,
+	MYTRIPS_LEAVE_SUCCESS,
+	MYTRIPS_LEAVE_FAIL
 } from '../constants/tripsConstants'
 
 const getTrip = async (trip_id) => {
@@ -118,7 +121,6 @@ export const updateMyTrip = (trip) => async (dispatch, getState) => {
 				'Content-Type': 'application/json',
 			},
 		}
-		console.log(trip)
 		await axios.put(`${path}/trips/${trip._id}`, trip)
 		dispatch({
 			type: MYTRIPS_UPDATE_SUCCESS,
@@ -134,7 +136,7 @@ export const updateMyTrip = (trip) => async (dispatch, getState) => {
 	}
 }
 
-export const getTrips = (email, password) => async (dispatch) => {
+export const getTrips = () => async (dispatch) => {
 	try {
 		dispatch({
 			type: ALLTRIPS_GET_REQUEST,
@@ -163,3 +165,41 @@ export const getTrips = (email, password) => async (dispatch) => {
 	}
 }
 
+export const leaveTrip = (trip) => async (dispatch, getState) => {
+	try {
+		dispatch({
+			type: MYTRIPS_LEAVE_REQUEST,
+		})
+		const {
+			userLogin: { userInfo },
+		} = getState()
+
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': userInfo.token
+			}
+		}
+		const data = {
+			'user_id': userInfo._id
+		}
+
+		const resp = await axios.put(
+			`${path}/trips/remove-user/${trip._id}`,
+			data, config
+		)
+
+		dispatch({
+			type: MYTRIPS_LEAVE_SUCCESS,
+			payload: resp.data,
+		})
+	} catch (error) {
+		dispatch({
+			type: MYTRIPS_LEAVE_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.response,
+		})
+	}
+}
