@@ -496,5 +496,43 @@ exports.acceptFriendRequest = (req, res) => {
 
 // invites a User to a Trip
 exports.inviteUser = (req, res) => {
-
+	const user_id = req.params.id;
+    if (!req.body.inviting_user_id) {
+        res.status(400).send({ message: 'inviting_user_id can not be empty.' })
+        return;
+    }
+	if (!req.body.trip_id) {
+		res.status(400).send({ message: 'trip_id cannot be empty'})
+		return;
+	}
+	const inviting_user_id = req.body.inviting_user_id;
+    User.findById(user_id)
+    .then(user => {
+		Trip.findById(trip_id)
+		.then(trip => {
+			trip.join_requests.push(inviting_user_id);
+			user.save()
+			.then(data => {
+				res.send({ message: "success" });
+				return;
+			})
+			.catch(err => {
+				res.status(500).send({
+					message: err.message || "Could not update user."
+				});
+				return;
+			});
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: err.message || "Could not retrieve trip."
+			})
+		})
+    })
+    .catch(err => {
+		    res.status(500).send({
+		        message: err.message || "Could not retrieve user."
+		    });
+				return;
+    });
 }
