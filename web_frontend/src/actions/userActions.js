@@ -8,6 +8,9 @@ import {
 	USER_UPDATE_PROFILE_REQUEST,
 	USER_UPDATE_PROFILE_SUCCESS,
 	USER_UPDATE_PROFILE_FAIL,
+	USER_GET_FRIENDS_REQUEST,
+	USER_GET_FRIENDS_FAIL,
+	USER_GET_FRIENDS_SUCCESS,
 } from '../constants/userConstants'
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
@@ -71,6 +74,8 @@ export const login = (username, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
 	localStorage.removeItem('userInfo')
 	localStorage.removeItem('userPosts')
+	localStorage.removeItem('myToken')
+	localStorage.removeItem('encToken')
 	dispatch({ type: USER_LOGIN_LOGOUT })
 }
 
@@ -81,7 +86,7 @@ export const register = (
 	gender,
 	birthdate,
 	email,
-	password
+	hashPassword
 ) => async (dispatch) => {
 	try {
 		dispatch({
@@ -95,7 +100,7 @@ export const register = (
 		}
 		const newUser = {
 			username: username,
-			password: password,
+			password: hashPassword,
 			email: email,
 			birthdate: birthdate,
 			gender: gender,
@@ -130,12 +135,11 @@ export const register = (
 				payload: 'ERROR',
 			})
 		} else {
-			dispatch({
-				type: USER_LOGIN_SUCCESS,
-				payload: data,
-			})
-
-			localStorage.setItem('userInfo', JSON.stringify(newUser))
+			// dispatch({
+			// 	type: USER_LOGIN_SUCCESS,
+			// 	payload: data,
+			// })
+			// localStorage.setItem('userInfo', JSON.stringify(newUser))
 			// localStorage.setItem(
 			// 	'userInfo',
 			// 	JSON.stringify([...newUser, { _id: data }])
@@ -148,6 +152,52 @@ export const register = (
 				error.response && error.response.data.message
 					? error.response.data.message
 					: error.response,
+		})
+	}
+}
+
+const getFriend = async (friend_id) => {
+	try {
+		const post = await axios.get(`${path}/users/${friend_id}`)
+		console.log(post.data)
+		return post.data
+	} catch (err) {
+		console.log(err)
+	}
+}
+
+export const getUserFriends = () => async (dispatch, getState) => {
+	dispatch({
+		type: USER_GET_FRIENDS_REQUEST,
+	})
+	try {
+		const {
+			userLogin: { userInfo },
+		} = getState()
+
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		}
+		let friends = []
+		userInfo.friend_ids.map((el) =>
+			getFriend(el).then((res) => {
+				friends.push(res)
+			})
+		)
+		const myFriends = friends
+		dispatch({
+			type: USER_GET_FRIENDS_SUCCESS,
+			payload: myFriends,
+		})
+	} catch (error) {
+		dispatch({
+			type: USER_GET_FRIENDS_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
 		})
 	}
 }
@@ -194,9 +244,6 @@ export const updateUserProfile = (
 			_v: userInfo._v,
 		}
 
-		// console.log(newUser)
-		// console.log(userInfo._id)
-		// console.log(`http://localhost:3001/users/${userInfo._id}`)
 		const { data } = await axios.put(
 			`${path}/users/${userInfo._id}`,
 			newUser,

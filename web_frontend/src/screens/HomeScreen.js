@@ -2,20 +2,28 @@ import '../index.css';
 import React, { useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { getMyPosts, getPosts } from '../actions/postsActions'
-import { login } from '../actions/userActions'
+import { getUserFriends, login } from '../actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
+import jwt_decode from 'jwt-decode'
+import { useLocation } from 'react-router'
+import { getMyTrips } from '../actions/tripsActions'
 
 const HomeScreen = () => {
 	const dispatch = useDispatch()
 	const { userInfo, loading } = useSelector((state) => state.userLogin)
-
+	let token = ''
+	let encToken = ''
 	useEffect(() => {
-		dispatch(getPosts())
-		dispatch(getMyPosts())
-
 		if (userInfo) {
+			dispatch(getPosts())
+			token = JSON.parse(localStorage.getItem('myToken'))
+			encToken = JSON.parse(localStorage.getItem('encToken'))
+
+			dispatch(login(token, encToken)).then((e) => dispatch(getUserFriends()))
 			dispatch(login(userInfo.username, userInfo.password))
+			dispatch(getMyPosts())
+			dispatch(getMyTrips())
 		}
 	}, [])
 

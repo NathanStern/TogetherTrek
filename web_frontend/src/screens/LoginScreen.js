@@ -3,11 +3,15 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../actions/userActions'
+import { getUserFriends, login } from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, getPosts } from '../actions/postsActions'
+import { sha3_256 } from 'js-sha3'
+import jwt_decode from 'jwt-decode'
+import axios from 'axios'
+import { path } from '../constants/pathConstant'
 const LoginScreen = ({ history, location }) => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
@@ -25,12 +29,22 @@ const LoginScreen = ({ history, location }) => {
 		}
 	}, [history, userInfo, redirect])
 
-	const submitHandler = (e) => {
+	const submitHandler = async (e) => {
 		e.preventDefault()
-		dispatch(login(username, password)).then((e) => {
-			dispatch(getMyPosts())
-			dispatch(getPosts())
-		})
+		// dispatch(login(username, password)).then((e) => {
+		// const hashedPassword = sha3_256(password)
+		// console.log(`hashed password in login is ${hashedPassword}`)
+		// const { data } = await axios.post(`${path}/users/login`, {
+		// 	username: email,
+		// 	password: hashedPassword,
+		// })
+		// const decoded = jwt_decode(data.token)
+		// localStorage.setItem('encToken', JSON.stringify(data.token))
+		// dispatch(login(decoded, data.token)).then((e) => {
+		// 	dispatch(getMyPosts())
+		// 	dispatch(getPosts())
+		// 	dispatch(getUserFriends())
+		// })
 	}
 
 	return (

@@ -11,6 +11,7 @@ import {
 } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteMyPost, updateMyPost } from '../actions/postsActions'
+import { Link } from 'react-router-dom'
 
 const Post = ({ post, personal }) => {
 	// console.log(post)
@@ -63,7 +64,7 @@ const Post = ({ post, personal }) => {
 						<Card.Text>{description}</Card.Text>
 						<Card.Text>{post.post_date}</Card.Text>
 
-						{personal && (
+						{personal === true && (
 							<Container>
 								<Row>
 									<Col>
@@ -84,11 +85,22 @@ const Post = ({ post, personal }) => {
 								</Row>
 							</Container>
 						)}
+						{personal === false && (
+							<Container>
+								<Row>
+									<Col>
+										<Link to={`/profile/${post.author_id}`}>
+											Author's Profile
+										</Link>
+									</Col>
+								</Row>
+							</Container>
+						)}
 					</Card.Body>
 				</Card>
 			)}
 			{edit && (
-				<Form onSubmit={updateHandler}>
+				<Form onSubmit={updateHandler} style={{ width: '18rem' }}>
 					<Form.Group controlId='text'>
 						<Form.Label>Title</Form.Label>
 						<Form.Control

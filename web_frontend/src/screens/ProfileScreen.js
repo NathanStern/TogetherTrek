@@ -1,33 +1,53 @@
 import '../index.css';
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col, Container, Card } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Post from '../components/Post'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, deleteMyPost } from '../actions/postsActions'
+import axios from 'axios'
 import { path } from '../constants/pathConstant'
-
-const ProfileScreen = ({ location, history }) => {
+const PersonalProfileScreen = ({ location, history, useParams }) => {
 	const dispatch = useDispatch()
 	//user info contains information about the user
-	// const myPosts = useSelector((state) => state.myPosts)
-	const { userInfo } = useSelector((state) => state.userLogin)
-	const { myPosts } = useSelector((state) => state.getMyPosts)
-	const deletePost = useSelector((state) => state.deleteMyPost)
-	const updatePost = useSelector((state) => state.updateMyPost)
-	const [posts, setPosts] = [myPosts]
-	const [toDelete, setToDelete] = useState('')
-	const personal = true
-	const redirect = '/'
-	let profilePic
 
+	const [profileInfo, setProfileInfo] = useState({})
+	const { userInfo } = useSelector((state) => state.userLogin)
+	const [message, setMessage] = useState(null)
+
+	const { pathname } = useLocation()
+	const id = pathname.split('/')[2]
+	useEffect(async () => {
+		const profile = await axios.get(`${path}/users/${id}`)
+		setProfileInfo(profile.data)
+	})
+
+	const profilePic =
+		'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+	const redirect = '/'
 	useEffect(() => {
-		if (!userInfo) {
+		if (!profileInfo) {
 			history.push(redirect)
 		}
-	}, [history, userInfo, redirect])
+	}, [history, profileInfo, redirect])
+
+	const addFriend = (e) => {
+		e.preventDefault()
+		axios
+			.put(`${path}/users/request-friend/${profileInfo._id}`, {
+				requesting_user_id: userInfo._id,
+			})
+			.then((res) => {
+				setMessage('Friend Request is Sent')
+				setTimeout(() => {
+					setMessage(null)
+				}, 1000)
+			})
+
+		console.log('Sent friend request')
+	}
 
 	if (userInfo) {
 		if (userInfo.profile_pic) {
@@ -39,33 +59,27 @@ const ProfileScreen = ({ location, history }) => {
 
 	return (
 		<>
-			{userInfo && (
+			{message && <Message variant='success'>{message}</Message>}
+
+			{profileInfo && (
 				<Row>
 					<Col md={3}>
 						<h2>User Profile</h2>
 						<img src={profilePic} alt='profile pic' width='100' height='100' />
-						<div>Username: {userInfo.username}</div>
-						<div>First Name: {userInfo.first_name}</div>
-						<div>Last Name: {userInfo.last_name}</div>
-						<div>Birthday: {userInfo.birthdate}</div>
-						<div>Gender: {userInfo.gender}</div>
-						<Link to={'/editprofile'}>Edit Profile</Link>
+						<div>Username: {profileInfo.username}</div>
+						<div>First Name: {profileInfo.first_name}</div>
+						<div>Last Name: {profileInfo.last_name}</div>
+						<div>Birthday: {profileInfo.birthdate}</div>
+						<div>Gender: {profileInfo.gender}</div>
+						<Button variant='primary' onClick={addFriend}>
+							Add Friend
+						</Button>
 					</Col>
 					<Col md={3}>
-						<h2>My Posts</h2>
-						{deletePost.loading && (
-							<Message variant='success'>Post Deleted</Message>
-						)}
-						{updatePost.loading && (
-							<Message variant='success'>Post Edited</Message>
-						)}
-						{posts &&
-							posts.map((el) => (
-								<Post post={el} key={el._id} personal={personal} />
-							))}
+						<h2>User Posts</h2>
 					</Col>
 					<Col md={3}>
-						<h2>My Trips</h2>
+						<h2>User Trips</h2>
 					</Col>
 				</Row>
 			)}
@@ -73,4 +87,4 @@ const ProfileScreen = ({ location, history }) => {
 	)
 }
 
-export default ProfileScreen
+export default PersonalProfileScreen

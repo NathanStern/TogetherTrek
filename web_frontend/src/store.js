@@ -5,15 +5,18 @@ import {
 	userLoginReducer,
 	userRegisterReducer,
 	userUpdateProfileReducer,
+	userGetFriendsReducer,
+	userRejectFriendReducer,
+	userAcceptFriendReducer,
 } from './reducers/userReducers'
-// import { tripsGetReducer } from './reducers/tripsReducers'
 import {
 	deleteMyPostReducer,
 	getAllPostsReducer,
 	getMyPostsReducer,
 	updateMyPostReducer,
 } from './reducers/postsReducer'
-
+import { myTripsGetReducer } from './reducers/tripsReducers'
+import { profileAddMessageBoardReducer } from './reducers/profilesReducer'
 const reducer = combineReducers({
 	userLogin: userLoginReducer,
 	userRegister: userRegisterReducer,
@@ -22,6 +25,11 @@ const reducer = combineReducers({
 	getAllPosts: getAllPostsReducer,
 	deleteMyPost: deleteMyPostReducer,
 	updateMyPost: updateMyPostReducer,
+	getFriends: userGetFriendsReducer,
+	getMyTrips: myTripsGetReducer,
+	rejectFriendRequest: userRejectFriendReducer,
+	acceptFriendRequest: userAcceptFriendReducer,
+	profileAddMessageBoard: profileAddMessageBoardReducer,
 	// allTripsGet: allTripsGetReducer,
 })
 
@@ -37,10 +45,15 @@ const allPostsFromStorage = localStorage.getItem('allPosts')
 	? JSON.parse(localStorage.getItem('allPosts'))
 	: null
 
+const tokenFromStorage = localStorage.getItem('myToken')
+	? JSON.parse(localStorage.getItem('myToken'))
+	: null
+
 const initialState = {
 	userLogin: { userInfo: userInfoFromStorage },
 	myPosts: { myPosts: myPostsFromStorage },
 	allPosts: { allPosts: allPostsFromStorage },
+	token: { token: tokenFromStorage },
 }
 
 const middleware = [thunk]
