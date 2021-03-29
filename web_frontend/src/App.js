@@ -11,6 +11,7 @@ import SearchScreen from './screens/SearchScreen'
 import CreateTripScreen from './screens/CreateTripScreen'
 import EditProfileScreen from './screens/EditProfileScreen'
 import PostsScreen from './screens/PostsScreen'
+import TripsScreen from './screens/TripsScreen'
 import EditPostScreen from './screens/EditPostScreen'
 import MakePostScreen from './screens/MakePostScreen'
 import CreatePostScreen from './screens/CreatePostScreen'
@@ -39,6 +40,8 @@ function App() {
           <Route path='/friends' component={FriendsScreen} />
           <Route path='/notifications' component={NotificationsScreen} />
           <Route path='/messages' component={MessagesScreen} />
+          <Route path='/createpost' component={CreatePostScreen} />
+          <Route path='/trips' component={TripsScreen} />
         </Container>
       </main>
       <Footer />

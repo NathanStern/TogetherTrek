@@ -1,3 +1,4 @@
+import '../index.css'
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
@@ -12,7 +13,7 @@ import jwt_decode from 'jwt-decode'
 import axios from 'axios'
 import { path } from '../constants/pathConstant'
 const LoginScreen = ({ history, location }) => {
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
@@ -28,20 +29,11 @@ const LoginScreen = ({ history, location }) => {
     }
   }, [history, userInfo, redirect])
 
-  const submitHandler = async (e) => {
+  const submitHandler = (e) => {
     e.preventDefault()
-    const hashedPassword = sha3_256(password)
-    console.log(`hashed password in login is ${hashedPassword}`)
-    const { data } = await axios.post(`${path}/users/login`, {
-      username: email,
-      password: hashedPassword,
-    })
-    const decoded = jwt_decode(data.token)
-    localStorage.setItem('encToken', JSON.stringify(data.token))
-    dispatch(login(decoded, data.token)).then((e) => {
+    dispatch(login(username, password)).then((e) => {
       dispatch(getMyPosts())
       dispatch(getPosts())
-      dispatch(getUserFriends())
     })
   }
 
@@ -51,13 +43,13 @@ const LoginScreen = ({ history, location }) => {
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId='email'>
+        <Form.Group controlId='username'>
           <Form.Label>Username</Form.Label>
           <Form.Control
-            type='username'
+            type='name'
             placeholder='Enter Username'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Group>
         <Form.Group controlId='password'>
@@ -76,7 +68,7 @@ const LoginScreen = ({ history, location }) => {
       </Button>
       <Row className='py-3'>
         <Col>
-          New Customer?{' '}
+          New User?{' '}
           <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
             Register
           </Link>

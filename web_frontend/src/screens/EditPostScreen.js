@@ -1,3 +1,4 @@
+import '../index.css'
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
@@ -17,6 +18,17 @@ const EditPostScreen = ({ location, history }) => {
       history.push(redirect)
     }
   }, [history, userInfo, redirect])
+
+  const [username, setUsername] = useState(userInfo.username)
+  const [firstName, setFirstName] = useState(userInfo.first_name)
+  const [lastName, setLastName] = useState(userInfo.last_name)
+  const [email, setEmail] = useState(userInfo.email)
+  const [password, setPassword] = useState(userInfo.password)
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [message, setMessage] = useState(null)
+  const [gender, setGender] = useState(userInfo.gender)
+  const [birthdate, setBirthdate] = useState(userInfo.birthdate)
+  const dispatch = useDispatch()
 
   const [username, setUsername] = useState(userInfo.username)
   const [firstName, setFirstName] = useState(userInfo.first_name)

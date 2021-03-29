@@ -1,3 +1,4 @@
+import '../index.css'
 import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
@@ -15,7 +16,7 @@ const Header = () => {
     <header>
       <Navbar bg='primary' variant='dark' expand='lg' id='navbarColor01'>
         <Container>
-          <LinkContainer to='/'>
+          <LinkContainer to='./'>
             <Navbar.Brand>TogetherTrek</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -25,17 +26,19 @@ const Header = () => {
                 <LinkContainer to='/friends'>
                   <Nav.Link>Friends</Nav.Link>
                 </LinkContainer>
-                <LinkContainer to='/posts'>
-                  <Nav.Link>Posts</Nav.Link>
+                <LinkContainer to='./posts'>
+                  <Nav.Link>
+                    <span class='white-text'>Posts</span>
+                  </Nav.Link>
                 </LinkContainer>
-                <LinkContainer to='/createpost'>
-                  <Nav.Link>New Post</Nav.Link>
+                <LinkContainer to='./createpost'>
+                  <Nav.Link>
+                    <span class='white-text'>New Post</span>
+                  </Nav.Link>
                 </LinkContainer>
-                {userInfo.friend_requests.length > 0 && (
-                  <LinkContainer to='/notifications'>
-                    <Nav.Link>Notifications</Nav.Link>
-                  </LinkContainer>
-                )}
+                <LinkContainer to='./createtrip'>
+                  <Nav.Link>New Trip</Nav.Link>
+                </LinkContainer>
               </Nav>
               <NavDropdown
                 title={userInfo.username}
@@ -44,11 +47,14 @@ const Header = () => {
                 // 		{userInfo.username}
                 // 	</span>
                 // }<
-                id='username'
+                id='nav-dropdown'
               >
                 <LinkContainer to='/profile'>
                   <NavDropdown.Item>Profile</NavDropdown.Item>
                 </LinkContainer>
+                {/* <LinkContainer to='/post'>
+									<NavDropdown.Item>New Post</NavDropdown.Item>
+								</LinkContainer> */}
                 <NavDropdown.Item onClick={logoutHandler}>
                   Logout
                 </NavDropdown.Item>
@@ -57,7 +63,7 @@ const Header = () => {
           ) : (
             <Navbar.Collapse id='basic-navbar-nav'>
               <Nav className='ml-auto'>
-                <LinkContainer to='/login'>
+                <LinkContainer to='./login'>
                   <Nav.Link>Sign In</Nav.Link>
                 </LinkContainer>
               </Nav>

@@ -131,27 +131,51 @@ class MyCustomFormState extends State<MyCustomForm> {
             },
             onSaved: (val) => setState(() => _region = val),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              onPressed: () async {
-                // Validate returns true if the form is valid, or false
-                // otherwise.
-                if (_formKey.currentState.validate()) {
-                  final form = _formKey.currentState;
-                  form.save();
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    // Validate returns true if the form is valid, or false
+                    // otherwise.
+                    if (_formKey.currentState.validate()) {
+                      final form = _formKey.currentState;
+                      form.save();
 
-                  await updatePost(context, _id, _title, _description, _country,
-                      _city, _region, post);
-                  Navigator.pop(context);
-                  LoadedPostsModel loadedPosts =
-                      context.read<LoadedPostsModel>();
-                  loadedPosts.notifyListeners();
-                }
-              },
-              child: Text('Submit'),
-            ),
-          ),
+                      await updatePost(context, _id, _title, _description, _country,
+                          _city, _region, post);
+                      Navigator.pop(context);
+                      LoadedPostsModel loadedPosts =
+                          context.read<LoadedPostsModel>();
+                      loadedPosts.notifyListeners();
+                    }
+                  },
+                  child: Text('Submit'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    // Validate returns true if the form is valid, or false
+                    // otherwise.
+                    if (_formKey.currentState.validate()) {
+                      final form = _formKey.currentState;
+                      form.save();
+
+                      await deletePost( _id);
+                      Navigator.pop(context);
+                      LoadedPostsModel loadedPosts =
+                          context.read<LoadedPostsModel>();
+                      loadedPosts.removePost(_id);
+                    }
+                  },
+                  child: Text('Delete'),
+                )
+              )
+            ]
+          )
         ],
       ),
     );

@@ -14,21 +14,54 @@ import {
 } from '../constants/userConstants'
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
-let token = ''
-export const login = (tok, tok2) => async (dispatch) => {
+import jwt from 'jwt-decode'
+
+export const login = (username, password) => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
     })
-    token = tok
-    const { data } = await axios.get(`${path}/users/${token.id}`)
-    console.log(data)
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: { ...data, token: tok2 },
-    })
-    localStorage.setItem('userInfo', JSON.stringify(data))
-    localStorage.setItem('myToken', JSON.stringify(tok))
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+
+    axios
+      .post(`${path}/users/login`, { username, password })
+      .then((res) => {
+        const token = res.data.token
+        const user_id = jwt(token)['id']
+
+        axios
+          .get(`${path}/users/${user_id}`)
+          .then((res) => {
+            let user = res.data
+            console.log('user:')
+            console.log(user)
+            user['token'] = token
+            console.log(user)
+
+            localStorage.setItem('userInfo', JSON.stringify(user))
+
+            dispatch({
+              type: USER_LOGIN_SUCCESS,
+              payload: user,
+            })
+          })
+          .catch((err) => {
+            dispatch({
+              type: USER_LOGIN_FAIL,
+              payload: 'Login Failed',
+            })
+          })
+      })
+      .catch((err) => {
+        dispatch({
+          type: USER_LOGIN_FAIL,
+          payload: 'Login Failed',
+        })
+      })
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,

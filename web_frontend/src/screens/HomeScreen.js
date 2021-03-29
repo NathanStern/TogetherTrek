@@ -1,3 +1,4 @@
+import '../index.css'
 import React, { useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { getMyPosts, getPosts } from '../actions/postsActions'
@@ -18,7 +19,9 @@ const HomeScreen = () => {
       dispatch(getPosts())
       token = JSON.parse(localStorage.getItem('myToken'))
       encToken = JSON.parse(localStorage.getItem('encToken'))
-
+      dispatch(login(userInfo.username, userInfo.password)).then((e) =>
+        dispatch(getUserFriends())
+      )
       dispatch(login(token, encToken)).then((e) => dispatch(getUserFriends()))
       dispatch(getMyPosts())
       dispatch(getMyTrips())

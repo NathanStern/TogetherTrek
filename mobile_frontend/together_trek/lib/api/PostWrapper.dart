@@ -1,10 +1,10 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import "package:together_trek/api/httpRequest.dart";
-import 'package:together_trek/models/PostModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+
+import "package:together_trek/api/httpRequest.dart";
+import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 
 Future<List<PostModel>> getPosts() async {
@@ -38,8 +38,6 @@ Future<Null> makePost(BuildContext context, String title, String description,
     ]
   });
   http.Response res = await httpPost('posts', data);
-  print(res.statusCode);
-  print(res.body);
 }
 
 Future<String> updatePost(
@@ -63,4 +61,8 @@ Future<String> updatePost(
   http.Response res = await httpPut('posts/${id}', data);
   print(res.statusCode);
   print(res.body);
+}
+
+Future<Null> deletePost(String id) async {
+  http.Response res = await httpDelete('posts/${id}');
 }
