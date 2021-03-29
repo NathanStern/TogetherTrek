@@ -27,7 +27,13 @@ class _ConversationViewState extends State<ConversationView> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(this.messageSummary.latestMessage.data),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                  "Most Recent Message: ${this.messageSummary.latestMessage.data}"),
+            ],
+          ),
         ],
       ),
     );
