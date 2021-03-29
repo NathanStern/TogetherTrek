@@ -14,14 +14,18 @@ class _MessagesViewState extends State<MessagesView> {
   void _getMessages(MessageSummaryListModel summaries) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     summaries.setAllFields(await getMessageSummaries(prefs.getString("jwt")));
-    setState(() {});
+    //setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     MessageSummaryListModel summaries = context.read<MessageSummaryListModel>();
     if (summaries.messageBoards.isEmpty) {
-      _getMessages(summaries);
+      Future.delayed(Duration(seconds: 0), () async {
+        await _getMessages(summaries);
+        setState(() {});
+        return true;
+      });
       return RefreshIndicator(
           onRefresh: () {},
           child: Container(
