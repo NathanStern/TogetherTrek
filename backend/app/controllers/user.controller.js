@@ -514,7 +514,7 @@ exports.inviteUser = (req, res) => {
 				res.status(400).send({ message: 'User is not a member of the trip.'})
 				return;
 			}
-			trip.join_requests.push(inviting_user_id);
+			user.trip_requests.push(trip_id);
 			user.save()
 			.then(data => {
 				res.send({ message: "success" });
