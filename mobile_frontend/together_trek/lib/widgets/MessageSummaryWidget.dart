@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:together_trek/models/MessageSummaryListModel.dart';
 
 import 'package:together_trek/models/MessageSummaryModel.dart';
+import 'package:together_trek/views/ConversationView.dart';
 
 List<String> months = [
   'Jan',
@@ -35,7 +36,8 @@ String _expandMessageNames(MessageSummaryModel messageBoard) {
   return expandedNames;
 }
 
-Widget createMessageSummaryWidget(MessageSummaryModel messageBoard) {
+Widget createMessageSummaryWidget(
+    BuildContext context, MessageSummaryModel messageBoard) {
   DateTime date = DateTime.tryParse(messageBoard.latestMessage.postDate);
   String halfDay = "AM";
   if (date.hour >= 12) {
@@ -61,7 +63,15 @@ Widget createMessageSummaryWidget(MessageSummaryModel messageBoard) {
             borderRadius: BorderRadius.circular(3),
             enableFeedback: true,
             splashColor: Colors.deepOrangeAccent,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ConversationView(
+                            messageSummary: messageBoard,
+                            messageName: _expandMessageNames(messageBoard),
+                          )));
+            },
             child: Column(
               children: [
                 Row(

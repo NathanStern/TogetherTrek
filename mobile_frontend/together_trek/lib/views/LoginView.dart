@@ -76,7 +76,6 @@ class _LoginViewState extends State<LoginView> {
           user.setAllFieldsFromUser(fetchedUser);
 
           prefs.setString('user', this.user.id);
-          print(await prefs.getString('user'));
           Navigator.popUntil(context, ModalRoute.withName("/"));
         }
       }
