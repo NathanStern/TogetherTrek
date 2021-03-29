@@ -1,4 +1,4 @@
-import '../index.css';
+import '../index.css'
 import React, { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import axios from 'axios'
@@ -6,14 +6,14 @@ import Message from '../components/Message'
 import { path } from '../constants/pathConstant'
 import { useSelector } from 'react-redux'
 const CreateTripScreen = ({ history }) => {
-	const { userInfo } = useSelector((state) => state.userLogin)
+  const { userInfo } = useSelector((state) => state.userLogin)
 
-	const [country, setCountry] = useState('')
-	const [city, setCity] = useState('')
-	const [region, setRegion] = useState('')
-    const [startDate, setStartDate] = useState(new Date())
-	const [endDate, setEndDate] = useState(new Date())
-    const [message, setMessage] = useState('')
+  const [country, setCountry] = useState('')
+  const [city, setCity] = useState('')
+  const [region, setRegion] = useState('')
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(new Date())
+  const [message, setMessage] = useState('')
 
 	const tripHandler = async (e) => {
 		e.preventDefault()
@@ -90,17 +90,17 @@ const CreateTripScreen = ({ history }) => {
 					></Form.Control>
 				</Form.Group>
 
-				<Button
-					variant='primary'
-					onClick={(e) => {
-						tripHandler(e)
-					}}
-				>
-					Post
-				</Button>
-			</Form>
-		</>
-	)
+        <Button
+          variant='primary'
+          onClick={(e) => {
+            tripHandler(e)
+          }}
+        >
+          Post
+        </Button>
+      </Form>
+    </>
+  )
 }
 
 export default CreateTripScreen

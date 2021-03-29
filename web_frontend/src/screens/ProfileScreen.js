@@ -1,15 +1,31 @@
-import '../index.css';
+import '../index.css'
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col, Container, Card } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Post from '../components/Post'
 import Trip from '../components/Trip'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, deleteMyPost } from '../actions/postsActions'
+import axios from 'axios'
 import { getMyTrips, leaveTrip } from '../actions/tripsActions'
 import { path } from '../constants/pathConstant'
+const ProfileScreen = ({ location, history, useParams }) => {
+  const dispatch = useDispatch()
+  //user info contains information about the user
+  const { userInfo } = useSelector((state) => state.userLogin)
+  const { myPosts } = useSelector((state) => state.getMyPosts)
+  const { myTrips } = useSelector((state) => state.getMyTrips)
+  const deletePost = useSelector((state) => state.deleteMyPost)
+  const updatePost = useSelector((state) => state.updateMyPost)
+  const leaveTrip = useSelector((state) => state.leaveTrip)
+  const [posts, setPosts] = [myPosts]
+  const [trips, setTrips] = [myTrips]
+  const [toDelete, setToDelete] = useState('')
+  const personal = true
+  const [message, setMessage] = useState(null)
+
 
 const ProfileScreen = ({ location, history }) => {
 	const dispatch = useDispatch()
@@ -83,6 +99,7 @@ const ProfileScreen = ({ location, history }) => {
 			)}
 		</>
 	)
+
 }
 
 export default ProfileScreen
