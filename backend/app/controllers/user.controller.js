@@ -69,35 +69,39 @@ exports.login = (req, res) => {
 		res.status(400).send({ message: 'username can not be empty.' })
 		return
 	}
+	const username = req.body.username;
 
-	User.find({ username: req.body.username })
+	User.find({ username: username })
 		.exec()
-		.then((user) => {
+		.then(user => {
 			if (user.length < 1) {
-				return res.status(401).json({
+				res.status(401).send({
 					// We should definitely change this later so there is no indication as to what the user did to screw up the login.
 					message: 'Username does not exist.',
-				})
+				});
+				return;
 			}
 			// this will change once we add encryption
 			if (req.body.password == user[0].password) {
-				const token = token_helper.generateToken(usrname, id);
-				return res.status(200).json({
+				const token = token_helper.generateToken(username, user[0].id);
+				res.status(200).send({
 					message: 'Authentication successful!',
-					token: token,
-				})
+					token: token
+				});
+				return;
 			} else {
-				return res.status(401).json({
+				res.status(401).send({
 					// We should definitely change this later so there is no indication as to what the user did to screw up the login.
-					message: 'Incorrect Password.',
-				})
+					message: 'Incorrect Password.'
+				});
+				return;
 			}
 		})
-		.catch((err) => {
-			console.log(err)
-			res.status(500).json({
-				error: err,
-			})
+		.catch(err => {
+			res.status(500).send({
+				message: err.message || "Could not retrieve user."
+			});
+			return;
 		})
 }
 
@@ -189,67 +193,68 @@ exports.delete = (req, res) => {
 
 // Sets a users profile pic to a new image
 exports.setProfilePic = (req, res) => {
-	const user_id = req.params.id
+	const user_id = req.params.id;
 
 	// Validate all expected fields were passed
 	if (!req.files || !req.files.file) {
-		res.status(400).send({ message: 'file can not be empty.' })
-		return
+		res.status(400).send({ message: 'file can not be empty.' });
+		return;
 	}
-	const file = req.files.file
+	const file = req.files.file;
 
 	// Validate file is an image
 	if (!file.mimetype.startsWith('image')) {
-		res.status(400).send({ message: 'file must be type image.' })
-		return
+		res.status(400).send({ message: 'file must be type image.' });
+		return;
 	}
 
 	// Get the user entry from the database
-	const user = User.findById(user_id)
-		.then((user) => {
-			if (!user) {
-				res.status(404).send({
-					message: `Could not find User with id=${user_id}.`,
-				})
-			} else {
-				// Rename the file so that it is unique in S3
-				file.name = `${user_id}${path.parse(file.name).ext}`
-				let new_pic_filename = file.name
+	User.findById(user_id)
+	.then(async user => {
+		if (!user) {
+			res.status(404).send({
+				message: `Could not find User with id=${user_id}.`,
+			});
+			return;
+		} else {
+			// Rename the file so that it is unique in S3
+			file.name = `${user_id}${path.parse(file.name).ext}`
+			let new_pic_filename = file.name;
 
-				// Attempt to upload the new profile pic to S3
-				s3_handler.upload(file).catch((err) => {
-					res.status(500).send({
-						message: err.message || 'Could not upload new profile pic.',
-					})
-					return
-				})
-
-				// Update the user profile_pic filename and upload_date
-				user.profile_pic.filename = new_pic_filename
-				user.profile_pic.upload_date = Date.now()
-
-				user
-					.save()
-					.then((data) => {
-						res.send({
-							message: 'success',
-						})
-						return
-					})
-					.catch((err) => {
-						res.status(500).send({
-							message:
-								err.message ||
-								'Some error occurred while updating profile pic.',
-						})
-					})
-			}
-		})
-		.catch((err) => {
-			res.status(500).send({
-				message: `Some error occurred while retrieving User with id=${user_id}.`,
+			// Attempt to upload the new profile pic to S3
+			await s3_handler.upload(file)
+			.catch((err) => {
+				res.status(500).send({
+					message: err.message || 'Could not upload new profile pic.',
+				});
+				return;
 			})
+
+			// Update the user profile_pic filename and upload_date
+			user.profile_pic.filename = new_pic_filename
+			user.profile_pic.upload_date = Date.now()
+
+			user.save()
+			.then((data) => {
+				res.send({
+					message: 'success',
+				});
+				return;
+			})
+			.catch((err) => {
+				res.status(500).send({
+					message:
+						err.message ||
+						'Some error occurred while updating profile pic.',
+				});
+			});
+		}
+	})
+	.catch((err) => {
+		res.status(500).send({
+			message: `Some error occurred while retrieving User with id=${user_id}.`,
 		})
+	})
 }
 
 // Gets a users profile pic
@@ -494,6 +499,7 @@ exports.acceptFriendRequest = (req, res) => {
 	});
 }
 
+
 // invites a User to a Trip
 exports.inviteUser = (req, res) => {
 	const user_id = req.params.id;
@@ -539,4 +545,41 @@ exports.inviteUser = (req, res) => {
 		    });
 				return;
     });
+
+// Decline a friend request
+exports.declineFriendRequest = (req, res) => {
+	const current_user_id = req.params.id;
+
+	if (!req.body.requesting_user_id) {
+			res.status(400).send({ message: 'requesting_user_id can not be empty.' })
+			return
+	}
+	const requesting_user_id = req.body.requesting_user_id;
+
+	User.findById(current_user_id)
+	.then(current_user => {
+		// Remove the requesting_user_id from the current user's friend_requests
+		// list
+		current_user.friend_requests = array_helper.removeValueFromArray(
+			requesting_user_id, current_user.friend_requests
+		);
+		current_user.save()
+		.then(data => {
+			res.send({ message: "success" });
+			return;
+		})
+		.catch(err => {
+				res.status(500).send({
+						message: err.message || "Could not update current user."
+				});
+				return;
+		});
+	})
+	.catch(err => {
+		res.status(500).send({
+				message: err.message || "Could not retrieve current user."
+		});
+		return;
+	});
+
 }

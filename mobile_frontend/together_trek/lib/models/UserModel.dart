@@ -32,8 +32,13 @@ class UserModel extends ChangeNotifier {
   bool _empty = false;
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    List<dynamic> coords = json['location']['coordinates'];
-    if (json['location']['coordinates'].isEmpty) {
+    List<dynamic> coords;
+    if (json['location'] != null) {
+      coords = json['location']['coordinates'];
+      if (json['location']['coordinates'].isEmpty) {
+        coords = [0, 0];
+      }
+    } else {
       coords = [0, 0];
     }
 

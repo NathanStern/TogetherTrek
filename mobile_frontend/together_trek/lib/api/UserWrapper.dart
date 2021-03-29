@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/painting.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -34,9 +34,7 @@ Future<int> userLogin(String data) async {
   }
 
   Map<String, dynamic> json = jsonDecode(response.body);
-
   Map<String, dynamic> token = JwtDecoder.decode(json['token']);
-
   saveJWT(json['token']);
 
   return response.statusCode;
