@@ -27,7 +27,7 @@ const ProfileScreen = ({ location, history }) => {
 	const personal = true
 	const redirect = '/'
 	let profilePic
-
+	
 	useEffect(() => {
 		if (!userInfo) {
 			history.push(redirect)
@@ -40,7 +40,10 @@ const ProfileScreen = ({ location, history }) => {
 		} else {
 			profilePic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
 		}
+
+		dispatch(getMyTrips)
 	}
+	console.log(userInfo._id)
 
 	return (
 		<>

@@ -49,19 +49,19 @@ const allPostsFromStorage = localStorage.getItem('allPosts')
 	: null
 
 const myTripsFromStorage = localStorage.getItem('userTrips')
-	? JSON.parse(localStorage.getItem('userPosts'))
+	? JSON.parse(localStorage.getItem('userTrips'))
 	: null
 
 const allTripsFromStorage = localStorage.getItem('allTrips')
-	? JSON.parse(localStorage.getItem('allPosts'))
+	? JSON.parse(localStorage.getItem('allTrips'))
 	: null
 
 const initialState = {
 	userLogin: { userInfo: userInfoFromStorage },
-	myPosts: { myPosts: myPostsFromStorage },
-	allPosts: { allPosts: allPostsFromStorage },
-	myTrips: { myTrips: myTripsFromStorage },
-	allTrips: { allTrips: allTripsFromStorage }
+	getMyPosts: { myPosts: myPostsFromStorage },
+	getAllPosts: { allPosts: allPostsFromStorage },
+	getMyTrips: { myTrips: myTripsFromStorage },
+	getAllTrips: { allTrips: allTripsFromStorage }
 }
 
 const middleware = [thunk]

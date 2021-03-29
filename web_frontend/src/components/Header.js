@@ -25,22 +25,22 @@ const Header = () => {
 							<Nav className='ml-auto'>
 								<LinkContainer to='./posts'>
 									<Nav.Link>
-										<span class="white-text">Posts</span>
+										<span className="white-text">Posts</span>
 									</Nav.Link>
 								</LinkContainer>
 								<LinkContainer to='./createpost'>
 									<Nav.Link>
-										<span class="white-text">New Post</span>
+										<span className="white-text">New Post</span>
 									</Nav.Link>
 								</LinkContainer>
 								<LinkContainer to='./trips'>
 									<Nav.Link>
-										<span class="white-text">Trips</span>
+										<span className="white-text">Trips</span>
 									</Nav.Link>
 								</LinkContainer>
 								<LinkContainer to='./createtrip'>
 									<Nav.Link>
-										<span class="white-text">New Trip</span>
+										<span className="white-text">New Trip</span>
 									</Nav.Link>
 								</LinkContainer>
 							</Nav>

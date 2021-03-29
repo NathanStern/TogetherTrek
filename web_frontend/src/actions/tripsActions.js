@@ -181,11 +181,12 @@ export const leaveTrip = (trip) => async (dispatch, getState) => {
 			}
 		}
 		const data = {
-			'requesting_user_id': userInfo._id
+			'user_id': userInfo._id
 		}
 
 		const resp = await axios.put(
 			`${path}/trips/remove-user/${trip._id}`,
+			data, config
 		)
 
 		dispatch({
