@@ -510,7 +510,7 @@ exports.inviteUser = (req, res) => {
     .then(user => {
 		Trip.findById(trip_id)
 		.then(trip => {
-			if (!trip.participant_ids.find(user_id)) {
+			if (!trip.participant_ids.find(inviting_user_id)) {
 				res.status(400).send({ message: 'User is not a member of the trip.'})
 				return;
 			}
