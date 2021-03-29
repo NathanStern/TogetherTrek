@@ -5,29 +5,29 @@ import { getMyPosts, getPosts } from '../actions/postsActions'
 import { login } from '../actions/userActions'
 import Post from '../components/Post'
 const PostsScreen = ({ history }) => {
-	const redirect = '/'
-	const { userInfo } = useSelector((state) => state.userLogin)
+  const redirect = '/'
+  const { userInfo } = useSelector((state) => state.userLogin)
 
-	useEffect(() => {
-		if (!userInfo) {
-			history.push(redirect)
-		}
-	}, [history, userInfo, redirect])
-	const dispatch = useDispatch()
-	const { allPosts } = useSelector((state) => state.getAllPosts)
-	console.log(allPosts)
-	return (
-		<>
-			{allPosts && (
-				<Container>
-					{allPosts &&
-						allPosts
-							.reverse()
-							.map((el) => <Post post={el} key={el._id} personal={false} />)}
-				</Container>
-			)}
-		</>
-	)
+  useEffect(() => {
+    if (!userInfo) {
+      history.push(redirect)
+    }
+  }, [history, userInfo, redirect])
+  const dispatch = useDispatch()
+  const { allPosts } = useSelector((state) => state.getAllPosts)
+  console.log(allPosts)
+  return (
+    <>
+      {allPosts && (
+        <Container>
+          {allPosts &&
+            allPosts
+              .reverse()
+              .map((el) => <Post post={el} key={el._id} personal={false} />)}
+        </Container>
+      )}
+    </>
+  )
 }
 
 export default PostsScreen
