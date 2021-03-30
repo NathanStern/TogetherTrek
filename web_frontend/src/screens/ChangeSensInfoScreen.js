@@ -82,6 +82,15 @@ const logo = {
             onChange={(e) => setConfirmPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
-    </FormContainer>);
+        <Button type='submit' variant='primary'>
+          Update
+        </Button>
+        <Row>
+          <Col>
+            <Link to={'/editprofile'}>Back</Link>
+          </Col>
+        </Row>
+    </FormContainer>
+    );
 }
 export default ChangeSensInfoScreen
