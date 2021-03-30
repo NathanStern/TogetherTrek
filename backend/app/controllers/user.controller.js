@@ -545,6 +545,7 @@ exports.inviteUser = (req, res) => {
 		    });
 				return;
     });
+}
 
 // Decline a friend request
 exports.declineFriendRequest = (req, res) => {
