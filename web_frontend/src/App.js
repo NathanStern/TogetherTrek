@@ -10,8 +10,10 @@ import ProfileScreen from './screens/ProfileScreen'
 import SearchScreen from './screens/SearchScreen'
 import CreateTripScreen from './screens/CreateTripScreen'
 import EditProfileScreen from './screens/EditProfileScreen'
+import ChangeSensInfoScreen from './screens/ChangeSensInfoScreen'
 import PostsScreen from './screens/PostsScreen'
 import TripsScreen from './screens/TripsScreen'
+import ViewTripScreen from './screens/ViewTripScreen'
 import EditPostScreen from './screens/EditPostScreen'
 import MakePostScreen from './screens/MakePostScreen'
 import CreatePostScreen from './screens/CreatePostScreen'
@@ -35,6 +37,7 @@ function App() {
           <Route path='/editpost' component={EditPostScreen} />
           <Route path='/posts' component={PostsScreen} />
           <Route path='/editprofile' component={EditProfileScreen} exact />
+          <Route path='/change-sens-info' component={ChangeSensInfoScreen} exact />
           <Route path='/createpost' component={CreatePostScreen} />
           <Route path='/profile/:id' component={OtherProfileScreen} exact />
           <Route path='/friends' component={FriendsScreen} />
@@ -42,6 +45,7 @@ function App() {
           <Route path='/messages' component={MessagesScreen} />
           <Route path='/createpost' component={CreatePostScreen} />
           <Route path='/trips' component={TripsScreen} />
+          <Route path='/trip/:id' component={ViewTripScreen} />
         </Container>
       </main>
       <Footer />

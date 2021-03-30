@@ -145,6 +145,11 @@ const EditProfileScreen = ({ location, history }) => {
         </Button>
         <Row>
           <Col>
+            <Link to={'/change-sens-info'}>Change Password</Link>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
             <Link to={'/profile'}>Back To Profile</Link>
           </Col>
         </Row>
