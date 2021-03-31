@@ -1,9 +1,9 @@
 main {
 	min-height: 85vh;
 }
-.textColor {
-	color: white;
+#nav-dropdown {
+	color: white
 }
-#username {
-	color: white;
+.white-text {
+	color: white
 }

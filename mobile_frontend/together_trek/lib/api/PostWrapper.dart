@@ -62,3 +62,7 @@ Future<String> updatePost(
   print(res.statusCode);
   print(res.body);
 }
+
+Future<Null> deletePost(String id) async {
+  http.Response res = await httpDelete('posts/${id}');
+}
