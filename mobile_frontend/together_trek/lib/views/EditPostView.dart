@@ -5,6 +5,7 @@ import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/views/HomeView.dart';
 import 'package:provider/provider.dart';
+import 'package:together_trek/views/TempProfileView.dart';
 
 class EditPostView extends StatefulWidget {
   EditPostView({Key key, this.post}) : super(key: key);
@@ -131,30 +132,29 @@ class MyCustomFormState extends State<MyCustomForm> {
             },
             onSaved: (val) => setState(() => _region = val),
           ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    // Validate returns true if the form is valid, or false
-                    // otherwise.
-                    if (_formKey.currentState.validate()) {
-                      final form = _formKey.currentState;
-                      form.save();
+          Row(children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () async {
+                  // Validate returns true if the form is valid, or false
+                  // otherwise.
+                  if (_formKey.currentState.validate()) {
+                    final form = _formKey.currentState;
+                    form.save();
 
-                      await updatePost(context, _id, _title, _description, _country,
-                          _city, _region, post);
-                      Navigator.pop(context);
-                      LoadedPostsModel loadedPosts =
-                          context.read<LoadedPostsModel>();
-                      loadedPosts.notifyListeners();
-                    }
-                  },
-                  child: Text('Submit'),
-                ),
+                    await updatePost(context, _id, _title, _description,
+                        _country, _city, _region, post);
+                    Navigator.pop(context);
+                    LoadedPostsModel loadedPosts =
+                        context.read<LoadedPostsModel>();
+                    loadedPosts.notifyListeners();
+                  }
+                },
+                child: Text('Submit'),
               ),
-              Padding(
+            ),
+            Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () async {
@@ -164,7 +164,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       final form = _formKey.currentState;
                       form.save();
 
-                      await deletePost( _id);
+                      await deletePost(_id);
                       Navigator.pop(context);
                       LoadedPostsModel loadedPosts =
                           context.read<LoadedPostsModel>();
@@ -172,10 +172,19 @@ class MyCustomFormState extends State<MyCustomForm> {
                     }
                   },
                   child: Text('Delete'),
-                )
-              )
-            ]
-          )
+                )),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TempProfileView()),
+                    );
+                  },
+                  child: Text('View Author'),
+                ))
+          ])
         ],
       ),
     );
