@@ -7,6 +7,8 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { updateUserProfile } from '../actions/userActions'
+import {path} from '../constants/pathConstant'
+import axios from 'axios'
 import { sha3_256 } from 'js-sha3'
 
 const logo = {
@@ -38,24 +40,10 @@ const logo = {
   
     const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
     const { loading, success, error } = userUpdateProfile
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
       e.preventDefault()
-      const hashPassword = sha3_256(confirmPassword)
-      if (password !== hashPassword) {
-        setMessage('Passwords do not match')
-      } else {
-        dispatch(
-          updateUserProfile(
-            username,
-            firstName,
-            lastName,
-            gender,
-            birthdate,
-            email,
-            password
-          )
-        )
-      }
+      const hashedPassword = sha3_256(password)
+      const { data } = await axios.put(`${path}/user/${userInfo._id}`, {...userInfo, password: hashedPassword,})
     }
     return (
     <FormContainer>
@@ -80,7 +68,7 @@ const logo = {
             type='password'
             placeholder='New Password'
             value={password}
-            onChange={(e) => setPassword(sha3_256(e.target.value))}
+            onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Button type='submit' variant='primary'>
