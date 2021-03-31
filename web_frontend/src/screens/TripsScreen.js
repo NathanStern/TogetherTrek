@@ -4,18 +4,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getMyTrips, getTrips } from '../actions/tripsActions'
 import { login } from '../actions/userActions'
 import Trip from '../components/Trip'
+
 const TripsScreen = ({ history }) => {
+	const dispatch = useDispatch()
+
+	// Ensure a user is logged in
 	const redirect = '/'
 	const { userInfo } = useSelector((state) => state.userLogin)
-
 	useEffect(() => {
 		if (!userInfo) {
 			history.push(redirect)
 		}
 	}, [history, userInfo, redirect])
-	const dispatch = useDispatch()
+
 	const { allTrips } = useSelector((state) => state.getAllTrips)
-	console.log(allTrips)
+
 	return (
 		<>
 			{allTrips && (

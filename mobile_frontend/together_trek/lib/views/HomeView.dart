@@ -11,12 +11,14 @@ import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/HomeDrawerView.dart';
 import 'package:together_trek/views/MakePostView.dart';
+import 'package:together_trek/views/MakeTripView.dart';
 import 'package:together_trek/views/MessagesView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/PostsView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
 import 'package:together_trek/views/NotificationView.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class HomeView extends StatefulWidget {
   _HomeViewState createState() => _HomeViewState();
@@ -44,23 +46,42 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _actionButton(int index) {
     if (_selectedIndex == 1) {
-      return Container(
-          height: 60,
-          width: 60,
-          child: FittedBox(
-              child: FloatingActionButton(
-                  tooltip: "Create Post",
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MakePostView()),
-                    );
-                  },
-                  child: Icon(Icons.add))));
+      return SpeedDial(
+                //animatedIcon: AnimatedIcons.menu_close,
+                //animatedIconTheme: IconThemeData(size: 30.0),
+                icon: Icons.add,
+                activeIcon: Icons.close,
+                backgroundColor: Colors.deepOrange,
+                buttonSize: 56,
+                activeBackgroundColor: Colors.deepOrangeAccent,
+                tooltip: "Create",
+                visible: true,
+                curve: Curves.bounceInOut,
+                children: [
+                  SpeedDialChild(
+                    child: Icon(Icons.add),
+                    backgroundColor: Colors.grey,
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MakePostView()));
+                    },
+                    label: 'Add Post',
+                  ),
+                  SpeedDialChild(
+                    child: Icon(Icons.add),
+                    
+                    backgroundColor: Colors.grey,
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MakeTripView()));
+                    },
+                    label: 'Add Trip',
+                  ),
+                  ],
+            
+                );
     } else if (_selectedIndex == 0) {
       return Container(
-          height: 60,
-          width: 60,
+          height: 56,
+          width: 56,
           child: FittedBox(
               child: FloatingActionButton(
                   tooltip: "New Message",
