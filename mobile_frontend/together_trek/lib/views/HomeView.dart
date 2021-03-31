@@ -13,8 +13,10 @@ import 'package:together_trek/views/HomeDrawerView.dart';
 import 'package:together_trek/views/MakePostView.dart';
 import 'package:together_trek/views/MakeTripView.dart';
 import 'package:together_trek/views/MessagesView.dart';
+import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/PostsView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
+import 'package:together_trek/views/NotificationView.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -32,7 +34,8 @@ class _HomeViewState extends State<HomeView> {
   static List<Widget> _widgetOptions = <Widget>[
     MessagesView(),
     PostsView(),
-    ProfilePage()
+    ProfilePage(),
+    NotificationView(),
   ];
 
   void _onTappedItem(int index) {
@@ -83,12 +86,18 @@ class _HomeViewState extends State<HomeView> {
               child: FloatingActionButton(
                   tooltip: "New Message",
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) => buildStandardDialog(
-                            context,
-                            "New Message",
-                            "This function has not been implemented yet. This is just a test dialog."));
+                    // showDialog(
+                    //     context: context,
+                    //     builder: (context) => buildStandardDialog(
+                    //         context,
+                    //         "New Message",
+                    //         "This function has not been implemented yet. This is just a test dialog."));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PlaceholderView(
+                                  title: "New Message",
+                                )));
                   },
                   child: Icon(Icons.add))));
     } else {
@@ -129,13 +138,29 @@ class _HomeViewState extends State<HomeView> {
         ),
         body: _widgetOptions.elementAt(_selectedIndex),
         bottomNavigationBar: BottomNavigationBar(
-          items: [
+          //backgroundColor: Colors.orange,//this will not change background color
+          showUnselectedLabels: true,
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                icon: Icon(Icons.message_outlined), label: "Messages"),
+              icon: Icon(Icons.message),
+              label: 'Messages',
+              backgroundColor: Colors.deepOrange,
+            ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined), label: "Home"),
+              icon: Icon(Icons.home),
+              label: 'Home',
+              backgroundColor: Colors.deepOrange,
+            ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline), label: "Profile")
+              icon: Icon(Icons.person),
+              label: 'Profile',
+              backgroundColor: Colors.deepOrange,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add_alert_rounded),
+              label: 'Notification',
+              backgroundColor: Colors.deepOrange,
+            ),
           ],
           currentIndex: _selectedIndex,
           onTap: _onTappedItem,

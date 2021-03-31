@@ -14,4 +14,14 @@ class LoadedPostsModel extends ChangeNotifier {
     this.posts = List.from(posts.reversed);
     notifyListeners();
   }
+
+  void removePost(id) {
+    for (var i = 0; i <= this.posts.length; i++) {
+      if (this.posts[i].id == id) {
+        this.posts.removeAt(i);
+        break;
+      }
+    }
+    notifyListeners();
+  }
 }
