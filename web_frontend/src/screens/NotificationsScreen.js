@@ -4,11 +4,12 @@ import { useSelector } from 'react-redux'
 
 import FriendRequest from '../components/FriendRequest'
 import Message from '../components/Message'
+import TripRequest from '../components/TripRequest'
 const NotificationsScreen = () => {
   const { userInfo } = useSelector((state) => state.userLogin)
   const acceptFriend = useSelector((state) => state.acceptFriendRequest)
   const rejectFriend = useSelector((state) => state.rejectFriendRequest)
-
+  console.log(userInfo)
   return (
     <div>
       {userInfo && (
@@ -28,6 +29,9 @@ const NotificationsScreen = () => {
             </Col>
             <Col>
               <h2>Trip Requests</h2>
+              {userInfo.trip_requests.map((el) => (
+                <TripRequest trip_id={el} key={el} />
+              ))}
             </Col>
           </Row>
         </Container>

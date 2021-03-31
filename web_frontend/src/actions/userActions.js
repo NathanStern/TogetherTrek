@@ -133,23 +133,6 @@ export const register = (
       type: USER_REGISTER_SUCCESS,
       payload: data,
     })
-
-    if (!data) {
-      dispatch({
-        type: USER_REGISTER_FAIL,
-        payload: 'ERROR',
-      })
-    } else {
-      // dispatch({
-      // 	type: USER_LOGIN_SUCCESS,
-      // 	payload: data,
-      // })
-      // localStorage.setItem('userInfo', JSON.stringify(newUser))
-      // localStorage.setItem(
-      // 	'userInfo',
-      // 	JSON.stringify([...newUser, { _id: data }])
-      // )
-    }
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,

@@ -1,26 +1,95 @@
+import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-import { Card } from 'react-bootstrap'
+import { Accordion, Card, Col, ListGroup, Row, Button } from 'react-bootstrap'
+import { path } from '../constants/pathConstant'
 
-const TripRequest = () => {
+const getFriend = async (friend_id) => {
+  try {
+    const post = await axios.get(`${path}/users/${friend_id}`)
+    return post.data
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+const TripRequest = ({ trip_id }) => {
   const [show, setShow] = useState(true)
+  const [tripInfo, setTripInfo] = useState('')
+  const [participants, setParticipants] = useState('')
+  useEffect(async () => {
+    const { data } = await axios.get(`${path}/trips/${trip_id}`)
+    setTripInfo(data)
+    let users = []
+    data.participant_ids.map((el) => {
+      getFriend(el).then((res) => {
+        users.push(res)
+      })
+    })
+    setTimeout(() => {
+      setParticipants(users)
+    }, 1000)
+    console.log(participants)
+  }, [])
+
+  const acceptHandler = async (e) => {
+    e.preventDefault()
+    setShow(false)
+  }
+
+  const rejectHandler = async (e) => {
+    e.preventDefault()
+    setShow(false)
+  }
 
   return (
     <>
-      {show && (
-        <Card style={{ width: '18rem' }}>
-          <Card.Body>
-            <Card.Title>Card Title</Card.Title>
-            <Card.Subtitle className='mb-2 text-muted'>
-              Card Subtitle
-            </Card.Subtitle>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </Card.Text>
-            <Card.Link href='#'>Card Link</Card.Link>
-            <Card.Link href='#'>Another Link</Card.Link>
-          </Card.Body>
-        </Card>
+      {tripInfo && show && (
+        <Accordion defaultActiveKey='0'>
+          <Card style={{ width: '18rem' }}>
+            <Card.Body>
+              <Card.Title>
+                <Accordion.Collapse eventKey='1'>
+                  <>
+                    <div>Participants:</div>
+
+                    <Card.Body>
+                      {participants.length > 0 &&
+                        participants.map((user) => (
+                          <div key={user._id}>
+                            {user.first_name} {user.last_name}
+                          </div>
+                        ))}
+                    </Card.Body>
+                  </>
+                </Accordion.Collapse>
+              </Card.Title>
+              <Card.Subtitle className='mb-2 text-muted'>
+                {tripInfo.start_date} to {tripInfo.end_date}
+              </Card.Subtitle>
+              <Card.Text>
+                {tripInfo.destination.country} ->{tripInfo.destination.city} ->
+                {tripInfo.destination.region}
+              </Card.Text>
+              <Accordion.Toggle as={Button} variant='primary' eventKey='1'>
+                Participants
+              </Accordion.Toggle>
+            </Card.Body>
+            <Card.Header>
+              <Row>
+                <Col>
+                  <Button variant='primary' onClick={acceptHandler}>
+                    Accept
+                  </Button>
+                </Col>
+                <Col>
+                  <Button variant='primary' onClick={rejectHandler}>
+                    Decline
+                  </Button>
+                </Col>
+              </Row>
+            </Card.Header>
+          </Card>
+        </Accordion>
       )}
     </>
   )

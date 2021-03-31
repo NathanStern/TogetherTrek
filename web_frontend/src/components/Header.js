@@ -43,7 +43,8 @@ const Header = () => {
                     <span class='white-text'>New Trip</span>
                   </Nav.Link>
                 </LinkContainer>
-                {userInfo.friend_requests.length > 0 && (
+                {(userInfo.friend_requests.length > 0 ||
+                  userInfo.trip_requests.length > 0) && (
                   <LinkContainer to='/notifications'>
                     <Nav.Link>
                       <span class='white-text'>Notifications</span>
