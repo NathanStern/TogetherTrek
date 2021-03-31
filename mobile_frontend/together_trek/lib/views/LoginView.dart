@@ -50,9 +50,9 @@ class _LoginViewState extends State<LoginView> {
           currentNode.unfocus();
         }
 
-        SHA3 test = SHA3(256, SHA3_PADDING, 256);
-        test.update(utf8.encode(_passwordController.text));
-        List<int> hash = test.digest();
+        SHA3 password = SHA3(256, SHA3_PADDING, 256);
+        password.update(utf8.encode(_passwordController.text));
+        List<int> hash = password.digest();
 
         int response = await userLogin(jsonEncode(<String, dynamic>{
           'username': '${_usernameController.text}',
@@ -126,7 +126,7 @@ class _LoginViewState extends State<LoginView> {
                                 controller: _usernameController,
                                 autofocus: false,
                                 focusNode: _usernameFocus,
-                                keyboardType: TextInputType.name,
+                                keyboardType: TextInputType.text,
                                 autocorrect: false,
                                 autofillHints: [AutofillHints.username],
                                 textInputAction: TextInputAction.next,

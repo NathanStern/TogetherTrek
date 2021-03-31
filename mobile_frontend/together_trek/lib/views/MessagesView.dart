@@ -15,7 +15,6 @@ class _MessagesViewState extends State<MessagesView> {
   void _getMessages(MessageSummaryListModel summaries) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     summaries.setAllFields(await getMessageSummaries(prefs.getString("jwt")));
-    //setState(() {});
   }
 
   @override
@@ -40,7 +39,9 @@ class _MessagesViewState extends State<MessagesView> {
     } else if (summaries.messageBoards.isEmpty) {
       Future.delayed(Duration(seconds: 0), () async {
         await _getMessages(summaries);
-        setState(() {});
+        if (this.mounted) {
+          setState(() {});
+        }
       });
       return RefreshIndicator(
           onRefresh: () {},
@@ -59,7 +60,9 @@ class _MessagesViewState extends State<MessagesView> {
                   child: Text("Refresh"),
                   onPressed: () async {
                     await _getMessages(summaries);
-                    setState(() {});
+                    if (this.mounted) {
+                      setState(() {});
+                    }
                     return true;
                   },
                 ),
@@ -74,7 +77,9 @@ class _MessagesViewState extends State<MessagesView> {
             }),
         onRefresh: () async {
           await _getMessages(summaries);
-          setState(() {});
+          if (this.mounted) {
+            setState(() {});
+          }
           return true;
         });
   }

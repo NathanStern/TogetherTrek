@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 import "package:together_trek/api/httpRequest.dart";
 import 'package:together_trek/models/ContentModel.dart';
+import 'package:together_trek/models/MessageBoardModel.dart';
 import 'package:together_trek/models/MessageSummaryListModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 
@@ -30,4 +31,8 @@ Future<MessageSummaryListModel> getMessageSummaries(String jwt) async {
   return MessageSummaryListModel.fromJsonArray(jsonDecode(response.body));
 }
 
-Future<List<ContentModel>> getMessageBoard(String id) {}
+Future<MessageBoardModel> getMessageBoard(String id) async {
+  http.Response response = await httpGet('message_boards/$id');
+
+  return MessageBoardModel.fromJson(jsonDecode(response.body));
+}

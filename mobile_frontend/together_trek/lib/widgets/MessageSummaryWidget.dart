@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:together_trek/api/MessageBoardWrapper.dart';
 import 'package:together_trek/models/MessageSummaryListModel.dart';
 
 import 'package:together_trek/models/MessageSummaryModel.dart';
@@ -64,6 +65,7 @@ Widget createMessageSummaryWidget(
             enableFeedback: true,
             splashColor: Colors.deepOrangeAccent,
             onTap: () {
+              //getMessageBoard(messageBoard.id);
               Navigator.push(
                   context,
                   MaterialPageRoute(

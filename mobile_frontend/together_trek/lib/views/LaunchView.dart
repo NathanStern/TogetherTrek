@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/api/UserWrapper.dart';
@@ -58,6 +59,18 @@ class _LaunchViewState extends State<LaunchView> {
     setState(() {});
   }
 
+  void _checkToken() async {
+    TokenModel token = context.read<TokenModel>();
+    UserModel user = context.read<UserModel>();
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+    if (JwtDecoder.isExpired(token.token)) {
+      _prefs.setString('user', "");
+      _prefs.setString('jwt', "");
+      user.setAllFieldsFromUser(UserModel.empty());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 1), () async {
@@ -65,6 +78,7 @@ class _LaunchViewState extends State<LaunchView> {
       await _getUserData(context);
       await _getJWT(context);
       await _loadPosts(context);
+      await _checkToken();
       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
     }).timeout(Duration(seconds: 15), onTimeout: () {
       showDialog(
