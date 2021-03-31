@@ -129,6 +129,7 @@ class _ConversationViewState extends State<ConversationView> {
                           padding: EdgeInsets.only(right: 10, left: 10),
                           child: TextField(
                               keyboardType: TextInputType.text,
+                              textInputAction: TextInputAction.send,
                               onTap: () {
                                 _scrollController.jumpTo(
                                   _scrollController.position.maxScrollExtent *
