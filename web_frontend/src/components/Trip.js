@@ -7,90 +7,69 @@ import {
 	Row,
 	Col,
 } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
 import { joinTrip, leaveTrip } from '../actions/tripsActions'
 
-class Trip extends React.Component {
-	constructor(props) {
-		super(props);
-		let isMember = false
-		let hasRequested = false
-		let btnText = "Join"
-		let userId = props.userId
-		let trip = props.trip
-		let profileView = props.profileView
-		console.log("TRIPTRIP")
-		console.log(trip)
-		if (trip.participant_ids.includes(userId)) {
-			isMember = true
-			btnText = "Leave"
-		}
-		if (trip.join_requests.includes(userId)) {
-			hasRequested = true
-			btnText = "Requested"
-		}
+const Trip = ({ trip, userId, profileView }) => {
+	const dispatch = useDispatch()
 
-		this.state = {
-			isMember: isMember,
-			hasRequested: hasRequested,
-			btnText: btnText,
-			trip: trip,
-			profileView: profileView,
-			show: true
+	const isMember = trip.participant_ids.includes(userId)
+	const hasRequested = 	trip.join_requests.includes(userId)
+
+  const [show, setShow] = useState(true)
+	const [member, setMember] = useState(isMember ? true : false)
+	const [requested, setRequested] = useState(hasRequested ? true : false)
+	const [btnText, setBtnText] = useState(isMember ? "Leave" : hasRequested ? "Requested" : "Join")
+	const destination = trip.destination
+	const startDate = trip.start_date
+	const endDate = trip.end_date
+
+	const tripButtonHandler = (e) => {
+		if (profileView) {
+			dispatch(leaveTrip(trip))
+			setShow(false)
+		} else if (member) {
+			dispatch(leaveTrip(trip))
+			setMember(false)
+			setBtnText("Join")
+		} else if (!requested) {
+			dispatch(joinTrip(trip))
+			setRequested(true)
+			setBtnText("Requested")
 		}
 	}
 
-	tripButtonHandler = () => {
-		if (this.state.profileView) {
-			leaveTrip(this.state.trip)
-			this.setState({show: false})
-		} else if (this.state.isMember) {
-			leaveTrip(this.state.trip)
-			this.setState({btnText: "Join"})
-		} else if (!this.state.hasRequested) {
-			joinTrip(this.state.trip)
-			this.setState({btnText: "Requested"})
-		}
-	}
-
-	render() {
-		const destination = this.state.trip.destination
-		const startDate = this.state.trip.start_date
-		const endDate = this.state.trip.end_date
-		return (
-			<>
-				{this.state.show && (
-					<Card className="trip-card">
-						<Card.Body>
-							<Card.Title>
-								{"city" in destination ? destination.city + ", ": ""}
-								{"country" in destination ? destination.country : ""}
-							</Card.Title>
-							<Card.Subtitle className='mb-2 text-muted'>
-										{"region" in destination ? destination.region : ""}
-							</Card.Subtitle>
-							<Card.Text>
-								{"From: " + startDate + ", To: " + endDate}
-							</Card.Text>
-							{<Container>
-								<Row>
-	                <Col>
-	                  <Button
-	                    variant='primary'
-	                    onClick={(e) => {
-	                      this.tripButtonHandler(e)
-	                    }}
-	                  >
-	                    {this.state.btnText}
-	                  </Button>
-	                </Col>
-								</Row>
-							</Container>}
-						</Card.Body>
-					</Card>
-				)}
-			</>
-		)
-	}
+	return (
+		<>
+			{show && (
+				<Card className="trip-card">
+					<Card.Body>
+						<Card.Title>
+							{"city" in destination ? destination.city + ", ": ""}
+							{"country" in destination ? destination.country : ""}
+						</Card.Title>
+						<Card.Subtitle className='mb-2 text-muted'>
+							{"region" in destination ? destination.region : ""}
+						</Card.Subtitle>
+						<Card.Text>
+							{"From: " + startDate + ", To: " + endDate}
+						</Card.Text>
+						<Container>
+							<Row>
+								<Col>
+									<Button
+										variant='primary'
+										onClick={(e) => tripButtonHandler(e)}>
+										{btnText}
+									</Button>
+								</Col>
+							</Row>
+						</Container>
+					</Card.Body>
+				</Card>
+			)}
+		</>
+	)
 }
 
 export default Trip
