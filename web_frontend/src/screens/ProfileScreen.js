@@ -1,5 +1,6 @@
 import '../index.css'
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import { Form, Button, Row, Col, Container, Card } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,12 +9,13 @@ import Trip from '../components/Trip'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, deleteMyPost } from '../actions/postsActions'
-import axios from 'axios'
+import { getUserFriends, login } from '../actions/userActions'
 import { getMyTrips, leaveTrip } from '../actions/tripsActions'
 import { path } from '../constants/pathConstant'
 
 const ProfileScreen = ({ location, history }) => {
   const dispatch = useDispatch()
+
   //user info contains information about the user
   // const myPosts = useSelector((state) => state.myPosts)
   const { userInfo } = useSelector((state) => state.userLogin)
@@ -26,9 +28,9 @@ const ProfileScreen = ({ location, history }) => {
   const [trips, setTrips] = [myTrips]
   const [toDelete, setToDelete] = useState('')
   const personal = true
-  const redirect = '/'
   let profilePic
 
+  const redirect = '/'
   useEffect(() => {
     if (!userInfo) {
       history.push(redirect)
