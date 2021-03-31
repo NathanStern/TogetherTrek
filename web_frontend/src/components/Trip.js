@@ -7,6 +7,7 @@ import {
 	Col,
 } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { leaveTrip } from '../actions/tripsActions'
 
 const Trip = ({ trip, personal }) => {

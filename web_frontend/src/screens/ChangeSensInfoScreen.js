@@ -64,22 +64,37 @@ const logo = {
         {error && <Message variant='danger'>{error}</Message>}
         {success && <Message variant='success'>Profile Updated</Message>}
         {loading && <Loader />}
+        <h4>Change password</h4>
         <Form.Group controlId='confirmPassword'>
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Current Password</Form.Label>
           <Form.Control
             type='password'
-            placeholder='Password'
+            placeholder='Current Password'
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId='confirmPassword'>
-          <Form.Label>Confirm Password</Form.Label>
+          <Form.Label>New Password</Form.Label>
           <Form.Control
             type='password'
-            placeholder='Confirm password'
+            placeholder='New Password'
+            value={password}
+            onChange={(e) => setPassword(sha3_256(e.target.value))}
+          ></Form.Control>
+        </Form.Group>
+        <Button type='submit' variant='primary'>
+          Update
+        </Button>
+
+        <h4>Change Email</h4>
+        <Form.Group controlId='confirmPassword'>
+          <Form.Label>New Password</Form.Label>
+          <Form.Control
+            type='password'
+            placeholder='New Password'
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword(sha3_256(e.target.value))}
           ></Form.Control>
         </Form.Group>
         <Button type='submit' variant='primary'>
