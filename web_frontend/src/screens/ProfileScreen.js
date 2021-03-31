@@ -13,6 +13,8 @@ import { getUserFriends, login } from '../actions/userActions'
 import { getMyTrips, leaveTrip } from '../actions/tripsActions'
 import { path } from '../constants/pathConstant'
 
+import ReactDOM from 'react-dom';
+
 const ProfileScreen = ({ location, history }) => {
   const dispatch = useDispatch()
 
@@ -79,9 +81,10 @@ const ProfileScreen = ({ location, history }) => {
               <Message variant='success'>Trip Left</Message>
             )}
             {trips &&
-              trips.map((el) => (
-                <Trip trip={el} key={el._id} personal={personal} />
-              ))}
+              trips.map((el) =>
+                (el === undefined ? <></> : <Trip trip={el} userId={userInfo._id} profileView={true} />)
+              )
+            }
           </Col>
         </Row>
       )}

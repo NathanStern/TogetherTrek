@@ -21,7 +21,8 @@ import {
 	getAllTripsReducer,
 	updateMyTripReducer,
 	deleteMyTripReducer,
-	leaveTripReducer
+	leaveTripReducer,
+  joinTripReducer
 } from './reducers/tripsReducers'
 
 const reducer = combineReducers({
@@ -41,8 +42,8 @@ const reducer = combineReducers({
 	getAllTrips: getAllTripsReducer,
 	updateMyTrip: updateMyTripReducer,
 	deleteMyTrip: deleteMyTripReducer,
-	leaveTrip: leaveTripReducer
-
+	leaveTrip: leaveTripReducer,
+  joinTrip: joinTripReducer
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

@@ -23,7 +23,11 @@ const TripsScreen = ({ history }) => {
 		<>
 			{allTrips && (
 				<Container>
-					{allTrips && allTrips.map((el) => <Trip trip={el} key={el._id} />)}
+					{allTrips &&
+						allTrips.map((el) =>
+							(el === undefined ? <></> : <Trip trip={el} userId={userInfo._id} profileView={false} />)
+						)
+					}
 				</Container>
 			)}
 		</>
