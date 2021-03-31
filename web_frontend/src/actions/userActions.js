@@ -11,6 +11,9 @@ import {
   USER_GET_FRIENDS_REQUEST,
   USER_GET_FRIENDS_FAIL,
   USER_GET_FRIENDS_SUCCESS,
+  USER_GET_MESSAGEBOARDS_FAIL,
+  USER_GET_MESSAGEBOARDS_REQUEST,
+  USER_GET_MESSAGEBOARDS_SUCCESS,
 } from '../constants/userConstants'
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
@@ -262,6 +265,38 @@ export const updateUserProfile = (
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const getUserMessageBoards = () => async (dispatch, getState) => {
+  dispatch({
+    type: USER_GET_MESSAGEBOARDS_REQUEST,
+  })
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    }
+    const { data } = await axios.get(`${path}/message_boards`, config)
+    console.log(data)
+    dispatch({
+      type: USER_GET_MESSAGEBOARDS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_GET_MESSAGEBOARDS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

@@ -40,7 +40,14 @@ const FriendsScreen = () => {
       <Row>
         <Col md={3}>
           <h2>
-            Friends: <Button onClick={editHandler}>Create MessageBoard</Button>
+            Friends:{' '}
+            <Button onClick={editHandler}>
+              {show ? (
+                <span>Close MessageBoards Creation</span>
+              ) : (
+                <span>Create MessageBoard</span>
+              )}
+            </Button>
           </h2>
           {friendsInfo.map((el) => (
             <Friend

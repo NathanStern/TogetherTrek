@@ -16,7 +16,7 @@ const OtherProfileScreen = ({ location, history, useParams }) => {
   const [profileInfo, setProfileInfo] = useState({})
   const { userInfo } = useSelector((state) => state.userLogin)
   const [message, setMessage] = useState(null)
-
+  const [disabled, setDisabled] = useState(false)
   const { pathname } = useLocation()
   const id = pathname.split('/')[2]
   useEffect(async () => {
@@ -45,7 +45,7 @@ const OtherProfileScreen = ({ location, history, useParams }) => {
           setMessage(null)
         }, 1000)
       })
-
+    setDisabled(true)
     console.log('Sent friend request')
   }
 
@@ -63,9 +63,15 @@ const OtherProfileScreen = ({ location, history, useParams }) => {
             <div>Last Name: {profileInfo.last_name}</div>
             <div>Birthday: {profileInfo.birthdate}</div>
             <div>Gender: {profileInfo.gender}</div>
-            <Button variant='primary' onClick={addFriend}>
-              Add Friend
-            </Button>
+            {!disabled ? (
+              <Button variant='primary' onClick={addFriend}>
+                Add Friend
+              </Button>
+            ) : (
+              <Button variant='primary' disabled>
+                Requested
+              </Button>
+            )}
           </Col>
           <Col md={3}>
             <h2>User Posts</h2>

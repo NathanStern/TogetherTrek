@@ -7,7 +7,6 @@ import { logout } from '../actions/userActions'
 const Header = () => {
   const dispatch = useDispatch()
 
-
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
   const logoutHandler = (e) => {
@@ -48,6 +47,13 @@ const Header = () => {
                   <LinkContainer to='/notifications'>
                     <Nav.Link>
                       <span class='white-text'>Notifications</span>
+                    </Nav.Link>
+                  </LinkContainer>
+                )}
+                {userInfo.message_board_ids.length > 0 && (
+                  <LinkContainer to='/messages'>
+                    <Nav.Link>
+                      <span class='white-text'>MessageBoards</span>
                     </Nav.Link>
                   </LinkContainer>
                 )}

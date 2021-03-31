@@ -5,7 +5,6 @@ import {
 } from '../constants/profilesConstants'
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
-import { Children } from 'react'
 
 export const addMessageBoard = (user_ids, messageBoardId) => async (
   dispatch,
