@@ -79,13 +79,13 @@ const ChangeSensInfoScreen = ({ location, history }) => {
         config
       )
       console.log(data)
-      setSuccess('Password successfully changed')
+      setSuccess('Email successfully changed')
     }
   }
   return (
     <FormContainer>
       <h2>Changing sensitive info</h2>
-      <h4>Change password</h4>
+      
       {message && <Message variant='danger'>{message}</Message>}
       {success && <Message variant='success'>{success}</Message>}
 
@@ -98,6 +98,7 @@ const ChangeSensInfoScreen = ({ location, history }) => {
           onChange={(e) => setConfirmCurrentPassword(e.target.value)}
         ></Form.Control>
       </Form.Group>
+      <h4>Change password</h4>
       <Form.Group controlId='confirmPassword'>
         <Form.Label>New Password</Form.Label>
         <Form.Control
@@ -118,18 +119,10 @@ const ChangeSensInfoScreen = ({ location, history }) => {
           type='email'
           placeholder='Email'
           value={email}
-          onChange={(e) => setEmail()}
+          onChange={(e) => setEmail(e.target.value)}
         ></Form.Control>
       </Form.Group>
-      <Form.Group controlId='confirmPassword'>
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          type='password'
-          placeholder='Password'
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword()}
-        ></Form.Control>
-      </Form.Group>
+      
       <Button type='submit' variant='primary' onClick={submitEmailHandler}>
         Update
       </Button>
