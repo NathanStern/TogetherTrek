@@ -39,6 +39,9 @@ const Trip = ({ trip, personal }) => {
 							<Container>
 								<Row>
                   <Col>
+				  <Link to={`/trip/${trip.id}`}>
+                      View Trip
+                    </Link>
                     <Button
                       variant='primary'
                       onClick={(e) => {
