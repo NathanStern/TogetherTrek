@@ -1,16 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Accordion, Card, Button, Row, Col } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+const findAuthor = (message, userInfo, messageBoardInfo) => {
+  let author = ''
+  console.log(userInfo._id)
+  console.log(message.author_id)
+  if (message.author_id === userInfo._id) {
+    author = `${userInfo.first_name} ${userInfo.last_name}`
+  } else {
+    author = messageBoardInfo.other_users.find(
+      (user) => user.id === message.author_id
+    ).name
+  }
+  return `${author}: `
+}
+
 const MessageBoard = ({ messageBoardInfo }) => {
+  const { userInfo } = useSelector((state) => state.userLogin)
   const message = messageBoardInfo.latest_message
+  const author = findAuthor(message, userInfo, messageBoardInfo)
 
   return (
     <Accordion defaultActiveKey='0'>
       <Card>
-        <Card.Img variant='top' />
         <Card.Body>
+          {Object.keys(message).length > 0 && (
+            <>
+              <Card.Title>Latest Message</Card.Title>
+              <Card.Subtitle className='mb-2 text-muted'>
+                {author}
+              </Card.Subtitle>
+            </>
+          )}
           {Object.keys(message).length === 0 ? (
             <Card.Text>
               <b>
