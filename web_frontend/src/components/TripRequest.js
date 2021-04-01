@@ -1,7 +1,10 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Accordion, Card, Col, ListGroup, Row, Button } from 'react-bootstrap'
 import { path } from '../constants/pathConstant'
+import { acceptTrip, declineTrip } from '../actions/tripsActions'
+import { declineTripRequestReducer } from '../reducers/tripsReducers'
 
 const getFriend = async (friend_id) => {
   try {
@@ -13,6 +16,7 @@ const getFriend = async (friend_id) => {
 }
 
 const TripRequest = ({ trip_id }) => {
+  const dispatch = useDispatch()
   const [show, setShow] = useState(true)
   const [tripInfo, setTripInfo] = useState('')
   const [participants, setParticipants] = useState('')
@@ -33,11 +37,19 @@ const TripRequest = ({ trip_id }) => {
 
   const acceptHandler = async (e) => {
     e.preventDefault()
+    dispatch(acceptTrip(trip_id))
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    const { data } = await axios.put()
     setShow(false)
   }
 
   const rejectHandler = async (e) => {
     e.preventDefault()
+    dispatch(declineTrip(trip_id))
     setShow(false)
   }
 

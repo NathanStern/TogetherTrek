@@ -9,15 +9,18 @@ const NotificationsScreen = () => {
   const { userInfo } = useSelector((state) => state.userLogin)
   const acceptFriend = useSelector((state) => state.acceptFriendRequest)
   const rejectFriend = useSelector((state) => state.rejectFriendRequest)
+  const acceptTrip = useSelector((state) => state.acceptTripRequest)
+  const declineTrip = useSelector((state) => state.declineTripRequest)
+
   console.log(userInfo)
   return (
     <div>
       {userInfo && (
         <Container>
-          {acceptFriend.loading && (
+          {(acceptFriend.loading || acceptTrip.loading) && (
             <Message variant='success'>Request Accepted</Message>
           )}
-          {rejectFriend.loading && (
+          {(rejectFriend.loading || declineTrip.loading) && (
             <Message variant='success'>Request Rejected</Message>
           )}
           <Row>

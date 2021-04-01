@@ -23,6 +23,8 @@ import {
   updateMyTripReducer,
   deleteMyTripReducer,
   leaveTripReducer,
+  acceptTripRequestReducer,
+  declineTripRequestReducer,
 } from './reducers/tripsReducers'
 
 const reducer = combineReducers({
@@ -44,6 +46,8 @@ const reducer = combineReducers({
   deleteMyTrip: deleteMyTripReducer,
   leaveTrip: leaveTripReducer,
   getMyMessageBoards: userGetMessageBoards,
+  acceptTripRequest: acceptTripRequestReducer,
+  declineTripRequest: declineTripRequestReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

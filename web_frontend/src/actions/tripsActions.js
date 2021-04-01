@@ -1,22 +1,27 @@
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
 import {
-
-	ALLTRIPS_GET_FAIL,
-	ALLTRIPS_GET_REQUEST,
-	ALLTRIPS_GET_SUCCESS,
-	MYTRIPS_DELETE_FAIL,
-	MYTRIPS_DELETE_REQUEST,
-	MYTRIPS_DELETE_SUCCESS,
-	MYTRIPS_GET_FAIL,
-	MYTRIPS_GET_REQUEST,
-	MYTRIPS_GET_SUCCESS,
-	MYTRIPS_UPDATE_FAIL,
-	MYTRIPS_UPDATE_REQUEST,
-	MYTRIPS_UPDATE_SUCCESS,
-	MYTRIPS_LEAVE_REQUEST,
-	MYTRIPS_LEAVE_SUCCESS,
-	MYTRIPS_LEAVE_FAIL
+  ALLTRIPS_GET_FAIL,
+  ALLTRIPS_GET_REQUEST,
+  ALLTRIPS_GET_SUCCESS,
+  MYTRIPS_DELETE_FAIL,
+  MYTRIPS_DELETE_REQUEST,
+  MYTRIPS_DELETE_SUCCESS,
+  MYTRIPS_GET_FAIL,
+  MYTRIPS_GET_REQUEST,
+  MYTRIPS_GET_SUCCESS,
+  MYTRIPS_UPDATE_FAIL,
+  MYTRIPS_UPDATE_REQUEST,
+  MYTRIPS_UPDATE_SUCCESS,
+  MYTRIPS_LEAVE_REQUEST,
+  MYTRIPS_LEAVE_SUCCESS,
+  MYTRIPS_LEAVE_FAIL,
+  ACCEPT_TRIP_REQUEST,
+  ACCEPT_TRIP_SUCCESS,
+  ACCEPT_TRIP_FAIL,
+  DECLINE_TRIP_REQUEST,
+  DECLINE_TRIP_SUCCESS,
+  DECLINE_TRIP_FAIL,
 } from '../constants/tripsConstants'
 
 const getTrip = async (trip_id) => {
@@ -167,43 +172,114 @@ export const getTrips = (email, password) => async (dispatch) => {
   }
 }
 
-
 export const leaveTrip = (trip) => async (dispatch, getState) => {
-	try {
-		dispatch({
-			type: MYTRIPS_LEAVE_REQUEST,
-		})
-		const {
-			userLogin: { userInfo },
-		} = getState()
+  try {
+    dispatch({
+      type: MYTRIPS_LEAVE_REQUEST,
+    })
+    const {
+      userLogin: { userInfo },
+    } = getState()
 
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': userInfo.token
-			}
-		}
-		const data = {
-			'user_id': userInfo._id
-		}
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    }
+    const data = {
+      user_id: userInfo._id,
+    }
 
-		const resp = await axios.put(
-			`${path}/trips/remove-user/${trip._id}`,
-			data, config
-		)
+    const resp = await axios.put(
+      `${path}/trips/remove-user/${trip._id}`,
+      data,
+      config
+    )
 
-		dispatch({
-			type: MYTRIPS_LEAVE_SUCCESS,
-			payload: resp.data,
-		})
-	} catch (error) {
-		dispatch({
-			type: MYTRIPS_LEAVE_FAIL,
-			payload:
-				error.response && error.response.data.message
-					? error.response.data.message
-					: error.response,
-		})
-	}
+    dispatch({
+      type: MYTRIPS_LEAVE_SUCCESS,
+      payload: resp.data,
+    })
+  } catch (error) {
+    dispatch({
+      type: MYTRIPS_LEAVE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    })
+  }
 }
 
+export const acceptTrip = (trip_id) => async (dispatch, getState) => {
+  dispatch({
+    type: ACCEPT_TRIP_REQUEST,
+  })
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    }
+
+    const { data } = await axios.put(
+      `${path}/trips/accept-join/${trip_id}`,
+      { requesting_user_id: userInfo._id },
+      config
+    )
+
+    dispatch({
+      type: ACCEPT_TRIP_SUCCESS,
+    })
+  } catch (error) {
+    dispatch({
+      type: ACCEPT_TRIP_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    })
+  }
+}
+
+export const declineTrip = (trip_id) => async (dispatch, getState) => {
+  dispatch({
+    type: DECLINE_TRIP_REQUEST,
+  })
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    }
+
+    const { data } = await axios.put(
+      `${path}/trips/decline-join/${trip_id}`,
+      { requesting_user_id: userInfo._id },
+      config
+    )
+
+    dispatch({
+      type: DECLINE_TRIP_SUCCESS,
+    })
+  } catch (error) {
+    dispatch({
+      type: DECLINE_TRIP_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    })
+  }
+}
