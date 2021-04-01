@@ -204,7 +204,7 @@ class TempAuthorProfileState extends State<TempAuthorProfile> {
             width: 300.00,
             child: RaisedButton(
                 onPressed: () {
-                  
+                  //send friend request
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
