@@ -64,10 +64,25 @@ class _LaunchViewState extends State<LaunchView> {
     UserModel user = context.read<UserModel>();
     SharedPreferences _prefs = await SharedPreferences.getInstance();
 
-    if (JwtDecoder.isExpired(token.token)) {
+    if (token == null) {
       _prefs.setString('user', "");
       _prefs.setString('jwt', "");
       user.setAllFieldsFromUser(UserModel.empty());
+      return;
+    }
+
+    try {
+      if (JwtDecoder.isExpired(token.token)) {
+        _prefs.setString('user', "");
+        _prefs.setString('jwt', "");
+        user.setAllFieldsFromUser(UserModel.empty());
+      }
+    } catch (err) {
+      if (err is FormatException) {
+        _prefs.setString('user', "");
+        _prefs.setString('jwt', "");
+        user.setAllFieldsFromUser(UserModel.empty());
+      }
     }
   }
 
