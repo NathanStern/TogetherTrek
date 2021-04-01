@@ -40,19 +40,28 @@ String _expandMessageNames(MessageSummaryModel messageBoard) {
 Widget createMessageSummaryWidget(
     BuildContext context, MessageSummaryModel messageBoard) {
   DateTime date = DateTime.tryParse(messageBoard.latestMessage.postDate);
+  date = date.toLocal();
   String halfDay = "AM";
+  int isAfternoon = 0;
   if (date.hour >= 12) {
+    isAfternoon = 1;
     halfDay = "PM";
   }
+  int hour = date.hour;
+
+  hour -= 12 * isAfternoon;
+  if (hour == 0) {
+    hour = 12;
+  }
   String timestamp =
-      "${date.hour}:${date.minute} $halfDay ${months[date.month - 1]} ${date.day}";
+      "$hour:${date.minute} $halfDay ${months[date.month - 1]} ${date.day}";
 
   String messagePreview = "";
 
   if (messageBoard.latestMessage.type == "text") {
     messagePreview = messageBoard.latestMessage.data.length > 35
         ? messageBoard.latestMessage.data
-            .replaceRange(33, messageBoard.latestMessage.data.length, "...")
+            .replaceRange(20, messageBoard.latestMessage.data.length, "...")
         : messageBoard.latestMessage.data;
   } else {
     messagePreview = "Image";
@@ -100,7 +109,6 @@ Widget createMessageSummaryWidget(
                           child: Text(messagePreview,
                               style: TextStyle(color: Colors.grey))),
                     )),
-                    Spacer(),
                     Flexible(
                         child: Container(
                             padding: EdgeInsets.only(bottom: 10, right: 12),
