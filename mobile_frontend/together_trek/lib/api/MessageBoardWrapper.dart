@@ -1,15 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import "package:provider/provider.dart";
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import "package:together_trek/api/httpRequest.dart";
-import 'package:together_trek/models/ContentModel.dart';
 import 'package:together_trek/models/MessageBoardModel.dart';
 import 'package:together_trek/models/MessageSummaryListModel.dart';
-import 'package:together_trek/models/UserModel.dart';
 
 Future<MessageSummaryListModel> getMessageSummaries(String jwt) async {
   if ((jwt == null) || (jwt == "")) {
@@ -35,4 +30,29 @@ Future<MessageBoardModel> getMessageBoard(String id) async {
   http.Response response = await httpGet('message_boards/$id');
 
   return MessageBoardModel.fromJson(jsonDecode(response.body));
+}
+
+Future<bool> sendTextMessage(
+    String authorId, String messageBoardId, String type, String text) async {
+  http.Response response = await httpPost(
+      "messages",
+      jsonEncode(<String, dynamic>{
+        "author_id": authorId,
+        "message_board_id": messageBoardId,
+        "type": "text",
+        "text": text
+      }));
+
+  //print(jsonDecode(response.body));
+  bool validResponse = true;
+  try {
+    jsonDecode(response.body);
+    validResponse = false;
+  } catch (err) {
+    if (err is FormatException) {
+      validResponse = true;
+    }
+  }
+
+  return validResponse;
 }
