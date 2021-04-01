@@ -2,8 +2,11 @@ main {
 	min-height: 85vh;
 }
 #nav-dropdown {
-	color: white
+	color: white;
+}
+.trip-card {
+	margin: 20px;
 }
 .white-text {
-	color: white
+	color: white;
 }
