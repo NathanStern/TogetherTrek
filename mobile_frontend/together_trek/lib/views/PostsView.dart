@@ -25,6 +25,7 @@ class _PostsViewState extends State<PostsView> {
     int _toReverse = 1;
     return RefreshIndicator(
       child: ListView.builder(
+          physics: BouncingScrollPhysics(),
           itemCount: posts.posts.length,
           itemBuilder: (BuildContext context, int index) {
             return Card(
