@@ -1,136 +1,75 @@
-// import React, { useEffect, useState } from 'react'
-// import {
-// 	Card,
-// 	ListGroup,
-// 	Button,
-// 	Container,
-// 	Row,
-// 	Col,
-// 	Form,
-// } from 'react-bootstrap'
-// import { useDispatch, useSelector } from 'react-redux'
-// import { deleteMyTrip, updateMyTrip } from '../actions/tripsActions'
+import '../index.css'
+import React, { useEffect, useState } from 'react'
+import {
+	Card,
+	Button,
+	Container,
+	Row,
+	Col,
+} from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { joinTrip, leaveTrip } from '../actions/tripsActions'
 
-// const Trip = ({ trip, personal }) => {
-// 	// console.log(trip)
-// 	const dispatch = useDispatch()
-// 	const [show, setShow] = useState(true)
-// 	const [edit, setEdit] = useState(false)
+const Trip = ({ trip, userId, profileView }) => {
+	const dispatch = useDispatch()
 
-// 	const [title, setTitle] = useState(trip.title)
-// 	const [description, setDescription] = useState(trip.description)
+	const isMember = trip.participant_ids.includes(userId)
+	const hasRequested = 	trip.join_requests.includes(userId)
 
-// 	const deleteHandler = (e) => {
-// 		e.preventDefault()
-// 		setShow(!show)
-// 		dispatch(deleteMyTrip(trip))
-// 	}
+  const [show, setShow] = useState(true)
+	const [member, setMember] = useState(isMember ? true : false)
+	const [requested, setRequested] = useState(hasRequested ? true : false)
+	const [btnText, setBtnText] = useState(isMember ? "Leave" : hasRequested ? "Requested" : "Join")
+	const destination = trip.destination
+	const startDate = trip.start_date
+	const endDate = trip.end_date
 
-// 	const updateHandler = (e) => {
-// 		e.preventDefault()
-// 		dispatch(
-// 			updateMyTrip({
-// 				...trip,
-// 				title: title,
-// 				description: description,
-// 			})
-// 		)
-// 		setEdit(!edit)
-// 		setShow(!show)
-// 	}
-// 	const editHandler = async (e) => {
-// 		e.preventDefault()
-// 		setEdit(!edit)
-// 		setShow(!show)
-// 	}
-// 	useEffect(() => {}, [deleteHandler])
-// 	return (
-// 		<>
-// 			{show && (
-// 				<Card style={{ width: '18rem' }}>
-// 					<Card.Body>
-// 						<Card.Title>{title}</Card.Title>
-// 						<Card.Subtitle className='mb-2 text-muted'>
-// 							<ListGroup>
-// 								{trip.destinations.map((dest) => (
-// 									<ListGroup.Item key={dest._id}>
-// 										{dest.country} ->{dest.city} -> {dest.region}{' '}
-// 									</ListGroup.Item>
-// 								))}
-// 							</ListGroup>
-// 						</Card.Subtitle>
-// 						<Card.Text>{description}</Card.Text>
-// 						<Card.Text>{trip.trip_date}</Card.Text>
+	const tripButtonHandler = (e) => {
+		if (profileView) {
+			dispatch(leaveTrip(trip))
+			setShow(false)
+		} else if (member) {
+			dispatch(leaveTrip(trip))
+			setMember(false)
+			setBtnText("Join")
+		} else if (!requested) {
+			dispatch(joinTrip(trip))
+			setRequested(true)
+			setBtnText("Requested")
+		}
+	}
 
-// 						{personal && (
-// 							<Container>
-// 								<Row>
-// 									<Col>
-// 										<Button
-// 											variant='primary'
-// 											onClick={(e) => {
-// 												deleteHandler(e)
-// 											}}
-// 										>
-// 											Delete
-// 										</Button>
-// 									</Col>
-// 									<Col>
-// 										<Button variant='primary' onClick={editHandler}>
-// 											Edit
-// 										</Button>
-// 									</Col>
-// 								</Row>
-// 							</Container>
-// 						)}
-// 					</Card.Body>
-// 				</Card>
-// 			)}
-// 			{edit && (
-// 				<Form onSubmit={updateHandler}>
-// 					<Form.Group controlId='text'>
-// 						<Form.Label>Title</Form.Label>
-// 						<Form.Control
-// 							type='text'
-// 							placeholder='Enter Title'
-// 							value={title}
-// 							onChange={(e) => setTitle(e.target.value)}
-// 						></Form.Control>
-// 					</Form.Group>
-// 					<Form.Group controlId='exampleForm.ControlTextarea1'>
-// 						<Form.Label>Description</Form.Label>
-// 						<Form.Control
-// 							as='textarea'
-// 							rows={10}
-// 							placeholder='Enter Description'
-// 							value={description}
-// 							onChange={(e) => setDescription(e.target.value)}
-// 						></Form.Control>
-// 					</Form.Group>
+	return (
+		<>
+			{show && (
+				<Card className="trip-card">
+					<Card.Body>
+						<Card.Title>
+							{"city" in destination ? destination.city + ", ": ""}
+							{"country" in destination ? destination.country : ""}
+						</Card.Title>
+						<Card.Subtitle className='mb-2 text-muted'>
+							{"region" in destination ? destination.region : ""}
+						</Card.Subtitle>
+						<Card.Text>
+							{"From: " + startDate + ", To: " + endDate}
+						</Card.Text>
+						<Container>
+							<Row>
+								<Col>
+									<Button
+										variant='primary'
+										onClick={(e) => tripButtonHandler(e)}>
+										{btnText}
+									</Button>
+								</Col>
+							</Row>
+						</Container>
+					</Card.Body>
+				</Card>
+			)}
+		</>
+	)
+}
 
-// 					<Container>
-// 						<Row>
-// 							<Col>
-// 								<Button
-// 									variant='primary'
-// 									onClick={(e) => {
-// 										updateHandler(e)
-// 									}}
-// 								>
-// 									Update
-// 								</Button>
-// 							</Col>
-// 							<Col>
-// 								<Button variant='primary' onClick={editHandler}>
-// 									Back
-// 								</Button>
-// 							</Col>
-// 						</Row>
-// 					</Container>
-// 				</Form>
-// 			)}
-// 		</>
-// 	)
-// }
-
-// export default Trip
+export default Trip

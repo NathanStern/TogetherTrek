@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/api/PostWrapper.dart';
+import 'package:together_trek/utils/DialogUtil.dart';
+import 'package:together_trek/views/TempProfileView.dart';
 
 class EditPostView extends StatefulWidget {
   EditPostView({Key key, this.post}) : super(key: key);
@@ -162,14 +164,33 @@ class MyCustomFormState extends State<MyCustomForm> {
                       final form = _formKey.currentState;
                       form.save();
 
-                      await deletePost(_id);
+                      bool success = await deletePost(_id);
                       Navigator.pop(context);
-                      LoadedPostsModel loadedPosts =
-                          context.read<LoadedPostsModel>();
-                      loadedPosts.removePost(_id);
+                      if (success) {
+                        LoadedPostsModel loadedPosts =
+                            context.read<LoadedPostsModel>();
+                        loadedPosts.removePost(_id);
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (context) => buildStandardDialog(context,
+                                "Delete Error", "Could not delete post."));
+                      }
                     }
                   },
                   child: Text('Delete'),
+                )),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TempProfileView()),
+                    );
+                  },
+                  child: Text('View Author'),
                 ))
           ])
         ],

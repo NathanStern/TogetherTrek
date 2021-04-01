@@ -1,4 +1,4 @@
-import '../index.css';
+import '../index.css'
 import React, { useState, useEffect } from 'react'
 import { Form, Button } from 'react-bootstrap'
 import axios from 'axios'
@@ -6,44 +6,45 @@ import Message from '../components/Message'
 import { path } from '../constants/pathConstant'
 import { useSelector } from 'react-redux'
 const CreateTripScreen = ({ history }) => {
-	const { userInfo } = useSelector((state) => state.userLogin)
+  const { userInfo } = useSelector((state) => state.userLogin)
 
-	const [country, setCountry] = useState('')
-	const [city, setCity] = useState('')
-	const [region, setRegion] = useState('')
-    const [startDate, setStartDate] = useState(new Date())
-	const [endDate, setEndDate] = useState(new Date())
-    const [message, setMessage] = useState('')
+  const [country, setCountry] = useState('')
+  const [city, setCity] = useState('')
+  const [region, setRegion] = useState('')
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(new Date())
+  const [message, setMessage] = useState('')
 
 	const tripHandler = async (e) => {
 		e.preventDefault()
 		try {
 			const res = await axios.post(`${path}/trips`, {
-                destination:{
+          destination:{
 						country: country,
 						city: city,
 						region: region,
 					},
-				start_date: startDate,
-                end_date: endDate,
-                creator_id: userInfo._id,
-                participant_ids: [userInfo._id],
+					start_date: startDate,
+		      end_date: endDate,
+		      creator_id: userInfo._id,
+		      participant_ids: [userInfo._id],
 			})
-            console.log(res);
-			// await axios.put(`${path}/users/${userInfo._id}`, {
-			// 	...userInfo,
-			// 	trip_ids: userInfo.trip_ids.concat(res.data),
-			// })
+
+			await axios.put(`${path}/users/${userInfo._id}`, {
+				trip_ids: userInfo.trip_ids.concat(res.data),
+			})
 			setMessage('Trip Added')
 			history.push('/')
-		} catch {}
+		} catch(e) {
+			console.log(e);
+		}
 	}
 
 	return (
 		<>
 			{message && <Message variant='success'>{message}</Message>}
 			<Form>
-                <Form.Group controlId='date'>
+      	<Form.Group controlId='date'>
 					<Form.Label>Enter Start Date</Form.Label>
 					<Form.Control
 						type='date'
@@ -89,17 +90,17 @@ const CreateTripScreen = ({ history }) => {
 					></Form.Control>
 				</Form.Group>
 
-				<Button
-					variant='primary'
-					onClick={(e) => {
-						tripHandler(e)
-					}}
-				>
-					Post
-				</Button>
-			</Form>
-		</>
-	)
+        <Button
+          variant='primary'
+          onClick={(e) => {
+            tripHandler(e)
+          }}
+        >
+          Post
+        </Button>
+      </Form>
+    </>
+  )
 }
 
 export default CreateTripScreen
