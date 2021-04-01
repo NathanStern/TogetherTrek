@@ -24,9 +24,9 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const id = pathname.split('/')[2]
   useEffect(async () => {
     const trip = await axios.get(`${path}/trips/${id}`)
-	console.log(trip)
+	  console.log(trip)
     setTripInfo(trip.data)
-  })
+  },[])
   const redirect = '/'
   useEffect(() => {
     if (!tripInfo) {
@@ -37,9 +37,9 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const inviteUser = (e) => {
     e.preventDefault()
     axios
-      .put(`${path}/users/invite-user/${username}`, {
+      .put(`${path}/users/invite-user/${userInfo._id}`, {
         requesting_user_id: userInfo._id,
-		trip_id: tripInfo._id
+		    trip_id: tripInfo._id,
       })
       .then((res) => {
         setMessage('Trip invite is Sent')
@@ -49,6 +49,20 @@ const ViewTripScreen = ({ location, history, useParams }) => {
       })
 	  
     console.log('Sent invite request')
+  }
+
+  const removeUser = (e) => {
+	  e.preventDefault();
+	  axios
+      .put(`${path}/trips/remove-user/${tripInfo._id}`, {
+        requesting_user_id: userInfo._id,
+      })
+      .then((res) => {
+        setMessage('Remove request is Sent')
+        setTimeout(() => {
+          setMessage(null)
+        }, 1000)
+      })
   }
 
   return (
@@ -75,7 +89,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
           					value={username}
           					onChange={(e) => setUsername(e.target.value)}
         				></Form.Control>
-						<Button variant='primary' onClick={inviteUser}>
+						<Button type='submit' variant='primary' onClick={inviteUser}>
               				Submit
             			</Button>
 					</Form.Group>
@@ -85,7 +99,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
           <Col md={3}>
             <h3>Remove User</h3>
 			<FormContainer>
-				<Form onSubmit={inviteUser}>
+				<Form onSubmit={removeUser}>
 					<Form.Group controlId='confirmPassword'>
 					<Form.Label>Username</Form.Label>
         				<Form.Control
@@ -94,7 +108,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
           					value={usernameRemove}
           					onChange={(e) => setUsernameRemove(e.target.value)}
         				></Form.Control>
-						<Button variant='primary' onClick={inviteUser}>
+						<Button type='submit' variant='primary' onClick={removeUser}>
               				Submit
             			</Button>
 					</Form.Group>
