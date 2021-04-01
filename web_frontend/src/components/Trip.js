@@ -15,7 +15,7 @@ const Trip = ({ trip, personal }) => {
 	const dispatch = useDispatch()
 	const [show, setShow] = useState(true)
 	const [edit, setEdit] = useState(false)
-
+	const [id, setId] = useState(trip.id)
 	const [destination, setDestination] = useState(trip.destination)
 	const [startDate, setStartDate] = useState(trip.startDate)
 
@@ -39,9 +39,11 @@ const Trip = ({ trip, personal }) => {
 							<Container>
 								<Row>
                   <Col>
-				  <Link to={`/trip/${trip.id}`}>
+				  {personal === true && (
+				  <Link to={`trip/${trip._id}`}>
                       View Trip
                     </Link>
+				  )}
                     <Button
                       variant='primary'
                       onClick={(e) => {

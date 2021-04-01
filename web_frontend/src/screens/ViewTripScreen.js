@@ -18,11 +18,13 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const { userInfo } = useSelector((state) => state.userLogin)
   const [message, setMessage] = useState(null)
   const [username, setUsername] = useState('')
+  const [usernameRemove, setUsernameRemove] = useState('')
 
   const { pathname } = useLocation()
   const id = pathname.split('/')[2]
   useEffect(async () => {
     const trip = await axios.get(`${path}/trips/${id}`)
+	console.log(trip)
     setTripInfo(trip.data)
   })
   const redirect = '/'
@@ -34,9 +36,10 @@ const ViewTripScreen = ({ location, history, useParams }) => {
 
   const inviteUser = (e) => {
     e.preventDefault()
-    /*axios
-      .put(`${path}/users/request-friend/${tripInfo._id}`, {
+    axios
+      .put(`${path}/users/invite-user/${username}`, {
         requesting_user_id: userInfo._id,
+		trip_id: tripInfo._id
       })
       .then((res) => {
         setMessage('Trip invite is Sent')
@@ -44,7 +47,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
           setMessage(null)
         }, 1000)
       })
-	  */
+	  
     console.log('Sent invite request')
   }
 
@@ -58,6 +61,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
             <h2>Trip Info</h2>
             <div>Destination: {tripInfo.destination}</div>
             <div>Start Date: {tripInfo.startDate}</div>
+			<div>End Date: {tripInfo.endDate}</div>
           </Col>
           <Col md={3}>
             <h2>Users</h2>
@@ -68,8 +72,8 @@ const ViewTripScreen = ({ location, history, useParams }) => {
         				<Form.Control
           					type='Username'
           					placeholder='Username'
-          					value={1}
-          					onChange={(e) => setMessage(e.target.value)}
+          					value={username}
+          					onChange={(e) => setUsername(e.target.value)}
         				></Form.Control>
 						<Button variant='primary' onClick={inviteUser}>
               				Submit
@@ -87,8 +91,8 @@ const ViewTripScreen = ({ location, history, useParams }) => {
         				<Form.Control
           					type='Username'
           					placeholder='Username'
-          					value={1}
-          					onChange={(e) => setMessage(e.target.value)}
+          					value={usernameRemove}
+          					onChange={(e) => setUsernameRemove(e.target.value)}
         				></Form.Control>
 						<Button variant='primary' onClick={inviteUser}>
               				Submit
