@@ -20,6 +20,9 @@ import {
   DECLINE_TRIP_REQUEST,
   DECLINE_TRIP_SUCCESS,
   DECLINE_TRIP_FAIL,
+  MYTRIPS_JOIN_REQUEST,
+  MYTRIPS_JOIN_SUCCESS,
+  MYTRIPS_JOIN_FAIL,
 } from '../constants/tripsConstants'
 
 export const getMyTripsReducer = (state = {}, action) => {
@@ -107,6 +110,19 @@ export const declineTripRequestReducer = (state = {}, action) => {
     case DECLINE_TRIP_SUCCESS:
       return { loading: false, success: true }
     case DECLINE_TRIP_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const joinTripReducer = (state = {}, action) => {
+  switch (action.type) {
+    case MYTRIPS_JOIN_REQUEST:
+      return { loading: true }
+    case MYTRIPS_JOIN_SUCCESS:
+      return { loading: false, success: true }
+    case MYTRIPS_JOIN_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

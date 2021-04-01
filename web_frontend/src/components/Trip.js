@@ -1,3 +1,4 @@
+import '../index.css'
 import React, { useEffect, useState } from 'react'
 import {
 	Card,
@@ -6,50 +7,64 @@ import {
 	Row,
 	Col,
 } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
-import { leaveTrip } from '../actions/tripsActions'
+import { useDispatch } from 'react-redux'
+import { joinTrip, leaveTrip } from '../actions/tripsActions'
 
-const Trip = ({ trip, personal }) => {
-	// console.log(trip)
+const Trip = ({ trip, userId, profileView }) => {
 	const dispatch = useDispatch()
-	const [show, setShow] = useState(true)
-	const [edit, setEdit] = useState(false)
 
-	const [destination, setDestination] = useState(trip.destination)
-	const [startDate, setStartDate] = useState(trip.startDate)
+	const isMember = trip.participant_ids.includes(userId)
+	const hasRequested = 	trip.join_requests.includes(userId)
 
-	const leaveHandler = (e) => {
-		e.preventDefault()
-		setShow(!show)
-		dispatch(leaveTrip(trip))
+  const [show, setShow] = useState(true)
+	const [member, setMember] = useState(isMember ? true : false)
+	const [requested, setRequested] = useState(hasRequested ? true : false)
+	const [btnText, setBtnText] = useState(isMember ? "Leave" : hasRequested ? "Requested" : "Join")
+	const destination = trip.destination
+	const startDate = trip.start_date
+	const endDate = trip.end_date
+
+	const tripButtonHandler = (e) => {
+		if (profileView) {
+			dispatch(leaveTrip(trip))
+			setShow(false)
+		} else if (member) {
+			dispatch(leaveTrip(trip))
+			setMember(false)
+			setBtnText("Join")
+		} else if (!requested) {
+			dispatch(joinTrip(trip))
+			setRequested(true)
+			setBtnText("Requested")
+		}
 	}
 
 	return (
 		<>
 			{show && (
-				<Card style={{ width: '18rem' }}>
+				<Card className="trip-card">
 					<Card.Body>
-						<Card.Title>{destination.city}</Card.Title>
+						<Card.Title>
+							{"city" in destination ? destination.city + ", ": ""}
+							{"country" in destination ? destination.country : ""}
+						</Card.Title>
 						<Card.Subtitle className='mb-2 text-muted'>
-						      {destination.city}, {destination.country} {destination.region}
+							{"region" in destination ? destination.region : ""}
 						</Card.Subtitle>
-						<Card.Text>{startDate}</Card.Text>
-						{personal && (
-							<Container>
-								<Row>
-                  <Col>
-                    <Button
-                      variant='primary'
-                      onClick={(e) => {
-                        leaveHandler(e)
-                      }}
-                    >
-                      Leave
-                    </Button>
-                  </Col>
-								</Row>
-							</Container>
-						)}
+						<Card.Text>
+							{"From: " + startDate + ", To: " + endDate}
+						</Card.Text>
+						<Container>
+							<Row>
+								<Col>
+									<Button
+										variant='primary'
+										onClick={(e) => tripButtonHandler(e)}>
+										{btnText}
+									</Button>
+								</Col>
+							</Row>
+						</Container>
 					</Card.Body>
 				</Card>
 			)}

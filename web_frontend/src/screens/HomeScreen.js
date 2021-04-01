@@ -20,7 +20,6 @@ const HomeScreen = () => {
   let load = true
   useEffect(() => {
     if (userInfo) {
-      dispatch(getPosts())
       setLoading(true)
       setTimeout(() => {
         setLoading(false)
@@ -29,7 +28,9 @@ const HomeScreen = () => {
         setTimeout(() => {
           dispatch(getUserFriends())
           dispatch(getMyPosts())
+          dispatch(getPosts())
           dispatch(getMyTrips())
+          dispatch(getTrips())
           dispatch(getUserMessageBoards())
         }, 1200)
       )

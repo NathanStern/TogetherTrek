@@ -26,6 +26,7 @@ module.exports = mongoose => {
         coordinates: [Number]
       },
       friend_requests: [mongoose.Types.ObjectId],
+      trip_requests: [mongoose.Types.ObjectId],
       post_ids: [mongoose.Types.ObjectId],
       trip_ids: [mongoose.Types.ObjectId],
       message_board_ids: [mongoose.Types.ObjectId],

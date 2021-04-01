@@ -2,8 +2,20 @@ main {
 	min-height: 85vh;
 }
 #nav-dropdown {
-	color: white
+	color: white;
+}
+.trip-card {
+	margin: 20px;
 }
 .white-text {
-	color: white
+	color: white;
+}
+.half-button {
+	width: 40%;
+	margin: 5%;
+}
+.friend-card {
+	margin: 2.5%;
+	max-width: 25%;
+	float: left;
 }

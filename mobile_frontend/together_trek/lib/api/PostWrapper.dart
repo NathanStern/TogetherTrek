@@ -63,6 +63,11 @@ Future<String> updatePost(
   print(res.body);
 }
 
-Future<Null> deletePost(String id) async {
+Future<bool> deletePost(String id) async {
   http.Response res = await httpDelete('posts/${id}');
+  if (res.statusCode != 200) {
+    return false;
+  } else {
+    return true;
+  }
 }
