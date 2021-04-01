@@ -1,0 +1,288 @@
+{
+	"info": {
+		"_postman_id": "b89cd52c-3636-4c22-bc8b-962d7dea876d",
+		"name": "Temp_Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Add User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response test\", function() {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    \r",
+									"    postman.setEnvironmentVariable(\"user-id\", pm.response.text());\r",
+									"    postman.setEnvironmentVariable(\"message-board-id\", \"60495fd323e4d3826cba09cb\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"email\", _.random(1,1000000).toString() + \"@gmail.com\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"testuname\",\r\n    \"password\": \"testpword\",\r\n    \"email\": \"{{email}}\",\r\n    \"birthdate\": \"1991-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"first_name\": \"testI\",\r\n    \"last_name\": \"testL\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{site}}:{{port}}/users",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Text Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response test\", function() {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    \r",
+									"    postman.setEnvironmentVariable(\"message-id\", pm.response.text());\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "author_id",
+									"value": "{{user-id}}",
+									"type": "text"
+								},
+								{
+									"key": "message_board_id",
+									"value": "{{message-board-id}}",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "text",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "test string",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{site}}:{{port}}/messages",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Text Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{site}}:{{port}}/messages/{{message-id}}",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"messages",
+								"{{message-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Image Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response test\", function() {\r",
+									"    pm.response.to.be.withBody;\r",
+									"    \r",
+									"    postman.setEnvironmentVariable(\"message-id\", pm.response.text());\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "./test_assets/test-image.png"
+								},
+								{
+									"key": "author_id",
+									"value": "{{user-id}}",
+									"type": "text"
+								},
+								{
+									"key": "message_board_id",
+									"value": "{{message-board-id}}",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "image",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{site}}:{{port}}/messages",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site}}:{{port}}/messages/{{message-id}}",
+							"host": [
+								"{{site}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"messages",
+								"{{message-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "site",
+			"value": "localhost"
+		},
+		{
+			"key": "port",
+			"value": "3001"
+		}
+	]
+}
