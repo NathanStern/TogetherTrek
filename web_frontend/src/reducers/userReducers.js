@@ -18,6 +18,9 @@ import {
   USER_ACCEPT_FRIEND_REQUEST,
   USER_ACCEPT_FRIEND_SUCCESS,
   USER_ACCEPT_FRIEND_FAIL,
+  USER_REQUEST_FRIEND,
+  USER_REQUEST_FRIEND_SUCCESS,
+  USER_REQUEST_FRIEND_FAIL,
   USER_GET_MESSAGEBOARDS_REQUEST,
   USER_GET_MESSAGEBOARDS_FAIL,
   USER_GET_MESSAGEBOARDS_SUCCESS,
@@ -70,6 +73,18 @@ export const userAcceptFriendReducer = (state = {}, action) => {
     case USER_ACCEPT_FRIEND_SUCCESS:
       return { loading: false, success: true }
     case USER_ACCEPT_FRIEND_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+export const userRequestFriendReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_REQUEST_FRIEND:
+      return { loading: true }
+    case USER_REQUEST_FRIEND_SUCCESS:
+      return { loading: false, userInfo: action.payload }
+    case USER_REQUEST_FRIEND_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

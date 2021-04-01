@@ -16,7 +16,10 @@ import {
 	MYTRIPS_UPDATE_SUCCESS,
 	MYTRIPS_LEAVE_REQUEST,
 	MYTRIPS_LEAVE_SUCCESS,
-	MYTRIPS_LEAVE_FAIL
+	MYTRIPS_LEAVE_FAIL,
+	MYTRIPS_JOIN_REQUEST,
+	MYTRIPS_JOIN_SUCCESS,
+	MYTRIPS_JOIN_FAIL
 } from '../constants/tripsConstants'
 
 const getTrip = async (trip_id) => {
@@ -207,3 +210,41 @@ export const leaveTrip = (trip) => async (dispatch, getState) => {
 	}
 }
 
+export const joinTrip = (trip) => async (dispatch, getState) => {
+	try {
+		console.log("JOINING TRIP")
+		dispatch({
+			type: MYTRIPS_JOIN_REQUEST,
+		})
+		const {
+			userLogin: { userInfo },
+		} = getState()
+
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': userInfo.token
+			}
+		}
+		const data = {
+			'requesting_user_id': userInfo._id
+		}
+
+		await axios.put(
+			`${path}/trips/request-join/${trip._id}`,
+			data, config
+		)
+
+		dispatch({
+			type: MYTRIPS_JOIN_SUCCESS
+		})
+	} catch (error) {
+		dispatch({
+			type: MYTRIPS_JOIN_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.response,
+		})
+	}
+}
