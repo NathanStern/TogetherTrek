@@ -48,21 +48,16 @@ const Header = () => {
                     <span class='white-text'>New Trip</span>
                   </Nav.Link>
                 </LinkContainer>
-                {(userInfo.friend_requests.length > 0 ||
-                  userInfo.trip_requests.length > 0) && (
-                  <LinkContainer to='/notifications'>
-                    <Nav.Link>
-                      <span class='white-text'>Notifications</span>
-                    </Nav.Link>
-                  </LinkContainer>
-                )}
-                {userInfo.message_board_ids.length > 0 && (
-                  <LinkContainer to='/messages'>
-                    <Nav.Link>
-                      <span class='white-text'>MessageBoards</span>
-                    </Nav.Link>
-                  </LinkContainer>
-                )}
+                <LinkContainer to='/notifications'>
+                  <Nav.Link>
+                    <span class='white-text'>Notifications</span>
+                  </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to='/messages'>
+                  <Nav.Link>
+                    <span class='white-text'>Messages</span>
+                  </Nav.Link>
+                </LinkContainer>
               </Nav>
               <NavDropdown
                 title={userInfo.username}

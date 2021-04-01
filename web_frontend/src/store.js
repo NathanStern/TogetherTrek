@@ -9,6 +9,7 @@ import {
   userGetFriendsReducer,
   userRejectFriendReducer,
   userAcceptFriendReducer,
+  userRequestFriendReducer,
   userGetMessageBoards,
 } from './reducers/userReducers'
 import {
@@ -31,6 +32,7 @@ const reducer = combineReducers({
   getMyTrips: getMyTripsReducer,
   rejectFriendRequest: userRejectFriendReducer,
   acceptFriendRequest: userAcceptFriendReducer,
+  requestFriend: userRequestFriendReducer,
   profileAddMessageBoard: profileAddMessageBoardReducer,
   getMyMessageBoards: userGetMessageBoards,
 	userLogin: userLoginReducer,
