@@ -21,7 +21,9 @@ const TripsScreen = ({ history }) => {
 		<>
 			<Container>
 				{allTrips &&
-					allTrips.map((el) =>
+					allTrips
+					.reverse()
+					.map((el) =>
 						(el === undefined ? <></> :
 								<Trip trip={el} userId={userInfo._id} profileView={false} key={el._id}/>
 						)
