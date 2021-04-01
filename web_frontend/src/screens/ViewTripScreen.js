@@ -36,7 +36,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
 
   const inviteUser = (e) => {
     e.preventDefault()
-      const otherUser = axios.get(`/users?username=${username}`)
+      const otherUser = axios.get(`${path}/users?username=${username}`)
     if (otherUser) {
     axios
       .put(`${path}/users/invite-user/${otherUser._id}`, {
@@ -56,7 +56,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
 
   const removeUser = (e) => {
 	  e.preventDefault();
-	  const otherUser = axios.get(`/users?username=${usernameRemove}`)
+	  const otherUser = axios.get(`${path}/users?username=${usernameRemove}`)
     if (otherUser) {
       axios
       .put(`${path}/trips/remove-user/${tripInfo._id}`, {
