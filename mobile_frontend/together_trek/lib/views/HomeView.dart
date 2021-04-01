@@ -13,6 +13,7 @@ import 'package:together_trek/views/HomeDrawerView.dart';
 import 'package:together_trek/views/MakePostView.dart';
 import 'package:together_trek/views/MakeTripView.dart';
 import 'package:together_trek/views/MessagesView.dart';
+import 'package:together_trek/views/TripsView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/PostsView.dart';
 import 'package:together_trek/views/ProfilePage.dart';
@@ -25,14 +26,14 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  int _selectedIndex = 1;
-  int _counter = 0;
+  int _selectedIndex = 2;
 
   Future<PackageInfo> packageInfo = PackageInfo.fromPlatform();
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   static List<Widget> _widgetOptions = <Widget>[
     MessagesView(),
+    TripsView(),
     PostsView(),
     ProfilePage(),
     NotificationView(),
@@ -45,7 +46,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _actionButton(int index) {
-    if (_selectedIndex == 1) {
+    if (_selectedIndex == 2) {
       return SpeedDial(
                 //animatedIcon: AnimatedIcons.menu_close,
                 //animatedIconTheme: IconThemeData(size: 30.0),
@@ -145,6 +146,10 @@ class _HomeViewState extends State<HomeView> {
             BottomNavigationBarItem(
               icon: Icon(Icons.message),
               label: 'Messages',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.airplanemode_active_rounded),
+              label: 'Trips',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.home),

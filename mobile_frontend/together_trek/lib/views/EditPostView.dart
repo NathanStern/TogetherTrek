@@ -5,7 +5,7 @@ import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
-import 'package:together_trek/views/AlertView.dart';
+//import 'package:together_trek/views/AlertView.dart';
 import 'package:together_trek/views/HomeView.dart';
 import 'package:together_trek/views/TempProfileView.dart';
 
