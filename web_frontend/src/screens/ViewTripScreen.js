@@ -36,8 +36,10 @@ const ViewTripScreen = ({ location, history, useParams }) => {
 
   const inviteUser = (e) => {
     e.preventDefault()
+      const otherUser = axios.get(`/users?username=${username}`)
+    if (otherUser) {
     axios
-      .put(`${path}/users/invite-user/${userInfo._id}`, {
+      .put(`${path}/users/invite-user/${otherUser._id}`, {
         requesting_user_id: userInfo._id,
 		    trip_id: tripInfo._id,
       })
@@ -48,12 +50,15 @@ const ViewTripScreen = ({ location, history, useParams }) => {
         }, 1000)
       })
 	  
-    console.log('Sent invite request')
+      console.log('Sent invite request')
+    }
   }
 
   const removeUser = (e) => {
 	  e.preventDefault();
-	  axios
+	  const otherUser = axios.get(`/users?username=${usernameRemove}`)
+    if (otherUser) {
+      axios
       .put(`${path}/trips/remove-user/${tripInfo._id}`, {
         requesting_user_id: userInfo._id,
       })
@@ -63,6 +68,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
           setMessage(null)
         }, 1000)
       })
+    }
   }
 
   return (
@@ -73,7 +79,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
         <Row>
           <Col md={3}>
             <h2>Trip Info</h2>
-            <div>Destination: {tripInfo.destination}</div>
+            <div>Destination: </div>
             <div>Start Date: {tripInfo.startDate}</div>
 			<div>End Date: {tripInfo.endDate}</div>
           </Col>
