@@ -5,7 +5,7 @@ import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
-import 'package:together_trek/views/EditPostView.dart';
+import 'package:together_trek/views/PostView.dart';
 
 class PostsView extends StatefulWidget {
   _PostsViewState createState() => _PostsViewState();
@@ -25,15 +25,19 @@ class _PostsViewState extends State<PostsView> {
     int _toReverse = 1;
     return RefreshIndicator(
       child: ListView.builder(
+          physics: BouncingScrollPhysics(),
           itemCount: posts.posts.length,
           itemBuilder: (BuildContext context, int index) {
             return Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(3)),
                 elevation: 2,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InkWell(
+                        borderRadius: BorderRadius.circular(2.5),
                         enableFeedback: true,
                         splashColor: Colors.deepOrangeAccent,
                         onTap: () {
@@ -41,7 +45,7 @@ class _PostsViewState extends State<PostsView> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      EditPostView(post: posts.posts[index])));
+                                      PostView(post: posts.posts[index])));
                         },
                         child: ListTile(title: Text(posts.posts[index].title))),
                   ],

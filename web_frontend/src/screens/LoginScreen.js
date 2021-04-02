@@ -8,10 +8,11 @@ import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, getPosts } from '../actions/postsActions'
-import { sha3_256 } from 'js-sha3'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios'
 import { path } from '../constants/pathConstant'
+import { sha3_256 } from 'js-sha3'
+
 const LoginScreen = ({ history, location }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -29,27 +30,13 @@ const LoginScreen = ({ history, location }) => {
     }
   }, [history, userInfo, redirect])
 
-  const submitHandler = async (e) => {
-    const hashedPassword = sha3_256(password)
-    console.log(`hashed password in login is ${hashedPassword}`)
-
+  const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(login(username, hashedPassword)).then((e) => {
+    // console.log(`hashed password is ${sha3_256(password)}`)
+    dispatch(login(username, sha3_256(password))).then((e) => {
       dispatch(getMyPosts())
       dispatch(getPosts())
-      dispatch(getUserFriends())
     })
-    // const { data } = await axios.post(`${path}/users/login`, {
-    // 	username: email,
-    // 	password: hashedPassword,
-    // })
-    // const decoded = jwt_decode(data.token)
-    // localStorage.setItem('encToken', JSON.stringify(data.token))
-    // dispatch(login(decoded, data.token)).then((e) => {
-    // 	dispatch(getMyPosts())
-    // 	dispatch(getPosts())
-    // 	dispatch(getUserFriends())
-    // })
   }
 
   return (

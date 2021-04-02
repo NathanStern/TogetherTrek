@@ -11,17 +11,23 @@ import {
   USER_GET_FRIENDS_REQUEST,
   USER_GET_FRIENDS_FAIL,
   USER_GET_FRIENDS_SUCCESS,
+  USER_GET_MESSAGEBOARDS_FAIL,
+  USER_GET_MESSAGEBOARDS_REQUEST,
+  USER_GET_MESSAGEBOARDS_SUCCESS,
 } from '../constants/userConstants'
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
 import jwt from 'jwt-decode'
+import { sha3_256 } from 'js-sha3'
 
 export const login = (username, password) => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
     })
-    console.log('sending login request')
+
+    const hashedPassword = sha3_256(password)
+    // console.log(`Hashed password is ${hashedPassword}`)
     axios
       .post(`${path}/users/login`, { username, password })
       .then((res) => {
@@ -32,18 +38,12 @@ export const login = (username, password) => async (dispatch) => {
             Authorization: token,
           },
         }
-        console.log(token)
-
         const user_id = jwt(token)['id']
-        console.log(user_id)
         axios
           .get(`${path}/users/${user_id}`)
           .then((res) => {
             let user = res.data
-            console.log('user:')
-            console.log(user)
             user['token'] = token
-            console.log(user)
 
             localStorage.setItem('userInfo', JSON.stringify(user))
 
@@ -133,23 +133,6 @@ export const register = (
       type: USER_REGISTER_SUCCESS,
       payload: data,
     })
-
-    if (!data) {
-      dispatch({
-        type: USER_REGISTER_FAIL,
-        payload: 'ERROR',
-      })
-    } else {
-      // dispatch({
-      // 	type: USER_LOGIN_SUCCESS,
-      // 	payload: data,
-      // })
-      // localStorage.setItem('userInfo', JSON.stringify(newUser))
-      // localStorage.setItem(
-      // 	'userInfo',
-      // 	JSON.stringify([...newUser, { _id: data }])
-      // )
-    }
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
@@ -176,6 +159,7 @@ export const getUserFriends = () => async (dispatch, getState) => {
     type: USER_GET_FRIENDS_REQUEST,
   })
   try {
+    console.log('Get User Friends')
     const {
       userLogin: { userInfo },
     } = getState()
@@ -185,6 +169,7 @@ export const getUserFriends = () => async (dispatch, getState) => {
         'Content-Type': 'application/json',
       },
     }
+    console.log(userInfo)
     let friends = []
     userInfo.friend_ids.map((el) =>
       getFriend(el).then((res) => {
@@ -263,6 +248,38 @@ export const updateUserProfile = (
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const getUserMessageBoards = () => async (dispatch, getState) => {
+  dispatch({
+    type: USER_GET_MESSAGEBOARDS_REQUEST,
+  })
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    }
+    const { data } = await axios.get(`${path}/message_boards`, config)
+    console.log(data)
+    dispatch({
+      type: USER_GET_MESSAGEBOARDS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_GET_MESSAGEBOARDS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
