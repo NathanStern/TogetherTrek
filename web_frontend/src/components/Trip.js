@@ -65,6 +65,9 @@ const Trip = ({ trip, userId, profileView }) => {
 										onClick={(e) => tripButtonHandler(e)}>
 										{btnText}
 									</Button>
+									<Link to={`trip/${trip._id}`}>
+                      								View Trip
+                    							</Link>
 								</Col>
 							</Row>
 						</Container>
