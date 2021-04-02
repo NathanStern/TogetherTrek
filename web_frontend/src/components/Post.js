@@ -1,4 +1,4 @@
-import '../index.css';
+import '../index.css'
 import React, { useEffect, useState } from 'react'
 import {
   Card,
@@ -56,7 +56,7 @@ const Post = ({ post, personal }) => {
               <ListGroup>
                 {post.destinations.map((dest) => (
                   <ListGroup.Item key={dest._id}>
-                    {dest.country} ->{dest.city} -> {dest.region}{' '}
+                    {dest.country} ->{dest.city} -> {dest.region}
                   </ListGroup.Item>
                 ))}
               </ListGroup>

@@ -10,3 +10,12 @@ main {
 .white-text {
 	color: white;
 }
+.half-button {
+	width: 40%;
+	margin: 5%;
+}
+.friend-card {
+	margin: 2.5%;
+	max-width: 25%;
+	float: left;
+}

@@ -9,6 +9,8 @@ import {
   userGetFriendsReducer,
   userRejectFriendReducer,
   userAcceptFriendReducer,
+  userRequestFriendReducer,
+  userGetMessageBoards,
 } from './reducers/userReducers'
 import {
   deleteMyPostReducer,
@@ -17,12 +19,14 @@ import {
   updateMyPostReducer,
 } from './reducers/postsReducer'
 import {
-	getMyTripsReducer,
-	getAllTripsReducer,
-	updateMyTripReducer,
-	deleteMyTripReducer,
-	leaveTripReducer,
-  joinTripReducer
+  getMyTripsReducer,
+  getAllTripsReducer,
+  updateMyTripReducer,
+  deleteMyTripReducer,
+  leaveTripReducer,
+  joinTripReducer,
+  acceptTripRequestReducer,
+  declineTripRequestReducer,
 } from './reducers/tripsReducers'
 
 const reducer = combineReducers({
@@ -30,20 +34,24 @@ const reducer = combineReducers({
   getMyTrips: getMyTripsReducer,
   rejectFriendRequest: userRejectFriendReducer,
   acceptFriendRequest: userAcceptFriendReducer,
+  requestFriend: userRequestFriendReducer,
   profileAddMessageBoard: profileAddMessageBoardReducer,
-	userLogin: userLoginReducer,
-	userRegister: userRegisterReducer,
-	userUpdateProfile: userUpdateProfileReducer,
-	getMyPosts: getMyPostsReducer,
-	getAllPosts: getAllPostsReducer,
-	deleteMyPost: deleteMyPostReducer,
-	updateMyPost: updateMyPostReducer,
-	getMyTrips: getMyTripsReducer,
-	getAllTrips: getAllTripsReducer,
-	updateMyTrip: updateMyTripReducer,
-	deleteMyTrip: deleteMyTripReducer,
-	leaveTrip: leaveTripReducer,
-  joinTrip: joinTripReducer
+  getMyMessageBoards: userGetMessageBoards,
+  acceptTripRequest: acceptTripRequestReducer,
+  declineTripRequest: declineTripRequestReducer,
+  userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
+  userUpdateProfile: userUpdateProfileReducer,
+  getMyPosts: getMyPostsReducer,
+  getAllPosts: getAllPostsReducer,
+  deleteMyPost: deleteMyPostReducer,
+  updateMyPost: updateMyPostReducer,
+  getMyTrips: getMyTripsReducer,
+  getAllTrips: getAllTripsReducer,
+  updateMyTrip: updateMyTripReducer,
+  deleteMyTrip: deleteMyTripReducer,
+  leaveTrip: leaveTripReducer,
+  joinTrip: joinTripReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
@@ -51,7 +59,7 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
   : null
 
 const initialState = {
-	userLogin: { userInfo: userInfoFromStorage }
+  userLogin: { userInfo: userInfoFromStorage },
 }
 
 const middleware = [thunk]
