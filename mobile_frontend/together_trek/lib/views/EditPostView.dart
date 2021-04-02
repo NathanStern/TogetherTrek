@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:together_trek/api/PostWrapper.dart';
+import 'package:together_trek/api/UserWrapper.dart';
+
 import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/TempProfileView.dart';
+import 'package:together_trek/models/UserModel.dart';
 
 class EditPostView extends StatefulWidget {
   EditPostView({Key key, this.post}) : super(key: key);
@@ -54,6 +58,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   String _city;
   String _region;
   String _id;
+  String _authorId;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +71,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     _city = post.destinations[0].city;
     _region = post.destinations[0].region;
     _id = post.id;
+    _authorId = post.authorId;
 
     // Build a Form widget using the _formKey created above.
     return Form(
@@ -179,6 +185,20 @@ class MyCustomFormState extends State<MyCustomForm> {
                     }
                   },
                   child: Text('Delete'),
+                )),
+             Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    UserModel user = await getUser(_authorId);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TempProfileView(user: user)),
+                    );
+                  },
+                  child: Text('View Author'),
+
                 ))
           ])
         ],

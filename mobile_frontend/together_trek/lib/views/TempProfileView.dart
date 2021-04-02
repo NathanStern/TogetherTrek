@@ -1,45 +1,57 @@
 //import 'dart:html';
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
-import 'package:together_trek/views/EditPRofilePage.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
 import 'package:together_trek/api/UserWrapper.dart' as UserWrapper;
 import 'package:together_trek/views/EditPostView.dart';
 import 'package:flutter/material.dart';
-import 'package:together_trek/api/UserWrapper.dart';
+import 'package:together_trek/models/UserModel.dart';
 
 class TempProfileView extends StatefulWidget {
-  _TempProfileViewState createState() => _TempProfileViewState();
+  TempProfileView({Key key, this.user}) : super(key: key);
+  UserModel user;
+  _TempProfileViewState createState() => _TempProfileViewState(user: user);
 }
 
 class _TempProfileViewState extends State<TempProfileView> {
+  _TempProfileViewState({this.user});
+  UserModel user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile Author"),
       ),
-      body: TempAuthorProfile(),
+      body: TempAuthorProfile(user: user),
     );
   }
 }
 
 class TempAuthorProfile extends StatefulWidget {
+  TempAuthorProfile({Key key, this.user}) : super(key: key);
+  UserModel user;
   @override
   TempAuthorProfileState createState() {
-    return TempAuthorProfileState();
+    return TempAuthorProfileState(user: user);
   }
 }
 
 class TempAuthorProfileState extends State<TempAuthorProfile> {
+  TempAuthorProfileState({this.user});
   UserModel user;
+  UserModel viewer;
+  String _viewId;
+  String _viewerName;
   @override
   Widget build(BuildContext context) {
-    user = context.watch<UserModel>();
+    viewer = context.watch<UserModel>();
+    _viewId = this.viewer.id;
+    _viewerName = this.viewer.username;
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -184,7 +196,7 @@ class TempAuthorProfileState extends State<TempAuthorProfile> {
                     height: 10.0,
                   ),
                   Text(
-                    'Tester',
+                    '',
                     style: TextStyle(
                       fontSize: 22.0,
                       fontStyle: FontStyle.italic,
@@ -205,6 +217,7 @@ class TempAuthorProfileState extends State<TempAuthorProfile> {
             child: RaisedButton(
                 onPressed: () {
                   //send friend request
+                  UserWrapper.sendFriendRequest(_viewId, jsonEncode(<String, dynamic>{"username": _viewerName}),);
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),

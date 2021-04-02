@@ -20,9 +20,19 @@ Future<UserModel> getUser(String id) async {
   return UserModel.fromJson(jsonDecode(response.body));
 }
 
+Future<UserModel> updateUser(String id, String data) async {
+  http.Response response = await httpPut('users/${id}', data);
+  return UserModel.fromJson(jsonDecode(response.body));
+}
+
 Future<int> deleteUser(String id) async {
   http.Response response = await httpDelete('users/${id}');
 
+  return response.statusCode;
+}
+
+Future<int> sendFriendRequest(String id, String data) async {
+  http.Response response = await httpPost('users/request-friend/${id}', data);
   return response.statusCode;
 }
 
