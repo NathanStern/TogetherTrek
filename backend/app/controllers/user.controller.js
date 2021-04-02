@@ -502,7 +502,7 @@ exports.acceptFriendRequest = (req, res) => {
 
 // invites a User to a Trip
 exports.inviteUser = (req, res) => {
-	console.log("entered invite user");
+	//console.log("entered invite user");
 	const user_id = req.params.id;
     if (!req.body.inviting_user_id) {
         res.status(400).send({ message: 'inviting_user_id can not be empty.' })
@@ -516,18 +516,18 @@ exports.inviteUser = (req, res) => {
 	const inviting_user_id = req.body.inviting_user_id;
     User.findById(user_id)
     .then(user => {
-		console.log("trip id: " + trip_id);
-		console.log("User id: " + user_id);
+		//console.log("trip id: " + trip_id);
+		//console.log("User id: " + user_id);
 		Trip.findById(trip_id)
 		.then(trip => {
-			console.log(trip.participant_ids + "sadasd");
+			//console.log(trip.participant_ids + "sadasd");
 			if (trip.participant_ids === null || !trip.participant_ids.includes(inviting_user_id)) {
 				res.status(400).send({ message: 'User is not a member of the trip.'})
 				console.log("error 400");
 				return;
 			}
 			user.trip_requests.push(trip_id);
-			console.log(trip_requests);
+			//console.log(user.trip_requests[0]);
 			user.save()
 			.then(data => {
 				res.send({ message: "success" });
