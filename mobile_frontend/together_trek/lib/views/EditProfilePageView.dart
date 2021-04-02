@@ -46,6 +46,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
   String _id;
   String _userName;
+  String _gender;
   String _destination;
   String _bio;
 
@@ -56,6 +57,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
 
     _id = user.id;
+    _gender = user.gender;
     _userName = user.username;
     _destination = user.location.toString();
 
@@ -79,6 +81,38 @@ class MyCustomFormState extends State<MyCustomForm> {
                   });
                 },
               ),
+              DropdownButtonFormField(
+                decoration: InputDecoration(
+                    icon: Icon(Icons.person_outline), hintText: "Gender"),
+                items: [
+                  DropdownMenuItem(child: Text("Male"), value: "Male"),
+                  DropdownMenuItem(
+                    child: Text("Female"),
+                    value: "Female",
+                  ),
+                  DropdownMenuItem(
+                    child: Text("Non-binary"),
+                    value: "Non-binary",
+                  ),
+                  DropdownMenuItem(
+                    child: Text("Other"),
+                    value: "Other",
+                  )
+                ],
+                value: _gender,
+                onChanged: (value) {
+                  setState(() {
+                    _gender = value;
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value == "") {
+                    return "Enter your gender";
+                  } else {
+                    return null;
+                  }
+                },
+              ),
               Row(children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -88,12 +122,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                         final form = _formKey.currentState;
                         form.save();
                         await updateUser(
-                            _id,
-                            jsonEncode(
-                                <String, dynamic>{"username": _userName}));
+                          _id,
+                          jsonEncode(<String, dynamic>{"username": _userName, "gender": _gender}),
+                        );
                         user.setUsername(_userName);
+                        user.setGender(_gender);
                         Navigator.pop(context);
-                        setState(() {});
                       }
                     },
                     child: Text('Confirm'),
