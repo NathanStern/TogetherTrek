@@ -1,7 +1,6 @@
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
 import {
-<<<<<<< HEAD
   ALLTRIPS_GET_FAIL,
   ALLTRIPS_GET_REQUEST,
   ALLTRIPS_GET_SUCCESS,
@@ -24,8 +23,8 @@ import {
   DECLINE_TRIP_SUCCESS,
   DECLINE_TRIP_FAIL,
   MYTRIPS_JOIN_REQUEST,
-	MYTRIPS_JOIN_SUCCESS,
-	MYTRIPS_JOIN_FAIL
+  MYTRIPS_JOIN_SUCCESS,
+  MYTRIPS_JOIN_FAIL,
 } from '../constants/tripsConstants'
 
 const getTrip = async (trip_id) => {
@@ -252,7 +251,6 @@ export const acceptTrip = (trip_id) => async (dispatch, getState) => {
   }
 }
 
-<<<<<<< HEAD
 export const declineTrip = (trip_id) => async (dispatch, getState) => {
   dispatch({
     type: DECLINE_TRIP_REQUEST,
@@ -287,43 +285,40 @@ export const declineTrip = (trip_id) => async (dispatch, getState) => {
           : error.response,
     })
   }
-=======
+}
+
 export const joinTrip = (trip) => async (dispatch, getState) => {
-	try {
-		console.log("JOINING TRIP")
-		dispatch({
-			type: MYTRIPS_JOIN_REQUEST,
-		})
-		const {
-			userLogin: { userInfo },
-		} = getState()
+  try {
+    console.log('JOINING TRIP')
+    dispatch({
+      type: MYTRIPS_JOIN_REQUEST,
+    })
+    const {
+      userLogin: { userInfo },
+    } = getState()
 
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': userInfo.token
-			}
-		}
-		const data = {
-			'requesting_user_id': userInfo._id
-		}
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    }
+    const data = {
+      requesting_user_id: userInfo._id,
+    }
 
-		await axios.put(
-			`${path}/trips/request-join/${trip._id}`,
-			data, config
-		)
+    await axios.put(`${path}/trips/request-join/${trip._id}`, data, config)
 
-		dispatch({
-			type: MYTRIPS_JOIN_SUCCESS
-		})
-	} catch (error) {
-		dispatch({
-			type: MYTRIPS_JOIN_FAIL,
-			payload:
-				error.response && error.response.data.message
-					? error.response.data.message
-					: error.response,
-		})
-	}
->>>>>>> ba2cdd5194b4068633c4e69276038a6767681e6b
+    dispatch({
+      type: MYTRIPS_JOIN_SUCCESS,
+    })
+  } catch (error) {
+    dispatch({
+      type: MYTRIPS_JOIN_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    })
+  }
 }
