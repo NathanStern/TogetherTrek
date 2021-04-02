@@ -5,7 +5,7 @@ import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
-import 'package:together_trek/views/EditPostView.dart';
+import 'package:together_trek/views/PostView.dart';
 
 class PostsView extends StatefulWidget {
   _PostsViewState createState() => _PostsViewState();
@@ -45,7 +45,7 @@ class _PostsViewState extends State<PostsView> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      EditPostView(post: posts.posts[index])));
+                                      PostView(post: posts.posts[index])));
                         },
                         child: ListTile(title: Text(posts.posts[index].title))),
                   ],

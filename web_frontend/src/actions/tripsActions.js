@@ -1,25 +1,30 @@
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
 import {
-
-	ALLTRIPS_GET_FAIL,
-	ALLTRIPS_GET_REQUEST,
-	ALLTRIPS_GET_SUCCESS,
-	MYTRIPS_DELETE_FAIL,
-	MYTRIPS_DELETE_REQUEST,
-	MYTRIPS_DELETE_SUCCESS,
-	MYTRIPS_GET_FAIL,
-	MYTRIPS_GET_REQUEST,
-	MYTRIPS_GET_SUCCESS,
-	MYTRIPS_UPDATE_FAIL,
-	MYTRIPS_UPDATE_REQUEST,
-	MYTRIPS_UPDATE_SUCCESS,
-	MYTRIPS_LEAVE_REQUEST,
-	MYTRIPS_LEAVE_SUCCESS,
-	MYTRIPS_LEAVE_FAIL,
-	MYTRIPS_JOIN_REQUEST,
-	MYTRIPS_JOIN_SUCCESS,
-	MYTRIPS_JOIN_FAIL
+  ALLTRIPS_GET_FAIL,
+  ALLTRIPS_GET_REQUEST,
+  ALLTRIPS_GET_SUCCESS,
+  MYTRIPS_DELETE_FAIL,
+  MYTRIPS_DELETE_REQUEST,
+  MYTRIPS_DELETE_SUCCESS,
+  MYTRIPS_GET_FAIL,
+  MYTRIPS_GET_REQUEST,
+  MYTRIPS_GET_SUCCESS,
+  MYTRIPS_UPDATE_FAIL,
+  MYTRIPS_UPDATE_REQUEST,
+  MYTRIPS_UPDATE_SUCCESS,
+  MYTRIPS_LEAVE_REQUEST,
+  MYTRIPS_LEAVE_SUCCESS,
+  MYTRIPS_LEAVE_FAIL,
+  ACCEPT_TRIP_REQUEST,
+  ACCEPT_TRIP_SUCCESS,
+  ACCEPT_TRIP_FAIL,
+  DECLINE_TRIP_REQUEST,
+  DECLINE_TRIP_SUCCESS,
+  DECLINE_TRIP_FAIL,
+  MYTRIPS_JOIN_REQUEST,
+  MYTRIPS_JOIN_SUCCESS,
+  MYTRIPS_JOIN_FAIL,
 } from '../constants/tripsConstants'
 
 const getTrip = async (trip_id) => {
@@ -170,81 +175,169 @@ export const getTrips = (email, password) => async (dispatch) => {
   }
 }
 
-
 export const leaveTrip = (trip) => async (dispatch, getState) => {
-	try {
-		dispatch({
-			type: MYTRIPS_LEAVE_REQUEST,
-		})
-		const {
-			userLogin: { userInfo },
-		} = getState()
+  try {
+    dispatch({
+      type: MYTRIPS_LEAVE_REQUEST,
+    })
+    const {
+      userLogin: { userInfo },
+    } = getState()
 
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': userInfo.token
-			}
-		}
-		const data = {
-			'user_id': userInfo._id
-		}
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    }
+    const data = {
+      user_id: userInfo._id,
+    }
 
-		const resp = await axios.put(
-			`${path}/trips/remove-user/${trip._id}`,
-			data, config
-		)
+    const resp = await axios.put(
+      `${path}/trips/remove-user/${trip._id}`,
+      data,
+      config
+    )
 
-		dispatch({
-			type: MYTRIPS_LEAVE_SUCCESS,
-			payload: resp.data,
-		})
-	} catch (error) {
-		dispatch({
-			type: MYTRIPS_LEAVE_FAIL,
-			payload:
-				error.response && error.response.data.message
-					? error.response.data.message
-					: error.response,
-		})
-	}
+    dispatch({
+      type: MYTRIPS_LEAVE_SUCCESS,
+      payload: resp.data,
+    })
+  } catch (error) {
+    dispatch({
+      type: MYTRIPS_LEAVE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    })
+  }
+}
+
+export const acceptTrip = (trip_id) => async (dispatch, getState) => {
+  dispatch({
+    type: ACCEPT_TRIP_REQUEST,
+  })
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    }
+
+    const { data } = await axios.put(
+      `${path}/trips/accept-join/${trip_id}`,
+      { requesting_user_id: userInfo._id },
+      config
+    )
+    const user = await axios.put(
+      `${path}/users/${userInfo._id}`,
+      {
+        ...userInfo,
+        trip_requests: userInfo.trip_requests.filter((e) => e !== trip_id),
+        trip_ids: userInfo.trip_ids.concat(trip_id),
+      },
+      config
+    )
+    dispatch({
+      type: ACCEPT_TRIP_SUCCESS,
+    })
+  } catch (error) {
+    dispatch({
+      type: ACCEPT_TRIP_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    })
+  }
+}
+
+export const declineTrip = (trip_id) => async (dispatch, getState) => {
+  dispatch({
+    type: DECLINE_TRIP_REQUEST,
+  })
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    }
+
+    const { data } = await axios.put(
+      `${path}/trips/decline-join/${trip_id}`,
+      { requesting_user_id: userInfo._id },
+      config
+    )
+    let tripRequests = userInfo.trip_requests.filter((e) => e !== trip_id)
+    console.log(tripRequests)
+    console.log(` size is ${tripRequests.length}`)
+    const user = await axios.put(
+      `${path}/users/${userInfo._id}`,
+      {
+        ...userInfo,
+        trip_requests: tripRequests,
+      },
+      config
+    )
+    // console.log(user)
+    dispatch({
+      type: DECLINE_TRIP_SUCCESS,
+    })
+  } catch (error) {
+    dispatch({
+      type: DECLINE_TRIP_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    })
+  }
 }
 
 export const joinTrip = (trip) => async (dispatch, getState) => {
-	try {
-		console.log("JOINING TRIP")
-		dispatch({
-			type: MYTRIPS_JOIN_REQUEST,
-		})
-		const {
-			userLogin: { userInfo },
-		} = getState()
+  try {
+    console.log('JOINING TRIP')
+    dispatch({
+      type: MYTRIPS_JOIN_REQUEST,
+    })
+    const {
+      userLogin: { userInfo },
+    } = getState()
 
-		const config = {
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': userInfo.token
-			}
-		}
-		const data = {
-			'requesting_user_id': userInfo._id
-		}
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    }
+    const data = {
+      requesting_user_id: userInfo._id,
+    }
 
-		await axios.put(
-			`${path}/trips/request-join/${trip._id}`,
-			data, config
-		)
+    await axios.put(`${path}/trips/request-join/${trip._id}`, data, config)
 
-		dispatch({
-			type: MYTRIPS_JOIN_SUCCESS
-		})
-	} catch (error) {
-		dispatch({
-			type: MYTRIPS_JOIN_FAIL,
-			payload:
-				error.response && error.response.data.message
-					? error.response.data.message
-					: error.response,
-		})
-	}
+    dispatch({
+      type: MYTRIPS_JOIN_SUCCESS,
+    })
+  } catch (error) {
+    dispatch({
+      type: MYTRIPS_JOIN_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    })
+  }
 }
