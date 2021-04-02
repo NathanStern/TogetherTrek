@@ -23,7 +23,7 @@ class _EditProfilePageView extends State<EditProfilePageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Post"),
+        title: Text("Edit Profile"),
       ),
       body: MyCustomForm(user: user),
     );

@@ -45,6 +45,7 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
   MyCustomFormState({this.post});
   PostModel post;
+  UserModel user;
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -186,21 +187,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   },
                   child: Text('Delete'),
                 )),
-             Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    UserModel user = await getUser(_authorId);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TempProfileView(user: user)),
-                    );
-                  },
-                  child: Text('View Author'),
-
-                ))
-          ])
+            ])
         ],
       ),
     );
