@@ -40,16 +40,16 @@ class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
 
   final _startController = TextEditingController();
-
+  final _endController = TextEditingController();
   DateTime _start_date;
-  //String start_date = '';
+  DateTime _end_date;
   String end_date = '';
   String _country = '';
   String _city = '';
   String _region = '';
 
   Future<void> _submit() async {
-    http.Response response = await makeTrip(context, _start_date.toString(), _start_date.toString(), _country, _city, _region);
+    http.Response response = await makeTrip(context, _start_date.toString(), _end_date.toString(), _country, _city, _region);
     if (response.statusCode != 200) {
           //_firstPressed = true;
           print(response.body);
@@ -83,7 +83,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                       context: context,
                                       initialDate: DateTime.now(),
                                       firstDate: DateTime(1900),
-                                      lastDate: DateTime.now(),
+                                      lastDate: DateTime(2030),
                                       helpText: "Start Date");
 
                                   //start_date = picker.toString();
@@ -113,6 +113,51 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return "Please enter your date to start";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    hintText: "End date",
+                                    icon: Icon(Icons.calendar_today_outlined)),
+                                controller: _endController,
+                                onTap: () async {
+                                  DateTime picker = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime(2030),
+                                      helpText: "Start Date");
+
+                                  //start_date = picker.toString();
+                                  if (picker != null) {
+                                    this._end_date = picker;
+                                  }
+                                  setState(() {
+                                    if (this._start_date != null) {
+                                      _endController.text =
+                                          "${this._end_date.month}/${this._end_date.day}/${this._end_date.year}";
+                                      FocusScopeNode currentNode =
+                                          FocusScope.of(context);
+
+                                      if (!currentNode.hasPrimaryFocus) {
+                                        currentNode.unfocus();
+                                      }
+                                      // _fieldFocusChange(context,
+                                      //     _startFocus);
+                                    } else {
+                                      _startController.text = "";
+                                    }
+                                  });
+                                },
+                                readOnly: true,
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted: (val) {},
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please enter your date to end";
                                   } else {
                                     return null;
                                   }
