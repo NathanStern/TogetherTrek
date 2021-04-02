@@ -16,6 +16,7 @@ import MessageBoard from '../components/MessageBoard'
 import axios from 'axios'
 import { addMessageBoard } from '../actions/profilesActions'
 import Message from '../components/Message'
+import { getUserMessageBoards } from '../actions/userActions'
 const RequestFriend = ({ friend, show, members, setMembers }) => {
   const [message, setMessage] = useState('Add')
   const addMember = (e) => {
@@ -74,13 +75,15 @@ const MessagesScreen = () => {
     console.log(data)
 
     dispatch(addMessageBoard(user_ids, data))
+    setTimeout(() => {
+      dispatch(getUserMessageBoards())
+    }, 800)
     setShow(!show)
     setMessage('MessageBoard Successfully Created!')
     setTimeout(() => {
       setMessage('')
     }, 1200)
   }
-
   return (
     <>
       {message && <Message variant='success'>{message}</Message>}
@@ -107,7 +110,7 @@ const MessagesScreen = () => {
                 {friendsInfo.map((el) => (
                   <RequestFriend
                     friend={el}
-                    key={el.id}
+                    key={el.username}
                     show={show}
                     members={members}
                     setMembers={setMembers}

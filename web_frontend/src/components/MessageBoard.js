@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 const findAuthor = (message, userInfo, messageBoardInfo) => {
   let author = ''
+  if (Object.keys(message).length === 0) return author
   console.log(userInfo._id)
   console.log(message.author_id)
   if (message.author_id === userInfo._id) {

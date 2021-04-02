@@ -27,7 +27,7 @@ const MessageBoardScreen = ({ location, history, useParams }) => {
       </div>
       {participants.length > 0 &&
         participants.map((el) => (
-          <div>
+          <div key={el._id}>
             {el.first_name} {el.last_name}
           </div>
         ))}
