@@ -1,6 +1,6 @@
-import '../index.css';
+import '../index.css'
 import React, { useEffect, useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { CardColumns, CardDeck, Col, Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMyPosts, getPosts } from '../actions/postsActions'
 import { login } from '../actions/userActions'
@@ -19,13 +19,14 @@ const PostsScreen = ({ history }) => {
   console.log(allPosts)
   return (
     <>
+      <h1>Posts</h1>
       {allPosts && (
-        <Container>
+        <CardColumns>
           {allPosts &&
             allPosts
               .reverse()
               .map((el) => <Post post={el} key={el._id} personal={false} />)}
-        </Container>
+        </CardColumns>
       )}
     </>
   )

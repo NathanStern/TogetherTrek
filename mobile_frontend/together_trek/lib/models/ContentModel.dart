@@ -24,6 +24,15 @@ class ContentModel {
         collectionId: json["message_board_id"]);
   }
 
+  ContentModel.empty() {
+    this.id = "";
+    this.authorId = "";
+    this.postDate = "";
+    this.type = "empty";
+    this.data = "";
+    this.collectionId = "";
+  }
+
   // getters are implicit
 
   // none of the fields are editable, so no setters are needed

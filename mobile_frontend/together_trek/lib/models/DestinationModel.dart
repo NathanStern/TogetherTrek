@@ -20,4 +20,9 @@ class DestinationModel {
         'region': this.region,
         'city': this.city
       };
+
+    @override
+    String toString() {
+        return city + ", " + region + ", " + country;
+      }
 }

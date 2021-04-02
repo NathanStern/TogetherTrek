@@ -27,12 +27,10 @@ const ProfileScreen = ({ location, history }) => {
     }
   }, [history, userInfo, redirect])
 
-  let profilePic
+  let profilePic =
+    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
   if (userInfo.profile_pic) {
     profilePic = path + `/users/profile-pic/${userInfo._id}`
-  } else {
-    profilePic =
-      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
   }
 
   return (

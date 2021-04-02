@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/api/UserWrapper.dart';
+
 import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
+import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
-//import 'package:together_trek/views/AlertView.dart';
-import 'package:together_trek/views/HomeView.dart';
 import 'package:together_trek/views/TempProfileView.dart';
 import 'package:together_trek/models/UserModel.dart';
 
@@ -186,7 +186,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   },
                   child: Text('Delete'),
                 )),
-            Padding(
+             Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () async {
@@ -198,6 +198,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     );
                   },
                   child: Text('View Author'),
+
                 ))
           ])
         ],
