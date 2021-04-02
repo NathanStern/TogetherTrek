@@ -516,12 +516,12 @@ exports.inviteUser = (req, res) => {
 	const inviting_user_id = req.body.inviting_user_id;
     User.findById(user_id)
     .then(user => {
-		console.log(trip_id);
-		console.log(user_id);
+		console.log("trip id: " + trip_id);
+		console.log("User id: " + user_id);
 		Trip.findById(trip_id)
 		.then(trip => {
 			console.log(trip.participant_ids + "sadasd");
-			if (trip.participant_ids === null || !trip.participant_ids.find(inviting_user_id)) {
+			if (trip.participant_ids === null || !trip.participant_ids.includes(inviting_user_id)) {
 				res.status(400).send({ message: 'User is not a member of the trip.'})
 				console.log("error 400");
 				return;
