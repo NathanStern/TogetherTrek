@@ -793,186 +793,6 @@
 			]
 		},
 		{
-			"name": "Messages",
-			"item": [
-				{
-					"name": "Create",
-					"item": [
-						{
-							"name": "Add Text Message",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status test\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"})\r",
-											"\r",
-											"pm.test(\"Response test\", function() {\r",
-											"    pm.response.to.be.withBody;\r",
-											"    \r",
-											"    postman.setEnvironmentVariable(\"text-message-id\", pm.response.text());\r",
-											"})"
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"postman.setEnvironmentVariable(\"message-board-id\", \"60495fd323e4d3826cba09cb\");"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "author_id",
-											"value": "{{user-id-1}}",
-											"type": "text"
-										},
-										{
-											"key": "message_board_id",
-											"value": "{{message-board-id}}",
-											"type": "text"
-										},
-										{
-											"key": "type",
-											"value": "text",
-											"type": "text"
-										},
-										{
-											"key": "text",
-											"value": "test string",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{site}}:{{port}}/messages",
-									"host": [
-										"{{site}}"
-									],
-									"port": "{{port}}",
-									"path": [
-										"messages"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Add Image Message",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status test\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"})\r",
-											"\r",
-											"pm.test(\"Response test\", function() {\r",
-											"    pm.response.to.be.withBody;\r",
-											"    \r",
-											"    postman.setEnvironmentVariable(\"image-message-id\", pm.response.text());\r",
-											"})"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"type": "file",
-											"src": "./test_assets/test-image.png"
-										},
-										{
-											"key": "author_id",
-											"value": "{{user-id-1}}",
-											"type": "text"
-										},
-										{
-											"key": "message_board_id",
-											"value": "{{message-board-id}}",
-											"type": "text"
-										},
-										{
-											"key": "type",
-											"value": "image",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{site}}:{{port}}/messages",
-									"host": [
-										"{{site}}"
-									],
-									"port": "{{port}}",
-									"path": [
-										"messages"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Get Tests",
-					"item": [
-						{
-							"name": "Get Image Message",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status test\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
-											"})"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{site}}:{{port}}/messages/{{image-message-id}}",
-									"host": [
-										"{{site}}"
-									],
-									"port": "{{port}}",
-									"path": [
-										"messages",
-										"{{image-message-id}}"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		},
-		{
 			"name": "Message_Boards",
 			"item": [
 				{
@@ -1163,6 +983,186 @@
 									"path": [
 										"message_boards",
 										"{{message-board-id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Create",
+					"item": [
+						{
+							"name": "Add Text Message",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    \r",
+											"    postman.setEnvironmentVariable(\"text-message-id\", pm.response.text());\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "author_id",
+											"value": "{{user-id-1}}",
+											"type": "text"
+										},
+										{
+											"key": "message_board_id",
+											"value": "{{message-board-id}}",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "text",
+											"type": "text"
+										},
+										{
+											"key": "text",
+											"value": "test string",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/messages",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"messages"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Image Message",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"    \r",
+											"    postman.setEnvironmentVariable(\"image-message-id\", pm.response.text());\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "./test_assets/test-image.png"
+										},
+										{
+											"key": "author_id",
+											"value": "{{user-id-1}}",
+											"type": "text"
+										},
+										{
+											"key": "message_board_id",
+											"value": "{{message-board-id}}",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "image",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/messages",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"messages"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Tests",
+					"item": [
+						{
+							"name": "Get Image Message",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{site}}:{{port}}/messages/{{image-message-id}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"messages",
+										"{{image-message-id}}"
 									]
 								}
 							},
@@ -1669,7 +1669,7 @@
 										},
 										{
 											"key": "trip_id",
-											"value": "60445c76a3041c53e897352c",
+											"value": "{{trip-id-1}}",
 											"type": "text"
 										}
 									],
