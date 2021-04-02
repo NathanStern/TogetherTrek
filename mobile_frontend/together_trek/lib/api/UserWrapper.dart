@@ -31,6 +31,11 @@ Future<int> deleteUser(String id) async {
   return response.statusCode;
 }
 
+Future<int> sendFriendRequest(String id, String data) async {
+  http.Response response = await httpPost('users/request-friend/${id}', data);
+  return response.statusCode;
+}
+
 Future<int> userLogin(String data) async {
   http.Response response = await httpPost('users/login', data);
 
@@ -48,5 +53,3 @@ Future<int> userLogin(String data) async {
 NetworkImage getProfilePic(String id) {
   return getNetworkImage('users/profile-pic/${id}');
 }
-
-

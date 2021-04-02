@@ -1,4 +1,5 @@
 //import 'dart:html';
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,8 +44,14 @@ class TempAuthorProfile extends StatefulWidget {
 class TempAuthorProfileState extends State<TempAuthorProfile> {
   TempAuthorProfileState({this.user});
   UserModel user;
+  UserModel viewer;
+  String _viewId;
+  String _viewerName;
   @override
   Widget build(BuildContext context) {
+    viewer = context.watch<UserModel>();
+    _viewId = this.viewer.id;
+    _viewerName = this.viewer.username;
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -189,7 +196,7 @@ class TempAuthorProfileState extends State<TempAuthorProfile> {
                     height: 10.0,
                   ),
                   Text(
-                    'Tester',
+                    '',
                     style: TextStyle(
                       fontSize: 22.0,
                       fontStyle: FontStyle.italic,
@@ -210,6 +217,7 @@ class TempAuthorProfileState extends State<TempAuthorProfile> {
             child: RaisedButton(
                 onPressed: () {
                   //send friend request
+                  UserWrapper.sendFriendRequest(_viewId, jsonEncode(<String, dynamic>{"username": _viewerName}),);
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
