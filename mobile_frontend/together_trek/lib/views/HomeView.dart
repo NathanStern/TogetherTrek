@@ -16,7 +16,7 @@ import 'package:together_trek/views/MessagesView.dart';
 import 'package:together_trek/views/TripsView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/PostsView.dart';
-import 'package:together_trek/views/ProfilePage.dart';
+import 'package:together_trek/views/ProfilePageView.dart';
 import 'package:together_trek/views/NotificationView.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -35,7 +35,7 @@ class _HomeViewState extends State<HomeView> {
     MessagesView(),
     TripsView(),
     PostsView(),
-    ProfilePage(),
+    ProfilePageView(),
     NotificationView(),
   ];
 

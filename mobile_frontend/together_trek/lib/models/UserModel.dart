@@ -250,6 +250,11 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setUsername(String username) {
+    this.username = username;
+    notifyListeners();
+  }
+
   Map<String, dynamic> toJson() => {
         '_id': this.id,
         'username': this.username,

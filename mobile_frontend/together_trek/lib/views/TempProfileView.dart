@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
-import 'package:together_trek/views/EditPRofilePage.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
 import 'package:together_trek/api/UserWrapper.dart' as UserWrapper;
 import 'package:together_trek/views/EditPostView.dart';
