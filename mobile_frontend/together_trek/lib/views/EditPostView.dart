@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
+import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
-//import 'package:together_trek/views/AlertView.dart';
-import 'package:together_trek/views/HomeView.dart';
 import 'package:together_trek/views/TempProfileView.dart';
 
 class EditPostView extends StatefulWidget {
@@ -166,19 +164,17 @@ class MyCustomFormState extends State<MyCustomForm> {
                       final form = _formKey.currentState;
                       form.save();
 
-                      bool success = await deletePost( _id);
+                      bool success = await deletePost(_id);
                       Navigator.pop(context);
                       if (success) {
                         LoadedPostsModel loadedPosts =
                             context.read<LoadedPostsModel>();
                         loadedPosts.removePost(_id);
                       } else {
-                      showDialog(
-                          context: context,
-                          builder: (context) => buildStandardDialog(
-                              context,
-                              "Delete Error",
-                              "Could not delete post."));
+                        showDialog(
+                            context: context,
+                            builder: (context) => buildStandardDialog(context,
+                                "Delete Error", "Could not delete post."));
                       }
                     }
                   },

@@ -16,7 +16,13 @@ class MessageSummaryModel {
       users.add(MessageBoardParticipantModel.fromJson(json["other_users"][i]));
     }
 
-    ContentModel message = ContentModel.fromJson(json["latest_message"]);
+    ContentModel message;
+
+    if (json["latest_message"].isEmpty) {
+      message = ContentModel.empty();
+    } else {
+      message = ContentModel.fromJson(json["latest_message"]);
+    }
     return MessageSummaryModel(
         id: json["_id"],
         userIds: json["user_ids"],

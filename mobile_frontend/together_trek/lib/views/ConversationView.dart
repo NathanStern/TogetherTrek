@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:together_trek/api/MessageBoardWrapper.dart';
+import 'package:together_trek/models/ContentModel.dart';
 import 'package:together_trek/models/MessageBoardModel.dart';
 import 'package:together_trek/models/MessageSummaryModel.dart';
 import 'package:together_trek/models/UserModel.dart';
@@ -24,6 +25,10 @@ class _ConversationViewState extends State<ConversationView> {
 
   int initialLoad = 1;
 
+  final _messageController = TextEditingController();
+
+  final FocusNode _messageNode = new FocusNode();
+
   MessageBoardModel messageBoard = MessageBoardModel.empty();
 
   ScrollController _scrollController =
@@ -33,6 +38,23 @@ class _ConversationViewState extends State<ConversationView> {
 
   void _loadMessages() async {
     messageBoard = await getMessageBoard(messageSummary.id);
+  }
+
+  @override
+  void dispose() {
+    _messageNode.dispose();
+    _messageController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  Future<bool> _sendMessage(BuildContext context, String message) async {
+    if (message == "") {
+      return false;
+    }
+    bool valid =
+        await sendTextMessage(user.id, messageBoard.id, "text", message);
+    return valid;
   }
 
   @override
@@ -87,13 +109,15 @@ class _ConversationViewState extends State<ConversationView> {
                       padding: EdgeInsets.only(
                           top: 8, bottom: 8, left: 10, right: 10),
                       child: Align(
-                        alignment: (messageBoard.id == user.id)
-                            ? Alignment.topRight
-                            : Alignment.topLeft,
+                        alignment:
+                            (messageBoard.messages[index].authorId == user.id)
+                                ? Alignment.topRight
+                                : Alignment.topLeft,
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: (messageBoard.id == user.id)
+                              color: (messageBoard.messages[index].authorId ==
+                                      user.id)
                                   ? Colors.deepOrange.shade200
                                   : Colors.grey.shade200),
                           child: Text(messageBoard.messages[index].data),
@@ -128,21 +152,82 @@ class _ConversationViewState extends State<ConversationView> {
                         child: Container(
                           padding: EdgeInsets.only(right: 10, left: 10),
                           child: TextField(
+                              controller: _messageController,
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.send,
+                              onSubmitted: (value) async {
+                                if (_messageController.text == "") {
+                                  return;
+                                }
+                                bool valid = await _sendMessage(
+                                    context, _messageController.text);
+                                if (valid) {
+                                  messageBoard.messages.add(ContentModel(
+                                      id: "testing",
+                                      authorId: user.id,
+                                      postDate: DateTime.now().toString(),
+                                      type: "text",
+                                      data: _messageController.text,
+                                      collectionId: messageBoard.id));
+                                  _messageController.text = "";
+                                  setState(() {});
+                                  Future.delayed(Duration(milliseconds: 50),
+                                      () {
+                                    _scrollController.jumpTo(
+                                      _scrollController
+                                              .position.maxScrollExtent *
+                                          1,
+                                    );
+                                  });
+                                }
+                              },
                               onTap: () {
-                                _scrollController.jumpTo(
-                                  _scrollController.position.maxScrollExtent *
-                                      1.6,
-                                );
-                                // duration: Duration(milliseconds: 25),
-                                // curve: Curves.easeInOut);
+                                Future.delayed(Duration(milliseconds: 200), () {
+                                  _scrollController.animateTo(
+                                      _scrollController
+                                              .position.maxScrollExtent *
+                                          1,
+                                      duration: Duration(milliseconds: 300),
+                                      curve: Curves.fastOutSlowIn);
+                                });
                               },
                               decoration: InputDecoration(
                                   hintText: "Message",
                                   border: InputBorder.none)),
                         ),
                       ),
+                      Material(
+                          type: MaterialType.transparency,
+                          child: IconButton(
+                              splashRadius: 30,
+                              highlightColor: Colors.deepOrangeAccent,
+                              icon: Icon(Icons.send_rounded),
+                              onPressed: () async {
+                                if (_messageController.text == "") {
+                                  return;
+                                }
+                                bool valid = await _sendMessage(
+                                    context, _messageController.text);
+                                if (valid) {
+                                  messageBoard.messages.add(ContentModel(
+                                      id: "testing",
+                                      authorId: user.id,
+                                      postDate: DateTime.now().toString(),
+                                      type: "text",
+                                      data: _messageController.text,
+                                      collectionId: messageBoard.id));
+                                  _messageController.text = "";
+                                  setState(() {});
+                                  Future.delayed(Duration(milliseconds: 50),
+                                      () {
+                                    _scrollController.jumpTo(
+                                      _scrollController
+                                              .position.maxScrollExtent *
+                                          1,
+                                    );
+                                  });
+                                }
+                              }))
                     ])),
               ),
             ],
