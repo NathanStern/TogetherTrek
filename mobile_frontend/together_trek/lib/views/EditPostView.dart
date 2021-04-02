@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:together_trek/models/LoadedPostsModel.dart';
-import 'package:together_trek/models/PostModel.dart';
+import 'package:provider/provider.dart';
 
 import 'package:together_trek/api/PostWrapper.dart';
-import 'package:together_trek/views/HomeView.dart';
-import 'package:provider/provider.dart';
+import 'package:together_trek/api/UserWrapper.dart';
+
+import 'package:together_trek/models/LoadedPostsModel.dart';
+import 'package:together_trek/models/PostModel.dart';
+import 'package:together_trek/api/PostWrapper.dart';
+import 'package:together_trek/utils/DialogUtil.dart';
+import 'package:together_trek/views/TempProfileView.dart';
+import 'package:together_trek/models/UserModel.dart';
 
 class EditPostView extends StatefulWidget {
   EditPostView({Key key, this.post}) : super(key: key);
@@ -40,6 +45,7 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
   MyCustomFormState({this.post});
   PostModel post;
+  UserModel user;
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -53,6 +59,7 @@ class MyCustomFormState extends State<MyCustomForm> {
   String _city;
   String _region;
   String _id;
+  String _authorId;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +72,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     _city = post.destinations[0].city;
     _region = post.destinations[0].region;
     _id = post.id;
+    _authorId = post.authorId;
 
     // Build a Form widget using the _formKey created above.
     return Form(
@@ -131,30 +139,29 @@ class MyCustomFormState extends State<MyCustomForm> {
             },
             onSaved: (val) => setState(() => _region = val),
           ),
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    // Validate returns true if the form is valid, or false
-                    // otherwise.
-                    if (_formKey.currentState.validate()) {
-                      final form = _formKey.currentState;
-                      form.save();
+          Row(children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () async {
+                  // Validate returns true if the form is valid, or false
+                  // otherwise.
+                  if (_formKey.currentState.validate()) {
+                    final form = _formKey.currentState;
+                    form.save();
 
-                      await updatePost(context, _id, _title, _description, _country,
-                          _city, _region, post);
-                      Navigator.pop(context);
-                      LoadedPostsModel loadedPosts =
-                          context.read<LoadedPostsModel>();
-                      loadedPosts.notifyListeners();
-                    }
-                  },
-                  child: Text('Submit'),
-                ),
+                    await updatePost(context, _id, _title, _description,
+                        _country, _city, _region, post);
+                    Navigator.pop(context);
+                    LoadedPostsModel loadedPosts =
+                        context.read<LoadedPostsModel>();
+                    loadedPosts.notifyListeners();
+                  }
+                },
+                child: Text('Submit'),
               ),
-              Padding(
+            ),
+            Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () async {
@@ -164,18 +171,23 @@ class MyCustomFormState extends State<MyCustomForm> {
                       final form = _formKey.currentState;
                       form.save();
 
-                      await deletePost( _id);
+                      bool success = await deletePost(_id);
                       Navigator.pop(context);
-                      LoadedPostsModel loadedPosts =
-                          context.read<LoadedPostsModel>();
-                      loadedPosts.removePost(_id);
+                      if (success) {
+                        LoadedPostsModel loadedPosts =
+                            context.read<LoadedPostsModel>();
+                        loadedPosts.removePost(_id);
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (context) => buildStandardDialog(context,
+                                "Delete Error", "Could not delete post."));
+                      }
                     }
                   },
                   child: Text('Delete'),
-                )
-              )
-            ]
-          )
+                )),
+            ])
         ],
       ),
     );

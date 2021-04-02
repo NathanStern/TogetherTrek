@@ -13,7 +13,9 @@ import { getUserFriends } from '../actions/userActions'
 import { getMyTrips } from '../actions/tripsActions'
 import { path } from '../constants/pathConstant'
 
+
 import ReactDOM from 'react-dom'
+
 
 const ProfileScreen = ({ location, history }) => {
   const { userInfo } = useSelector((state) => state.userLogin)
@@ -51,12 +53,14 @@ const ProfileScreen = ({ location, history }) => {
             <h2>My Posts</h2>
             {myPosts &&
               myPosts.map((el) =>
+
                 el === undefined ? (
                   <></>
                 ) : (
                   <Post post={el} key={el._id} personal={true} />
                 )
               )}
+
           </Col>
           <Col md={3}>
             <h2>My Trips</h2>
@@ -74,6 +78,7 @@ const ProfileScreen = ({ location, history }) => {
                     />
                   )
                 )}
+
             </Container>
           </Col>
         </Row>

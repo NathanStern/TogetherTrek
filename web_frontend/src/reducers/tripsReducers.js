@@ -23,12 +23,14 @@ import {
   MYTRIPS_JOIN_REQUEST,
   MYTRIPS_JOIN_SUCCESS,
   MYTRIPS_JOIN_FAIL,
+
   ACCEPT_USER_JOIN_TRIP_FAIL,
   ACCEPT_USER_JOIN_TRIP_SUCCESS,
   ACCEPT_USER_JOIN_TRIP_REQUEST,
   DECLINE_USER_JOIN_TRIP_REQUEST,
   DECLINE_USER_JOIN_TRIP_SUCCESS,
   DECLINE_USER_JOIN_TRIP_FAIL,
+
 } from '../constants/tripsConstants'
 
 export const getMyTripsReducer = (state = {}, action) => {
@@ -133,6 +135,7 @@ export const joinTripReducer = (state = {}, action) => {
     default:
       return state
   }
+
 }
 
 export const acceptUserJoinTripRequestReducer = (state = {}, action) => {

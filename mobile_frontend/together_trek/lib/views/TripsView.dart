@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:together_trek/api/PostWrapper.dart';
-import 'package:together_trek/models/LoadedPostsModel.dart';
-import 'package:together_trek/models/PostModel.dart';
+import 'package:together_trek/api/TripWrapper.dart';
+import 'package:together_trek/models/LoadedTripsModel.dart';
+import 'package:together_trek/models/TripModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
-import 'package:together_trek/views/PostView.dart';
+import 'package:together_trek/views/TripView.dart';
 
-class PostsView extends StatefulWidget {
-  _PostsViewState createState() => _PostsViewState();
+class TripsView extends StatefulWidget {
+  _TripsViewState createState() => _TripsViewState();
 }
 
-class _PostsViewState extends State<PostsView> {
-  LoadedPostsModel posts;
+class _TripsViewState extends State<TripsView> {
+  LoadedTripsModel trips;
 
-  void _savePosts(List<PostModel> posts) {
-    this.posts.resetPosts(posts);
+  void _saveTrips(List<TripModel> trips) {
+    this.trips.resetTrips(trips);
     return;
   }
 
   @override
   Widget build(BuildContext context) {
-    posts = context.watch<LoadedPostsModel>();
+    trips = context.watch<LoadedTripsModel>();
     int _toReverse = 1;
     return RefreshIndicator(
       child: ListView.builder(
           physics: BouncingScrollPhysics(),
-          itemCount: posts.posts.length,
+          itemCount: trips.trips.length,
           itemBuilder: (BuildContext context, int index) {
             return Card(
                 shape: RoundedRectangleBorder(
@@ -45,23 +45,23 @@ class _PostsViewState extends State<PostsView> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      PostView(post: posts.posts[index])));
+                                      TripView(trip: trips.trips[index])));
                         },
-                        child: ListTile(title: Text(posts.posts[index].title))),
+                        child: ListTile(title: Text(trips.trips[index].destination.toString()))),
                   ],
                 ));
           }),
       onRefresh: () async {
-        List<PostModel> retrievedPosts =
-            await getPosts().timeout(Duration(seconds: 15), onTimeout: () {
+        List<TripModel> retrievedTrips =
+            await getTrips().timeout(Duration(seconds: 15), onTimeout: () {
           showDialog(
               context: context,
               builder: (context) {
                 return buildStandardDialog(context, "Network Error",
-                    "There was an error retrieving posts from the server.");
+                    "There was an error retrieving trips from the server.");
               });
           _toReverse = 0;
-          return this.posts.posts;
+          return this.trips.trips;
         }).catchError((err) {
           showDialog(
               context: context,
@@ -70,11 +70,11 @@ class _PostsViewState extends State<PostsView> {
                     context, "Network Error", err.toString());
               });
           _toReverse = 0;
-          return this.posts.posts;
+          return this.trips.trips;
         });
         setState(() {
           if (_toReverse == 1) {
-            _savePosts(retrievedPosts);
+            _saveTrips(retrievedTrips);
           } else {
             _toReverse = 1;
           }

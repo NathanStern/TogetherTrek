@@ -13,20 +13,28 @@ import TripRequest from '../components/TripRequest'
 const NotificationsScreen = () => {
   const { userInfo } = useSelector((state) => state.userLogin)
 
+import FriendRequest from '../components/FriendRequest'
+import Message from '../components/Message'
+import TripRequest from '../components/TripRequest'
+const NotificationsScreen = () => {
+  const { userInfo } = useSelector((state) => state.userLogin)
   const acceptFriend = useSelector((state) => state.acceptFriendRequest)
   const rejectFriend = useSelector((state) => state.rejectFriendRequest)
   const acceptTrip = useSelector((state) => state.acceptTripRequest)
   const declineTrip = useSelector((state) => state.declineTripRequest)
+
   const acceptUser = useSelector((state) => state.acceptUserJoinTripRequest)
   const declineUser = useSelector((state) => state.declineUserJoinTripRequest)
 
   const { myTrips } = useSelector((state) => state.getMyTrips)
   console.log(myTrips)
+
   console.log(userInfo)
   return (
     <div>
       {userInfo && (
         <Container>
+
           {(acceptFriend.loading ||
             acceptTrip.loading ||
             acceptUser.loading) && (
@@ -49,9 +57,11 @@ const NotificationsScreen = () => {
               {userInfo.trip_requests.map((el) => (
                 <TripRequest trip_id={el} key={el} />
               ))}
+
               {myTrips.map((el) => (
                 <RequestJoinTrip trip={el} key={el._id} />
               ))}
+
             </Col>
           </Row>
         </Container>

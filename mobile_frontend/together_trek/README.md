@@ -1,6 +1,6 @@
-# together_trek
+# TogetherTrek
 
-A new Flutter project.
+A mobile application created with Flutter for matching with solo travelers.
 
 ## Getting Started
 

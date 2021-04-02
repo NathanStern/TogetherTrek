@@ -27,7 +27,9 @@ import {
   joinTripReducer,
   acceptTripRequestReducer,
   declineTripRequestReducer,
+
   acceptUserJoinTripRequestReducer,
+
 } from './reducers/tripsReducers'
 
 const reducer = combineReducers({
@@ -55,11 +57,13 @@ const reducer = combineReducers({
   joinTrip: joinTripReducer,
   acceptUserJoinTripRequest: acceptUserJoinTripRequestReducer,
   declineUserJoinTripRequest: declineTripRequestReducer,
+
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null
+
 
 const myPostsFromStorage = localStorage.getItem('userPosts')
   ? JSON.parse(localStorage.getItem('userPosts'))
@@ -73,6 +77,7 @@ const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
   myPosts: { myPosts: myPostsFromStorage },
   allPosts: { allPosts: allPostsFromStorage },
+
 }
 
 const middleware = [thunk]

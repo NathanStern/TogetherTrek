@@ -31,6 +31,7 @@ import {
   DECLINE_USER_JOIN_TRIP_REQUEST,
   DECLINE_USER_JOIN_TRIP_SUCCESS,
   DECLINE_USER_JOIN_TRIP_FAIL,
+
 } from '../constants/tripsConstants'
 
 const getTrip = async (trip_id) => {
@@ -427,6 +428,7 @@ export const declineUserTripRequest = (trip_id, user_id) => async (
   } catch (error) {
     dispatch({
       type: DECLINE_USER_JOIN_TRIP_FAIL,
+
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

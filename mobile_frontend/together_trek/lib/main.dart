@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
+import 'package:together_trek/models/LoadedTripsModel.dart';
+import 'package:together_trek/models/MessageSummaryListModel.dart';
 import 'package:together_trek/models/TokenModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/HomeView.dart';
@@ -13,6 +15,9 @@ import 'package:together_trek/views/LaunchView.dart';
 
 void main() async {
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => LoadedTripsModel.empty()),
+    ChangeNotifierProvider(
+        create: (context) => MessageSummaryListModel.empty()),
     ChangeNotifierProvider(create: (context) => UserModel.empty()),
     ChangeNotifierProvider(create: (context) => LoadedPostsModel.empty()),
     ChangeNotifierProvider(create: (context) => TokenModel(token: ""))
