@@ -48,13 +48,13 @@ class _ConversationViewState extends State<ConversationView> {
     super.dispose();
   }
 
-  void _sendMessage(BuildContext context, String message) async {
+  Future<bool> _sendMessage(BuildContext context, String message) async {
     if (message == "") {
-      return;
+      return false;
     }
     bool valid =
         await sendTextMessage(user.id, messageBoard.id, "text", message);
-    print(valid);
+    return valid;
   }
 
   @override
@@ -155,26 +155,31 @@ class _ConversationViewState extends State<ConversationView> {
                               controller: _messageController,
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.send,
-                              onSubmitted: (value) {
-                                _sendMessage(context, _messageController.text);
+                              onSubmitted: (value) async {
                                 if (_messageController.text == "") {
                                   return;
                                 }
-                                messageBoard.messages.add(ContentModel(
-                                    id: "testing",
-                                    authorId: user.id,
-                                    postDate: DateTime.now().toString(),
-                                    type: "text",
-                                    data: _messageController.text,
-                                    collectionId: messageBoard.id));
-                                _messageController.text = "";
-                                setState(() {});
-                                Future.delayed(Duration(milliseconds: 50), () {
-                                  _scrollController.jumpTo(
-                                    _scrollController.position.maxScrollExtent *
-                                        1,
-                                  );
-                                });
+                                bool valid = await _sendMessage(
+                                    context, _messageController.text);
+                                if (valid) {
+                                  messageBoard.messages.add(ContentModel(
+                                      id: "testing",
+                                      authorId: user.id,
+                                      postDate: DateTime.now().toString(),
+                                      type: "text",
+                                      data: _messageController.text,
+                                      collectionId: messageBoard.id));
+                                  _messageController.text = "";
+                                  setState(() {});
+                                  Future.delayed(Duration(milliseconds: 50),
+                                      () {
+                                    _scrollController.jumpTo(
+                                      _scrollController
+                                              .position.maxScrollExtent *
+                                          1,
+                                    );
+                                  });
+                                }
                               },
                               onTap: () {
                                 Future.delayed(Duration(milliseconds: 200), () {
@@ -197,26 +202,31 @@ class _ConversationViewState extends State<ConversationView> {
                               splashRadius: 30,
                               highlightColor: Colors.deepOrangeAccent,
                               icon: Icon(Icons.send_rounded),
-                              onPressed: () {
-                                _sendMessage(context, _messageController.text);
+                              onPressed: () async {
                                 if (_messageController.text == "") {
                                   return;
                                 }
-                                messageBoard.messages.add(ContentModel(
-                                    id: "testing",
-                                    authorId: user.id,
-                                    postDate: DateTime.now().toString(),
-                                    type: "text",
-                                    data: _messageController.text,
-                                    collectionId: messageBoard.id));
-                                _messageController.text = "";
-                                setState(() {});
-                                Future.delayed(Duration(milliseconds: 50), () {
-                                  _scrollController.jumpTo(
-                                    _scrollController.position.maxScrollExtent *
-                                        1,
-                                  );
-                                });
+                                bool valid = await _sendMessage(
+                                    context, _messageController.text);
+                                if (valid) {
+                                  messageBoard.messages.add(ContentModel(
+                                      id: "testing",
+                                      authorId: user.id,
+                                      postDate: DateTime.now().toString(),
+                                      type: "text",
+                                      data: _messageController.text,
+                                      collectionId: messageBoard.id));
+                                  _messageController.text = "";
+                                  setState(() {});
+                                  Future.delayed(Duration(milliseconds: 50),
+                                      () {
+                                    _scrollController.jumpTo(
+                                      _scrollController
+                                              .position.maxScrollExtent *
+                                          1,
+                                    );
+                                  });
+                                }
                               }))
                     ])),
               ),
