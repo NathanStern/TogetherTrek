@@ -9,36 +9,42 @@ import 'package:together_trek/views/ProfileInfoView.dart';
 import 'package:together_trek/api/UserWrapper.dart' as UserWrapper;
 import 'package:together_trek/views/EditPostView.dart';
 import 'package:flutter/material.dart';
-import 'package:together_trek/api/UserWrapper.dart';
+import 'package:together_trek/models/UserModel.dart';
 
 class TempProfileView extends StatefulWidget {
-  _TempProfileViewState createState() => _TempProfileViewState();
+  TempProfileView({Key key, this.user}) : super(key: key);
+  UserModel user;
+  _TempProfileViewState createState() => _TempProfileViewState(user: user);
 }
 
 class _TempProfileViewState extends State<TempProfileView> {
+  _TempProfileViewState({this.user});
+  UserModel user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile Author"),
       ),
-      body: TempAuthorProfile(),
+      body: TempAuthorProfile(user: user),
     );
   }
 }
 
 class TempAuthorProfile extends StatefulWidget {
+  TempAuthorProfile({Key key, this.user}) : super(key: key);
+  UserModel user;
   @override
   TempAuthorProfileState createState() {
-    return TempAuthorProfileState();
+    return TempAuthorProfileState(user: user);
   }
 }
 
 class TempAuthorProfileState extends State<TempAuthorProfile> {
+  TempAuthorProfileState({this.user});
   UserModel user;
   @override
   Widget build(BuildContext context) {
-    user = context.watch<UserModel>();
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
