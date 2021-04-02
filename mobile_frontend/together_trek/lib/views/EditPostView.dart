@@ -183,17 +183,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                     }
                   },
                   child: Text('Delete'),
-                )),
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TempProfileView()),
-                    );
-                  },
-                  child: Text('View Author'),
                 ))
           ])
         ],

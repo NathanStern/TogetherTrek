@@ -5,8 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import 'package:together_trek/api/PostWrapper.dart';
+import 'package:together_trek/api/TripWrapper.dart';
 import 'package:together_trek/api/UserWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
+import 'package:together_trek/models/LoadedTripsModel.dart';
 import 'package:together_trek/models/TokenModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
@@ -20,6 +22,11 @@ class _LaunchViewState extends State<LaunchView> {
     LoadedPostsModel posts = context.read<LoadedPostsModel>();
     // posts.resetPosts(List.from((await getPosts()).reversed));
     posts.resetPosts(await getPosts());
+  }
+
+  void _loadTrips(BuildContext context) async {
+    LoadedTripsModel trips = context.read<LoadedTripsModel>();
+    trips.resetTrips(await getTrips());
   }
 
   Future<void> _getUserData(BuildContext context) async {
@@ -93,6 +100,7 @@ class _LaunchViewState extends State<LaunchView> {
       await _getUserData(context);
       await _getJWT(context);
       await _loadPosts(context);
+      await _loadTrips(context);
       await _checkToken();
       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
     }).timeout(Duration(seconds: 15), onTimeout: () {

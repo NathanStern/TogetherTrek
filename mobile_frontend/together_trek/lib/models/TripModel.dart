@@ -1,25 +1,25 @@
+import 'package:together_trek/models/DestinationModel.dart';
 import 'package:together_trek/models/TripPhotoModel.dart';
 import 'package:flutter/material.dart';
 
 class TripModel extends ChangeNotifier {
   String id;
-  String destination;
+  DestinationModel destination;
   String startDate;
   String endDate;
   String creatorId;
-  List<String> participantIds;
+  List<dynamic> participantIds;
   List<TripPhotoModel> tripPhotos;
 
   TripModel({this.id, this.destination, this.startDate, this.endDate, this.creatorId, this.participantIds, this.tripPhotos});
 
   factory TripModel.fromJson(Map<String, dynamic> json) {
-
     return TripModel(
         id: json['_id'],
-        creatorId: json['creator_id'] ?? "null",
+        creatorId: json['creator_id'],
         startDate: json['start_date'],
         endDate: json['end_date'],
-        destination: json['destination']);
+        destination: DestinationModel.fromJson(json['destination']));
   }
   // getters are implicit
 
