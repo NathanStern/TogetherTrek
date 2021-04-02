@@ -1,25 +1,39 @@
 import '../index.css'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { getMyPosts, getPosts } from '../actions/postsActions'
-import { getUserFriends, login } from '../actions/userActions'
+import {
+  getUserFriends,
+  login,
+  getUserMessageBoards,
+} from '../actions/userActions'
+import { getMyTrips, getTrips } from '../actions/tripsActions'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
-import jwt_decode from 'jwt-decode'
-import { useLocation } from 'react-router'
-import { getMyTrips } from '../actions/tripsActions'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
-  const { userInfo, loading } = useSelector((state) => state.userLogin)
+  const { userInfo } = useSelector((state) => state.userLogin)
+  const [loading, setLoading] = useState(false)
+  let token = ''
+  let encToken = ''
+  let load = true
   useEffect(() => {
     if (userInfo) {
-      dispatch(getPosts())
-      dispatch(login(userInfo.username, userInfo.password)).then((e) => {
-        dispatch(getUserFriends())
-        dispatch(getMyPosts())
-        dispatch(getMyTrips())
-      })
+      setLoading(true)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1600)
+      dispatch(login(userInfo.username, userInfo.password)).then((e) =>
+        setTimeout(() => {
+          dispatch(getUserFriends())
+          dispatch(getMyPosts())
+          dispatch(getPosts())
+          dispatch(getMyTrips())
+          dispatch(getTrips())
+          dispatch(getUserMessageBoards())
+        }, 1200)
+      )
     }
   }, [])
 

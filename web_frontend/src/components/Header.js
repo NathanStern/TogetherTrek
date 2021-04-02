@@ -24,26 +24,40 @@ const Header = () => {
             <>
               <Nav className='ml-auto'>
                 <LinkContainer to='/friends'>
-                  <Nav.Link>Friends</Nav.Link>
-                </LinkContainer>
-                <LinkContainer to='./posts'>
                   <Nav.Link>
-                    <span className='white-text'>Posts</span>
+                    <span class='white-text'>Friends</span>
                   </Nav.Link>
                 </LinkContainer>
-                <LinkContainer to='./createpost'>
+                <LinkContainer to='/posts'>
                   <Nav.Link>
-                    <span className='white-text'>New Post</span>
+                    <span class='white-text'>Posts</span>
                   </Nav.Link>
                 </LinkContainer>
-                <LinkContainer to='./createtrip'>
-                  <Nav.Link>New Trip</Nav.Link>
+                <LinkContainer to='/createpost'>
+                  <Nav.Link>
+                    <span class='white-text'>New Post</span>
+                  </Nav.Link>
                 </LinkContainer>
-                {userInfo.friend_requests.length > 0 && (
-                  <LinkContainer to='/notifications'>
-                    <Nav.Link>Notifications</Nav.Link>
-                  </LinkContainer>
-                )}
+                <LinkContainer to='/trips'>
+                  <Nav.Link>
+                    <span class='white-text'>Trips</span>
+                  </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to='/createtrip'>
+                  <Nav.Link>
+                    <span class='white-text'>New Trip</span>
+                  </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to='/notifications'>
+                  <Nav.Link>
+                    <span class='white-text'>Notifications</span>
+                  </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to='/messages'>
+                  <Nav.Link>
+                    <span class='white-text'>Messages</span>
+                  </Nav.Link>
+                </LinkContainer>
               </Nav>
               <NavDropdown
                 title={userInfo.username}
@@ -57,6 +71,7 @@ const Header = () => {
                 <LinkContainer to='/profile'>
                   <NavDropdown.Item>Profile</NavDropdown.Item>
                 </LinkContainer>
+
                 <NavDropdown.Item onClick={logoutHandler}>
                   Logout
                 </NavDropdown.Item>

@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import { profileAddMessageBoardReducer } from './reducers/profilesReducer'
 import {
   userLoginReducer,
   userRegisterReducer,
@@ -8,6 +9,8 @@ import {
   userGetFriendsReducer,
   userRejectFriendReducer,
   userAcceptFriendReducer,
+  userRequestFriendReducer,
+  userGetMessageBoards,
 } from './reducers/userReducers'
 import {
   deleteMyPostReducer,
@@ -15,9 +18,28 @@ import {
   getMyPostsReducer,
   updateMyPostReducer,
 } from './reducers/postsReducer'
-import { getMyTripsReducer } from './reducers/tripsReducers'
-import { profileAddMessageBoardReducer } from './reducers/profilesReducer'
+import {
+  getMyTripsReducer,
+  getAllTripsReducer,
+  updateMyTripReducer,
+  deleteMyTripReducer,
+  leaveTripReducer,
+  joinTripReducer,
+  acceptTripRequestReducer,
+  declineTripRequestReducer,
+  acceptUserJoinTripRequestReducer,
+} from './reducers/tripsReducers'
+
 const reducer = combineReducers({
+  getFriends: userGetFriendsReducer,
+  getMyTrips: getMyTripsReducer,
+  rejectFriendRequest: userRejectFriendReducer,
+  acceptFriendRequest: userAcceptFriendReducer,
+  requestFriend: userRequestFriendReducer,
+  profileAddMessageBoard: profileAddMessageBoardReducer,
+  getMyMessageBoards: userGetMessageBoards,
+  acceptTripRequest: acceptTripRequestReducer,
+  declineTripRequest: declineTripRequestReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userUpdateProfile: userUpdateProfileReducer,
@@ -25,12 +47,14 @@ const reducer = combineReducers({
   getAllPosts: getAllPostsReducer,
   deleteMyPost: deleteMyPostReducer,
   updateMyPost: updateMyPostReducer,
-  getFriends: userGetFriendsReducer,
   getMyTrips: getMyTripsReducer,
-  rejectFriendRequest: userRejectFriendReducer,
-  acceptFriendRequest: userAcceptFriendReducer,
-  profileAddMessageBoard: profileAddMessageBoardReducer,
-  // allTripsGet: allTripsGetReducer,
+  getAllTrips: getAllTripsReducer,
+  updateMyTrip: updateMyTripReducer,
+  deleteMyTrip: deleteMyTripReducer,
+  leaveTrip: leaveTripReducer,
+  joinTrip: joinTripReducer,
+  acceptUserJoinTripRequest: acceptUserJoinTripRequestReducer,
+  declineUserJoinTripRequest: declineTripRequestReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
