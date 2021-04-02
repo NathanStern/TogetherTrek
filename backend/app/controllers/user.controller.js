@@ -7,7 +7,7 @@ const s3_handler = require('../utils/s3_handler.js')
 const token_helper = require('../utils/token_helper.js')
 
 const User = db.users;
-
+const Trip = db.trips;
 
 // Creates an entry in the users table
 exports.create = (req, res) => {
@@ -502,6 +502,7 @@ exports.acceptFriendRequest = (req, res) => {
 
 // invites a User to a Trip
 exports.inviteUser = (req, res) => {
+	//console.log("entered invite user");
 	const user_id = req.params.id;
     if (!req.body.inviting_user_id) {
         res.status(400).send({ message: 'inviting_user_id can not be empty.' })
@@ -511,25 +512,33 @@ exports.inviteUser = (req, res) => {
 		res.status(400).send({ message: 'trip_id cannot be empty'})
 		return;
 	}
+	const trip_id = req.body.trip_id;
 	const inviting_user_id = req.body.inviting_user_id;
     User.findById(user_id)
     .then(user => {
+		//console.log("trip id: " + trip_id);
+		//console.log("User id: " + user_id);
 		Trip.findById(trip_id)
 		.then(trip => {
-			if (!trip.participant_ids.find(inviting_user_id)) {
+			//console.log(trip.participant_ids + "sadasd");
+			if (trip.participant_ids === null || !trip.participant_ids.includes(inviting_user_id)) {
 				res.status(400).send({ message: 'User is not a member of the trip.'})
+				console.log("error 400");
 				return;
 			}
 			user.trip_requests.push(trip_id);
+			//console.log(user.trip_requests[0]);
 			user.save()
 			.then(data => {
 				res.send({ message: "success" });
+				console.log("success 200");
 				return;
 			})
 			.catch(err => {
 				res.status(500).send({
 					message: err.message || "Could not update user."
 				});
+				console.log("error 500           1");
 				return;
 			});
 		})
@@ -537,12 +546,15 @@ exports.inviteUser = (req, res) => {
 			res.status(500).send({
 				message: err.message || "Could not retrieve trip."
 			})
+			console.log("error 500                 2");
+			return;
 		})
     })
     .catch(err => {
 		    res.status(500).send({
 		        message: err.message || "Could not retrieve user."
 		    });
+			console.log("error 500                      3");
 				return;
     });
 }
