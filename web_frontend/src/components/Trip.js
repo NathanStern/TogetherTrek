@@ -7,15 +7,17 @@ import {
 	Row,
 	Col,
 } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { joinTrip, leaveTrip } from '../actions/tripsActions'
+
 
 const Trip = ({ trip, userId, profileView }) => {
 	const dispatch = useDispatch()
 
 	const isMember = trip.participant_ids.includes(userId)
 	const hasRequested = 	trip.join_requests.includes(userId)
-
+  
   const [show, setShow] = useState(true)
 	const [member, setMember] = useState(isMember ? true : false)
 	const [requested, setRequested] = useState(hasRequested ? true : false)
@@ -51,6 +53,7 @@ const Trip = ({ trip, userId, profileView }) => {
 						<Card.Subtitle className='mb-2 text-muted'>
 							{"region" in destination ? destination.region : ""}
 						</Card.Subtitle>
+
 						<Card.Text>
 							{"From: " + startDate + ", To: " + endDate}
 						</Card.Text>
@@ -62,6 +65,9 @@ const Trip = ({ trip, userId, profileView }) => {
 										onClick={(e) => tripButtonHandler(e)}>
 										{btnText}
 									</Button>
+									<Link to={`trip/${trip._id}`}>
+                      								View Trip
+                    							</Link>
 								</Col>
 							</Row>
 						</Container>
