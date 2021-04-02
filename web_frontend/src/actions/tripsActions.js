@@ -236,7 +236,15 @@ export const acceptTrip = (trip_id) => async (dispatch, getState) => {
       { requesting_user_id: userInfo._id },
       config
     )
-
+    const user = await axios.put(
+      `${path}/users/${userInfo._id}`,
+      {
+        ...userInfo,
+        trip_requests: userInfo.trip_requests.filter((e) => e !== trip_id),
+        trip_ids: userInfo.trip_ids.concat(trip_id),
+      },
+      config
+    )
     dispatch({
       type: ACCEPT_TRIP_SUCCESS,
     })
@@ -272,7 +280,18 @@ export const declineTrip = (trip_id) => async (dispatch, getState) => {
       { requesting_user_id: userInfo._id },
       config
     )
-
+    let tripRequests = userInfo.trip_requests.filter((e) => e !== trip_id)
+    console.log(tripRequests)
+    console.log(` size is ${tripRequests.length}`)
+    const user = await axios.put(
+      `${path}/users/${userInfo._id}`,
+      {
+        ...userInfo,
+        trip_requests: tripRequests,
+      },
+      config
+    )
+    // console.log(user)
     dispatch({
       type: DECLINE_TRIP_SUCCESS,
     })

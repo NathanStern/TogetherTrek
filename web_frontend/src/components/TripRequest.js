@@ -43,7 +43,6 @@ const TripRequest = ({ trip_id }) => {
         'Content-Type': 'application/json',
       },
     }
-    const { data } = await axios.put()
     setShow(false)
   }
 
