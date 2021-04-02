@@ -46,6 +46,11 @@ class _RegistrationViewState extends State<RegistrationView> {
     _usernameFocus.dispose();
     _passwordFocus.dispose();
     _passwordConfirmFocus.dispose();
+    _emailFocus.dispose();
+    _birthdateFocus.dispose();
+    _genderFocus.dispose();
+    _firstNameFocus.dispose();
+    _lastNameFocus.dispose();
     super.dispose();
   }
 

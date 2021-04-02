@@ -1,34 +1,26 @@
+import 'package:together_trek/models/DestinationModel.dart';
 import 'package:together_trek/models/TripPhotoModel.dart';
 import 'package:flutter/material.dart';
 
 class TripModel extends ChangeNotifier {
   String id;
-  String destination;
+  DestinationModel destination;
   String startDate;
   String endDate;
   String creatorId;
-  List<String> participantIds;
+  List<dynamic> participantIds;
   List<TripPhotoModel> tripPhotos;
 
-  TripModel(
-      String id,
-      String destination,
-      String startDate,
-      String endDate,
-      String creatorId,
-      List<String> participantIds,
-      List<TripPhotoModel> tripPhotos) {
-    this.id = id;
-    this.destination = destination;
-    this.startDate = startDate;
-    this.endDate = endDate;
-    this.creatorId = creatorId;
-    this.participantIds = participantIds;
-    this.tripPhotos = tripPhotos;
+  TripModel({this.id, this.destination, this.startDate, this.endDate, this.creatorId, this.participantIds, this.tripPhotos});
 
-    notifyListeners();
+  factory TripModel.fromJson(Map<String, dynamic> json) {
+    return TripModel(
+        id: json['_id'],
+        creatorId: json['creator_id'],
+        startDate: json['start_date'],
+        endDate: json['end_date'],
+        destination: DestinationModel.fromJson(json['destination']));
   }
-
   // getters are implicit
 
   void setStartDate(String newDate) {
@@ -44,4 +36,13 @@ class TripModel extends ChangeNotifier {
   void addParticipant(String participantId) {
     this.participantIds.add(participantId);
   }
+
+   Map<String, dynamic> toJson() => {
+        //'_id': this.id,
+        'creator_id': this.creatorId,
+        'start_date': this.startDate,
+        'destination': this.destination,
+        'end_date': this.endDate,
+        'participant_ids': this.participantIds,
+      };
 }

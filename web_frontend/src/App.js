@@ -21,6 +21,7 @@ import FriendsScreen from './screens/FriendsScreen'
 import NotificationsScreen from './screens/NotificationsScreen'
 import MessagesScreen from './screens/MessagesScreen'
 import OtherProfileScreen from './screens/OtherProfileScreen'
+import MessageBoardScreen from './screens/MessageBoardScreen.js'
 function App() {
   return (
     <Router>
@@ -42,10 +43,11 @@ function App() {
           <Route path='/profile/:id' component={OtherProfileScreen} exact />
           <Route path='/friends' component={FriendsScreen} />
           <Route path='/notifications' component={NotificationsScreen} />
-          <Route path='/messages' component={MessagesScreen} />
+          <Route path='/messages' component={MessagesScreen} exact />
           <Route path='/createpost' component={CreatePostScreen} />
           <Route path='/trips' component={TripsScreen} />
           <Route path='/trip/:id' component={ViewTripScreen} />
+          <Route path='/messages/:id' component={MessageBoardScreen} />
         </Container>
       </main>
       <Footer />

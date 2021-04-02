@@ -2,13 +2,14 @@ import '../index.css'
 import React, { useEffect, useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { getMyPosts, getPosts } from '../actions/postsActions'
-import { getUserFriends, login } from '../actions/userActions'
+import {
+  getUserFriends,
+  login,
+  getUserMessageBoards,
+} from '../actions/userActions'
 import { getMyTrips, getTrips } from '../actions/tripsActions'
-
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
-import jwt_decode from 'jwt-decode'
-import { useLocation } from 'react-router'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
@@ -19,7 +20,6 @@ const HomeScreen = () => {
   let load = true
   useEffect(() => {
     if (userInfo) {
-      dispatch(getPosts())
       setLoading(true)
       setTimeout(() => {
         setLoading(false)
@@ -28,7 +28,10 @@ const HomeScreen = () => {
         setTimeout(() => {
           dispatch(getUserFriends())
           dispatch(getMyPosts())
+          dispatch(getPosts())
           dispatch(getMyTrips())
+          dispatch(getTrips())
+          dispatch(getUserMessageBoards())
         }, 1200)
       )
     }

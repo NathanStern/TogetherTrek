@@ -7,7 +7,6 @@ import { logout } from '../actions/userActions'
 const Header = () => {
   const dispatch = useDispatch()
 
-
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
   const logoutHandler = (e) => {
@@ -39,18 +38,26 @@ const Header = () => {
                     <span class='white-text'>New Post</span>
                   </Nav.Link>
                 </LinkContainer>
+								<LinkContainer to='/trips'>
+									<Nav.Link>
+										<span class='white-text'>Trips</span>
+									</Nav.Link>
+								</LinkContainer>
                 <LinkContainer to='/createtrip'>
                   <Nav.Link>
                     <span class='white-text'>New Trip</span>
                   </Nav.Link>
                 </LinkContainer>
-                {userInfo.friend_requests.length > 0 && (
-                  <LinkContainer to='/notifications'>
-                    <Nav.Link>
-                      <span class='white-text'>Notifications</span>
-                    </Nav.Link>
-                  </LinkContainer>
-                )}
+                <LinkContainer to='/notifications'>
+                  <Nav.Link>
+                    <span class='white-text'>Notifications</span>
+                  </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to='/messages'>
+                  <Nav.Link>
+                    <span class='white-text'>Messages</span>
+                  </Nav.Link>
+                </LinkContainer>
               </Nav>
               <NavDropdown
                 title={userInfo.username}
