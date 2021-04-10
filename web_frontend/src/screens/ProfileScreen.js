@@ -12,14 +12,15 @@ import { getMyPosts, deleteMyPost } from '../actions/postsActions'
 import { getUserFriends } from '../actions/userActions'
 import { getMyTrips } from '../actions/tripsActions'
 import { path } from '../constants/pathConstant'
-
+import S3 from 'react-aws-s3'
 import ReactDOM from 'react-dom'
 
 const ProfileScreen = ({ location, history }) => {
   const { userInfo } = useSelector((state) => state.userLogin)
   const { myPosts } = useSelector((state) => state.getMyPosts)
   const { myTrips } = useSelector((state) => state.getMyTrips)
-
+  const [newProfilePic, setNewProfilePic] = useState()
+  const [show, setShow] = useState(true)
   const redirect = '/'
   useEffect(() => {
     if (!userInfo) {
@@ -32,7 +33,28 @@ const ProfileScreen = ({ location, history }) => {
   if (userInfo.profile_pic) {
     profilePic = path + `/users/profile-pic/${userInfo._id}`
   }
-
+  const uploadPicHandler = async (e) => {
+    e.preventDefault()
+    console.log(newProfilePic)
+    let form_data = new FormData()
+    form_data.append('image', newProfilePic)
+    form_data.append('name', newProfilePic.name)
+    console.log(form_data)
+    axios
+      .put(`${path}/users/profile-pic/${userInfo._id}`, form_data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((e) => {
+        console.log(e)
+      })
+      .catch((e) => console.log(e.response))
+    // const { data } = await axios.put(
+    //   `${path}/users/profile-pic/${userInfo._id}`,
+    //   form_data
+    // )
+  }
   return (
     <>
       {userInfo && (
@@ -40,11 +62,33 @@ const ProfileScreen = ({ location, history }) => {
           <Col md={3}>
             <h2>User Profile</h2>
             <img src={profilePic} alt='profile pic' width='100' height='100' />
+            {!show && (
+              <Form>
+                <Form.Group>
+                  <Form.File
+                    accept='image/png, image/jpeg'
+                    id='exampleFormControlFile1'
+                    label='Change User Profile Picture'
+                    // value={newProfilePic}
+                    onChange={(e) => {
+                      setNewProfilePic(e.target.files[0])
+                      // console.log(e.target.files[0])
+                    }}
+                  />
+                </Form.Group>
+                <Button onClick={uploadPicHandler}>Submit</Button>
+              </Form>
+            )}
             <div>Username: {userInfo.username}</div>
             <div>First Name: {userInfo.first_name}</div>
             <div>Last Name: {userInfo.last_name}</div>
             <div>Birthday: {userInfo.birthdate}</div>
             <div>Gender: {userInfo.gender}</div>
+            <div>
+              <Button onClick={(e) => setShow(!show)}>
+                Edit Profile Picture
+              </Button>
+            </div>
             <Link to={'/editprofile'}>Edit Profile</Link>
           </Col>
           <Col md={3}>
