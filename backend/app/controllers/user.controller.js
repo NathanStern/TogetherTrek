@@ -1,4 +1,5 @@
 const path = require('path')
+const sgMail = require('@sendgrid/mail')
 
 const config = require('../config/config.js')
 const db = require('../models/index.js')
@@ -55,6 +56,23 @@ exports.create = (req, res) => {
 		.save(user)
 		.then((data) => {
 			res.send(data.id);
+			sgMail.setApiKey(config.app.TWILIO_KEY);
+			const msg = {
+				to: req.body.email,
+				from: config.app.TWILIO_EMAIL,
+				subject: "TogetherTrek: Verify your email",
+				html: `<p style="text-align: center;">Please click this link to verify your email address.</p>
+					   <p style="text-align: center;"><a href="https://google.com">Here is a link to google.</a></p>`
+			}
+
+			sgMail
+				.send(msg)
+				.then(() => {
+					console.log("Email Sent");
+				})
+				.catch((err) => {
+					throw err;
+				})
 		})
 		.catch((err) => {
 			res.status(500).send({

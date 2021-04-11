@@ -6,8 +6,9 @@ const prod = {
  app: {
     port: 3000,
     JWT_KEY: "secret",
-    TWILIO_KEY: "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"
- },
+    TWILIO_KEY: "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",
+    TWILIO_EMAIL: "TogetherTrekPurdue@gmail.com"
+  },
  db: {
    url: "mongodb+srv://test:test@cluster0.snpmm.mongodb.net/production?retryWrites=true&w=majority"
  }
@@ -17,7 +18,8 @@ const test = {
  app: {
     port: (process.env.PORT || 3001),
     JWT_KEY: "secret",
-    TWILIO_KEY: "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"
+    TWILIO_KEY: "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",
+    TWILIO_EMAIL: "TogetherTrekPurdue@gmail.com"
  },
  db: {
    url: "mongodb+srv://test:test@cluster0.snpmm.mongodb.net/testing?retryWrites=true&w=majority"
