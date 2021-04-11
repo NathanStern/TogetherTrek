@@ -10,5 +10,6 @@ db.posts = require("./post.model.js")(mongoose);
 db.trip_photos = require("./trip_photo.model.js")(mongoose);
 db.trips = require("./trip.model.js")(mongoose);
 db.users = require("./user.model.js")(mongoose);
+db.email_verification = require("./email_verification.model.js")(mongoose);
 
 module.exports = db;
