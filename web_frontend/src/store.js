@@ -1,7 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { profileAddMessageBoardReducer } from './reducers/profilesReducer'
+import {
+  profileAddMessageBoardReducer,
+  profileUpdateReducer,
+} from './reducers/profilesReducer'
 import {
   userLoginReducer,
   userRegisterReducer,
@@ -55,6 +58,7 @@ const reducer = combineReducers({
   joinTrip: joinTripReducer,
   acceptUserJoinTripRequest: acceptUserJoinTripRequestReducer,
   declineUserJoinTripRequest: declineTripRequestReducer,
+  profileUpdate: profileUpdateReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
