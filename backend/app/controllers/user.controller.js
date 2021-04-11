@@ -9,9 +9,10 @@ const token_helper = require('../utils/token_helper.js')
 
 const User = db.users;
 const Trip = db.trips;
+const Email_Verification = db.email_verification;
 
 // Creates an entry in the users table
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
 	// Validate all expected fields were passed
 	if (!req.body.username) {
 		res.status(400).send({ message: 'username can not be empty.' })
@@ -50,35 +51,52 @@ exports.create = (req, res) => {
 		gender: req.body.gender,
 		first_name: req.body.first_name,
 		last_name: req.body.last_name,
-	})
+	});
 
-	user
+	var data = await user
 		.save(user)
-		.then((data) => {
-			res.send(data.id);
-			sgMail.setApiKey(config.app.TWILIO_KEY);
-			const msg = {
-				to: req.body.email,
-				from: config.app.TWILIO_EMAIL,
-				subject: "TogetherTrek: Verify your email",
-				html: `<p style="text-align: center;">Please click this link to verify your email address.</p>
-					   <p style="text-align: center;"><a href="https://google.com">Here is a link to google.</a></p>`
-			}
-
-			sgMail
-				.send(msg)
-				.then(() => {
-					console.log("Email Sent");
-				})
-				.catch((err) => {
-					throw err;
-				})
-		})
 		.catch((err) => {
 			res.status(500).send({
 				message: err.message || 'Some error occurred while creating the User.',
-			})
-		})
+			});
+			return;
+		});
+	
+		const verification = new Email_Verification({
+			user_id: data.id
+		});
+
+		await new Promise((resolve) => setTimeout(resolve, 2000));
+
+		verification
+			.save(verification)
+			.then((verified) => {
+				console.log(verified);
+				sgMail.setApiKey(config.app.TWILIO_KEY);
+				const msg = {
+					to: req.body.email,
+					from: config.app.TWILIO_EMAIL,
+					subject: "TogetherTrek: Verify your email",
+					html: `<p style="text-align: center;">Please click this link to verify your email address.</p>
+						<p style="text-align: center;"><a href="https://google.com">Here is a link to google</a></p>
+						<p style="text-align: center;">Your verification ID is: ${verified.id}</p>`
+				};
+
+				sgMail
+					.send(msg)
+					.then(() => {
+						console.log("Email Sent");
+						res.send(data.id);
+						return;
+					})
+					.catch((err) => {
+						throw err;
+					});
+			}).catch((err) => {
+				// throw err;
+				console.log("there was an error here");
+				return;
+			});
 }
 
 // Logs the User in
