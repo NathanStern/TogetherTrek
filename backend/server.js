@@ -44,6 +44,7 @@ require("./app/routes/post.routes.js")(app);
 require("./app/routes/trip_photo.routes.js")(app);
 require("./app/routes/trip.routes.js")(app);
 require("./app/routes/user.routes.js")(app);
+require("./app/routes/expense.routes.js")(app);
 
 // set port, listen for requests
 const PORT = config.app.port
