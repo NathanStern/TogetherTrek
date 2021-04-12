@@ -17,7 +17,7 @@ const Trip = ({ trip, userId, profileView }) => {
 
 	const isMember = trip.participant_ids.includes(userId)
 	const hasRequested = 	trip.join_requests.includes(userId)
-  
+
   const [show, setShow] = useState(true)
 	const [member, setMember] = useState(isMember ? true : false)
 	const [requested, setRequested] = useState(hasRequested ? true : false)
@@ -59,15 +59,18 @@ const Trip = ({ trip, userId, profileView }) => {
 						</Card.Text>
 						<Container>
 							<Row>
-								<Col>
+								<Col className="half-col">
 									<Button
 										variant='primary'
-										onClick={(e) => tripButtonHandler(e)}>
+										onClick={(e) => tripButtonHandler(e)}
+									>
 										{btnText}
 									</Button>
+								</Col>
+								<Col className="half-col">
 									<Link to={`trip/${trip._id}`}>
-                      								View Trip
-                    							</Link>
+                  	View Trip
+                	</Link>
 								</Col>
 							</Row>
 						</Container>

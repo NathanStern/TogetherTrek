@@ -14,26 +14,36 @@ class MessageBoard extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  componentDidMount() {
+  getMessageBoardData() {
     axios.get(`${path}/message_boards/${this.props.messageBoardId}`)
-    .then(resp => {
-      console.log("get message_boards:")
-      console.log(resp)
+    .then(async resp => {
+      let messages = resp.data.messages
+      let author_id_username_map = {}
+      let i
+      for (i = 0; i < messages.length; i++) {
+        let author_id = messages[i].author_id
+        if (author_id in author_id_username_map) {
+          messages[i].username = author_id_username_map[author_id]
+        } else {
+          let user = await axios.get(`${path}/users/${author_id}`)
+          let username = user.data.username
+          author_id_username_map[author_id] = username
+          messages[i].username = username
+        }
+      }
+
       this.setState({
-        messages: resp.data.messages
+        messages: messages
       })
     })
   }
 
+  componentDidMount() {
+    this.getMessageBoardData()
+  }
+
   componentDidUpdate() {
-    axios.get(`${path}/message_boards/${this.props.messageBoardId}`)
-    .then(resp => {
-      console.log("get message_boards:")
-      console.log(resp)
-      this.setState({
-        messages: resp.data.messages
-      })
-    })
+    this.getMessageBoardData()
   }
 
   handleChange(e) {
@@ -51,13 +61,9 @@ class MessageBoard extends Component {
       text: this.state.newMessage
     })
     .then(resp => {
-      console.log("create resp:")
-      console.log(resp)
       this.setState({
         newMessage: ''
       })
-      console.log("newMessagE:")
-      console.log(this.state.newMessage)
     })
   }
 

@@ -27,23 +27,13 @@ const MessageBoard = ({ messageBoardInfo }) => {
     <Accordion defaultActiveKey='0'>
       <Card>
         <Card.Body>
-          {Object.keys(message).length > 0 && (
-            <>
-              <Card.Title>Latest Message</Card.Title>
-              <Card.Subtitle className='mb-2 text-muted'>
-                {author}
-              </Card.Subtitle>
-            </>
-          )}
+          <Card.Title>Latest Message</Card.Title>
+          <Card.Subtitle className='mb-2 text-muted'>
+            {author}
+          </Card.Subtitle>
           {Object.keys(message).length === 0 ? (
             <Card.Text>
-              <b>
-                It's a placeholder text if there are no messages in the
-                messageboard.
-              </b>
-              This is a wider card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
+              No messages yet
             </Card.Text>
           ) : (
             <Card.Text>{message.data}</Card.Text>

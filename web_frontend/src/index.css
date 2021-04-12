@@ -19,9 +19,8 @@ main {
 .white-text {
 	color: white;
 }
-.half-button {
-	width: 40%;
-	margin: 5%;
+.half-col {
+	width: 50%;
 }
 .friend-card {
 	margin: 2.5%;
@@ -66,7 +65,7 @@ main {
 	display: inline;
 	padding: 4px 8px;
 	border-radius: 8px;
-	background: #ebf8fb;
+	background: #fafafb;
 }
 .send-message-form {
 	position: absolute;
@@ -75,7 +74,7 @@ main {
 	height: 5%;
 }
 .send-message-form input {
-	background: #ebf8fb;
+	background: #fafafb;
   padding: 15px 10px;
   border: none;
   font-weight: 200;

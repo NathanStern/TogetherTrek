@@ -15,7 +15,7 @@ class MessageList extends Component {
           return (
            <li key={message._id} className={className}>
              <h6>
-               {message.author_id}
+               {message.username}
              </h6>
              <p>
                {message.data}
