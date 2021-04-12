@@ -112,6 +112,10 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.search = (req, res) => {
+  
+}
+
 // Updates an entry in the trips table by id
 exports.update = (req, res) => {
     if (!req.body) {

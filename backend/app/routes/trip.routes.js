@@ -29,5 +29,8 @@ module.exports = app => {
   // Remove a user from a trip
   router.put("/remove-user/:id", trip_controller.removeUser);
 
+  // search for a trip based on budget and destinations
+  router.get("/search", trip_controller.search);
+
   app.use("/trips", router);
 };
