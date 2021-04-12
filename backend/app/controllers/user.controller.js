@@ -53,50 +53,51 @@ exports.create = async (req, res) => {
 		last_name: req.body.last_name,
 	});
 
-	var data = await user
+	user
 		.save(user)
+		.then((data) => {
+			const verification = new Email_Verification({
+				user_id: data.id
+			});
+
+			verification
+				.save(verification)
+				.then((verified) => {
+					console.log(verified);
+					sgMail.setApiKey(config.app.TWILIO_KEY);
+					const msg = {
+						to: req.body.email,
+						from: config.app.TWILIO_EMAIL,
+						subject: "TogetherTrek: Verify your email",
+						html: `<img src="https://i.imgur.com/r0Q5WnV.jpg" title="source: imgur.com" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+						<p style="text-align: center;">Please click this link to verify your email address.</p>
+						<p style="text-align: center;"><a href="http://localhost:3001/email_verification/${verified.id}">Verify email</a></p>
+						<p style="text-align: center;"><a href="https://google.com">Here is a link to google</a></p>
+						<p style="text-align: center;">Your verification ID is: ${verified.id}</p>`
+					};
+
+					sgMail
+						.send(msg)
+						.then(() => {
+							console.log("Email Sent");
+							res.send(data.id);
+							return;
+						})
+						.catch((err) => {
+							throw err;
+						});
+				}).catch((err) => {
+					// throw err;
+					console.log("there was an error here");
+					return;
+				});
+		})
 		.catch((err) => {
 			res.status(500).send({
 				message: err.message || 'Some error occurred while creating the User.',
 			});
 			return;
 		});
-	
-		const verification = new Email_Verification({
-			user_id: data.id
-		});
-
-		await new Promise((resolve) => setTimeout(resolve, 2000));
-
-		verification
-			.save(verification)
-			.then((verified) => {
-				console.log(verified);
-				sgMail.setApiKey(config.app.TWILIO_KEY);
-				const msg = {
-					to: req.body.email,
-					from: config.app.TWILIO_EMAIL,
-					subject: "TogetherTrek: Verify your email",
-					html: `<p style="text-align: center;">Please click this link to verify your email address.</p>
-						<p style="text-align: center;"><a href="https://google.com">Here is a link to google</a></p>
-						<p style="text-align: center;">Your verification ID is: ${verified.id}</p>`
-				};
-
-				sgMail
-					.send(msg)
-					.then(() => {
-						console.log("Email Sent");
-						res.send(data.id);
-						return;
-					})
-					.catch((err) => {
-						throw err;
-					});
-			}).catch((err) => {
-				// throw err;
-				console.log("there was an error here");
-				return;
-			});
 }
 
 // Logs the User in
