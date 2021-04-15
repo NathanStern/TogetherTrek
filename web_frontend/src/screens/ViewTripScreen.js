@@ -5,9 +5,12 @@ import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import FormContainer from '../components/FormContainer'
 import Post from '../components/Post'
+import Trip from '../components/Trip'
+import Expense from '../components/Expense'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, deleteMyPost } from '../actions/postsActions'
+import { getAllExpenses } from '../actions/expenseActions'
 import axios from 'axios'
 import { path } from '../constants/pathConstant'
 const ViewTripScreen = ({ location, history, useParams }) => {
@@ -19,6 +22,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const [message, setMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [usernameRemove, setUsernameRemove] = useState('')
+  const { allExpenses } = useSelector((state) => state.getAllExpenses)
 
   const { pathname } = useLocation()
   const id = pathname.split('/')[2]
@@ -121,7 +125,20 @@ const ViewTripScreen = ({ location, history, useParams }) => {
 				</Form>
 			</FormContainer>
           </Col>
+          <Col md={3}>
+            <h2>My Expenses</h2>
+            <Container>
+              {allExpenses &&
+                allExpenses.map((el) =>
+                  (el === undefined ? <></> :
+    									<Expense expense={el} key={el._id}/>
+    							)
+                )
+              }
+            </Container>
+          </Col>
         </Row>
+        
       )}
     </>
   )

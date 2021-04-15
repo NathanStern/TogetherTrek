@@ -78,7 +78,6 @@ exports.findOne = (req, res) => {
 
 // Retrieves entries from the expenses table by search criteria
 exports.findAll = (req, res) => {
-    console.log("findall");
     // Format the requirements the way mongoose expects
     let requirements = req.query;
     //let condition = {};
