@@ -81,13 +81,13 @@ exports.findAll = (req, res) => {
     console.log("findall");
     // Format the requirements the way mongoose expects
     let requirements = req.query;
-    let condition = {};
-    Object.keys(requirements).forEach(function(key) {
-    condition[key] = { $regex: new RegExp(requirements[key]), $options: "i" }
-    })
+    //let condition = {};
+    // Object.keys(requirements).forEach(function(key) {
+    // condition[key] = { $regex: new RegExp(requirements[key])}
+    // })
 
     // Retrieve records that match the requirements
-    Expense.find(condition)
+    Expense.find(requirements)
     .then(data => {
         res.send(data);
     })
