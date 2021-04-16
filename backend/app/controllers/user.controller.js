@@ -169,11 +169,11 @@ function createEmailBody(verificationId) {
       <tr>
         <td style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center">Thank you so much for joining TogetherTrek. Please click the link below to verify your email address.</div>
 <div style="font-family: inherit; text-align: center"><br></div>
-<div style="font-family: inherit; text-align: center"><a href="http://localhost:3001/email_verification/${verificationId}">Verify Email Address</a></div>
+<div style="font-family: inherit; text-align: center"><a href="https://together-trek-testing.herokuapp.com/email_verification/${verificationId}">Verify Email Address</a></div>
 <div style="font-family: inherit; text-align: center"><br></div>
 <div style="font-family: inherit; text-align: center">If you can't click the link above, copy and paste the URL below into your browser.</div>
 <div style="font-family: inherit; text-align: center"><br></div>
-<div style="font-family: inherit; text-align: center; word-break: break-all;">http://localhost:3001/email_verification/${verificationId}</div><div></div></div></td>
+<div style="font-family: inherit; text-align: center; word-break: break-all;">https://together-trek-testing.herokuapp.com/email_verification/${verificationId}</div><div></div></div></td>
       </tr>
     </tbody>
   </table><table class="module" role="module" data-type="divider" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="973cad25-23f8-4c44-b72f-4407c5c32bf4">
