@@ -30,7 +30,8 @@ module.exports = mongoose => {
       post_ids: [mongoose.Types.ObjectId],
       trip_ids: [mongoose.Types.ObjectId],
       message_board_ids: [mongoose.Types.ObjectId],
-      friend_ids: [mongoose.Types.ObjectId]
+      friend_ids: [mongoose.Types.ObjectId],
+      blocked_ids: [mongoose.Types.ObjectId]
     }
   );
 
