@@ -15,7 +15,7 @@ module.exports = mongoose => {
         upload_date: Date,
         filename: String
       },
-      verified: Boolean,
+      verified: { type: Boolean, default: false },
       notifications_enabled: Boolean,
       location_enabled: Boolean,
       location: {
