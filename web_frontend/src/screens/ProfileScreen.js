@@ -33,28 +33,25 @@ const ProfileScreen = ({ location, history }) => {
   if (userInfo.profile_pic) {
     profilePic = path + `/users/profile-pic/${userInfo._id}`
   }
-  const uploadPicHandler = async (e) => {
+
+  const uploadPicHandler = (e) => {
     e.preventDefault()
     console.log(newProfilePic)
     let form_data = new FormData()
-    form_data.append('image', newProfilePic)
-    form_data.append('name', newProfilePic.name)
+    form_data.append('file', newProfilePic)
     console.log(form_data)
     axios
       .put(`${path}/users/profile-pic/${userInfo._id}`, form_data, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': undefined,
         },
       })
       .then((e) => {
         console.log(e)
       })
       .catch((e) => console.log(e.response))
-    // const { data } = await axios.put(
-    //   `${path}/users/profile-pic/${userInfo._id}`,
-    //   form_data
-    // )
   }
+
   return (
     <>
       {userInfo && (
