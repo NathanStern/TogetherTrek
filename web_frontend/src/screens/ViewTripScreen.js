@@ -5,9 +5,12 @@ import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import FormContainer from '../components/FormContainer'
 import Post from '../components/Post'
+import Trip from '../components/Trip'
+import Expense from '../components/Expense'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, deleteMyPost } from '../actions/postsActions'
+import { getAllExpenses } from '../actions/expenseActions'
 import axios from 'axios'
 import { path } from '../constants/pathConstant'
 const ViewTripScreen = ({ location, history, useParams }) => {
@@ -19,6 +22,11 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const [message, setMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [usernameRemove, setUsernameRemove] = useState('')
+  const { allExpenses } = useSelector((state) => state.getAllExpenses)
+  const { allTrips } = useSelector((state) => state.getAllTrips)
+  const [amount, setAmount] = useState('')
+  const [description, setDescription] = useState('')
+  const [date, setDate] = useState(new Date())
 
   const { pathname } = useLocation()
   const id = pathname.split('/')[2]
@@ -70,6 +78,25 @@ const ViewTripScreen = ({ location, history, useParams }) => {
       })
     }
   }
+  const addExpense = async (e) => {
+		e.preventDefault()
+		try {
+			const res = await axios.post(`${path}/expenses`, {
+          amount: amount,
+          creator_id: userInfo._id,
+					description: description,
+		      date: date
+			})
+
+			// await axios.put(`${path}/users/${userInfo._id}`, {
+			// 	trip_ids: userInfo.trip_ids.concat(res.data),
+			// })
+			// setMessage('Trip Added')
+			//history.push('/')
+		} catch(e) {
+			console.log(e);
+		}
+	}
 
   return (
     <>
@@ -121,8 +148,79 @@ const ViewTripScreen = ({ location, history, useParams }) => {
 				</Form>
 			</FormContainer>
           </Col>
+          <Col md={3}>
+            <h3>Add Expense</h3>
+			<FormContainer>
+				<Form onSubmit={addExpense}>
+        <Form.Group controlId='text'>
+					<Form.Label>Amount</Form.Label>
+					<Form.Control
+						type='text'
+						placeholder='Enter Amount'
+						value={amount}
+						onChange={(e) => setAmount(e.target.value)}
+					></Form.Control>
+				</Form.Group>
+        <Form.Group controlId='text'>
+					<Form.Label>Description</Form.Label>
+					<Form.Control
+						type='text'
+						placeholder='Enter Description'
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
+					></Form.Control>
+				</Form.Group>
+
+      	<Form.Group controlId='date'>
+					<Form.Label>Enter Date</Form.Label>
+					<Form.Control
+						type='date'
+						placeholder='Enter Date'
+						value={date}
+						onChange={(e) => setDate(e.target.value)}
+					></Form.Control>
+					</Form.Group>
+				
+          <Button type='submit' variant='primary' onClick={addExpense}>
+              				Submit
+            			</Button>
+                  {/* <Button
+          variant='primary'
+          onClick={(e) => {
+            addExpense(e)
+          }}
+        >
+          Post
+        </Button> */}
+				</Form>
+			</FormContainer>
+          </Col>
         </Row>
+        
       )}
+      <Col md={3}>
+            <h2>My Expenses</h2>
+            <Container>
+              {allExpenses &&
+                allExpenses.map((el) =>
+                  (el === undefined ? <></> :
+    									<Expense expense={el} key={el._id}/>
+    							)
+                )
+              }
+            </Container>
+          </Col>
+          <Container>
+				{allTrips &&
+					allTrips
+					.reverse()
+					.map((el) =>
+						(el === undefined ? <></> :
+								<Trip trip={el} userId={userInfo._id} profileView={false} key={el._id}/>
+						)
+					)
+				}
+			</Container>
     </>
   )
 }
