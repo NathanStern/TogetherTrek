@@ -10,6 +10,7 @@ import {
 import { getMyTrips, getTrips } from '../actions/tripsActions'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
+import { getAllExpenses } from '../actions/expenseActions'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
@@ -31,6 +32,7 @@ const HomeScreen = () => {
           dispatch(getPosts())
           dispatch(getMyTrips())
           dispatch(getTrips())
+          dispatch(getAllExpenses())
           dispatch(getUserMessageBoards())
         }, 1200)
       )

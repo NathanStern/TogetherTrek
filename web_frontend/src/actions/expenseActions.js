@@ -17,13 +17,14 @@ export const getAllExpenses = (trip_id) => async (dispatch) => {
         },
       }
   
-      const allTrips = await axios.get(`${path}/expenses`)
+      const allExpenses = await axios.get(`${path}/expenses`)
   
       dispatch({
         type: ALLEXPENSES_GET_SUCCESS,
         payload: allExpenses.data,
       })
       localStorage.setItem('allExpensess', JSON.stringify(allExpenses.data))
+      console.log("dataaaa" + JSON.stringify(allExpenses.data))
     } catch (error) {
       dispatch({
         type: ALLEXPENSES_GET_FAIL,
