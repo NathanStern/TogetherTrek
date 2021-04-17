@@ -38,7 +38,6 @@ module.exports = app => {
   // Unblock a User
   router.put("/unblock-user/:id", user_controller.unblockUser);
 
-
   // Invite a user to a trip
   router.put("/invite-user/:id", user_controller.inviteUser);
 
