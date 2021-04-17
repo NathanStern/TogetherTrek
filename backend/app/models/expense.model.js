@@ -7,6 +7,10 @@ module.exports = mongoose => {
           description: String,
           date: Date
         },
+        category: {
+          type: String,
+          enum: ["Food", "Transportation", "Housing", "Other"]
+        },
         trip_id: mongoose.Types.ObjectId,
       }
     );

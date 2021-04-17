@@ -1,6 +1,5 @@
 module.exports = app => {
-    const expense_controller =
-    require("../controllers/expense.controller.js");
+    const expense_controller = require("../controllers/expense.controller.js");
     var router = require("express").Router();
   
     // Creates an entry in the expenses table

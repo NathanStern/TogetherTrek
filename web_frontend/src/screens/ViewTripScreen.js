@@ -25,6 +25,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const { allExpenses } = useSelector((state) => state.getAllExpenses)
   const { allTrips } = useSelector((state) => state.getAllTrips)
   const [amount, setAmount] = useState('')
+  const [category, setCategory] = useState('')
   const [description, setDescription] = useState('')
   const [date, setDate] = useState(new Date())
 
@@ -82,12 +83,16 @@ const ViewTripScreen = ({ location, history, useParams }) => {
 		e.preventDefault()
 		try {
 			const res = await axios.post(`${path}/expenses`, {
-          amount: amount,
-          creator_id: userInfo._id,
-					description: description,
-		      date: date
+        expense_body: {
+          	amount: amount,
+          	creator_id: userInfo._id,
+          	description: description,
+          	date: date,
+          	},
+            category: category,
+          	trip_id: tripInfo._id,
 			})
-
+      console.log(res);
 			// await axios.put(`${path}/users/${userInfo._id}`, {
 			// 	trip_ids: userInfo.trip_ids.concat(res.data),
 			// })
@@ -171,6 +176,16 @@ const ViewTripScreen = ({ location, history, useParams }) => {
 					></Form.Control>
 				</Form.Group>
 
+        <Form.Group controlId='select'>
+					<Form.Label>Select</Form.Label>
+					<Form.Control as='select' onChange={(e) => setCategory(e.target.value)}>
+						<option>Food</option>
+						<option>Transportation</option>
+						<option>Housing</option>
+						<option>Other</option>
+					</Form.Control>
+				</Form.Group>
+        
       	<Form.Group controlId='date'>
 					<Form.Label>Enter Date</Form.Label>
 					<Form.Control
@@ -181,25 +196,26 @@ const ViewTripScreen = ({ location, history, useParams }) => {
 					></Form.Control>
 					</Form.Group>
 				
-          <Button type='submit' variant='primary' onClick={addExpense}>
+          {/* <Button type='submit' variant='primary' onClick={addExpense}>
               				Submit
-            			</Button>
-                  {/* <Button
+            			</Button> */}
+                  <Button
           variant='primary'
           onClick={(e) => {
             addExpense(e)
           }}
         >
           Post
-        </Button> */}
+        </Button>
 				</Form>
 			</FormContainer>
           </Col>
         </Row>
         
       )}
+      <h2>My Expenses</h2>
       <Col md={3}>
-            <h2>My Expenses</h2>
+            
             <Container>
               {allExpenses &&
                 allExpenses.map((el) =>
@@ -210,17 +226,6 @@ const ViewTripScreen = ({ location, history, useParams }) => {
               }
             </Container>
           </Col>
-          <Container>
-				{allTrips &&
-					allTrips
-					.reverse()
-					.map((el) =>
-						(el === undefined ? <></> :
-								<Trip trip={el} userId={userInfo._id} profileView={false} key={el._id}/>
-						)
-					)
-				}
-			</Container>
     </>
   )
 }
