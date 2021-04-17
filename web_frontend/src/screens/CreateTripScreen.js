@@ -29,7 +29,17 @@ const CreateTripScreen = ({ history }) => {
 		      creator_id: userInfo._id,
 		      participant_ids: [userInfo._id],
 			})
-
+			
+			// const expres = await axios.post(`${path}/expenses`, {
+			// 	expense_body: {
+			// 	amount: 44,
+			// 	creator_id: userInfo._id,
+			// 	description: city,
+			// 	date: startDate,
+			// 	},
+			// 	trip_id: res.data,
+			// })
+			// console.log(expres);
 			await axios.put(`${path}/users/${userInfo._id}`, {
 				trip_ids: userInfo.trip_ids.concat(res.data),
 			})

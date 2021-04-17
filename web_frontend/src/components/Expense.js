@@ -23,24 +23,9 @@ const Expense = ({ expense }) => {
 	// const [member, setMember] = useState(isMember ? true : false)
 	// const [requested, setRequested] = useState(hasRequested ? true : false)
 	//const [btnText, setBtnText] = useState(isMember ? "Leave" : hasRequested ? "Requested" : "Join")
-	const amount = expense.amount
-	const description = expense.description
-	const date = expense.date
-
-	// const expenseButtonHandler = (e) => {
-	// 	if (profileView) {
-	// 		dispatch(leaveTrip(trip))
-	// 		setShow(false)
-	// 	} else if (member) {
-	// 		dispatch(leaveTrip(trip))
-	// 		setMember(false)
-	// 		setBtnText("Join")
-	// 	} else if (!requested) {
-	// 		dispatch(joinTrip(trip))
-	// 		setRequested(true)
-	// 		setBtnText("Requested")
-	// 	}
-	// }
+	const expense_body = expense.expense_body
+	const category = expense.category
+	const trip_id = expense.trip_id
 
 	return (
 		<>
@@ -48,29 +33,15 @@ const Expense = ({ expense }) => {
 				<Card className="expense-card">
 					<Card.Body>
 						<Card.Title>
-							{"$ " + amount}
+						{"amount" in expense_body ? expense_body.amount : ""}
 						</Card.Title>
 						<Card.Subtitle className='mb-2 text-muted'>
-                            {"Date: " + date}
+						{"date" in expense_body ? expense_body.date : ""}
 						</Card.Subtitle>
 
 						<Card.Text>
-							{ description }
+						{"description" in expense_body ? expense_body.description : ""}
 						</Card.Text>
-						{/* <Container>
-							<Row>
-								<Col>
-									<Button
-										variant='primary'
-										onClick={(e) => tripButtonHandler(e)}>
-										{btnText}
-									</Button>
-									<Link to={`trip/${trip._id}`}>
-                      								View Trip
-                    							</Link>
-								</Col>
-							</Row>
-						</Container> */}
 					</Card.Body>
 				</Card>
 			)}

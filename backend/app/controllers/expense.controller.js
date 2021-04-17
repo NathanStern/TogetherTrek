@@ -17,6 +17,10 @@ exports.create = (req, res) => {
     res.status(400).send({ message: "expense body can not be empty." });
     return;
   }
+  if (!req.body.category) {
+    res.status(400).send({ message: "category can not be empty." });
+    return;
+  }
   if (!req.body.trip_id) {
     res.status(400).send({ message: "trip id can not be empty." });
     return;
@@ -24,6 +28,7 @@ exports.create = (req, res) => {
 
   const expense = new Expense({
     expense_body: req.body.expense_body,
+    category: req.body.category,
     trip_id: req.body.trip_id,
   });
 
