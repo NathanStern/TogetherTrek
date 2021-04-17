@@ -32,6 +32,12 @@ module.exports = app => {
   // Accept a friend request
   router.put("/accept-friend/:id", user_controller.acceptFriendRequest);
 
+  // Block a User
+  router.put("/block-user/:id", user_controller.blockUser);
+
+  // Unblock a User
+  router.put("/unblock-user/:id", user_controller.unblockUser);
+
 
   // Invite a user to a trip
   router.put("/invite-user/:id", user_controller.inviteUser);
