@@ -13,7 +13,7 @@ const Header = () => {
     dispatch(logout())
   }
   return (
-    <header>
+    <header className="header">
       <Navbar bg='primary' variant='dark' expand='lg' id='navbarColor01'>
         <Container>
           <LinkContainer to='/'>
