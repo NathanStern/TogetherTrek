@@ -20,6 +20,7 @@ const ProfileScreen = ({ location, history }) => {
   const { myPosts } = useSelector((state) => state.getMyPosts)
   const { myTrips } = useSelector((state) => state.getMyTrips)
   const [newProfilePic, setNewProfilePic] = useState()
+  const [loading, setLoading] = useState(false)
   const [show, setShow] = useState(true)
   const redirect = '/'
   useEffect(() => {
@@ -40,6 +41,7 @@ const ProfileScreen = ({ location, history }) => {
     let form_data = new FormData()
     form_data.append('file', newProfilePic)
     console.log(form_data)
+    setLoading(true)
     axios
       .put(`${path}/users/profile-pic/${userInfo._id}`, form_data, {
         headers: {
@@ -48,6 +50,7 @@ const ProfileScreen = ({ location, history }) => {
       })
       .then((e) => {
         console.log(e)
+        setLoading(false)
       })
       .catch((e) => console.log(e.response))
   }
@@ -57,6 +60,7 @@ const ProfileScreen = ({ location, history }) => {
       {userInfo && (
         <Row>
           <Col md={3}>
+            {loading && <Loader />}
             <h2>User Profile</h2>
             <img src={profilePic} alt='profile pic' width='100' height='100' />
             {!show && (
