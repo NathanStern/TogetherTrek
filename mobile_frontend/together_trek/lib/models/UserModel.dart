@@ -28,20 +28,11 @@ class UserModel extends ChangeNotifier {
   List<dynamic> tripIds;
   List<dynamic> messageBoardIds;
   List<dynamic> friendIds;
-  LocationModel location;
+  String city;
+  String country;
   bool _empty = false;
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    List<dynamic> coords;
-    if (json['location'] != null) {
-      coords = json['location']['coordinates'];
-      if (json['location']['coordinates'].isEmpty) {
-        coords = [0, 0];
-      }
-    } else {
-      coords = [0, 0];
-    }
-
     ImageProvider profilePic;
     if (json['profile_pic'] == null) {
       profilePic = AssetImage('lib/resources/default-profile-pic.jpg');
@@ -65,7 +56,8 @@ class UserModel extends ChangeNotifier {
       tripIds: json['trip_ids'] ?? [],
       messageBoardIds: json['message_board_ids'] ?? [],
       friendIds: json['friend_ids'] ?? [],
-      location: new LocationModel(coords),
+      city: json['city'] ?? "",
+      country: json['country'] ?? ""
     );
   }
 
@@ -85,7 +77,8 @@ class UserModel extends ChangeNotifier {
     this.tripIds = user.tripIds;
     this.messageBoardIds = user.messageBoardIds;
     this.friendIds = user.friendIds;
-    this.location = user.location;
+    this.city = user.city;
+    this.country = user.country;
     this._empty = user._empty;
   }
 
@@ -105,7 +98,8 @@ class UserModel extends ChangeNotifier {
     this.tripIds = [];
     this.messageBoardIds = [];
     this.friendIds = [];
-    this.location = new LocationModel.empty();
+    this.city = "";
+    this.country = "";
     this._empty = true;
   }
 
@@ -125,7 +119,8 @@ class UserModel extends ChangeNotifier {
       this.tripIds,
       this.messageBoardIds,
       this.friendIds,
-      this.location});
+      this.city,
+      this.country});
 
   bool isEmpty() {
     return _empty;
@@ -150,7 +145,8 @@ class UserModel extends ChangeNotifier {
     this.tripIds = user.tripIds;
     this.messageBoardIds = user.messageBoardIds;
     this.friendIds = user.friendIds;
-    this.location = user.location;
+    this.city = user.city;
+    this.country = user.country;
     this._empty = user._empty;
 
     notifyListeners();
@@ -172,7 +168,8 @@ class UserModel extends ChangeNotifier {
       List<String> tripIds,
       List<String> messageBoardIds,
       List<String> friendIds,
-      LocationModel location) {
+      String city,
+      String country) {
     // the date needs to be parsed
     this.id = id;
     this.username = username;
@@ -189,7 +186,8 @@ class UserModel extends ChangeNotifier {
     this.tripIds = tripIds;
     this.messageBoardIds = messageBoardIds;
     this.friendIds = friendIds;
-    this.location = location;
+    this.city = city;
+    this.country = country;
     this._empty = false;
 
     notifyListeners();
@@ -276,8 +274,7 @@ class UserModel extends ChangeNotifier {
         'trip_ids': this.tripIds.toList(),
         'message_board_ids': this.messageBoardIds.toList(),
         'friend_ids': this.friendIds.toList(),
-        'location': {
-          'coordinates': this.location.coordinates.toList(),
-        }
+        'city': this.city,
+        'country': this.country
       };
 }

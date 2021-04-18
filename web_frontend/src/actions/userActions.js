@@ -91,7 +91,9 @@ export const register = (
   gender,
   birthdate,
   email,
-  hashPassword
+  hashPassword,
+  city,
+  country
 ) => async (dispatch) => {
   try {
     dispatch({
@@ -118,10 +120,8 @@ export const register = (
       verified: 'False',
       notifications_enabled: 'False',
       location_enabled: 'False',
-      location: {
-        type: 'Point',
-        coordinates: [],
-      },
+      city: city,
+      country: country,
       post_ids: [],
       trip_ids: [],
       message_board_ids: [],

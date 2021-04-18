@@ -94,7 +94,7 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                                 child: Column(
                                   children: <Widget>[
                                     Text(
-                                      "Travelling to",
+                                      "From",
                                       style: TextStyle(
                                         color: Colors.redAccent,
                                         fontSize: 22.0,
@@ -105,7 +105,7 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      this.user.location.toString(),
+                                      this.user.city + ", " + this.user.country,
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.orangeAccent,
@@ -188,7 +188,7 @@ class _ProfilePageViewState extends State<ProfilePageView> {
             width: 300.00,
             child: RaisedButton(
                 onPressed: () {
-                  Navigator.push(context, 
+                  Navigator.push(context,
                   MaterialPageRoute(builder: (context) => EditProfilePageView(user: user)));
                 },
                 shape: RoundedRectangleBorder(
