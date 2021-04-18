@@ -11,6 +11,7 @@ module.exports = mongoose => {
       creator_id: mongoose.Types.ObjectId,
       participant_ids: [mongoose.Types.ObjectId],
       join_requests: [mongoose.Types.ObjectId],
+      expenses: [mongoose.Types.ObjectId],
       budget: Number,
     }
   );

@@ -16,7 +16,7 @@ export const getAllExpenses = (trip_id) => async (dispatch) => {
           'Content-Type': 'application/json',
         },
       }
-  
+      
       const allExpenses = await axios.get(`${path}/expenses`)
   
       dispatch({
