@@ -26,13 +26,27 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const { allTrips } = useSelector((state) => state.getAllTrips)
   const [amount, setAmount] = useState('')
   const [category, setCategory] = useState('')
+  const [total, setTotal] = useState('')
   const [description, setDescription] = useState('')
+  const [foods, setFoods] = useState([])
+  const [transp, setTransp] = useState([])
+  const [housing, setHousing] = useState([])
+  const [other, setOther] = useState([])
   const [date, setDate] = useState(new Date())
 
   const { pathname } = useLocation()
   const id = pathname.split('/')[2]
   useEffect(async () => {
     const trip = await axios.get(`${path}/trips/${id}`)
+    const foods = await axios.get(`${path}/expenses?trip_id=${id}&category=Food`)
+    const transp = await axios.get(`${path}/expenses?trip_id=${id}&category=Transportation`)
+    const housing = await axios.get(`${path}/expenses?trip_id=${id}&category=Housing`)
+    const other = await axios.get(`${path}/expenses?trip_id=${id}&category=Other`)
+    console.log("food" + foods)
+    setFoods(foods.data)
+    setTransp(transp.data)
+    setHousing(housing.data)
+    setOther(other.data)
 	  console.log(trip)
     setTripInfo(trip.data)
   },[])
@@ -92,7 +106,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
             category: category,
           	trip_id: tripInfo._id,
 			})
-      console.log(res);
+      console.log(`adding ${res}`);
 			await axios.put(`${path}/trips/${tripInfo._id}`, {
 				expenses: tripInfo.expenses.concat(res.data),
 			})
@@ -215,18 +229,72 @@ const ViewTripScreen = ({ location, history, useParams }) => {
         
       )}
       <h2>My Expenses</h2>
-      <Col md={3}>
-            
-            <Container>
+      {/* <Col md={3}> */}
+      <h3>Food</h3> 
+            {/* <Container>
               {allExpenses &&
                 allExpenses.map((el) =>
                   (el === undefined ? <></> :
-    									<Expense expense={el} trip={trip} current_trip={tripInfo._id} key={el._id}/>
+    									<Expense expense={el} trip={tripInfo} current_trip={tripInfo._id} key={el._id}/>
+    							)
+                )
+              }
+            </Container> */}
+            <Container>
+              {foods &&
+                foods.map((el) =>
+                  (el === undefined ? <></> :
+    									<Expense expense={el} trip={tripInfo} current_trip={tripInfo._id} key={el._id}/>
     							)
                 )
               }
             </Container>
+          {/* </Col> */}
+
+          {/* <Col md={3}> */}
+          <h3>Transportation</h3> 
+            <Container>
+
+              {transp &&
+                transp.map((el) =>
+                  (el === undefined ? <></> :
+    									<Expense expense={el} trip={tripInfo} current_trip={tripInfo._id} key={el._id}/>
+    							)
+                )
+              }
+            </Container>
+          {/* </Col>
+        <Col md={3}> */}
+          <h3>Housing</h3> 
+            <Container>
+              {housing &&
+                housing.map((el) =>
+                  (el === undefined ? <></> :
+    									<Expense expense={el} trip={tripInfo} current_trip={tripInfo._id} key={el._id}/>
+    							)
+                )
+              }
+            </Container>
+          {/* </Col>
+          <Col md={3}> */}
+          <h3>Other</h3> 
+            <Container>
+              {other &&
+                other.map((el) =>
+                  (el === undefined ? <></> :
+    									<Expense expense={el} trip={tripInfo} current_trip={tripInfo._id} key={el._id}/>
+    							)
+                )
+              }
+            </Container>
+          {/* </Col> */}
+          <Col md={3}>
+          <h3>Total: </h3>
+          <Container>
+             
+            </Container>
           </Col>
+          
     </>
   )
 }

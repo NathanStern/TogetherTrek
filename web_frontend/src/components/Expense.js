@@ -18,17 +18,17 @@ const Expense = ({ trip, current_trip, expense }) => {
 
 	//const isMember = trip.participant_ids.includes(userId)
 	//const hasRequested = 	trip.join_requests.includes(userId)
-  console.log(current_trip);
-  console.log(expense.trip_id);
-  const isequal = trip.expenses.includes(expense_body)
-  const [show, setShow] = useState( isequal ? true : false)
-	// const [member, setMember] = useState(isMember ? true : false)
-	// const [requested, setRequested] = useState(hasRequested ? true : false)
-	//const [btnText, setBtnText] = useState(isMember ? "Leave" : hasRequested ? "Requested" : "Join")
 	const expense_body = expense.expense_body
 	const category = expense.category
 	const trip_id = expense.trip_id
-	// if (current_trip != trip_id) {
+  //const isequal = trip.expenses.includes(expense_body)
+ 	//const isequal = (current_trip == trip_id)
+  const [show, setShow] = useState( true)
+	// const [member, setMember] = useState(isMember ? true : false)
+	// const [requested, setRequested] = useState(hasRequested ? true : false)
+	//const [btnText, setBtnText] = useState(isMember ? "Leave" : hasRequested ? "Requested" : "Join")
+	
+	// async if (current_trip != trip_id) {
 	// 	setShow(false);
 	// }
 
