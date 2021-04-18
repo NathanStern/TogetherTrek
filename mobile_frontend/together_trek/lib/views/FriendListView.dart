@@ -13,26 +13,27 @@ class FriendListView extends StatefulWidget {
 
 class _FriendListViewState extends State<FriendListView> {
   UserModel user;
+  UserModel friend;
   @override
   Widget build(BuildContext context) {
     user = context.watch<UserModel>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.of(context).pop(),
-          ), 
+          ),
           backgroundColor: Colors.white,
-          title: Text('Friends', style: TextStyle(color: Colors.deepOrangeAccent)),
+          title:
+              Text('Friends', style: TextStyle(color: Colors.deepOrangeAccent)),
         ),
         body: ListView.builder(
           itemCount: user.friendIds.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text('${user.friendIds[index]}'),
+              title: Text('${getUser(user.friendIds[index])}'),
             );
           },
         ),

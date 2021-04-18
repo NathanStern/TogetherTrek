@@ -31,7 +31,7 @@ class _BlockedListViewState extends State<BlockedListView> {
           itemCount: user.blockedIds.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text('${user.blockedIds[index]}'),
+              title: Text('${getUser(user.blockedIds[index])}'),
             );
           },
         ),
