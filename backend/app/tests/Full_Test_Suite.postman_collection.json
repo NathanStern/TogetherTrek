@@ -126,10 +126,131 @@
 					]
 				},
 				{
+					"name": "Block/Unblock User Tests",
+					"item": [
+						{
+							"name": "Block User",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"success\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"requesting_user_id\": \"{{user-id-2}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/users/block-user/{{user-id-1}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"users",
+										"block-user",
+										"{{user-id-1}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unblock User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Response test\", function() {\r",
+											"    pm.response.to.be.withBody;\r",
+											"\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"success\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"requesting_user_id\": \"{{user-id-2}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/users/unblock-user/{{user-id-1}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"users",
+										"unblock-user",
+										"{{user-id-1}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Update Tests",
 					"item": [
 						{
-							"name": "Update User",
+							"name": "Update First Name",
 							"event": [
 								{
 									"listen": "test",
@@ -152,6 +273,53 @@
 										{
 											"key": "first_name",
 											"value": "John",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/users/{{user-id-1}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"users",
+										"{{user-id-1}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Location",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "city",
+											"value": "Portland",
+											"type": "text"
+										},
+										{
+											"key": "country",
+											"value": "United States",
 											"type": "text"
 										}
 									]
@@ -199,6 +367,8 @@
 											"    pm.expect(jsonData.gender).to.eql(\"Male\")\r",
 											"    pm.expect(jsonData.first_name).to.eql(\"John\")\r",
 											"    pm.expect(jsonData.last_name).to.eql(\"testL\")\r",
+											"    pm.expect(jsonData.city).to.eql(\"Portland\")\r",
+											"    pm.expect(jsonData.country).to.eql(\"United States\")\r",
 											"})  "
 										],
 										"type": "text/javascript"
@@ -246,6 +416,8 @@
 											"    pm.expect(jsonData.gender).to.eql(\"Male\")\r",
 											"    pm.expect(jsonData.first_name).to.eql(\"John\")\r",
 											"    pm.expect(jsonData.last_name).to.eql(\"testL\")\r",
+											"    pm.expect(jsonData.city).to.eql(\"Portland\")\r",
+											"    pm.expect(jsonData.country).to.eql(\"United States\")\r",
 											"})  "
 										],
 										"type": "text/javascript"
@@ -659,45 +831,45 @@
 					]
 				},
 				{
-					"name": "Block/Unblock User Tests",
+					"name": "Unique Field Tests",
 					"item": [
 						{
-							"name": "Block User",
+							"name": "Duplicate Username Test",
 							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"pm.environment.set(\"email\", _.random(1,1000000).toString() + \"@gmail.com\")"
-										],
-										"type": "text/javascript"
-									}
-								},
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
 											"pm.test(\"Status test\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
+											"    pm.response.to.have.status(400);\r",
 											"})\r",
 											"\r",
 											"pm.test(\"Response test\", function() {\r",
 											"    pm.response.to.be.withBody;\r",
-											"\r",
+											"    \r",
 											"    var jsonData = pm.response.json();\r",
-											"    pm.expect(jsonData.message).to.eql(\"success\");\r",
+											"    pm.expect(jsonData.message).to.eql(\"username already exists\");\r",
 											"})"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"requesting_user_id\": \"{{user-id-2}}\"\r\n}",
+									"raw": "{\r\n    \"username\": \"{{username-1}}\",\r\n    \"password\": \"testpword\",\r\n    \"email\": \"test@fakemail.com\",\r\n    \"birthdate\": \"1991-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"first_name\": \"testI\",\r\n    \"last_name\": \"testL\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -705,36 +877,34 @@
 									}
 								},
 								"url": {
-									"raw": "{{site}}:{{port}}/users/block-user/{{user-id-1}}",
+									"raw": "{{site}}:{{port}}/users",
 									"host": [
 										"{{site}}"
 									],
 									"port": "{{port}}",
 									"path": [
-										"users",
-										"block-user",
-										"{{user-id-1}}"
+										"users"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Unblock User",
+							"name": "Duplicate Email Test",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
 											"pm.test(\"Status test\", function () {\r",
-											"    pm.response.to.have.status(200);\r",
+											"    pm.response.to.have.status(400);\r",
 											"})\r",
 											"\r",
 											"pm.test(\"Response test\", function() {\r",
 											"    pm.response.to.be.withBody;\r",
-											"\r",
+											"    \r",
 											"    var jsonData = pm.response.json();\r",
-											"    pm.expect(jsonData.message).to.eql(\"success\");\r",
+											"    pm.expect(jsonData.message).to.eql(\"email already exists\");\r",
 											"})"
 										],
 										"type": "text/javascript"
@@ -744,18 +914,18 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"pm.environment.set(\"email\", _.random(1,1000000).toString() + \"@gmail.com\")"
+											""
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"requesting_user_id\": \"{{user-id-2}}\"\r\n}",
+									"raw": "{\r\n    \"username\": \"testusername\",\r\n    \"password\": \"testpword\",\r\n    \"email\": \"{{email-1}}\",\r\n    \"birthdate\": \"1991-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"first_name\": \"testI\",\r\n    \"last_name\": \"testL\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -763,15 +933,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{site}}:{{port}}/users/unblock-user/{{user-id-1}}",
+									"raw": "{{site}}:{{port}}/users",
 									"host": [
 										"{{site}}"
 									],
 									"port": "{{port}}",
 									"path": [
-										"users",
-										"unblock-user",
-										"{{user-id-1}}"
+										"users"
 									]
 								}
 							},
@@ -1859,7 +2027,12 @@
 											"value": "{{trip-id-1}}",
 											"type": "text"
 										}
-									]
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
 								"url": {
 									"raw": "{{site}}:{{port}}/trip_photos",
@@ -2004,12 +2177,10 @@
 	],
 	"variable": [
 		{
-			"id": "2eb1496d-331e-470a-a619-bd75dc944b1e",
 			"key": "site",
 			"value": "localhost"
 		},
 		{
-			"id": "982cf957-6cf5-4703-9d04-9540398e9954",
 			"key": "port",
 			"value": "3001"
 		}

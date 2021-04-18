@@ -1,5 +1,6 @@
 const path = require('path')
 const sgMail = require('@sendgrid/mail')
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 const config = require('../config/config.js')
 const db = require('../models/index.js')
@@ -223,6 +224,40 @@ function createEmailBody(verificationId) {
 	return html;
 }
 
+function getLocation(coordinates) {
+	return new Promise(function (resolve, reject) {
+		let request = new XMLHttpRequest();
+		request.open("GET", `https://api.radar.io/v1/geocode/reverse?coordinates=${coordinates[0]},${coordinates[1]}`)
+		request.setRequestHeader("Authorization", config.app.RADARIO_KEY)
+		request.onload = () => {
+			if (request.status === 200) {
+				let location = JSON.parse(request.responseText).addresses[0]
+				resolve(location);
+			} else {
+				reject(request.status);
+			}
+		}
+		request.send();
+	})
+}
+
+function getCoordinates(city, country) {
+	return new Promise(function (resolve, reject) {
+		let request = new XMLHttpRequest();
+		request.open("GET", `https://api.radar.io/v1/geocode/forward?query=${city}`)
+		request.setRequestHeader("Authorization", config.app.RADARIO_KEY)
+		request.onload = () => {
+			if (request.status === 200) {
+				let location = JSON.parse(request.responseText).addresses[0]
+				resolve([location.latitude, location.longitude]);
+			} else {
+				reject(request.status);
+			}
+		}
+		request.send();
+	})
+}
+
 // Creates an entry in the users table
 exports.create = async (req, res) => {
 	// Validate all expected fields were passed
@@ -253,6 +288,44 @@ exports.create = async (req, res) => {
 	if (!req.body.last_name) {
 		res.status(400).send({ message: 'last_name can not be empty.' })
 		return
+	}
+
+	// Check if the username or email are already in use
+	let success = true
+	let error_message = null
+
+	await User.find({username : req.body.username})
+		.exec()
+		.then(data => {
+			if (data.length) {
+				console.log("dup user")
+				error_message = 'username already exists';
+				success = false
+			}
+		})
+		.catch(err => {
+			console.log("dup user e")
+			error_message = 'username already exists';
+			success = false
+		})
+	await User.find({email : req.body.email})
+		.exec()
+		.then(data => {
+			if (data.length) {
+				console.log("dup email")
+				error_message = 'email already exists';
+				success = false
+			}
+		})
+		.catch(err => {
+			console.log("dup email e")
+			error_message = 'email already exists';
+			success = false
+		})
+
+	if (!success) {
+		res.status(400).send({ message: error_message });
+		return;
 	}
 
 	const user = new User({
@@ -351,16 +424,28 @@ exports.findOne = (req, res) => {
 	const id = req.params.id
 
 	User.findById(id)
-		.then((data) => {
+		.then(async (data) => {
 			if (!data) {
 				res.status(404).send({ message: `Could not find User with id=${id}.` })
 			} else {
-				// TODO: We should remove the password field and maybe other fields from
-				// the response
-				res.send(data)
+				let resp_data = data.toObject()
+				if (resp_data.coordinates.length) {
+					try {
+						let location = await getLocation(resp_data.coordinates);
+						delete resp_data.coordinates
+						resp_data.city = location.city
+						resp_data.country = location.country
+					} catch(error) {
+						res.status(400).send("Could not get location");
+						return;
+					}
+				}
+				delete resp_data.password;
+				res.send(resp_data);
 			}
 		})
 		.catch((err) => {
+			console.log(err)
 			res.status(500).send({ message: `Error retrieving User with id=${id}.` })
 		})
 }
@@ -376,8 +461,26 @@ exports.findAll = (req, res) => {
 
 	// Retrieve records that match the requirements
 	User.find(condition)
-		.then((data) => {
-			res.send(data)
+		.then(async (data) => {
+			let resp_data = [];
+			let i;
+			for (i = 0; i < data.length; i++) {
+				let user = data[i].toObject()
+				if (user.coordinates.length) {
+					try {
+						let location = await getLocation(user.coordinates);
+						delete user.coordinates
+						user.city = location.city
+						user.country = location.country
+					} catch(error) {
+						res.status(400).send("Could not get location");
+						return;
+					}
+				}
+				delete user.password;
+				resp_data.push(user);
+			}
+			res.send(resp_data);
 		})
 		.catch((err) => {
 			res.status(500).send({
@@ -387,14 +490,26 @@ exports.findAll = (req, res) => {
 }
 
 // Updates a password users table by id
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
+	const id = req.params.id
 	if (!req.body) {
-		return res.status(400).send({
+		res.status(400).send({
 			message: 'Cannot update User with empty data',
-		})
+		});
+		return;
 	}
 
-	const id = req.params.id
+	if (req.body.city != undefined && req.body.country != undefined) {
+		try {
+			let coordinates = await getCoordinates(req.body.city, req.body.country);
+			delete req.body.city;
+			delete req.body.country;
+			req.body.coordinates = coordinates;
+		} catch(error) {
+			res.status(400).send({ message: "Could not save location" });
+			return;
+		}
+	}
 
 	User.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
 		.then((data) => {
