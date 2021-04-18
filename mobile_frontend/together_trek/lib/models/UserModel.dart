@@ -28,6 +28,7 @@ class UserModel extends ChangeNotifier {
   List<dynamic> tripIds;
   List<dynamic> messageBoardIds;
   List<dynamic> friendIds;
+  List<dynamic> blockedIds;
   LocationModel location;
   bool _empty = false;
 
@@ -65,6 +66,7 @@ class UserModel extends ChangeNotifier {
       tripIds: json['trip_ids'] ?? [],
       messageBoardIds: json['message_board_ids'] ?? [],
       friendIds: json['friend_ids'] ?? [],
+      blockedIds: json['block_ids'] ?? [],
       location: new LocationModel(coords),
     );
   }
@@ -85,6 +87,7 @@ class UserModel extends ChangeNotifier {
     this.tripIds = user.tripIds;
     this.messageBoardIds = user.messageBoardIds;
     this.friendIds = user.friendIds;
+    this.blockedIds = user.blockedIds;
     this.location = user.location;
     this._empty = user._empty;
   }
@@ -105,6 +108,7 @@ class UserModel extends ChangeNotifier {
     this.tripIds = [];
     this.messageBoardIds = [];
     this.friendIds = [];
+    this.blockedIds = [];
     this.location = new LocationModel.empty();
     this._empty = true;
   }
@@ -125,6 +129,7 @@ class UserModel extends ChangeNotifier {
       this.tripIds,
       this.messageBoardIds,
       this.friendIds,
+      this.blockedIds,
       this.location});
 
   bool isEmpty() {
@@ -150,6 +155,7 @@ class UserModel extends ChangeNotifier {
     this.tripIds = user.tripIds;
     this.messageBoardIds = user.messageBoardIds;
     this.friendIds = user.friendIds;
+    this.blockedIds = user.blockedIds;
     this.location = user.location;
     this._empty = user._empty;
 
@@ -172,6 +178,7 @@ class UserModel extends ChangeNotifier {
       List<String> tripIds,
       List<String> messageBoardIds,
       List<String> friendIds,
+      List<String> blockedIds,
       LocationModel location) {
     // the date needs to be parsed
     this.id = id;
@@ -189,6 +196,7 @@ class UserModel extends ChangeNotifier {
     this.tripIds = tripIds;
     this.messageBoardIds = messageBoardIds;
     this.friendIds = friendIds;
+    this.blockedIds = blockedIds;
     this.location = location;
     this._empty = false;
 
@@ -237,6 +245,16 @@ class UserModel extends ChangeNotifier {
 
   void removeMessageBoard(String messageBoardId) {
     this.messageBoardIds.remove(messageBoardId);
+    notifyListeners();
+  }
+
+  void blockedUser(String userId) {
+    this.blockedIds.add(userId);
+    notifyListeners();
+  }
+
+  void unblockUser(String userId) {
+    this.blockedIds.remove(userId);
     notifyListeners();
   }
 
