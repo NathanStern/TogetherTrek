@@ -869,7 +869,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"{{username-1}}\",\r\n    \"password\": \"testpword\",\r\n    \"email\": \"test@fakemail.com\",\r\n    \"birthdate\": \"1991-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"first_name\": \"testI\",\r\n    \"last_name\": \"testL\"\r\n}",
+									"raw": "{\r\n    \"username\": \"{{username-1}}\",\r\n    \"password\": \"testpword\",\r\n    \"email\": \"test@fakemail.com\",\r\n    \"birthdate\": \"1991-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"first_name\": \"testI\",\r\n    \"last_name\": \"testL\",\r\n    \"city\": \"Portland\",\r\n    \"country\": \"United States\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -925,7 +925,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"testusername\",\r\n    \"password\": \"testpword\",\r\n    \"email\": \"{{email-1}}\",\r\n    \"birthdate\": \"1991-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"first_name\": \"testI\",\r\n    \"last_name\": \"testL\"\r\n}",
+									"raw": "{\r\n    \"username\": \"testusername\",\r\n    \"password\": \"testpword\",\r\n    \"email\": \"{{email-1}}\",\r\n    \"birthdate\": \"1991-01-01\",\r\n    \"gender\": \"Male\",\r\n    \"first_name\": \"testI\",\r\n    \"last_name\": \"testL\",\r\n    \"city\": \"Portland\",\r\n    \"country\": \"United States\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
