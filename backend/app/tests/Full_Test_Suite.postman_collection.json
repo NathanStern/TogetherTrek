@@ -250,7 +250,7 @@
 					"name": "Update Tests",
 					"item": [
 						{
-							"name": "Update User",
+							"name": "Update First Name",
 							"event": [
 								{
 									"listen": "test",
@@ -273,6 +273,53 @@
 										{
 											"key": "first_name",
 											"value": "John",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{site}}:{{port}}/users/{{user-id-1}}",
+									"host": [
+										"{{site}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"users",
+										"{{user-id-1}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Location",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "city",
+											"value": "Portland",
+											"type": "text"
+										},
+										{
+											"key": "country",
+											"value": "United States",
 											"type": "text"
 										}
 									]
@@ -320,6 +367,8 @@
 											"    pm.expect(jsonData.gender).to.eql(\"Male\")\r",
 											"    pm.expect(jsonData.first_name).to.eql(\"John\")\r",
 											"    pm.expect(jsonData.last_name).to.eql(\"testL\")\r",
+											"    pm.expect(jsonData.city).to.eql(\"Portland\")\r",
+											"    pm.expect(jsonData.country).to.eql(\"United States\")\r",
 											"})  "
 										],
 										"type": "text/javascript"
@@ -367,6 +416,8 @@
 											"    pm.expect(jsonData.gender).to.eql(\"Male\")\r",
 											"    pm.expect(jsonData.first_name).to.eql(\"John\")\r",
 											"    pm.expect(jsonData.last_name).to.eql(\"testL\")\r",
+											"    pm.expect(jsonData.city).to.eql(\"Portland\")\r",
+											"    pm.expect(jsonData.country).to.eql(\"United States\")\r",
 											"})  "
 										],
 										"type": "text/javascript"
