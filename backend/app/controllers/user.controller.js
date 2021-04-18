@@ -651,6 +651,75 @@ exports.getProfilePic = (req, res) => {
 		})
 }
 
+// Block a user
+exports.blockUser = (req, res) => {
+	const current_user_id = req.params.id;
+
+	if (!req.body.requesting_user_id) {
+			res.status(400).send({ message: 'requesting_user_id can not be empty.' })
+			return
+	}
+	const requesting_user_id = req.body.requesting_user_id;
+
+	User.findById(current_user_id)
+	.then(current_user => {
+		current_user.blocked_ids.push(requesting_user_id);
+		current_user.save()
+		.then(data => {
+			res.send({ message: "success" });
+			return;
+		})
+		.catch(err => {
+				res.status(500).send({
+						message: err.message || "Could not update current user."
+				});
+				return;
+		});
+	})
+	.catch(err => {
+		res.status(500).send({
+				message: err.message || "Could not retrieve current user."
+		});
+		return;
+	});
+}
+
+// Unblock a user
+exports.unblockUser = (req, res) => {
+	const current_user_id = req.params.id;
+
+	if (!req.body.requesting_user_id) {
+			res.status(400).send({ message: 'requesting_user_id can not be empty.' })
+			return
+	}
+	const requesting_user_id = req.body.requesting_user_id;
+
+	User.findById(current_user_id)
+	.then(current_user => {
+		current_user.blocked_ids = array_helper.removeValueFromArray(
+			requesting_user_id, current_user.blocked_ids
+		);
+		current_user.save()
+		.then(data => {
+			res.send({ message: "success" });
+			return;
+		})
+		.catch(err => {
+				res.status(500).send({
+						message: err.message || "Could not update current user."
+				});
+				return;
+		});
+	})
+	.catch(err => {
+		res.status(500).send({
+				message: err.message || "Could not retrieve current user."
+		});
+		return;
+	});
+}
+
+
 
 // Make a friend request
 exports.makeFriendRequest = (req, res) => {
@@ -659,7 +728,7 @@ exports.makeFriendRequest = (req, res) => {
         res.status(400).send({ message: 'requesting_user_id can not be empty.' })
         return
     }
-		const requesting_user_id = req.body.requesting_user_id;
+	const requesting_user_id = req.body.requesting_user_id;
 
     User.findById(user_id)
     .then(user => {
@@ -673,14 +742,14 @@ exports.makeFriendRequest = (req, res) => {
             res.status(500).send({
                 message: err.message || "Could not update user."
             });
-						return;
+			return;
         });
     })
     .catch(err => {
 		    res.status(500).send({
 		        message: err.message || "Could not retrieve user."
 		    });
-				return;
+			return;
     });
 }
 
