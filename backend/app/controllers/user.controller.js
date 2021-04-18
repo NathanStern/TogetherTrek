@@ -289,6 +289,14 @@ exports.create = async (req, res) => {
 		res.status(400).send({ message: 'last_name can not be empty.' })
 		return
 	}
+	if (!req.body.city) {
+		res.status(400).send({ message: 'city can not be empty.' })
+		return
+	}
+	if (!req.body.country) {
+		res.status(400).send({ message: 'country can not be empty.' })
+		return
+	}
 
 	// Check if the username or email are already in use
 	let success = true
@@ -328,6 +336,15 @@ exports.create = async (req, res) => {
 		return;
 	}
 
+	// Convert city and country to coordinates
+	let coordinates;
+	try {
+		coordinates = await getCoordinates(req.body.city, req.body.country);
+	} catch(error) {
+		res.status(400).send({ message: "Could not save location" });
+		return;
+	}
+
 	const user = new User({
 		username: req.body.username,
 		password: req.body.password,
@@ -336,6 +353,7 @@ exports.create = async (req, res) => {
 		gender: req.body.gender,
 		first_name: req.body.first_name,
 		last_name: req.body.last_name,
+		coordinates: coordinates
 	});
 
 	user
