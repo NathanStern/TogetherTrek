@@ -255,6 +255,44 @@ exports.create = async (req, res) => {
 		return
 	}
 
+	// Check if the username or email are already in use
+	let success = true
+	let error_message = null
+
+	await User.find({username : req.body.username})
+		.exec()
+		.then(data => {
+			if (data.length) {
+				console.log("dup user")
+				error_message = 'username already exists';
+				success = false
+			}
+		})
+		.catch(err => {
+			console.log("dup user e")
+			error_message = 'username already exists';
+			success = false
+		})
+	await User.find({email : req.body.email})
+		.exec()
+		.then(data => {
+			if (data.length) {
+				console.log("dup email")
+				error_message = 'email already exists';
+				success = false
+			}
+		})
+		.catch(err => {
+			console.log("dup email e")
+			error_message = 'email already exists';
+			success = false
+		})
+
+	if (!success) {
+		res.status(400).send({ message: error_message });
+		return;
+	}
+
 	const user = new User({
 		username: req.body.username,
 		password: req.body.password,
