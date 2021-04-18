@@ -28,10 +28,10 @@ class _BlockedListViewState extends State<BlockedListView> {
           title: Text('Blocked Users', style: TextStyle(color: Colors.deepOrangeAccent)),
         ),
         body: ListView.builder(
-          itemCount: user.friendIds.length,
+          itemCount: user.blockedIds.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text('${user.friendIds[index]}'),
+              title: Text('${user.blockedIds[index]}'),
             );
           },
         ),
