@@ -93,11 +93,11 @@ const ViewTripScreen = ({ location, history, useParams }) => {
           	trip_id: tripInfo._id,
 			})
       console.log(res);
-			// await axios.put(`${path}/users/${userInfo._id}`, {
-			// 	trip_ids: userInfo.trip_ids.concat(res.data),
-			// })
-			// setMessage('Trip Added')
-			//history.push('/')
+			await axios.put(`${path}/trips/${tripInfo._id}`, {
+				expenses: tripInfo.expenses.concat(res.data),
+			})
+			setMessage('Expense Added')
+			history.push('/')
 		} catch(e) {
 			console.log(e);
 		}
@@ -183,6 +183,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
 						<option>Transportation</option>
 						<option>Housing</option>
 						<option>Other</option>
+            value={category}
 					</Form.Control>
 				</Form.Group>
         
@@ -220,7 +221,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
               {allExpenses &&
                 allExpenses.map((el) =>
                   (el === undefined ? <></> :
-    									<Expense expense={el} key={el._id}/>
+    									<Expense expense={el} trip={trip} current_trip={tripInfo._id} key={el._id}/>
     							)
                 )
               }
