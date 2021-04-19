@@ -381,11 +381,15 @@ exports.create = async (req, res) => {
 							return;
 						})
 						.catch((err) => {
-							throw err;
+							console.log(`SendGrid: ${err.message}`);
+							return;
 						});
+
 				}).catch((err) => {
 					throw err;
 				});
+
+			res.send(data.id);
 		})
 		.catch((err) => {
 			res.status(500).send({
