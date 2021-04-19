@@ -577,7 +577,7 @@ exports.setProfilePic = (req, res) => {
 	const file = req.files.file;
 
 	// Validate file is an image
-	if (!file.mimetype.startsWith('image')) {
+	if (!file.mimetype.startsWith('image') && !file.mimetype.startsWith('application/octet-stream')) {
 		res.status(400).send({ message: 'file must be type image.' });
 		return;
 	}

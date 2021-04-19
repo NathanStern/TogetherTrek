@@ -41,5 +41,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Let TogetherTrek access photos for trips and profile</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Let TogetherTrek access the camera to take live photos</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Let TogetherTrek access the microphone for videos</string>
 </dict>
 </plist>

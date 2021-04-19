@@ -6,8 +6,8 @@ import 'package:http_parser/http_parser.dart';
 import 'package:flutter/painting.dart';
 
 // Replace the <base url of api> with actual url when testing and deploying
-String baseURL = "together-trek-testing.herokuapp.com";
-// String baseURL = "74ec4f22ae13.ngrok.io";
+// String baseURL = "together-trek-testing.herokuapp.com";
+String baseURL = "13b30ed5c523.ngrok.io";
 
 Future<http.Response> httpGet(String requestExtension) {
   return http.get(Uri.https(baseURL, requestExtension));
@@ -49,10 +49,21 @@ Future<int> httpPutFile(String requestExtension, File file) async {
   var uri = Uri.parse("https://$baseURL$requestExtension");
   var request = new http.MultipartRequest("PUT", uri);
 
-  request.files.add(new http.MultipartFile.fromBytes(
-      'file', await File(file.path).readAsBytes(),
-      contentType: new MediaType('image', 'jpeg')));
-  request.files.add(new http.MultipartFile.fromString('type', "image/jpeg"));
+  var stream = new http.ByteStream(file.openRead());
+  var length = await file.length();
+
+  var multiPartFile = new http.MultipartFile(
+    'file',
+    stream,
+    length,
+  );
+
+  // request.files.add(new http.MultipartFile.fromBytes(
+  //     'file', file.readAsBytesSync(),
+  //     contentType: new MediaType('image', 'jpeg')));
+  //request.files.add(new http.MultipartFile.fromString('type', "image/jpeg"));
+
+  request.files.add(multiPartFile);
 
   // int responseCode;
   // request.send().then((response) {
@@ -60,6 +71,7 @@ Future<int> httpPutFile(String requestExtension, File file) async {
   //   print(response.reasonPhrase);
   //   responseCode = response.statusCode;
   // });
+  //
 
   http.Response response = await http.Response.fromStream(await request.send());
   print(response.body);
