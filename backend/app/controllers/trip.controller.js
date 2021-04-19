@@ -113,7 +113,21 @@ exports.findAll = (req, res) => {
 };
 
 exports.search = (req, res) => {
-  
+  let budget = MAX_SAFE_INTEGER;
+  if (req.body.budget) {
+    budget = req.body.budget;
+  }
+  if (!req.body.location) {
+    res.status(400).send({ message: 'location cannot be empty.' });
+    return;
+  }
+  Trip.find({budget: {$lte: budget}})
+  .then(data =>{
+    
+  })
+  .catch(err => {
+    res.status(500).send({message: `Could not find a trip within budget.`})
+  })
 }
 
 // Updates an entry in the trips table by id
@@ -303,6 +317,169 @@ exports.removeUser = (req, res) => {
   }
   const user_id_to_remove = req.body.user_id;
 
+  // Get the decoded authorization token
+  let decoded_token;
+  try {
+    decoded_token = token_helper.getDecodedToken(req.headers);
+  } catch (err) {
+    res.status(err[0]).send({ meesage: err[1] });
+    return;
+  }
+
+  const current_user_id = decoded_token["id"];
+
+  Trip.findById(trip_id)
+  .then(trip => {
+    User.findById(user_id_to_remove)
+    .then(async user => {
+      if (user_id_to_remove == current_user_id) {
+        // If the current user is the one being removed, they are leaving a trip
+
+        if (current_user_id == trip.creator_id) {
+          if (trip.participant_ids.length == 1) {
+            // If the current user is leaving their own trip and they are the
+            // last user in the trip, delete the trip
+            await trip.delete()
+            .catch(err => {
+              res.status(500).send({
+                message: err.message || "Could not delete trip."
+              });
+              fail = 1;
+            });
+            if (fail)
+              return;
+
+            // Remove the trip_id from the user's trip_ids
+            user.trip_ids = array_helper.removeValueFromArray(
+              trip_id, user.trip_ids
+            );
+            user.save()
+            .then(data => {
+              res.send({ message: "success" });
+            })
+            .catch(err => {
+              res.status(500).send({
+                message: err.message || "Could not update user."
+              });
+            });
+            return;
+          } else {
+            // If the current user is leaving their own trip and there are other
+            // users in the trip, make one of them the new trip owner
+            trip.creator_id = trip.participant_ids[0];
+          }
+        }
+
+        // Remove the user_id from the trip's participant_ids
+        trip.participant_ids = array_helper.removeValueFromArray(
+          user_id_to_remove, trip.participant_ids
+        );
+        await trip.save()
+        .catch(err => {
+          res.status(500).send({
+            message: err.message || "Could not update trip."
+          });
+          fail = 1;
+        });
+        if (fail)
+          return;
+
+        // Remove the trip_id from the user's trip_ids
+        user.trip_ids = array_helper.removeValueFromArray(
+          trip_id, user.trip_ids
+        );
+        user.save()
+        .then(data => {
+          res.send({ message: "success" });
+        })
+        .catch(err => {
+          res.status(500).send({
+            message: err.message || "Could not update user."
+          });
+          fail = 1
+        });
+        if (fail)
+          return;
+      } else {
+        // If the current user is not the one being removed, they must be
+        // removed by the trip owner
+        if (current_user_id == trip.creator_id) {
+          // If the current user is the trip owner, remove the user
+          trip.participant_ids = array_helper.removeValueFromArray(
+            user_id_to_remove, trip.participant_ids
+          );
+          await trip.save()
+          .catch(err => {
+            res.status(500).send({
+              message: err.message || "Could not update trip."
+            });
+            fail = 1;
+          });
+          if (fail)
+            return;
+
+          // Remove the trip_id from the user's trip_ids
+          user.trip_ids = array_helper.removeValueFromArray(
+            trip_id, user.trip_ids
+          );
+          user.save()
+          .then(data => {
+            res.send({ message: "success" });
+            return;
+          })
+          .catch(err => {
+            res.status(500).send({
+              message: err.message || "Could not update user."
+            });
+            return;
+          });
+        } else {
+          // If the user making the request is not the trip owner, return an error
+          res.status(500).send({
+              message: err.message || "Could not update trip because current user doesn't have permission."
+          });
+          return;
+        }
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+          message: err.message || "Could not retrieve user."
+      });
+    });
+  })
+  .catch(err => {
+    res.status(500).send({
+        message: err.message || "Could not retrieve trip."
+    });
+  });
+}
+
+exports.removeUserUsername = (req, res) => {
+  var fail = 0;
+  const trip_id = req.params.id;
+
+  // Validate expected fields are present
+  if (!req.body.username) {
+      res.status(400).send({ message: 'user_id can not be empty.' })
+      return;
+  }
+  const username_to_remove = req.body.username;
+  let condition = {};
+  Object.keys(username_to_remove).forEach(function(key) {
+    condition[key] = { $regex: new RegExp(username_to_remove[key]), $options: "i" }
+  });
+  let user_id_to_remove;
+  User.find(condition)
+  .then(data => {
+    user_id_to_remove = data[0]._id;
+  })
+  .catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while retrieving the user."
+    })
+  })
   // Get the decoded authorization token
   let decoded_token;
   try {

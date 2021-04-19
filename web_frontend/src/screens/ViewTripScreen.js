@@ -19,6 +19,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const [message, setMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [usernameRemove, setUsernameRemove] = useState('')
+  const [otherUserInfo, setOtherUserInfo] = useState('')
 
   const { pathname } = useLocation()
   const id = pathname.split('/')[2]
@@ -26,6 +27,8 @@ const ViewTripScreen = ({ location, history, useParams }) => {
     const trip = await axios.get(`${path}/trips/${id}`)
 	  console.log(trip)
     setTripInfo(trip.data)
+    /*const otherUser = await axios.get(`${path}/users?username=${username}`)
+    setOtherUserInfo(otherUser.data[0])*/
   },[])
   const redirect = '/'
   useEffect(() => {
@@ -34,12 +37,29 @@ const ViewTripScreen = ({ location, history, useParams }) => {
     }
   }, [history, tripInfo, redirect])
 
-  const inviteUser = (e) => {
+  /*getUserInfo(async () => {
+    const otherUser = axios.get(`${path}/users?username=${username}`)
+    console.log(otherUser);
+    setOtherUserInfo(otherUser.data);
+  })*/
+
+  const inviteUser = (async (e) => {
     e.preventDefault()
-      const otherUser = axios.get(`${path}/users?username=${username}`)
-    if (otherUser) {
+      const otherUser = await axios.get(`${path}/users?username=${username}`)
+      console.log(otherUser);
+      
+      /*setTimeout(() => {
+        console.log("waiting");
+      }, 1000)*/
+      setOtherUserInfo(otherUser.data);
+    if (otherUserInfo) {
+      console.log(otherUserInfo);
+      //setOtherUserInfo(otherUser.data);
+      console.log(otherUserInfo[0]._id)
+      console.log(userInfo._id)
+      console.log(tripInfo._id)
     axios
-      .put(`${path}/users/invite-user/${otherUser._id}`, {
+      .put(`${path}/users/invite-user/${otherUserInfo[0]._id}`, {
         requesting_user_id: userInfo._id,
 		    trip_id: tripInfo._id,
       })
@@ -49,18 +69,25 @@ const ViewTripScreen = ({ location, history, useParams }) => {
           setMessage(null)
         }, 1000)
       })
-	  
+      
       console.log('Sent invite request')
     }
-  }
+  })
 
-  const removeUser = (e) => {
+  const removeUser = ( async (e) => {
 	  e.preventDefault();
-	  const otherUser = axios.get(`${path}/users?username=${usernameRemove}`)
-    if (otherUser) {
+	  const otherUser = await axios.get(`${path}/users?username=${usernameRemove}`)
+    
+    /*setTimeout(() => {
+      console.log("waiting");
+    }, 1000)*/
+    setOtherUserInfo(otherUser.data);
+    if (otherUserInfo) {
+      console.log(otherUserInfo);
+      //setOtherUserInfo(otherUser.data);
       axios
       .put(`${path}/trips/remove-user/${tripInfo._id}`, {
-        requesting_user_id: userInfo._id,
+        requesting_user_id: otherUserInfo[0]._id,
       })
       .then((res) => {
         setMessage('Remove request is Sent')
@@ -69,7 +96,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
         }, 1000)
       })
     }
-  }
+  })
 
   return (
     <>
@@ -88,14 +115,14 @@ const ViewTripScreen = ({ location, history, useParams }) => {
 			<FormContainer>
 				<Form onSubmit={inviteUser}>
 					<Form.Group controlId='confirmPassword'>
-					<Form.Label>Add User (username)</Form.Label>
+					<Form.Label>Invite User (username)</Form.Label>
         				<Form.Control
           					type='Username'
           					placeholder='Username'
           					value={username}
           					onChange={(e) => setUsername(e.target.value)}
         				></Form.Control>
-						<Button type='submit' variant='primary' onClick={inviteUser}>
+						<Button variant='primary' onClick={inviteUser}>
               				Submit
             			</Button>
 					</Form.Group>
@@ -114,7 +141,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
           					value={usernameRemove}
           					onChange={(e) => setUsernameRemove(e.target.value)}
         				></Form.Control>
-						<Button type='submit' variant='primary' onClick={removeUser}>
+						<Button variant='primary' onClick={removeUser}>
               				Submit
             			</Button>
 					</Form.Group>
