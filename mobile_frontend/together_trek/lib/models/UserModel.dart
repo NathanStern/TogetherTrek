@@ -258,6 +258,16 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setCity(String city) {
+    this.city = city;
+    notifyListeners();
+  }
+
+  void setCountry(String country) {
+    this.country = country;
+    notifyListeners();
+  }
+
   Map<String, dynamic> toJson() => {
         '_id': this.id,
         'username': this.username,

@@ -47,7 +47,8 @@ class MyCustomFormState extends State<MyCustomForm> {
   String _id;
   String _userName;
   String _gender;
-  String _destination;
+  String _city;
+  String _country;
   String _bio;
 
   @override
@@ -59,7 +60,8 @@ class MyCustomFormState extends State<MyCustomForm> {
     _id = user.id;
     _gender = user.gender;
     _userName = user.username;
-    _destination = user.location.toString();
+    _city = user.city;
+    _country = user.country;
 
     return Form(
         key: _formKey,
@@ -113,6 +115,36 @@ class MyCustomFormState extends State<MyCustomForm> {
                   }
                 },
               ),
+              TextFormField(
+                initialValue: _city,
+                decoration: InputDecoration(hintText: "City"),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter a city';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  setState(() {
+                    _city = value;
+                  });
+                },
+              ),
+              TextFormField(
+                initialValue: _country,
+                decoration: InputDecoration(hintText: "Country"),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter a country';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  setState(() {
+                    _country = value;
+                  });
+                },
+              ),
               Row(children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -123,10 +155,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                         form.save();
                         await updateUser(
                           _id,
-                          jsonEncode(<String, dynamic>{"username": _userName, "gender": _gender}),
+                          jsonEncode(<String, dynamic>{"username": _userName, "gender": _gender, "city": _city, "country": _country}),
                         );
                         user.setUsername(_userName);
                         user.setGender(_gender);
+                        user.setCity(_city);
+                        user.setCountry(_country);
                         Navigator.pop(context);
                       }
                     },

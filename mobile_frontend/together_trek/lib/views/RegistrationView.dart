@@ -390,24 +390,32 @@ class _RegistrationViewState extends State<RegistrationView> {
                                   _formKey.currentState.validate();
                                   await _register();
                                 },
-                                TextFormField(
-                                  decoration: InputDecoration(
-                                      hintText: "Country"),
-                                  controller: _countryController,
-                                  autocorrect: false,
-                                  focusNode: _countryFocus,
-                                  keyboardType: TextInputType.text,
-                                  textInputAction: TextInputAction.go,
-                                  onFieldSubmitted: (val) async {
-                                    // _fieldFocusChange(context, _passwordFocus,
-                                    //     _passwordConfirmFocus);
-                                    FocusScope.of(context).unfocus();
-                                    _formKey.currentState.validate();
-                                    await _register();
-                                  },
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return "Please enter your password again";
+                                    return "Please enter your city";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    hintText: "Country"),
+                                controller: _countryController,
+                                autocorrect: false,
+                                focusNode: _countryFocus,
+                                keyboardType: TextInputType.text,
+                                textInputAction: TextInputAction.go,
+                                onFieldSubmitted: (val) async {
+                                  // _fieldFocusChange(context, _passwordFocus,
+                                  //     _passwordConfirmFocus);
+                                  FocusScope.of(context).unfocus();
+                                  _formKey.currentState.validate();
+                                  await _register();
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please enter your country";
                                   } else {
                                     return null;
                                   }
