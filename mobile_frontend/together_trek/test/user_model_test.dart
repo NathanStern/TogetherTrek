@@ -23,7 +23,8 @@ void main() {
       tripIds: [],
       messageBoardIds: [],
       friendIds: [],
-      location: new LocationModel.empty());
+      city: "Lafayette",
+      country: "United States");
 
   test('Check to see if all fields are set correctly upon creation', () {
     expect(user.id, "testID");
@@ -40,6 +41,8 @@ void main() {
     expect(user.tripIds.isEmpty, true);
     expect(user.messageBoardIds.isEmpty, true);
     expect(user.friendIds.isEmpty, true);
+    expect(user.city, "Lafayette");
+    expect(user.country, "United States");
   });
 
   test('Check to see if the setEmail() method works as expected', () {
