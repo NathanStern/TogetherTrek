@@ -31,18 +31,18 @@ const Friend = ({ friend }) => {
           <Card.Body>
             <Card.Title>{friend.username}</Card.Title>
             <Row>
-              <Button
-                variant='primary'
-                className="half-button"
-                onClick={(e) => messageFriend(e)}>
-                  Message
-              </Button>
-              <Button
-                variant='primary'
-                className="half-button"
-                onClick={(e) => removeFriend(e)}>
-                  Remove
-              </Button>
+              <Col className="half-col">
+              <Link to={`/messages`}>
+                <Button variant='primary'>Message</Button>
+              </Link>
+              </Col>
+              <Col className="half-col">
+                <Button
+                  variant='primary'
+                  onClick={(e) => removeFriend(e)}>
+                    Remove
+                </Button>
+              </Col>
             </Row>
           </Card.Body>
         </Card>

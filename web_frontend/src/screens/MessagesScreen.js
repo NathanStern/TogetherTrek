@@ -12,7 +12,7 @@ import {
 } from 'react-bootstrap'
 import { path } from '../constants/pathConstant'
 import { useSelector, useDispatch } from 'react-redux'
-import MessageBoard from '../components/MessageBoard'
+import MessageBoardCard from '../components/MessageBoardCard'
 import axios from 'axios'
 import { addMessageBoard } from '../actions/profilesActions'
 import Message from '../components/Message'
@@ -98,7 +98,7 @@ const MessagesScreen = () => {
       {!show ? (
         <CardColumns>
           {messageBoardsInfo.map((msb) => (
-            <MessageBoard messageBoardInfo={msb} key={msb._id} />
+            <MessageBoardCard messageBoardInfo={msb} key={msb._id} />
           ))}
         </CardColumns>
       ) : (
