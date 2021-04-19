@@ -19,6 +19,9 @@ import {
   updateMyPostReducer,
 } from './reducers/postsReducer'
 import {
+  getAllExpensesReducer,
+} from './reducers/expenseReducer'
+import {
   getMyTripsReducer,
   getAllTripsReducer,
   updateMyTripReducer,
@@ -52,6 +55,7 @@ const reducer = combineReducers({
   deleteMyTrip: deleteMyTripReducer,
   leaveTrip: leaveTripReducer,
   joinTrip: joinTripReducer,
+  getAllExpenses: getAllExpensesReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

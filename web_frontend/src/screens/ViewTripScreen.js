@@ -5,9 +5,12 @@ import { Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import FormContainer from '../components/FormContainer'
 import Post from '../components/Post'
+import Trip from '../components/Trip'
+import Expense from '../components/Expense'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, deleteMyPost } from '../actions/postsActions'
+import { getAllExpenses } from '../actions/expenseActions'
 import axios from 'axios'
 import { path } from '../constants/pathConstant'
 const ViewTripScreen = ({ location, history, useParams }) => {
@@ -19,12 +22,35 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const [message, setMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [usernameRemove, setUsernameRemove] = useState('')
+//<<<<<<< HEAD
   const [otherUserInfo, setOtherUserInfo] = useState('')
+//=======
+  const { allExpenses } = useSelector((state) => state.getAllExpenses)
+  const { allTrips } = useSelector((state) => state.getAllTrips)
+  const [amount, setAmount] = useState('')
+  const [category, setCategory] = useState('')
+  const [total, setTotal] = useState('')
+  const [description, setDescription] = useState('')
+  const [foods, setFoods] = useState([])
+  const [transp, setTransp] = useState([])
+  const [housing, setHousing] = useState([])
+  const [other, setOther] = useState([])
+  const [date, setDate] = useState(new Date())
+//>>>>>>> main
 
   const { pathname } = useLocation()
   const id = pathname.split('/')[2]
   useEffect(async () => {
     const trip = await axios.get(`${path}/trips/${id}`)
+    const foods = await axios.get(`${path}/expenses?trip_id=${id}&category=Food`)
+    const transp = await axios.get(`${path}/expenses?trip_id=${id}&category=Transportation`)
+    const housing = await axios.get(`${path}/expenses?trip_id=${id}&category=Housing`)
+    const other = await axios.get(`${path}/expenses?trip_id=${id}&category=Other`)
+    console.log("food" + foods)
+    setFoods(foods.data)
+    setTransp(transp.data)
+    setHousing(housing.data)
+    setOther(other.data)
 	  console.log(trip)
     setTripInfo(trip.data)
     /*const otherUser = await axios.get(`${path}/users?username=${username}`)
@@ -96,7 +122,34 @@ const ViewTripScreen = ({ location, history, useParams }) => {
         }, 1000)
       })
     }
+//<<<<<<< HEAD
   })
+//=======
+  //}
+  const addExpense = async (e) => {
+		e.preventDefault()
+		try {
+			const res = await axios.post(`${path}/expenses`, {
+        expense_body: {
+          	amount: amount,
+          	creator_id: userInfo._id,
+          	description: description,
+          	date: date,
+          	},
+            category: category,
+          	trip_id: tripInfo._id,
+			})
+      console.log(`adding ${res}`);
+			await axios.put(`${path}/trips/${tripInfo._id}`, {
+				expenses: tripInfo.expenses.concat(res.data),
+			})
+			setMessage('Expense Added')
+			history.push('/')
+		} catch(e) {
+			console.log(e);
+		}
+	}
+//>>>>>>> main
 
   return (
     <>
@@ -148,8 +201,134 @@ const ViewTripScreen = ({ location, history, useParams }) => {
 				</Form>
 			</FormContainer>
           </Col>
+          <Col md={3}>
+            <h3>Add Expense</h3>
+			<FormContainer>
+				<Form onSubmit={addExpense}>
+        <Form.Group controlId='text'>
+					<Form.Label>Amount</Form.Label>
+					<Form.Control
+						type='text'
+						placeholder='Enter Amount'
+						value={amount}
+						onChange={(e) => setAmount(e.target.value)}
+					></Form.Control>
+				</Form.Group>
+        <Form.Group controlId='text'>
+					<Form.Label>Description</Form.Label>
+					<Form.Control
+						type='text'
+						placeholder='Enter Description'
+						value={description}
+						onChange={(e) => setDescription(e.target.value)}
+					></Form.Control>
+				</Form.Group>
+
+        <Form.Group controlId='select'>
+					<Form.Label>Select</Form.Label>
+					<Form.Control as='select' onChange={(e) => setCategory(e.target.value)}>
+						<option>Food</option>
+						<option>Transportation</option>
+						<option>Housing</option>
+						<option>Other</option>
+            value={category}
+					</Form.Control>
+				</Form.Group>
+        
+      	<Form.Group controlId='date'>
+					<Form.Label>Enter Date</Form.Label>
+					<Form.Control
+						type='date'
+						placeholder='Enter Date'
+						value={date}
+						onChange={(e) => setDate(e.target.value)}
+					></Form.Control>
+					</Form.Group>
+				
+          {/* <Button type='submit' variant='primary' onClick={addExpense}>
+              				Submit
+            			</Button> */}
+                  <Button
+          variant='primary'
+          onClick={(e) => {
+            addExpense(e)
+          }}
+        >
+          Post
+        </Button>
+				</Form>
+			</FormContainer>
+          </Col>
         </Row>
+        
       )}
+      <h2>My Expenses</h2>
+      {/* <Col md={3}> */}
+      <h3>Food</h3> 
+            {/* <Container>
+              {allExpenses &&
+                allExpenses.map((el) =>
+                  (el === undefined ? <></> :
+    									<Expense expense={el} trip={tripInfo} current_trip={tripInfo._id} key={el._id}/>
+    							)
+                )
+              }
+            </Container> */}
+            <Container>
+              {foods &&
+                foods.map((el) =>
+                  (el === undefined ? <></> :
+    									<Expense expense={el} trip={tripInfo} current_trip={tripInfo._id} key={el._id}/>
+    							)
+                )
+              }
+            </Container>
+          {/* </Col> */}
+
+          {/* <Col md={3}> */}
+          <h3>Transportation</h3> 
+            <Container>
+
+              {transp &&
+                transp.map((el) =>
+                  (el === undefined ? <></> :
+    									<Expense expense={el} trip={tripInfo} current_trip={tripInfo._id} key={el._id}/>
+    							)
+                )
+              }
+            </Container>
+          {/* </Col>
+        <Col md={3}> */}
+          <h3>Housing</h3> 
+            <Container>
+              {housing &&
+                housing.map((el) =>
+                  (el === undefined ? <></> :
+    									<Expense expense={el} trip={tripInfo} current_trip={tripInfo._id} key={el._id}/>
+    							)
+                )
+              }
+            </Container>
+          {/* </Col>
+          <Col md={3}> */}
+          <h3>Other</h3> 
+            <Container>
+              {other &&
+                other.map((el) =>
+                  (el === undefined ? <></> :
+    									<Expense expense={el} trip={tripInfo} current_trip={tripInfo._id} key={el._id}/>
+    							)
+                )
+              }
+            </Container>
+          {/* </Col> */}
+          <Col md={3}>
+          <h3>Total: </h3>
+          <Container>
+             
+            </Container>
+          </Col>
+          
     </>
   )
 }

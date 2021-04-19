@@ -8,6 +8,8 @@ import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/LoginView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:provider/provider.dart';
+import 'package:together_trek/views/FriendListView.dart';
+import 'package:together_trek/views/BlockedListView.dart';
 
 Widget createDrawer(BuildContext context, UserModel user,
     Function _onTappedItem, Future<PackageInfo> packageInfo) {
@@ -61,6 +63,12 @@ Widget createDrawer(BuildContext context, UserModel user,
               _onTappedItem(2);
             }),
         ListTile(
+            title: Text("Friends"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => FriendListView()));
+            }),
+        ListTile(
           title: Text("My Trips"),
           onTap: () {
             Navigator.pop(context);
@@ -80,6 +88,12 @@ Widget createDrawer(BuildContext context, UserModel user,
                     builder: (context) => PlaceholderView(title: "My Posts")));
           },
         ),
+        ListTile(
+            title: Text("Blocked Users"),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BlockedListView()));
+            }),
         ListTile(
           title: Text("Settings"),
           onTap: () {
