@@ -41,6 +41,8 @@ module.exports = app => {
   // Invite a user to a trip
   router.put("/invite-user/:id", user_controller.inviteUser);
 
+  router.put("/invite-user-username/:id", user_controller.inviteUserUsername);
+
   // Decline a friend request
   router.put("/decline-friend/:id", user_controller.declineFriendRequest);
 

@@ -381,8 +381,11 @@ exports.create = async (req, res) => {
 							return;
 						})
 						.catch((err) => {
-							throw err;
+							console.log(`SendGrid: ${err.message}`);
+							res.send(data.id);
+							return;
 						});
+
 				}).catch((err) => {
 					throw err;
 				});
@@ -577,7 +580,7 @@ exports.setProfilePic = (req, res) => {
 	const file = req.files.file;
 
 	// Validate file is an image
-	if (!file.mimetype.startsWith('image')) {
+	if (!file.mimetype.startsWith('image') && !file.mimetype.startsWith('application/octet-stream')) {
 		res.status(400).send({ message: 'file must be type image.' });
 		return;
 	}
@@ -629,112 +632,6 @@ exports.setProfilePic = (req, res) => {
 			message: `Some error occurred while retrieving User with id=${user_id}.`,
 		})
 	})
-}
-
-// Gets a users profile pic
-exports.getProfilePic = (req, res) => {
-	const user_id = req.params.id
-
-	// Get the user entry from the database
-	User.findById(user_id)
-		.then((user) => {
-			if (!user) {
-				res.status(404).send({
-					message: `Could not find User with id=${user_id}.`,
-				})
-				return
-			} else {
-				// Get the profile pic and return it
-				s3_handler
-					.findOne(user.profile_pic.filename)
-					.then((profile_pic) => {
-						if (!profile_pic) {
-							res.status(404).send({
-								message: `Could not find profile pic.`,
-							})
-							return
-						}
-						res.send(profile_pic)
-						return
-					})
-					.catch((err) => {
-						res.status(500).send({
-							message: err.message || 'Could not get profile pic.',
-						})
-						return
-					})
-			}
-		})
-		.catch((err) => {
-			res.status(500).send({
-				message: `Error retrieving User with id=${user_id}.`,
-			})
-		})
-}
-
-// Sets a users profile pic to a new image
-exports.setProfilePic = (req, res) => {
-  const user_id = req.params.id;
-
-  // Validate all expected fields were passed
-  if (!req.files || !req.files.file) {
-    res.status(400).send({ message: "file can not be empty." });
-    return;
-  }
-  const file = req.files.file;
-
-  // Validate file is an image
-  if (!file.mimetype.startsWith('image')) {
-    res.status(400).send({ message: "file must be type image." });
-    return;
-  }
-
-  // Get the user entry from the database
-  const user = User.findById(user_id)
-	.then(user => {
-    if (!user) {
-      res.status(404).send({
-        message: `Could not find User with id=${user_id}.`
-      });
-    } else {
-			// Rename the file so that it is unique in S3
-		  file.name = `${user_id}${path.parse(file.name).ext}`;
-		  let new_pic_filename = file.name;
-
-		  // Attempt to upload the new profile pic to S3
-			s3_handler.upload(file)
-			.then(data => {})
-			.catch(err => {
-				res.status(500).send({
-					message: err.message || "Could not upload new profile pic."
-				});
-				return;
-			});
-
-			// Update the user profile_pic filename and upload_date
-		  user.profile_pic.filename = new_pic_filename;
-		  user.profile_pic.upload_date = Date.now();
-
-		  user.save()
-		  .then(data => {
-		    res.send({
-		      message: "success"
-		    });
-				return;
-		  })
-		  .catch(err => {
-		    res.status(500).send({
-		      message:
-		        err.message || "Some error occurred while updating profile pic."
-		    });
-		  });
-    }
-  })
-  .catch(err => {
-    res.status(500).send({
-      message: `Some error occurred while retrieving User with id=${user_id}.`
-    });
-  });
 }
 
 // Gets a users profile pic
@@ -957,6 +854,79 @@ exports.inviteUser = (req, res) => {
 	}
 	const trip_id = req.body.trip_id;
 	const inviting_user_id = req.body.inviting_user_id;
+    User.findById(user_id)
+    .then(user => {
+		//console.log("trip id: " + trip_id);
+		//console.log("User id: " + user_id);
+		Trip.findById(trip_id)
+		.then(trip => {
+			//console.log(trip.participant_ids + "sadasd");
+			if (trip.participant_ids === null || !trip.participant_ids.includes(inviting_user_id)) {
+				res.status(400).send({ message: 'User is not a member of the trip.'})
+				console.log("error 400");
+				return;
+			}
+			user.trip_requests.push(trip_id);
+			//console.log(user.trip_requests[0]);
+			user.save()
+			.then(data => {
+				res.send({ message: "success" });
+				console.log("success 200");
+				return;
+			})
+			.catch(err => {
+				res.status(500).send({
+					message: err.message || "Could not update user."
+				});
+				console.log("error 500           1");
+				return;
+			});
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: err.message || "Could not retrieve trip."
+			})
+			console.log("error 500                 2");
+			return;
+		})
+    })
+    .catch(err => {
+		    res.status(500).send({
+		        message: err.message || "Could not retrieve user."
+		    });
+			console.log("error 500                      3");
+				return;
+    });
+}
+
+exports.inviteUserUsername = (req, res) => {
+	//console.log("entered invite user");
+	const user_id = req.params.id;
+    if (!req.body.inviting_username) {
+        res.status(400).send({ message: 'inviting_username can not be empty.' })
+        return;
+    }
+	if (!req.body.trip_id) {
+		res.status(400).send({ message: 'trip_id cannot be empty'})
+		return;
+	}
+	let requirements = req.body.inviting_username;
+	let condition = {};
+    Object.keys(requirements).forEach(function(key) {
+    	condition[key] = { $regex: new RegExp(requirements[key]), $options: "i" }
+    })
+	const trip_id = req.body.trip_id;
+	let inviting_user_id;
+	User.find(condition)
+    .then(data => {
+        inviting_user_id = data[0].id;
+    })
+    .catch(err => {
+        res.status(500).send({
+        message:
+            err.message || "Some error occurred while retrieving trips."
+        });
+    });
     User.findById(user_id)
     .then(user => {
 		//console.log("trip id: " + trip_id);

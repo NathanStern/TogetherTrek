@@ -30,6 +30,7 @@ class UserModel extends ChangeNotifier {
   List<dynamic> friendIds;
   String city;
   String country;
+  List<dynamic> blockedIds;
   bool _empty = false;
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -57,7 +58,8 @@ class UserModel extends ChangeNotifier {
       messageBoardIds: json['message_board_ids'] ?? [],
       friendIds: json['friend_ids'] ?? [],
       city: json['city'] ?? "",
-      country: json['country'] ?? ""
+      country: json['country'] ?? "",
+      blockedIds: json['block_ids'] ?? [],
     );
   }
 
@@ -79,6 +81,7 @@ class UserModel extends ChangeNotifier {
     this.friendIds = user.friendIds;
     this.city = user.city;
     this.country = user.country;
+    this.blockedIds = user.blockedIds;
     this._empty = user._empty;
   }
 
@@ -100,6 +103,7 @@ class UserModel extends ChangeNotifier {
     this.friendIds = [];
     this.city = "";
     this.country = "";
+    this.blockedIds = [];
     this._empty = true;
   }
 
@@ -120,7 +124,8 @@ class UserModel extends ChangeNotifier {
       this.messageBoardIds,
       this.friendIds,
       this.city,
-      this.country});
+      this.country,
+      this.blockedIds});
 
   bool isEmpty() {
     return _empty;
@@ -147,6 +152,7 @@ class UserModel extends ChangeNotifier {
     this.friendIds = user.friendIds;
     this.city = user.city;
     this.country = user.country;
+    this.blockedIds = user.blockedIds;
     this._empty = user._empty;
 
     notifyListeners();
@@ -169,7 +175,8 @@ class UserModel extends ChangeNotifier {
       List<String> messageBoardIds,
       List<String> friendIds,
       String city,
-      String country) {
+      String country,
+      List<String> blockedIds) {
     // the date needs to be parsed
     this.id = id;
     this.username = username;
@@ -188,6 +195,7 @@ class UserModel extends ChangeNotifier {
     this.friendIds = friendIds;
     this.city = city;
     this.country = country;
+    this.blockedIds = blockedIds;
     this._empty = false;
 
     notifyListeners();
@@ -235,6 +243,16 @@ class UserModel extends ChangeNotifier {
 
   void removeMessageBoard(String messageBoardId) {
     this.messageBoardIds.remove(messageBoardId);
+    notifyListeners();
+  }
+
+  void blockedUser(String userId) {
+    this.blockedIds.add(userId);
+    notifyListeners();
+  }
+
+  void unblockUser(String userId) {
+    this.blockedIds.remove(userId);
     notifyListeners();
   }
 

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -51,5 +52,10 @@ Future<int> userLogin(String data) async {
 }
 
 NetworkImage getProfilePic(String id) {
-  return getNetworkImage('users/profile-pic/${id}');
+  return getNetworkImage('users/profile-pic/$id');
+}
+
+Future<void> setProfilePic(String id, File file) async {
+  int response = await httpPutFile("/users/profile-pic/$id", file);
+  return;
 }
