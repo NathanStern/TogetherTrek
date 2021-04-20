@@ -8,7 +8,11 @@ module.exports = app => {
 
   // Retrieves an entry from the trip_photos table by id
   router.get("/:id", trip_photo_controller.findOne);
-
+	
+ 
+ //Retrieves entries from the trip_photos table by trip_id
+  router.get('/trip/:id', trip_photo_controller.findAllId)
+  
   // Retrieves entries from the trip_photos table by search criteria
   router.get("/", trip_photo_controller.findAll);
 
