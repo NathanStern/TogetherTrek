@@ -45,6 +45,8 @@ const ProfileScreen = ({ location, history }) => {
             <div>Last Name: {userInfo.last_name}</div>
             <div>Birthday: {userInfo.birthdate}</div>
             <div>Gender: {userInfo.gender}</div>
+            <div>City: {profileInfo.city}</div>
+            <div>Country: {profileInfo.country}</div>
             <Link to={'/editprofile'}>Edit Profile</Link>
           </Col>
           <Col md={3}>

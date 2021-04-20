@@ -34,6 +34,8 @@ const EditProfileScreen = ({ location, history }) => {
   const [message, setMessage] = useState(null)
   const [gender, setGender] = useState(userInfo.gender)
   const [birthdate, setBirthdate] = useState(userInfo.birthdate)
+  const [city, setCity] = useState(userInfo.city)
+  const [country, setCountry] = useState(userInfo.country)
   const dispatch = useDispatch()
 
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
@@ -52,7 +54,9 @@ const EditProfileScreen = ({ location, history }) => {
           gender,
           birthdate,
           email,
-          password
+          password,
+          city,
+          country
         )
       )
     }
@@ -127,6 +131,26 @@ const EditProfileScreen = ({ location, history }) => {
             placeholder='Enter Last Name'
             value={birthdate}
             onChange={(e) => setBirthdate(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId='city'>
+          <Form.Label>Enter City</Form.Label>
+          <Form.Control
+            type='name'
+            placeholder='Enter City'
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId='country'>
+          <Form.Label>Enter Country</Form.Label>
+          <Form.Control
+            type='name'
+            placeholder='Enter Country'
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
           ></Form.Control>
         </Form.Group>
 

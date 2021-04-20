@@ -60,7 +60,8 @@ class _ProfileInfoViewState extends State<ProfileInfoView> {
           Text(this.user.tripIds.toString()),
           Text(this.user.messageBoardIds.toString()),
           Text(this.user.friendIds.toString()),
-          Text(this.user.location.toString()),
+          Text(this.user.city),
+          Text(this.user.country),
         ],
       ));
     }
