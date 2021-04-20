@@ -14,7 +14,7 @@ const CreateTripScreen = ({ history }) => {
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
   const [message, setMessage] = useState('')
-
+  const [budget, setBudget] = useState('')
   const tripHandler = async (e) => {
     e.preventDefault()
     try {
@@ -28,6 +28,7 @@ const CreateTripScreen = ({ history }) => {
         end_date: endDate,
         creator_id: userInfo._id,
         participant_ids: [userInfo._id],
+        budget: budget,
       })
 
       // const expres = await axios.post(`${path}/expenses`, {
@@ -99,7 +100,15 @@ const CreateTripScreen = ({ history }) => {
             onChange={(e) => setRegion(e.target.value)}
           ></Form.Control>
         </Form.Group>
-
+        <Form.Group controlId='text'>
+          <Form.Label>Budget</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='Enter Budget'
+            value={budget}
+            onChange={(e) => setBudget(e.target.value)}
+          ></Form.Control>
+        </Form.Group>
         <Button
           variant='primary'
           onClick={(e) => {

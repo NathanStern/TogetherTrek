@@ -84,6 +84,7 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem('userPosts')
   localStorage.removeItem('myToken')
   localStorage.removeItem('encToken')
+  localStorage.removeItem('userPassword')
   dispatch({ type: USER_LOGIN_LOGOUT })
 }
 
