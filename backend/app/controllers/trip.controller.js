@@ -113,21 +113,82 @@ exports.findAll = (req, res) => {
 };
 
 exports.search = (req, res) => {
-  let budget = MAX_SAFE_INTEGER;
-  if (req.body.budget) {
-    budget = req.body.budget;
+  let budget1 = 10000000000000000000000000000000;
+  const location = req.query.location;
+  console.log(location);
+  console.log(req.query.budget);
+  if (req.query.budget) {
+    budget1 = req.query.budget;
   }
-  if (!req.body.location) {
-    res.status(400).send({ message: 'location cannot be empty.' });
+  else {
+    if (req.query.isCountry) {
+      Trip.find({"destination.country": {$in: [`${location}`]}})
+      .then(data => {
+        if (!data) {
+          res.status(404).send({message: `Could not find a trip.`});
+          console.log("404 error");
+        }
+        else {
+          res.send(data);
+          console.log("Good answer");
+        }
+      })
+      .catch(err => {
+        res.status(500).send({message: `Could not find a trip with that city name.`})
+        console.log("500 error");
+      })
+    }
+    else {
+      Trip.find({"destination.city": {$in: [`${location}`]}})
+      .then(data => {
+        if (!data) {
+          res.status(404).send({message: `Could not find a trip.`});
+          console.log("404 error");
+        }
+        else {
+          res.send(data);
+          console.log("Good answer");
+        }
+      })
+      .catch(err => {
+        res.status(500).send({message: `Could not find a trip with that city name.`})
+        console.log("500 error");
+      })
+    }
     return;
   }
-  Trip.find({budget: {$lte: budget}})
-  .then(data =>{
-    
-  })
-  .catch(err => {
-    res.status(500).send({message: `Could not find a trip within budget.`})
-  })
+  /*if (!req.body.location) {
+    res.status(400).send({ message: 'location cannot be empty.' });
+    return;
+  }*/
+  if (req.query.isCountry) {
+    Trip.find({budget: { $lte: budget1 }, "destination.country": {$in: [`${location}`]}})
+    .then(data => {
+      if (!data) {
+        res.status(404).send({message: `Could not find a trip.`});
+      }
+      else {
+        res.send(data);
+      }
+    })
+    .catch(err => {
+      res.status(500).send({message: `Could not find a trip within budget.`})
+    })
+  }
+  else {
+    Trip.find({budget: { $lte: budget1 }, "destination.city": {$in: [`${location}`]}})
+    .then(data => {
+      if (!data) {
+        res.status(404).send({message: `Could not find a trip.`});
+      }
+      else {
+        res.send(data);
+      }
+    })
+    .catch(err => {
+      res.status(500).send({message: `Could not find a trip within budget.`})
+    })
+  }
 }
 
 // Updates an entry in the trips table by id

@@ -5,6 +5,9 @@ module.exports = app => {
   // Creates an entry in the trips table
   router.post("/", trip_controller.create);
 
+  // search for a trip based on budget and destinations
+  router.get("/search", trip_controller.search);
+
   // Retrieves an entry from the trips table by id
   router.get("/:id", trip_controller.findOne);
 
@@ -30,9 +33,6 @@ module.exports = app => {
   router.put("/remove-user/:id", trip_controller.removeUser);
 
   router.put("/remove-user-username/:id", trip_controller.removeUserUsername);
-
-  // search for a trip based on budget and destinations
-  router.get("/search", trip_controller.search);
 
   app.use("/trips", router);
 };
