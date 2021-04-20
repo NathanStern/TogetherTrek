@@ -3,6 +3,10 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { profileAddMessageBoardReducer } from './reducers/profilesReducer'
 import {
+  profileAddMessageBoardReducer,
+  profileUpdateReducer,
+} from './reducers/profilesReducer'
+import {
   userLoginReducer,
   userRegisterReducer,
   userUpdateProfileReducer,
@@ -18,9 +22,7 @@ import {
   getMyPostsReducer,
   updateMyPostReducer,
 } from './reducers/postsReducer'
-import {
-  getAllExpensesReducer,
-} from './reducers/expenseReducer'
+import { getAllExpensesReducer } from './reducers/expenseReducer'
 import {
   getMyTripsReducer,
   getAllTripsReducer,
@@ -30,6 +32,7 @@ import {
   joinTripReducer,
   acceptTripRequestReducer,
   declineTripRequestReducer,
+  acceptUserJoinTripRequestReducer,
 } from './reducers/tripsReducers'
 
 const reducer = combineReducers({
@@ -56,14 +59,27 @@ const reducer = combineReducers({
   leaveTrip: leaveTripReducer,
   joinTrip: joinTripReducer,
   getAllExpenses: getAllExpensesReducer,
+  acceptUserJoinTripRequest: acceptUserJoinTripRequestReducer,
+  declineUserJoinTripRequest: declineTripRequestReducer,
+  profileUpdate: profileUpdateReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null
 
+const myPostsFromStorage = localStorage.getItem('userPosts')
+  ? JSON.parse(localStorage.getItem('userPosts'))
+  : null
+
+const allPostsFromStorage = localStorage.getItem('allPosts')
+  ? JSON.parse(localStorage.getItem('allPosts'))
+  : null
+
 const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
+  myPosts: { myPosts: myPostsFromStorage },
+  allPosts: { allPosts: allPostsFromStorage },
 }
 
 const middleware = [thunk]

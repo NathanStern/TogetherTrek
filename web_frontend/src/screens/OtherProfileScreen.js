@@ -9,7 +9,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getMyPosts, deleteMyPost } from '../actions/postsActions'
 import { requestFriend } from '../actions/friendActions'
-import { getFriend } from '../actions/userActions'
+import { getFriend, updateUserProfile } from '../actions/userActions'
 import { path } from '../constants/pathConstant'
 
 const OtherProfileScreen = ({ location, history, useParams }) => {
@@ -18,9 +18,10 @@ const OtherProfileScreen = ({ location, history, useParams }) => {
   const [profileInfo, setProfileInfo] = useState({})
   const [friend, setFriend] = useState(false)
   const [requested, setRequested] = useState(false)
-  const [friendBtnText, setFriendBtnText] = useState("Add")
+  const [friendBtnText, setFriendBtnText] = useState('Add')
   const [profilePic, setProfilePic] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
+    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+  )
 
   // Get the id of the user who's profile is being viewed and get the active user
   const { pathname } = useLocation()
@@ -28,13 +29,13 @@ const OtherProfileScreen = ({ location, history, useParams }) => {
 
   // Get the profile data of the other user's profile and set local values
   const { userInfo } = useSelector((state) => state.userLogin)
-  axios.get(`${path}/users/${id}`).then(resp => {
+  axios.get(`${path}/users/${id}`).then((resp) => {
     const user = resp.data
     const isFriend = user.friend_ids.includes(userInfo._id)
     const hasRequested = user.friend_requests.includes(userInfo._id)
     setFriend(isFriend ? true : false)
     setRequested(hasRequested ? true : false)
-    setFriendBtnText(isFriend ? "Remove" : hasRequested ? "Requested" : "Add")
+    setFriendBtnText(isFriend ? 'Remove' : hasRequested ? 'Requested' : 'Add')
     if (user.profile_pic) {
       setProfilePic(user.profile_pic)
     }
@@ -51,15 +52,26 @@ const OtherProfileScreen = ({ location, history, useParams }) => {
 
   const friendButtonHandler = (e) => {
     if (friend) {
-      console.log("Not yet implemented")
+      console.log('Not yet implemented')
     } else if (!requested) {
       dispatch(requestFriend(profileInfo._id))
-      setFriendBtnText("Requested")
+      setFriendBtnText('Requested')
     }
   }
+  const blockButtonHandler = (e) => {
+    e.preventDefault()
+    console.log('youre tryint to block, not yet implemented')
+    // let user = {...userInfo, blocked_users = userInfo.blocked_users.concat(profileInfo._id)}
+    // dispatch(updateUserProfile(user))
+  }
 
+  const unblockButtonHandler = (e) => {
+    e.preventDefault()
+    // let user = {...userInfo, blocked_users = userInfo.filter(e=>e!==profileInfo._id)}
+    // dispatch(updateUserProfile(user))
+  }
   const messageButtonHandler = (e) => {
-    console.log("Not yet implemented")
+    console.log('Not yet implemented')
   }
 
   return (
@@ -76,15 +88,24 @@ const OtherProfileScreen = ({ location, history, useParams }) => {
             <div>Gender: {profileInfo.gender}</div>
             <Button
               variant='primary'
-              className="half-button"
-              onClick={(e) => friendButtonHandler(e)}>
+              className='half-button'
+              onClick={(e) => friendButtonHandler(e)}
+            >
               {friendBtnText}
             </Button>
             <Button
               variant='primary'
-              className="half-button"
-              onClick={(e) => friendButtonHandler(e)}>
+              className='half-button'
+              onClick={(e) => friendButtonHandler(e)}
+            >
               Message
+            </Button>
+            <Button
+              variant='primary'
+              className='half-button'
+              onClick={(e) => blockButtonHandler(e)}
+            >
+              Block
             </Button>
           </Col>
           <Col md={3}>

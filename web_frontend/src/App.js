@@ -38,7 +38,11 @@ function App() {
           <Route path='/editpost' component={EditPostScreen} />
           <Route path='/posts' component={PostsScreen} />
           <Route path='/editprofile' component={EditProfileScreen} exact />
-          <Route path='/change-sens-info' component={ChangeSensInfoScreen} exact />
+          <Route
+            path='/change-sens-info'
+            component={ChangeSensInfoScreen}
+            exact
+          />
           <Route path='/createpost' component={CreatePostScreen} />
           <Route path='/profile/:id' component={OtherProfileScreen} exact />
           <Route path='/friends' component={FriendsScreen} />

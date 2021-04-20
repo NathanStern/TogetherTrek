@@ -13,7 +13,7 @@ const Header = () => {
     dispatch(logout())
   }
   return (
-    <header className="header">
+    <header className='header'>
       <Navbar bg='primary' variant='dark' expand='lg' id='navbarColor01'>
         <Container>
           <LinkContainer to='/'>
@@ -38,11 +38,11 @@ const Header = () => {
                     <span class='white-text'>New Post</span>
                   </Nav.Link>
                 </LinkContainer>
-								<LinkContainer to='/trips'>
-									<Nav.Link>
-										<span class='white-text'>Trips</span>
-									</Nav.Link>
-								</LinkContainer>
+                <LinkContainer to='/trips'>
+                  <Nav.Link>
+                    <span class='white-text'>Trips</span>
+                  </Nav.Link>
+                </LinkContainer>
                 <LinkContainer to='/createtrip'>
                   <Nav.Link>
                     <span class='white-text'>New Trip</span>

@@ -12,9 +12,7 @@ const MessageBoardScreen = ({ location, history, useParams }) => {
   const { userInfo } = useSelector((state) => state.userLogin)
   const messageBoardId = pathname.split('/')[2]
 
-  return (
-    <MessageBoard messageBoardId={messageBoardId} userId={userInfo._id}/>
-  )
+  return <MessageBoard messageBoardId={messageBoardId} userId={userInfo._id} />
 }
 
 export default MessageBoardScreen

@@ -25,6 +25,12 @@ import {
   MYTRIPS_JOIN_REQUEST,
   MYTRIPS_JOIN_SUCCESS,
   MYTRIPS_JOIN_FAIL,
+  ACCEPT_USER_JOIN_TRIP_REQUEST,
+  ACCEPT_USER_JOIN_TRIP_SUCCESS,
+  ACCEPT_USER_JOIN_TRIP_FAIL,
+  DECLINE_USER_JOIN_TRIP_REQUEST,
+  DECLINE_USER_JOIN_TRIP_SUCCESS,
+  DECLINE_USER_JOIN_TRIP_FAIL,
 } from '../constants/tripsConstants'
 
 const getTrip = async (trip_id) => {
@@ -173,6 +179,15 @@ export const getTrips = (email, password) => async (dispatch) => {
           : error.response,
     })
   }
+<<<<<<< HEAD
+}
+
+export const leaveTrip = (trip) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: MYTRIPS_LEAVE_REQUEST,
+    })
+=======
 }
 
 export const leaveTrip = (trip) => async (dispatch, getState) => {
@@ -264,6 +279,7 @@ export const declineTrip = (trip_id) => async (dispatch, getState) => {
     type: DECLINE_TRIP_REQUEST,
   })
   try {
+>>>>>>> 301ab5e4273162855920a1890488866e092f658a
     const {
       userLogin: { userInfo },
     } = getState()
@@ -274,6 +290,25 @@ export const declineTrip = (trip_id) => async (dispatch, getState) => {
         Authorization: userInfo.token,
       },
     }
+<<<<<<< HEAD
+    const data = {
+      user_id: userInfo._id,
+    }
+
+    const resp = await axios.put(
+      `${path}/trips/remove-user/${trip._id}`,
+      data,
+      config
+    )
+
+    dispatch({
+      type: MYTRIPS_LEAVE_SUCCESS,
+      payload: resp.data,
+    })
+  } catch (error) {
+    dispatch({
+      type: MYTRIPS_LEAVE_FAIL,
+=======
 
     const { data } = await axios.put(
       `${path}/trips/decline-join/${trip_id}`,
@@ -298,6 +333,7 @@ export const declineTrip = (trip_id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: DECLINE_TRIP_FAIL,
+>>>>>>> 301ab5e4273162855920a1890488866e092f658a
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -306,12 +342,20 @@ export const declineTrip = (trip_id) => async (dispatch, getState) => {
   }
 }
 
+<<<<<<< HEAD
+export const acceptTrip = (trip_id) => async (dispatch, getState) => {
+  dispatch({
+    type: ACCEPT_TRIP_REQUEST,
+  })
+  try {
+=======
 export const joinTrip = (trip) => async (dispatch, getState) => {
   try {
     console.log('JOINING TRIP')
     dispatch({
       type: MYTRIPS_JOIN_REQUEST,
     })
+>>>>>>> 301ab5e4273162855920a1890488866e092f658a
     const {
       userLogin: { userInfo },
     } = getState()
@@ -322,6 +366,29 @@ export const joinTrip = (trip) => async (dispatch, getState) => {
         Authorization: userInfo.token,
       },
     }
+<<<<<<< HEAD
+
+    const { data } = await axios.put(
+      `${path}/trips/accept-join/${trip_id}`,
+      { requesting_user_id: userInfo._id },
+      config
+    )
+    const user = await axios.put(
+      `${path}/users/${userInfo._id}`,
+      {
+        ...userInfo,
+        trip_requests: userInfo.trip_requests.filter((e) => e !== trip_id),
+        trip_ids: userInfo.trip_ids.concat(trip_id),
+      },
+      config
+    )
+    dispatch({
+      type: ACCEPT_TRIP_SUCCESS,
+    })
+  } catch (error) {
+    dispatch({
+      type: ACCEPT_TRIP_FAIL,
+=======
     const data = {
       requesting_user_id: userInfo._id,
     }
@@ -334,6 +401,149 @@ export const joinTrip = (trip) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: MYTRIPS_JOIN_FAIL,
+>>>>>>> 301ab5e4273162855920a1890488866e092f658a
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    })
+  }
+}
+
+<<<<<<< HEAD
+export const declineTrip = (trip_id) => async (dispatch, getState) => {
+  dispatch({
+    type: DECLINE_TRIP_REQUEST,
+=======
+export const acceptUserTripRequest = (trip_id, user_id, user) => async (
+  dispatch,
+  getState
+) => {
+  dispatch({
+    type: ACCEPT_USER_JOIN_TRIP_REQUEST,
+>>>>>>> 301ab5e4273162855920a1890488866e092f658a
+  })
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    }
+
+    const { data } = await axios.put(
+<<<<<<< HEAD
+      `${path}/trips/decline-join/${trip_id}`,
+      { requesting_user_id: userInfo._id },
+      config
+    )
+    let tripRequests = userInfo.trip_requests.filter((e) => e !== trip_id)
+    console.log(tripRequests)
+    console.log(` size is ${tripRequests.length}`)
+    const user = await axios.put(
+      `${path}/users/${userInfo._id}`,
+      {
+        ...userInfo,
+        trip_requests: tripRequests,
+      },
+      config
+    )
+    // console.log(user)
+    dispatch({
+      type: DECLINE_TRIP_SUCCESS,
+    })
+  } catch (error) {
+    dispatch({
+      type: DECLINE_TRIP_FAIL,
+=======
+      `${path}/trips/accept-join/${trip_id}`,
+      { requesting_user_id: user_id },
+      config
+    )
+
+    const request = await axios.put(
+      `${path}/users/${user._id}`,
+      {
+        ...user,
+        trip_ids: user.trip_ids.concat(trip_id),
+      },
+      config
+    )
+    dispatch({
+      type: ACCEPT_USER_JOIN_TRIP_SUCCESS,
+    })
+  } catch (error) {
+    dispatch({
+      type: ACCEPT_USER_JOIN_TRIP_FAIL,
+>>>>>>> 301ab5e4273162855920a1890488866e092f658a
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    })
+  }
+}
+
+<<<<<<< HEAD
+export const joinTrip = (trip) => async (dispatch, getState) => {
+  try {
+    console.log('JOINING TRIP')
+    dispatch({
+      type: MYTRIPS_JOIN_REQUEST,
+    })
+=======
+export const declineUserTripRequest = (trip_id, user_id) => async (
+  dispatch,
+  getState
+) => {
+  dispatch({
+    type: DECLINE_USER_JOIN_TRIP_REQUEST,
+  })
+  try {
+>>>>>>> 301ab5e4273162855920a1890488866e092f658a
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: userInfo.token,
+      },
+    }
+<<<<<<< HEAD
+    const data = {
+      requesting_user_id: userInfo._id,
+    }
+
+    await axios.put(`${path}/trips/request-join/${trip._id}`, data, config)
+
+    dispatch({
+      type: MYTRIPS_JOIN_SUCCESS,
+    })
+  } catch (error) {
+    dispatch({
+      type: MYTRIPS_JOIN_FAIL,
+=======
+
+    const { data } = await axios.put(
+      `${path}/trips/decline-join/${trip_id}`,
+      { requesting_user_id: user_id },
+      config
+    )
+
+    console.log(data)
+    dispatch({
+      type: DECLINE_USER_JOIN_TRIP_SUCCESS,
+    })
+  } catch (error) {
+    dispatch({
+      type: DECLINE_USER_JOIN_TRIP_FAIL,
+>>>>>>> 301ab5e4273162855920a1890488866e092f658a
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
