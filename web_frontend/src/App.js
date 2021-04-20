@@ -23,6 +23,7 @@ import MessagesScreen from './screens/MessagesScreen'
 import OtherProfileScreen from './screens/OtherProfileScreen'
 import MessageBoardScreen from './screens/MessageBoardScreen.js'
 import BlockedUsersScreen from './screens/BlockedUsersScreen'
+import ViewTripPhotosScreen from './screens/ViewTripPhotosScreen'
 function App() {
   return (
     <Router>
@@ -53,6 +54,7 @@ function App() {
           <Route path='/trip/:id' component={ViewTripScreen} />
           <Route path='/messages/:id' component={MessageBoardScreen} />
           <Route path='/blocked' component={BlockedUsersScreen} />
+          <Route path='/view_photos/:id' component={ViewTripPhotosScreen} />
         </Container>
       </main>
       <Footer />

@@ -33,7 +33,9 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const [housing, setHousing] = useState([])
   const [other, setOther] = useState([])
   const [date, setDate] = useState(new Date())
-
+  const [loading, setLoading] = useState(false)
+  const [pic, setPic] = useState()
+  const [show, setShow] = useState()
   const { pathname } = useLocation()
   const id = pathname.split('/')[2]
   useEffect(async () => {
@@ -125,6 +127,34 @@ const ViewTripScreen = ({ location, history, useParams }) => {
     }
   }
 
+  const picShowHandler = (e) => {
+    e.preventDefault()
+    setShow(!show)
+  }
+  const uploadPicHandler = (e) => {
+    e.preventDefault()
+    console.log(pic)
+    // console.log(newProfilePic)
+    let form_data = new FormData()
+    form_data.append('file', pic)
+    form_data.append('author_id', userInfo._id)
+    form_data.append('trip_id', tripInfo._id)
+
+    console.log(form_data)
+    setLoading(true)
+
+    axios
+      .post(`${path}/trip_photos`, form_data, {
+        headers: {
+          'Content-Type': undefined,
+        },
+      })
+      .then((e) => {
+        console.log(e)
+        setLoading(false)
+      })
+      .catch((e) => console.log(e.response))
+  }
   return (
     <>
       {message && <Message variant='success'>{message}</Message>}
@@ -133,9 +163,33 @@ const ViewTripScreen = ({ location, history, useParams }) => {
         <Row>
           <Col md={3}>
             <h2>Trip Info</h2>
+            {loading && <Loader />}
             <div>Destination: </div>
             <div>Start Date: {tripInfo.startDate}</div>
             <div>End Date: {tripInfo.endDate}</div>
+            {show && (
+              <Form>
+                <h4>Add Picture to the Trip</h4>
+                <Form.Group>
+                  <Form.File
+                    accept='image/png, image/jpeg'
+                    id='exampleFormControlFile1'
+                    onChange={(e) => {
+                      setPic(e.target.files[0])
+                    }}
+                  />
+                </Form.Group>
+                <Button onClick={uploadPicHandler}>Submit</Button>
+              </Form>
+            )}
+            <Button onClick={picShowHandler}>
+              {!show ? 'Upload Photo' : 'Close'}
+            </Button>
+            {!show && (
+              <Link variant='button' to={`/view_photos/${tripInfo._id}`}>
+                View Photos
+              </Link>
+            )}
           </Col>
           <Col md={3}>
             <h2>Users</h2>
