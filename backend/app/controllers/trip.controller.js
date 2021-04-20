@@ -32,13 +32,18 @@ exports.create = (req, res) => {
     res.status(400).send({ message: "participants can not be empty." });
     return;
   }
+  let budget1 = 1000000000000000;
+  if (req.body.budget) {
+    budget1 = req.body.budget;
+  }
 
   const trip = new Trip({
     destination: req.body.destination,
     start_date: req.body.start_date,
     end_date: req.body.end_date,
     creator_id: req.body.creator_id,
-    participant_ids: req.body.participant_ids
+    participant_ids: req.body.participant_ids,
+    budget: budget1,
   });
 
   trip
