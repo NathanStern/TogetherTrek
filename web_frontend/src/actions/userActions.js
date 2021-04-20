@@ -25,9 +25,7 @@ export const login = (username, password) => async (dispatch) => {
     dispatch({
       type: USER_LOGIN_REQUEST,
     })
-
-    const hashedPassword = sha3_256(password)
-    // console.log(`Hashed password is ${hashedPassword}`)
+    console.log(`Hashed password is ${password}`)
     axios
       .post(`${path}/users/login`, { username, password })
       .then((res) => {
@@ -38,7 +36,9 @@ export const login = (username, password) => async (dispatch) => {
             Authorization: token,
           },
         }
+
         const user_id = jwt(token)['id']
+        console.log(`$user id is ${user_id}`)
         axios
           .get(`${path}/users/${user_id}`)
           .then((res) => {

@@ -12,8 +12,6 @@ import { getMyPosts, deleteMyPost } from '../actions/postsActions'
 import { getUserFriends } from '../actions/userActions'
 import { getMyTrips } from '../actions/tripsActions'
 import { path } from '../constants/pathConstant'
-import S3 from 'react-aws-s3'
-import ReactDOM from 'react-dom'
 
 import ReactDOM from 'react-dom'
 
