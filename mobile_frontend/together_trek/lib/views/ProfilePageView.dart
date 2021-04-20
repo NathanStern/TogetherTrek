@@ -1,10 +1,12 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:together_trek/api/UserWrapper.dart';
 
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
-//import 'package:together_trek/views/EditPRofilePage.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
 import 'package:together_trek/api/UserWrapper.dart' as UserWrapper;
 import 'package:together_trek/views/EditPostView.dart';
@@ -17,6 +19,8 @@ class ProfilePageView extends StatefulWidget {
 
 class _ProfilePageViewState extends State<ProfilePageView> {
   UserModel user;
+
+  final picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     user = context.watch<UserModel>();
@@ -38,10 +42,32 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      CircleAvatar(
-                        backgroundImage: this.user.profilePic,
-                        radius: 50.0,
-                      ),
+                      GestureDetector(
+                          onTap: () async {
+                            if (!user.isEmpty()) {
+                              final pickedFile = await picker.getImage(
+                                  source: ImageSource.gallery);
+                              if (pickedFile != null) {
+                                print(pickedFile.path);
+                                // Navigator.push(context,
+                                //     MaterialPageRoute(builder: (context) {
+                                //   return Scaffold(
+                                //       body: Container(
+                                //           child: Image.file(
+                                //               File(pickedFile.path))));
+                                // }));
+                                await UserWrapper.setProfilePic(
+                                    user.id, File(pickedFile.path));
+                                user.setAllFieldsFromUser(
+                                    await getUser(user.id));
+                                setState(() {});
+                              }
+                            }
+                          },
+                          child: CircleAvatar(
+                            backgroundImage: this.user.profilePic,
+                            radius: 50.0,
+                          )),
                       SizedBox(
                         height: 10.0,
                       ),
@@ -188,8 +214,11 @@ class _ProfilePageViewState extends State<ProfilePageView> {
             width: 300.00,
             child: RaisedButton(
                 onPressed: () {
-                  Navigator.push(context, 
-                  MaterialPageRoute(builder: (context) => EditProfilePageView(user: user)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EditProfilePageView(user: user)));
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),
@@ -221,5 +250,4 @@ class _ProfilePageViewState extends State<ProfilePageView> {
       ),
     );
   }
-
 }
