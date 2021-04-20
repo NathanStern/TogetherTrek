@@ -22,6 +22,9 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const [message, setMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [usernameRemove, setUsernameRemove] = useState('')
+//<<<<<<< HEAD
+  const [otherUserInfo, setOtherUserInfo] = useState('')
+//=======
   const { allExpenses } = useSelector((state) => state.getAllExpenses)
   const { allTrips } = useSelector((state) => state.getAllTrips)
   const [amount, setAmount] = useState('')
@@ -33,6 +36,7 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const [housing, setHousing] = useState([])
   const [other, setOther] = useState([])
   const [date, setDate] = useState(new Date())
+//>>>>>>> main
 
   const { pathname } = useLocation()
   const id = pathname.split('/')[2]
@@ -57,7 +61,11 @@ const ViewTripScreen = ({ location, history, useParams }) => {
     setOther(other.data)
     console.log(trip)
     setTripInfo(trip.data)
-  }, [])
+
+    /*const otherUser = await axios.get(`${path}/users?username=${username}`)
+    setOtherUserInfo(otherUser.data[0])*/
+  },[])
+
   const redirect = '/'
   useEffect(() => {
     if (!tripInfo) {
@@ -65,66 +73,96 @@ const ViewTripScreen = ({ location, history, useParams }) => {
     }
   }, [history, tripInfo, redirect])
 
-  const inviteUser = (e) => {
-    e.preventDefault()
+  /*getUserInfo(async () => {
     const otherUser = axios.get(`${path}/users?username=${username}`)
-    if (otherUser) {
-      axios
-        .put(`${path}/users/invite-user/${otherUser._id}`, {
-          requesting_user_id: userInfo._id,
-          trip_id: tripInfo._id,
-        })
-        .then((res) => {
-          setMessage('Trip invite is Sent')
-          setTimeout(() => {
-            setMessage(null)
-          }, 1000)
-        })
+    console.log(otherUser);
+    setOtherUserInfo(otherUser.data);
+  })*/
 
+  const inviteUser = (async (e) => {
+    e.preventDefault()
+
+      const otherUser = await axios.get(`${path}/users?username=${username}`)
+      console.log(otherUser);
+      
+      /*setTimeout(() => {
+        console.log("waiting");
+      }, 1000)*/
+      setOtherUserInfo(otherUser.data);
+    if (otherUserInfo) {
+      console.log(otherUserInfo);
+      //setOtherUserInfo(otherUser.data);
+      console.log(otherUserInfo[0]._id)
+      console.log(userInfo._id)
+      console.log(tripInfo._id)
+    axios
+      .put(`${path}/users/invite-user/${otherUserInfo[0]._id}`, {
+        requesting_user_id: userInfo._id,
+		    trip_id: tripInfo._id,
+      })
+      .then((res) => {
+        setMessage('Trip invite is Sent')
+        setTimeout(() => {
+          setMessage(null)
+        }, 1000)
+      })
+      
       console.log('Sent invite request')
     }
-  }
+  })
 
-  const removeUser = (e) => {
-    e.preventDefault()
-    const otherUser = axios.get(`${path}/users?username=${usernameRemove}`)
-    if (otherUser) {
+
+  const removeUser = ( async (e) => {
+	  e.preventDefault();
+	  const otherUser = await axios.get(`${path}/users?username=${usernameRemove}`)
+    
+    /*setTimeout(() => {
+      console.log("waiting");
+    }, 1000)*/
+    setOtherUserInfo(otherUser.data);
+    if (otherUserInfo) {
+      console.log(otherUserInfo);
+      //setOtherUserInfo(otherUser.data);
       axios
-        .put(`${path}/trips/remove-user/${tripInfo._id}`, {
-          requesting_user_id: userInfo._id,
-        })
-        .then((res) => {
-          setMessage('Remove request is Sent')
-          setTimeout(() => {
-            setMessage(null)
-          }, 1000)
-        })
+      .put(`${path}/trips/remove-user/${tripInfo._id}`, {
+        requesting_user_id: otherUserInfo[0]._id,
+      })
+      .then((res) => {
+        setMessage('Remove request is Sent')
+        setTimeout(() => {
+          setMessage(null)
+        }, 1000)
+      })
+
     }
-  }
+//<<<<<<< HEAD
+  })
+//=======
+  //}
   const addExpense = async (e) => {
     e.preventDefault()
     try {
       const res = await axios.post(`${path}/expenses`, {
         expense_body: {
-          amount: amount,
-          creator_id: userInfo._id,
-          description: description,
-          date: date,
-        },
-        category: category,
-        trip_id: tripInfo._id,
-      })
-      console.log(`adding ${res}`)
-      await axios.put(`${path}/trips/${tripInfo._id}`, {
-        expenses: tripInfo.expenses.concat(res.data),
-      })
-      setMessage('Expense Added')
-      history.push('/')
-    } catch (e) {
-      console.log(e)
-    }
-  }
 
+          	amount: amount,
+          	creator_id: userInfo._id,
+          	description: description,
+          	date: date,
+          	},
+            category: category,
+          	trip_id: tripInfo._id,
+			})
+      console.log(`adding ${res}`);
+			await axios.put(`${path}/trips/${tripInfo._id}`, {
+				expenses: tripInfo.expenses.concat(res.data),
+			})
+			setMessage('Expense Added')
+			history.push('/')
+		} catch(e) {
+			console.log(e);
+		}
+	}
   return (
     <>
       {message && <Message variant='success'>{message}</Message>}
@@ -139,41 +177,42 @@ const ViewTripScreen = ({ location, history, useParams }) => {
           </Col>
           <Col md={3}>
             <h2>Users</h2>
-            <FormContainer>
-              <Form onSubmit={inviteUser}>
-                <Form.Group controlId='confirmPassword'>
-                  <Form.Label>Add User (username)</Form.Label>
-                  <Form.Control
-                    type='Username'
-                    placeholder='Username'
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                  ></Form.Control>
-                  <Button type='submit' variant='primary' onClick={inviteUser}>
-                    Submit
-                  </Button>
-                </Form.Group>
-              </Form>
-            </FormContainer>
+
+			<FormContainer>
+				<Form onSubmit={inviteUser}>
+					<Form.Group controlId='confirmPassword'>
+					<Form.Label>Invite User (username)</Form.Label>
+        				<Form.Control
+          					type='Username'
+          					placeholder='Username'
+          					value={username}
+          					onChange={(e) => setUsername(e.target.value)}
+        				></Form.Control>
+						<Button variant='primary' onClick={inviteUser}>
+              				Submit
+            			</Button>
+					</Form.Group>
+				</Form>
+			</FormContainer>
           </Col>
           <Col md={3}>
             <h3>Remove User</h3>
-            <FormContainer>
-              <Form onSubmit={removeUser}>
-                <Form.Group controlId='confirmPassword'>
-                  <Form.Label>Username</Form.Label>
-                  <Form.Control
-                    type='Username'
-                    placeholder='Username'
-                    value={usernameRemove}
-                    onChange={(e) => setUsernameRemove(e.target.value)}
-                  ></Form.Control>
-                  <Button type='submit' variant='primary' onClick={removeUser}>
-                    Submit
-                  </Button>
-                </Form.Group>
-              </Form>
-            </FormContainer>
+			<FormContainer>
+				<Form onSubmit={removeUser}>
+					<Form.Group controlId='confirmPassword'>
+					<Form.Label>Username</Form.Label>
+        				<Form.Control
+          					type='Username'
+          					placeholder='Username'
+          					value={usernameRemove}
+          					onChange={(e) => setUsernameRemove(e.target.value)}
+        				></Form.Control>
+						<Button variant='primary' onClick={removeUser}>
+              				Submit
+            			</Button>
+					</Form.Group>
+				</Form>
+			</FormContainer>
           </Col>
           <Col md={3}>
             <h3>Add Expense</h3>
