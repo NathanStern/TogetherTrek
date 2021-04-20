@@ -896,6 +896,79 @@ exports.inviteUser = (req, res) => {
     });
 }
 
+exports.inviteUserUsername = (req, res) => {
+	//console.log("entered invite user");
+	const user_id = req.params.id;
+    if (!req.body.inviting_username) {
+        res.status(400).send({ message: 'inviting_username can not be empty.' })
+        return;
+    }
+	if (!req.body.trip_id) {
+		res.status(400).send({ message: 'trip_id cannot be empty'})
+		return;
+	}
+	let requirements = req.body.inviting_username;
+	let condition = {};
+    Object.keys(requirements).forEach(function(key) {
+    	condition[key] = { $regex: new RegExp(requirements[key]), $options: "i" }
+    })
+	const trip_id = req.body.trip_id;
+	let inviting_user_id;
+	User.find(condition)
+    .then(data => {
+        inviting_user_id = data[0].id;
+    })
+    .catch(err => {
+        res.status(500).send({
+        message:
+            err.message || "Some error occurred while retrieving trips."
+        });
+    });
+    User.findById(user_id)
+    .then(user => {
+		//console.log("trip id: " + trip_id);
+		//console.log("User id: " + user_id);
+		Trip.findById(trip_id)
+		.then(trip => {
+			//console.log(trip.participant_ids + "sadasd");
+			if (trip.participant_ids === null || !trip.participant_ids.includes(inviting_user_id)) {
+				res.status(400).send({ message: 'User is not a member of the trip.'})
+				console.log("error 400");
+				return;
+			}
+			user.trip_requests.push(trip_id);
+			//console.log(user.trip_requests[0]);
+			user.save()
+			.then(data => {
+				res.send({ message: "success" });
+				console.log("success 200");
+				return;
+			})
+			.catch(err => {
+				res.status(500).send({
+					message: err.message || "Could not update user."
+				});
+				console.log("error 500           1");
+				return;
+			});
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: err.message || "Could not retrieve trip."
+			})
+			console.log("error 500                 2");
+			return;
+		})
+    })
+    .catch(err => {
+		    res.status(500).send({
+		        message: err.message || "Could not retrieve user."
+		    });
+			console.log("error 500                      3");
+				return;
+    });
+}
+
 // Decline a friend request
 exports.declineFriendRequest = (req, res) => {
 	const current_user_id = req.params.id;
