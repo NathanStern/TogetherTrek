@@ -22,6 +22,7 @@ import NotificationsScreen from './screens/NotificationsScreen'
 import MessagesScreen from './screens/MessagesScreen'
 import OtherProfileScreen from './screens/OtherProfileScreen'
 import MessageBoardScreen from './screens/MessageBoardScreen.js'
+import BlockedUsersScreen from './screens/BlockedUsersScreen'
 function App() {
   return (
     <Router>
@@ -48,10 +49,10 @@ function App() {
           <Route path='/friends' component={FriendsScreen} />
           <Route path='/notifications' component={NotificationsScreen} />
           <Route path='/messages' component={MessagesScreen} exact />
-          <Route path='/createpost' component={CreatePostScreen} />
           <Route path='/trips' component={TripsScreen} />
           <Route path='/trip/:id' component={ViewTripScreen} />
           <Route path='/messages/:id' component={MessageBoardScreen} />
+          <Route path='/blocked' component={BlockedUsersScreen} />
         </Container>
       </main>
       <Footer />

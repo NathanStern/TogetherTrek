@@ -71,6 +71,9 @@ const Header = () => {
                 <LinkContainer to='/profile'>
                   <NavDropdown.Item>Profile</NavDropdown.Item>
                 </LinkContainer>
+                <LinkContainer to='/blocked'>
+                  <NavDropdown.Item>Blocked Users</NavDropdown.Item>
+                </LinkContainer>
                 {/* <LinkContainer to='/post'>
 
 									<NavDropdown.Item>New Post</NavDropdown.Item>

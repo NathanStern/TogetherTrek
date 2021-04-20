@@ -14,6 +14,9 @@ import {
   USER_GET_MESSAGEBOARDS_FAIL,
   USER_GET_MESSAGEBOARDS_REQUEST,
   USER_GET_MESSAGEBOARDS_SUCCESS,
+  USER_GET_BLOCKED_REQUEST,
+  USER_GET_BLOCKED_FAIL,
+  USER_GET_BLOCKED_SUCCESS,
 } from '../constants/userConstants'
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
@@ -151,6 +154,44 @@ const getFriend = async (friend_id) => {
     return post.data
   } catch (err) {
     console.log(err)
+  }
+}
+
+export const getBlockedUsers = () => async (dispatch, getState) => {
+  dispatch({
+    type: USER_GET_BLOCKED_REQUEST,
+  })
+  try {
+    console.log('Get BLOCKED User ')
+    const {
+      userLogin: { userInfo },
+    } = getState()
+    let users = []
+    console.log(userInfo)
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    console.log(userInfo)
+    userInfo.blocked_ids.map((el) =>
+      getFriend(el).then((res) => {
+        users.push(res)
+      })
+    )
+    const blocked = users
+    dispatch({
+      type: USER_GET_BLOCKED_SUCCESS,
+      payload: blocked,
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_GET_BLOCKED_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
   }
 }
 

@@ -14,6 +14,7 @@ import {
   userAcceptFriendReducer,
   userRequestFriendReducer,
   userGetMessageBoards,
+  userGetBlockedReducer,
 } from './reducers/userReducers'
 import {
   deleteMyPostReducer,
@@ -61,6 +62,7 @@ const reducer = combineReducers({
   acceptUserJoinTripRequest: acceptUserJoinTripRequestReducer,
   declineUserJoinTripRequest: declineTripRequestReducer,
   profileUpdate: profileUpdateReducer,
+  usersBlocked: userGetBlockedReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

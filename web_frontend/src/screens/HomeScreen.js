@@ -6,6 +6,7 @@ import {
   getUserFriends,
   login,
   getUserMessageBoards,
+  getBlockedUsers,
 } from '../actions/userActions'
 import { getMyTrips, getTrips } from '../actions/tripsActions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -28,17 +29,18 @@ const HomeScreen = () => {
       setTimeout(() => {
         setLoading(false)
       }, 1600)
-      dispatch(login(userInfo.username, userPassword))
-
-      // setTimeout(() => {
-      //   dispatch(getUserFriends())
-      //   dispatch(getMyPosts())
-      //   dispatch(getPosts())
-      //   dispatch(getMyTrips())
-      //   dispatch(getTrips())
-      //   dispatch(getAllExpenses())
-      //   dispatch(getUserMessageBoards())
-      // }, 1200)
+      dispatch(login(userInfo.username, userPassword)).then((e) => {
+        setTimeout(() => {
+          dispatch(getBlockedUsers())
+          dispatch(getUserFriends())
+          dispatch(getMyPosts())
+          dispatch(getPosts())
+          dispatch(getMyTrips())
+          dispatch(getTrips())
+          dispatch(getAllExpenses())
+          dispatch(getUserMessageBoards())
+        }, 1200)
+      })
     }
   }, [])
 
