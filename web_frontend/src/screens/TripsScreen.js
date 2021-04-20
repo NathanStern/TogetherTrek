@@ -31,7 +31,7 @@ const TripsScreen = ({ history }) => {
       setShowTrips(allTrips)
       return
     } else if (budget.length > 0) {
-      // arr=allTrips.filter(el => el.budget <= budget)
+      arr = allTrips.filter((el) => el.budget && el.budget <= budget)
     } else {
       arr = allTrips.filter(
         (el) =>

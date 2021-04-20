@@ -48,7 +48,7 @@ const Trip = ({ trip, userId, profileView }) => {
             <Card.Subtitle className='mb-2 text-muted'>
               {'region' in destination ? destination.region : ''}
             </Card.Subtitle>
-
+            {trip.budget && <Card.Text>Budget: {trip.budget}</Card.Text>}
             <Card.Text>{'From: ' + startDate + ', To: ' + endDate}</Card.Text>
             <Container>
               <Row>
