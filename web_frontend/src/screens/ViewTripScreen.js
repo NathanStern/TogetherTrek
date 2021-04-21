@@ -109,6 +109,8 @@ const ViewTripScreen = ({ location, history, useParams }) => {
       console.log(`adding ${res}`);
 			await axios.put(`${path}/trips/${tripInfo._id}`, {
 				expenses: tripInfo.expenses.concat(res.data),
+        total_expenses: tripInfo.total_expenses + amount,
+        expense_per_person: tripInfo.total_expenses/tripInfo.participant_ids.length,
 			})
 			setMessage('Expense Added')
 			history.push('/')

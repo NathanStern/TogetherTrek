@@ -38,7 +38,9 @@ exports.create = (req, res) => {
     start_date: req.body.start_date,
     end_date: req.body.end_date,
     creator_id: req.body.creator_id,
-    participant_ids: req.body.participant_ids
+    participant_ids: req.body.participant_ids,
+    total_expenses: 0,
+    expense_per_person: 0
   });
 
   trip
