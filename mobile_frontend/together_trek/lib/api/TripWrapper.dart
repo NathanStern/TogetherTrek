@@ -21,19 +21,19 @@ Future<List<TripModel>> getTrips() async {
   return trips;
 }
 
-Future<http.Response> makeTrip(BuildContext context, String startDate, String endDate,
-    String city, String country, String region) async {
+Future<http.Response> makeTrip(BuildContext context, String startDate,
+    String endDate, String city, String country, String region) async {
   UserModel user = context.read<UserModel>();
   String data = jsonEncode(<String, dynamic>{
     "creator_id": "${user.id}",
     "start_date": startDate,
     "end_date": endDate,
-    "destination":{
-        "city": city,
-        "country": country,
-        "region": region,
-      },
-      "participant_ids" : ["${user.id}"]
+    "destination": {
+      "city": city,
+      "country": country,
+      "region": region,
+    },
+    "participant_ids": ["${user.id}"]
   });
   http.Response res = await httpPost('trips', data);
   return res;
@@ -61,3 +61,13 @@ Future<String> updateTrip(
   print(res.body);
 }
 
+Future<String> requestJoinTrip(BuildContext context, String id) async {
+  UserModel user = context.read<UserModel>();
+  String data =
+      jsonEncode(<String, dynamic>{"requesting_user_id": "${user.id}"});
+  print(data);
+  http.Response res = await httpPut('trips/request-join/${id}', data);
+  print(res.statusCode);
+  print(res.body);
+  return "Completed";
+}

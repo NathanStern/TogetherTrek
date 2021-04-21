@@ -93,7 +93,9 @@ class _TripViewState extends State<TripView> {
           Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () async {},
+                onPressed: () async {
+                  requestJoinTrip(context, trip.id);
+                },
                 child: Text('Request to join'),
               ))
         ],
