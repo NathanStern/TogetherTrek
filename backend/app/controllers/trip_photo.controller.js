@@ -150,6 +150,34 @@ exports.findAll = (req, res) => {
 
 }
 
+exports.findAllId = (req, res) => {
+  let requirements = req.query
+  let id = req.params.id
+
+  let found_photos
+  Trip_Photo.find({ trip_id: `${id}` })
+    .then(async (data) => {
+      let num_photos = data.length
+      found_photos = []
+      if (num_photos == 0) {
+        res.send(data)
+      } else {
+        for (i = 0; i < num_photos; i++) {
+          let photo = data[i]
+          found_photos.push(photo)
+        }
+        res.send(found_photos)
+      }
+      return
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while retrieving photos',
+      })
+      return
+    })
+}
+
 // Updates an entry in the trip_photos table by id
 exports.update = (req, res) => {
 
