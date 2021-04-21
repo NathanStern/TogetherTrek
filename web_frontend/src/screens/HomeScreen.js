@@ -6,6 +6,7 @@ import {
   getUserFriends,
   login,
   getUserMessageBoards,
+  getBlockedUsers,
 } from '../actions/userActions'
 import { getMyTrips, getTrips } from '../actions/tripsActions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,19 +15,23 @@ import { getAllExpenses } from '../actions/expenseActions'
 
 const HomeScreen = () => {
   const dispatch = useDispatch()
-  const { userInfo } = useSelector((state) => state.userLogin)
+  const { userInfo, error } = useSelector((state) => state.userLogin)
   const [loading, setLoading] = useState(false)
   let token = ''
   let encToken = ''
   let load = true
   useEffect(() => {
     if (userInfo) {
+      const userPassword = localStorage.getItem('userPassword')
+
+      console.log(`password is ${userPassword}, login is ${userInfo.username}`)
       setLoading(true)
       setTimeout(() => {
         setLoading(false)
       }, 1600)
-      dispatch(login(userInfo.username, userInfo.password)).then((e) =>
+      dispatch(login(userInfo.username, userPassword)).then((e) => {
         setTimeout(() => {
+          dispatch(getBlockedUsers())
           dispatch(getUserFriends())
           dispatch(getMyPosts())
           dispatch(getPosts())
@@ -35,7 +40,7 @@ const HomeScreen = () => {
           dispatch(getAllExpenses())
           dispatch(getUserMessageBoards())
         }, 1200)
-      )
+      })
     }
   }, [])
 

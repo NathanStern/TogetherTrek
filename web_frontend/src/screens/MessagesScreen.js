@@ -13,6 +13,7 @@ import {
 import { path } from '../constants/pathConstant'
 import { useSelector, useDispatch } from 'react-redux'
 import MessageBoardCard from '../components/MessageBoardCard'
+import MessageBoard from '../components/MessageBoard'
 import axios from 'axios'
 import { addMessageBoard } from '../actions/profilesActions'
 import Message from '../components/Message'

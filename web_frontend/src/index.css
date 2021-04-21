@@ -1,85 +1,91 @@
 main {
-	min-height: 85vh;
+  min-height: 85vh;
 }
 #nav-dropdown {
-	color: white;
+  color: white;
 }
 .header {
-	height: 5%;
+  height: 5%;
 }
 .container {
-	width: 80%;
-	margin-left: 10%;
-	margin-right: 10%;
-	height: 100%;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  height: 100%;
 }
 .trip-card {
-	margin: 20px;
+  margin: 20px;
 }
 .white-text {
-	color: white;
+  color: white;
 }
 .half-col {
-	width: 50%;
+  width: 50%;
+}
+.half-button {
+  width: 40%;
+  margin: 5%;
 }
 .friend-card {
-	margin: 2.5%;
-	max-width: 25%;
-	float: left;
+  margin: 2.5%;
+  max-width: 25%;
+  float: left;
 }
 
 /* message board styles */
 .message-board {
-	position: absolute;
-	width: 80%;
-	height: 90%;
-	bottom: 5%;
+  position: absolute;
+  width: 80%;
+  height: 90%;
+  bottom: 5%;
 }
 .message-list {
-    box-sizing: border-box;
-    padding: 0 0 0 6px;
-    margin: 0;
-    width: 100%;
-    max-height: 700px;
-		list-style: none;
-		overflow: auto;
-		height: 90%;
+  box-sizing: border-box;
+  padding: 0 0 0 6px;
+  margin: 0;
+  width: 100%;
+  max-height: 700px;
+  list-style: none;
+  overflow: auto;
+  height: 90%;
 }
 .message-list > li {
-	margin: 10px;
+  margin: 10px;
 }
 .current-user-message {
-	text-align: right;
+  text-align: right;
 }
 .other-user-message {
-	text-align: left;
+  text-align: left;
 }
-.current-user-message > h6, .other-user-message > h6 {
-	font-size: 11px;
-	color: white;
-	opacity: 0.9;
-	margin-bottom: 6px;
+.current-user-message > h6,
+.other-user-message > h6 {
+  font-size: 11px;
+  color: white;
+  opacity: 0.9;
+  margin-bottom: 6px;
 }
-.current-user-message > p, .other-user-message > p {
-	color: black;
-	display: inline;
-	padding: 4px 8px;
-	border-radius: 8px;
-	background: #fafafb;
+.current-user-message > p,
+.other-user-message > p {
+  color: black;
+  display: inline;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #fafafb;
 }
 .send-message-form {
-	position: absolute;
-	bottom: 0px;
-	width: 100%;
-	height: 5%;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 5%;
 }
 .send-message-form input {
-	background: #fafafb;
+  background: #fafafb;
   padding: 15px 10px;
   border: none;
   font-weight: 200;
-	border-radius: 10px;
-	width: 100%;
+  border-radius: 10px;
+  width: 100%;
 }
 .send-message-form input:focus {
   outline-width: 0;
