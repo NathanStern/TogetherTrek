@@ -36,6 +36,26 @@ Future<int> sendFriendRequest(String id, String data) async {
   return response.statusCode;
 }
 
+Future<int> acceptFriendRequest(String id, String data) async {
+  http.Response response = await httpPost('users/accept-friend/${id}', data);
+  return response.statusCode;
+}
+
+Future<int> declineFriendRequest(String id, String data) async {
+  http.Response response = await httpPost('users/decline-friend/${id}', data);
+  return response.statusCode;
+}
+
+Future<int> blockUser(String id, String data) async {
+  http.Response response = await httpPost('users/block-user/${id}', data);
+  return response.statusCode;
+}
+
+Future<int> unblockUser(String id, String data) async {
+  http.Response response = await httpPost('users/unblock-user/${id}', data);
+  return response.statusCode;
+}
+
 Future<int> userLogin(String data) async {
   http.Response response = await httpPost('users/login', data);
 
