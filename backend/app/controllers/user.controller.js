@@ -1011,8 +1011,6 @@ exports.declineFriendRequest = (req, res) => {
 exports.getNearbyUsers = (req, res) => {
 	const current_user_id = req.params.id;
 
-	console.log(req.query);
-
 	if (!req.query.range) {
 			res.status(400).send({ message: 'range can not be empty.' });
 			return;
@@ -1043,6 +1041,7 @@ exports.getNearbyUsers = (req, res) => {
 		let a;
 		let c;
 		let d;
+		let user_data;
 		for (i = 0; i < users.length; i++) {
 			lat2 = users[i].coordinates[0];
 			lon2 = users[i].coordinates[1];
@@ -1055,7 +1054,15 @@ exports.getNearbyUsers = (req, res) => {
 			c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 			d = (R * c) / 1609.34;
 			if (d <= range && users[i]._id != current_user_id) {
-				matching_users.push(users[i]);
+				user_data = users[i].toObject()
+				user_data = {
+					'distance': d,
+					'_id': user_data['_id'],
+					'username': user_data['username'],
+					'gender': user_data['gender'],
+					'birthdate': user_data['birthdate']
+				}
+				matching_users.push(user_data);
 			}
 		}
 
