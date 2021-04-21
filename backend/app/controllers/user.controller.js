@@ -1007,3 +1007,72 @@ exports.declineFriendRequest = (req, res) => {
 	});
 
 }
+
+exports.getNearbyUsers = (req, res) => {
+	const current_user_id = req.params.id;
+
+	if (!req.query.range) {
+			res.status(400).send({ message: 'range can not be empty.' });
+			return;
+	}
+	const range = req.query.range;
+
+	User.findById(current_user_id)
+	.then(async current_user => {
+		if (!current_user) {
+			res.status(404).send({
+				message: `Could not find User with id=${current_user_id}.`
+			});
+			return;
+		}
+
+		let users = await User.find();
+		let matching_users = [];
+		let i;
+		const R = 6371e3;
+		const lat1 = current_user.coordinates[0];
+		const lon1 = current_user.coordinates[1];
+		let lat2;
+		let lon2;
+		const x1 = lat1 * Math.PI/180;
+		let x2;
+		let dx;
+		let dy;
+		let a;
+		let c;
+		let d;
+		let user_data;
+		for (i = 0; i < users.length; i++) {
+			lat2 = users[i].coordinates[0];
+			lon2 = users[i].coordinates[1];
+			x2 = lat2 * Math.PI/180;
+			dx = (lat2-lat1) * Math.PI/180;
+			dy = (lon2-lon1) * Math.PI/180;
+			a = Math.sin(dx/2) * Math.sin(dx/2) +
+						Math.cos(x1) * Math.cos(x2) *
+						Math.sin(dy/2) * Math.sin(dy/2);
+			c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+			d = (R * c) / 1609.34;
+			if (d <= range && users[i]._id != current_user_id) {
+				user_data = users[i].toObject()
+				user_data = {
+					'distance': d,
+					'_id': user_data['_id'],
+					'username': user_data['username'],
+					'gender': user_data['gender'],
+					'birthdate': user_data['birthdate']
+				}
+				matching_users.push(user_data);
+			}
+		}
+
+		res.send(matching_users);
+		return;
+	})
+	.catch(err => {
+		res.status(500).send({
+				message: err.message || "Could not find users."
+		});
+		return;
+	});
+}

@@ -46,6 +46,8 @@ module.exports = app => {
   // Decline a friend request
   router.put("/decline-friend/:id", user_controller.declineFriendRequest);
 
+  // Find users within a range
+  router.get("/nearby-users/:id", user_controller.getNearbyUsers);
 
   app.use("/users", router);
 };
