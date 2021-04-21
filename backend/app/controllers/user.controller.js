@@ -320,13 +320,11 @@ exports.create = async (req, res) => {
 		.exec()
 		.then(data => {
 			if (data.length) {
-				console.log("dup email")
 				error_message = 'email already exists';
 				success = false
 			}
 		})
 		.catch(err => {
-			console.log("dup email e")
 			error_message = 'email already exists';
 			success = false
 		})
@@ -381,8 +379,11 @@ exports.create = async (req, res) => {
 							return;
 						})
 						.catch((err) => {
-							throw err;
+							console.log(`SendGrid: ${err.message}`);
+							res.send(data.id);
+							return;
 						});
+
 				}).catch((err) => {
 					throw err;
 				});
@@ -458,7 +459,7 @@ exports.findOne = (req, res) => {
 						return;
 					}
 				}
-				delete resp_data.password;
+				//delete resp_data.password;
 				res.send(resp_data);
 			}
 		})
@@ -495,7 +496,7 @@ exports.findAll = (req, res) => {
 						return;
 					}
 				}
-				delete user.password;
+				//delete user.password;
 				resp_data.push(user);
 			}
 			res.send(resp_data);
@@ -577,7 +578,7 @@ exports.setProfilePic = (req, res) => {
 	const file = req.files.file;
 
 	// Validate file is an image
-	if (!file.mimetype.startsWith('image')) {
+	if (!file.mimetype.startsWith('image') && !file.mimetype.startsWith('application/octet-stream')) {
 		res.status(400).send({ message: 'file must be type image.' });
 		return;
 	}
