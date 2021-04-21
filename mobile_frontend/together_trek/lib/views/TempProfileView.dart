@@ -125,7 +125,7 @@ class TempAuthorProfileState extends State<TempAuthorProfile> {
                                 child: Column(
                                   children: <Widget>[
                                     Text(
-                                      "Travelling to",
+                                      "From",
                                       style: TextStyle(
                                         color: Colors.redAccent,
                                         fontSize: 22.0,
@@ -136,7 +136,7 @@ class TempAuthorProfileState extends State<TempAuthorProfile> {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      this.user.location.toString(),
+                                      this.user.city,
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.orangeAccent,

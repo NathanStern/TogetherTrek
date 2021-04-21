@@ -18,19 +18,14 @@ module.exports = mongoose => {
       verified: { type: Boolean, default: false },
       notifications_enabled: Boolean,
       location_enabled: Boolean,
-      location: {
-        type: {
-          type: String,
-          enum: ["Point"]
-        },
-        coordinates: [Number]
-      },
+      coordinates: [Number],
       friend_requests: [mongoose.Types.ObjectId],
       trip_requests: [mongoose.Types.ObjectId],
       post_ids: [mongoose.Types.ObjectId],
       trip_ids: [mongoose.Types.ObjectId],
       message_board_ids: [mongoose.Types.ObjectId],
-      friend_ids: [mongoose.Types.ObjectId]
+      friend_ids: [mongoose.Types.ObjectId],
+      blocked_ids: [mongoose.Types.ObjectId]
     }
   );
 

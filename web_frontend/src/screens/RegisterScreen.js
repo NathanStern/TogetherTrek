@@ -19,6 +19,8 @@ const RegisterScreen = ({ location, history }) => {
 	const [message, setMessage] = useState(null)
 	const [gender, setGender] = useState('Male')
 	const [birthdate, setBirthdate] = useState(new Date())
+	const [city, setCity] = useState('')
+	const [country, setCountry] = useState('')
 	const dispatch = useDispatch()
 
 	const userRegister = useSelector((state) => state.userRegister)
@@ -48,7 +50,9 @@ const RegisterScreen = ({ location, history }) => {
 					gender,
 					birthdate,
 					email,
-					hashPassword
+					hashPassword,
+					city,
+					country
 				)
 			)
 		}
@@ -120,6 +124,27 @@ const RegisterScreen = ({ location, history }) => {
 						onChange={(e) => setBirthdate(e.target.value)}
 					></Form.Control>
 				</Form.Group>
+
+				<Form.Group controlId='city'>
+					<Form.Label>Enter City</Form.Label>
+					<Form.Control
+						type='name'
+						placeholder='Enter City'
+						value={city}
+						onChange={(e) => setCity(e.target.value)}
+					></Form.Control>
+				</Form.Group>
+
+				<Form.Group controlId='country'>
+					<Form.Label>Enter Country</Form.Label>
+					<Form.Control
+						type='name'
+						placeholder='Enter Country'
+						value={country}
+						onChange={(e) => setCountry(e.target.value)}
+					></Form.Control>
+				</Form.Group>
+
 				<Form.Group controlId='password'>
 					<Form.Label>Password</Form.Label>
 					<Form.Control

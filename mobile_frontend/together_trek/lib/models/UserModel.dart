@@ -28,20 +28,12 @@ class UserModel extends ChangeNotifier {
   List<dynamic> tripIds;
   List<dynamic> messageBoardIds;
   List<dynamic> friendIds;
-  LocationModel location;
+  String city;
+  String country;
+  List<dynamic> blockedIds;
   bool _empty = false;
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    List<dynamic> coords;
-    if (json['location'] != null) {
-      coords = json['location']['coordinates'];
-      if (json['location']['coordinates'].isEmpty) {
-        coords = [0, 0];
-      }
-    } else {
-      coords = [0, 0];
-    }
-
     ImageProvider profilePic;
     if (json['profile_pic'] == null) {
       profilePic = AssetImage('lib/resources/default-profile-pic.jpg');
@@ -65,7 +57,9 @@ class UserModel extends ChangeNotifier {
       tripIds: json['trip_ids'] ?? [],
       messageBoardIds: json['message_board_ids'] ?? [],
       friendIds: json['friend_ids'] ?? [],
-      location: new LocationModel(coords),
+      city: json['city'] ?? "",
+      country: json['country'] ?? "",
+      blockedIds: json['block_ids'] ?? [],
     );
   }
 
@@ -85,7 +79,9 @@ class UserModel extends ChangeNotifier {
     this.tripIds = user.tripIds;
     this.messageBoardIds = user.messageBoardIds;
     this.friendIds = user.friendIds;
-    this.location = user.location;
+    this.city = user.city;
+    this.country = user.country;
+    this.blockedIds = user.blockedIds;
     this._empty = user._empty;
   }
 
@@ -105,7 +101,9 @@ class UserModel extends ChangeNotifier {
     this.tripIds = [];
     this.messageBoardIds = [];
     this.friendIds = [];
-    this.location = new LocationModel.empty();
+    this.city = "";
+    this.country = "";
+    this.blockedIds = [];
     this._empty = true;
   }
 
@@ -125,7 +123,9 @@ class UserModel extends ChangeNotifier {
       this.tripIds,
       this.messageBoardIds,
       this.friendIds,
-      this.location});
+      this.city,
+      this.country,
+      this.blockedIds});
 
   bool isEmpty() {
     return _empty;
@@ -150,7 +150,9 @@ class UserModel extends ChangeNotifier {
     this.tripIds = user.tripIds;
     this.messageBoardIds = user.messageBoardIds;
     this.friendIds = user.friendIds;
-    this.location = user.location;
+    this.city = user.city;
+    this.country = user.country;
+    this.blockedIds = user.blockedIds;
     this._empty = user._empty;
 
     notifyListeners();
@@ -172,7 +174,9 @@ class UserModel extends ChangeNotifier {
       List<String> tripIds,
       List<String> messageBoardIds,
       List<String> friendIds,
-      LocationModel location) {
+      String city,
+      String country,
+      List<String> blockedIds) {
     // the date needs to be parsed
     this.id = id;
     this.username = username;
@@ -189,7 +193,9 @@ class UserModel extends ChangeNotifier {
     this.tripIds = tripIds;
     this.messageBoardIds = messageBoardIds;
     this.friendIds = friendIds;
-    this.location = location;
+    this.city = city;
+    this.country = country;
+    this.blockedIds = blockedIds;
     this._empty = false;
 
     notifyListeners();
@@ -240,6 +246,16 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void blockedUser(String userId) {
+    this.blockedIds.add(userId);
+    notifyListeners();
+  }
+
+  void unblockUser(String userId) {
+    this.blockedIds.remove(userId);
+    notifyListeners();
+  }
+
   void addFriend(String friendId) {
     this.friendIds.add(friendId);
     notifyListeners();
@@ -260,6 +276,16 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setCity(String city) {
+    this.city = city;
+    notifyListeners();
+  }
+
+  void setCountry(String country) {
+    this.country = country;
+    notifyListeners();
+  }
+
   Map<String, dynamic> toJson() => {
         '_id': this.id,
         'username': this.username,
@@ -276,8 +302,7 @@ class UserModel extends ChangeNotifier {
         'trip_ids': this.tripIds.toList(),
         'message_board_ids': this.messageBoardIds.toList(),
         'friend_ids': this.friendIds.toList(),
-        'location': {
-          'coordinates': this.location.coordinates.toList(),
-        }
+        'city': this.city,
+        'country': this.country
       };
 }
