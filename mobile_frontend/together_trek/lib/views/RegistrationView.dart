@@ -229,9 +229,13 @@ class _RegistrationViewState extends State<RegistrationView> {
                                       context, _emailFocus, _birthdateFocus);
                                 },
                                 validator: (value) {
-                                  bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
-                                  if (value.isEmpty || !emailValid) {
+                                  bool emailValid = RegExp(
+                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                      .hasMatch(value);
+                                  if (value.isEmpty) {
                                     return "Please enter your email address";
+                                  } else if (!emailValid) {
+                                    return "Please enter a valid email address\nie. together@trek.com";
                                   } else {
                                     return null;
                                   }
