@@ -74,6 +74,8 @@ const OtherProfileScreen = ({ location, history, useParams }) => {
             <div>Last Name: {profileInfo.last_name}</div>
             <div>Birthday: {profileInfo.birthdate}</div>
             <div>Gender: {profileInfo.gender}</div>
+            <div>City: {profileInfo.city}</div>
+            <div>Country: {profileInfo.country}</div>
             <Button
               variant='primary'
               className="half-button"

@@ -29,6 +29,8 @@ class _RegistrationViewState extends State<RegistrationView> {
   final FocusNode _genderFocus = new FocusNode();
   final FocusNode _firstNameFocus = new FocusNode();
   final FocusNode _lastNameFocus = new FocusNode();
+  final FocusNode _cityFocus = new FocusNode();
+  final FocusNode _countryFocus = new FocusNode();
 
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -37,6 +39,8 @@ class _RegistrationViewState extends State<RegistrationView> {
   final _birthdateController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _countryController = TextEditingController();
 
   @override
   void dispose() {
@@ -51,6 +55,8 @@ class _RegistrationViewState extends State<RegistrationView> {
     _genderFocus.dispose();
     _firstNameFocus.dispose();
     _lastNameFocus.dispose();
+    _cityFocus.dispose();
+    _countryFocus.dispose();
     super.dispose();
   }
 
@@ -82,7 +88,8 @@ class _RegistrationViewState extends State<RegistrationView> {
           'post_ids': [],
           'trip_ids': [],
           'message_board_ids': [],
-          'location': LocationModel.empty()
+          'city': _cityController.text,
+          'country': _countryController.text
         }));
 
         if (response != 200) {
@@ -368,6 +375,52 @@ class _RegistrationViewState extends State<RegistrationView> {
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return "Please enter your password again";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    hintText: "City"),
+                                controller: _cityController,
+                                autocorrect: false,
+                                focusNode: _cityFocus,
+                                keyboardType: TextInputType.text,
+                                textInputAction: TextInputAction.go,
+                                onFieldSubmitted: (val) async {
+                                  // _fieldFocusChange(context, _passwordFocus,
+                                  //     _passwordConfirmFocus);
+                                  FocusScope.of(context).unfocus();
+                                  _formKey.currentState.validate();
+                                  await _register();
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please enter your city";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    hintText: "Country"),
+                                controller: _countryController,
+                                autocorrect: false,
+                                focusNode: _countryFocus,
+                                keyboardType: TextInputType.text,
+                                textInputAction: TextInputAction.go,
+                                onFieldSubmitted: (val) async {
+                                  // _fieldFocusChange(context, _passwordFocus,
+                                  //     _passwordConfirmFocus);
+                                  FocusScope.of(context).unfocus();
+                                  _formKey.currentState.validate();
+                                  await _register();
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Please enter your country";
                                   } else {
                                     return null;
                                   }

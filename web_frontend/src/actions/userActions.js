@@ -43,6 +43,8 @@ export const login = (username, password) => async (dispatch) => {
           .get(`${path}/users/${user_id}`)
           .then((res) => {
             let user = res.data
+            console.log("USERUSER")
+            console.log(user)
             user['token'] = token
 
             localStorage.setItem('userInfo', JSON.stringify(user))
@@ -91,7 +93,9 @@ export const register = (
   gender,
   birthdate,
   email,
-  hashPassword
+  hashPassword,
+  city,
+  country
 ) => async (dispatch) => {
   try {
     dispatch({
@@ -118,10 +122,8 @@ export const register = (
       verified: 'False',
       notifications_enabled: 'False',
       location_enabled: 'False',
-      location: {
-        type: 'Point',
-        coordinates: [],
-      },
+      city: city,
+      country: country,
       post_ids: [],
       trip_ids: [],
       message_board_ids: [],
@@ -199,9 +201,10 @@ export const updateUserProfile = (
   gender,
   birthdate,
   email,
-  password
+  password,
+  city,
+  country
 ) => async (dispatch, getState) => {
-  console.log(username, firstName, lastName, gender, birthdate, email, password)
   try {
     dispatch({
       type: USER_UPDATE_PROFILE_REQUEST,
@@ -231,6 +234,8 @@ export const updateUserProfile = (
       gender: gender,
       first_name: firstName,
       last_name: lastName,
+      city: city,
+      country: country,
       _v: userInfo._v,
     }
 
