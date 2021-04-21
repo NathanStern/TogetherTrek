@@ -9,9 +9,18 @@ class TripModel extends ChangeNotifier {
   String endDate;
   String creatorId;
   List<dynamic> participantIds;
+  List<dynamic> joinRequests;
   List<TripPhotoModel> tripPhotos;
 
-  TripModel({this.id, this.destination, this.startDate, this.endDate, this.creatorId, this.participantIds, this.tripPhotos});
+  TripModel(
+      {this.id,
+      this.destination,
+      this.startDate,
+      this.endDate,
+      this.creatorId,
+      this.participantIds,
+      this.joinRequests,
+      this.tripPhotos});
 
   factory TripModel.fromJson(Map<String, dynamic> json) {
     return TripModel(
@@ -37,12 +46,13 @@ class TripModel extends ChangeNotifier {
     this.participantIds.add(participantId);
   }
 
-   Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         //'_id': this.id,
         'creator_id': this.creatorId,
         'start_date': this.startDate,
         'destination': this.destination,
         'end_date': this.endDate,
         'participant_ids': this.participantIds,
+        'join_requests': this.joinRequests
       };
 }

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:together_trek/api/TripWrapper.dart';
 import 'package:together_trek/models/LoadedTripsModel.dart';
 import 'package:together_trek/models/TripModel.dart';
+import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
 //import 'package:together_trek/views/AlertView.dart';
 import 'package:together_trek/views/HomeView.dart';
@@ -23,6 +24,7 @@ class _TripViewState extends State<TripView> {
 
   @override
   Widget build(BuildContext context) {
+    UserModel user = context.read<UserModel>();
     return Scaffold(
       appBar: AppBar(
         title: Text("Trip"),
@@ -90,14 +92,26 @@ class _TripViewState extends State<TripView> {
               letterSpacing: 2.0,
             ),
           ),
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () async {
-                  requestJoinTrip(context, trip.id);
-                },
-                child: Text('Request to join'),
-              ))
+          (true /*(trip.participantIds).indexOf(user.id) == -1*/)
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      requestJoinTrip(context, trip.id);
+                    },
+                    child: Text('Request to join'),
+                  ))
+              : Container(),
+          (true /*(trip.participantIds).indexOf(user.id) == -1*/)
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      requestRemoveFromTrip(context, trip.id, user.id);
+                    },
+                    child: Text('Leave Trip'),
+                  ))
+              : Container()
         ],
       ),
     );
