@@ -41,8 +41,9 @@ class _TripViewState extends State<TripView> {
       if (requestVisible) {
         requestVisible = trip.joinRequests.indexOf(user.id) == -1 &&
             trip.participantIds.indexOf(user.id) == -1;
-      } else {
-        requestVisible = false;
+        if (requestVisible) {
+          leaveVisible = false;
+        }
       }
     });
   }
@@ -142,7 +143,7 @@ class _TripViewState extends State<TripView> {
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     onPressed: () async {
-                      requestRemoveFromTrip(context, trip.id, user.id);
+                      requestRemoveFromTrip(context, trip.id, user.id, user.id);
                       hideLeaveWidget();
                       setState(() {
                         leaveVisible = false;

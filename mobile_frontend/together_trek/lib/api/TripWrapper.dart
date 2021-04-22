@@ -72,10 +72,13 @@ Future<String> requestJoinTrip(BuildContext context, String id) async {
   return "Completed";
 }
 
-Future<String> requestRemoveFromTrip(
-    BuildContext context, String id, String userId) async {
+Future<String> requestRemoveFromTrip(BuildContext context, String id,
+    String userId, String currentUserId) async {
   //UserModel user = context.read<UserModel>();
-  String data = jsonEncode(<String, dynamic>{"user_id": "${userId}"});
+  String data = jsonEncode(<String, dynamic>{
+    "user_id": "${userId}",
+    "current_user_id": "${currentUserId}"
+  });
   print(data);
   http.Response res = await httpPut('trips/remove-user/${id}', data);
   print(res.statusCode);
