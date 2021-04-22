@@ -101,6 +101,20 @@ Future<String> requestJoinTrip(BuildContext context, String id) async {
   return "Completed";
 }
 
+//<<<<<<< requestbutton
+Future<String> requestRemoveFromTrip(BuildContext context, String id,
+    String userId, String currentUserId) async {
+  //UserModel user = context.read<UserModel>();
+  String data = jsonEncode(<String, dynamic>{
+    "user_id": "${userId}",
+    "current_user_id": "${currentUserId}"
+  });
+  print(data);
+  http.Response res = await httpPut('trips/remove-user-no-token/${id}', data);
+  print(res.statusCode);
+  print(res.body);
+  return "Completed";
+}//=======
 Future<List<CachedNetworkImageProvider>> getTripPhotos(String id) async {
   http.Response response = await httpGet("/trip_photos/trip/$id");
 
@@ -118,4 +132,5 @@ Future<List<CachedNetworkImageProvider>> getTripPhotos(String id) async {
 Future<int> uploadTripPhoto(Map<String, dynamic> body, File file) async {
   int response = await httpPostFileWithBody('/trip_photos/', file, body);
   return response;
+//>>>>>>> main
 }

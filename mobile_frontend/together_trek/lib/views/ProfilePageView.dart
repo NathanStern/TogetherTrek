@@ -75,8 +75,22 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                       SizedBox(
                         height: 10.0,
                       ),
+//<<<<<<< HEAD
+                      Text(
+                        this.user.email,
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      //Card(
+//=======
                       SingleChildScrollView(
                           child: Card(
+//>>>>>>> main
                         margin: EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 5.0),
                         clipBehavior: Clip.antiAlias,
