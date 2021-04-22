@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:together_trek/views/FriendListView.dart';
 import 'package:together_trek/views/FriendPageView.dart';
 import 'package:together_trek/views/BlockedListView.dart';
+import 'package:together_trek/views/UserPostView.dart';
 import 'package:together_trek/views/UserTripView.dart';
 
 Widget createDrawer(BuildContext context, UserModel user,
@@ -84,10 +85,8 @@ Widget createDrawer(BuildContext context, UserModel user,
           title: Text("My Posts"),
           onTap: () {
             Navigator.pop(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PlaceholderView(title: "My Posts")));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => UserPostView()));
           },
         ),
         ListTile(
