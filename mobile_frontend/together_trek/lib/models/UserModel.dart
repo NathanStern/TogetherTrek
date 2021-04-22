@@ -201,6 +201,11 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setProfilePic(ImageProvider pic) {
+    this.profilePic = pic;
+    notifyListeners();
+  }
+
   void setEmail(String newEmail) {
     this.email = newEmail;
     notifyListeners();
