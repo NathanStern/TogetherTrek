@@ -18,7 +18,7 @@ class _NotificationViewState extends State<NotificationView> {
     if (user == null) {
       return Scaffold(
           appBar: AppBar(
-        title: Text("Friend Request"),
+        title: Text("Notification"),
       ),
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +27,7 @@ class _NotificationViewState extends State<NotificationView> {
               height: 10.0,
             ),
             Text(
-              "No Friend Requests",
+              "No Notifications",
               style: TextStyle(
                 fontSize: 22.0,
                 fontStyle: FontStyle.italic,

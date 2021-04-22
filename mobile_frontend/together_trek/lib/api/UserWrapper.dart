@@ -33,7 +33,7 @@ Future<int> deleteUser(String id) async {
 }
 
 Future<int> sendFriendRequest(String id, String data) async {
-  http.Response response = await httpPost('users/request-friend/$id', data);
+  http.Response response = await httpPut('users/request-friend/$id', data);
   return response.statusCode;
 }
 
