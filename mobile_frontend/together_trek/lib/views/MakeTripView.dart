@@ -49,19 +49,18 @@ class MyCustomFormState extends State<MyCustomForm> {
   String _region = '';
 
   Future<void> _submit() async {
-    http.Response response = await makeTrip(context, _start_date.toString(), _end_date.toString(), _country, _city, _region);
+    http.Response response = await makeTrip(context, _start_date.toString(),
+        _end_date.toString(), _country, _city, _region);
     if (response.statusCode != 200) {
-          //_firstPressed = true;
-          print(response.body);
-          showDialog(
-              context: context,
-              builder: (context) => buildStandardDialog(
-                  context,
-                  "Registration Error",
-                  response.body));
-        }
-        else {Navigator.pop(context);}
-
+      //_firstPressed = true;
+      print(response.body);
+      showDialog(
+          context: context,
+          builder: (context) => buildStandardDialog(
+              context, "Registration Error", response.body));
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -72,97 +71,94 @@ class MyCustomFormState extends State<MyCustomForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          
-             TextFormField(
-                                decoration: InputDecoration(
-                                    hintText: "Start date",
-                                    icon: Icon(Icons.calendar_today_outlined)),
-                                controller: _startController,
-                                onTap: () async {
-                                  DateTime picker = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1900),
-                                      lastDate: DateTime(2030),
-                                      helpText: "Start Date");
+          TextFormField(
+            decoration: InputDecoration(
+                hintText: "Start date",
+                icon: Icon(Icons.calendar_today_outlined)),
+            controller: _startController,
+            onTap: () async {
+              DateTime picker = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime(2030),
+                  helpText: "Start Date");
 
-                                  //start_date = picker.toString();
-                                  if (picker != null) {
-                                    this._start_date = picker;
-                                  }
-                                  setState(() {
-                                    if (this._start_date != null) {
-                                      _startController.text =
-                                          "${this._start_date.month}/${this._start_date.day}/${this._start_date.year}";
-                                      FocusScopeNode currentNode =
-                                          FocusScope.of(context);
+              //start_date = picker.toString();
+              if (picker != null) {
+                this._start_date = picker;
+              }
+              setState(() {
+                if (this._start_date != null) {
+                  _startController.text =
+                      "${this._start_date.month}/${this._start_date.day}/${this._start_date.year}";
+                  FocusScopeNode currentNode = FocusScope.of(context);
 
-                                      if (!currentNode.hasPrimaryFocus) {
-                                        currentNode.unfocus();
-                                      }
-                                      // _fieldFocusChange(context,
-                                      //     _startFocus);
-                                    } else {
-                                      _startController.text = "";
-                                    }
-                                  });
-                                },
-                                readOnly: true,
-                                textInputAction: TextInputAction.next,
-                                onFieldSubmitted: (val) {},
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Please enter your date to start";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                              ),
-                              TextFormField(
-                                decoration: InputDecoration(
-                                    hintText: "End date",
-                                    icon: Icon(Icons.calendar_today_outlined)),
-                                controller: _endController,
-                                onTap: () async {
-                                  DateTime picker = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1900),
-                                      lastDate: DateTime(2030),
-                                      helpText: "Start Date");
+                  if (!currentNode.hasPrimaryFocus) {
+                    currentNode.unfocus();
+                  }
+                  // _fieldFocusChange(context,
+                  //     _startFocus);
+                } else {
+                  _startController.text = "";
+                }
+              });
+            },
+            readOnly: true,
+            textInputAction: TextInputAction.next,
+            onFieldSubmitted: (val) {},
+            validator: (value) {
+              if (value.isEmpty) {
+                return "Please enter your date to start";
+              } else {
+                return null;
+              }
+            },
+          ),
+          TextFormField(
+            decoration: InputDecoration(
+                hintText: "End date",
+                icon: Icon(Icons.calendar_today_outlined)),
+            controller: _endController,
+            onTap: () async {
+              DateTime picker = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime(2030),
+                  helpText: "Start Date");
 
-                                  //start_date = picker.toString();
-                                  if (picker != null) {
-                                    this._end_date = picker;
-                                  }
-                                  setState(() {
-                                    if (this._start_date != null) {
-                                      _endController.text =
-                                          "${this._end_date.month}/${this._end_date.day}/${this._end_date.year}";
-                                      FocusScopeNode currentNode =
-                                          FocusScope.of(context);
+              //start_date = picker.toString();
+              if (picker != null) {
+                this._end_date = picker;
+              }
+              setState(() {
+                if (this._start_date != null) {
+                  _endController.text =
+                      "${this._end_date.month}/${this._end_date.day}/${this._end_date.year}";
+                  FocusScopeNode currentNode = FocusScope.of(context);
 
-                                      if (!currentNode.hasPrimaryFocus) {
-                                        currentNode.unfocus();
-                                      }
-                                      // _fieldFocusChange(context,
-                                      //     _startFocus);
-                                    } else {
-                                      _startController.text = "";
-                                    }
-                                  });
-                                },
-                                readOnly: true,
-                                textInputAction: TextInputAction.next,
-                                onFieldSubmitted: (val) {},
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Please enter your date to end";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                              ),
+                  if (!currentNode.hasPrimaryFocus) {
+                    currentNode.unfocus();
+                  }
+                  // _fieldFocusChange(context,
+                  //     _startFocus);
+                } else {
+                  _startController.text = "";
+                }
+              });
+            },
+            readOnly: true,
+            textInputAction: TextInputAction.next,
+            onFieldSubmitted: (val) {},
+            validator: (value) {
+              if (value.isEmpty) {
+                return "Please enter your date to end";
+              } else {
+                return null;
+              }
+            },
+          ),
           TextFormField(
             decoration: InputDecoration(hintText: "Country"),
             validator: (value) {
@@ -204,7 +200,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                   form.save();
                   // If the form is valid, display a Snackbar.
                   _submit();
-                
                 }
               },
               child: Text('Submit'),
