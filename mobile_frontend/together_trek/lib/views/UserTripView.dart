@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:together_trek/api/TripWrapper.dart';
+import 'package:together_trek/models/DestinationModel.dart';
 import 'package:together_trek/models/TripModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/TripView.dart';

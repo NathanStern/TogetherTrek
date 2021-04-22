@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:together_trek/api/TripWrapper.dart';
 import 'package:together_trek/models/LoadedTripsModel.dart';
 import 'package:together_trek/models/TripModel.dart';
+import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/TripView.dart';
 
@@ -22,6 +23,7 @@ class _TripsViewState extends State<TripsView> {
   @override
   Widget build(BuildContext context) {
     trips = context.watch<LoadedTripsModel>();
+    UserModel user = context.read<UserModel>();
     int _toReverse = 1;
     return RefreshIndicator(
       child: ListView.builder(
@@ -47,7 +49,9 @@ class _TripsViewState extends State<TripsView> {
                                   builder: (context) =>
                                       TripView(trip: trips.trips[index])));
                         },
-                        child: ListTile(title: Text(trips.trips[index].destination.toString()))),
+                        child: ListTile(
+                            title: Text(
+                                trips.trips[index].destination.toString()))),
                   ],
                 ));
           }),
@@ -79,6 +83,7 @@ class _TripsViewState extends State<TripsView> {
             _toReverse = 1;
           }
         });
+        user.tripIds = await getTripsById(trips.trips, user.id);
       },
     );
   }
