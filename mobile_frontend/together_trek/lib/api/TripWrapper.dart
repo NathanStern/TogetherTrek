@@ -80,7 +80,7 @@ Future<String> requestRemoveFromTrip(BuildContext context, String id,
     "current_user_id": "${currentUserId}"
   });
   print(data);
-  http.Response res = await httpPut('trips/remove-user/${id}', data);
+  http.Response res = await httpPut('trips/remove-user-no-token/${id}', data);
   print(res.statusCode);
   print(res.body);
   return "Completed";
