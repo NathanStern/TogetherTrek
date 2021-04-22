@@ -129,7 +129,9 @@ class _TripPhotosViewState extends State<TripPhotosView> {
                                   }));
                                 },
                                 child: Container(
-                                    child: Image(
+                                    child: FadeInImage(
+                                        placeholder: AssetImage(
+                                            "lib/resources/loading.gif"),
                                         fit: BoxFit.cover,
                                         image: ResizeImage(
                                           snapshot.data[index],
