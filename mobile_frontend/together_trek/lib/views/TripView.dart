@@ -83,7 +83,21 @@ class _TripViewState extends State<TripView> {
                   fontStyle: FontStyle.normal,
                   fontSize: 28.0),
             ),
+           
             SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              trip.destination.toString(),
+              style: TextStyle(
+                fontSize: 22.0,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
+                letterSpacing: 2.0,
+              ),
+            ),
+             SizedBox(
               height: 10.0,
             ),
             Text(
@@ -95,19 +109,6 @@ class _TripViewState extends State<TripView> {
             ),
             Text(
               trip.budget.toString(),
-              style: TextStyle(
-                fontSize: 22.0,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w300,
-                color: Colors.black,
-                letterSpacing: 2.0,
-              ),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Text(
-              trip.destination.toString(),
               style: TextStyle(
                 fontSize: 22.0,
                 fontStyle: FontStyle.italic,
@@ -189,16 +190,6 @@ class _TripViewState extends State<TripView> {
               height: 10.0,
             ),
             Text(
-              "Budget:",
-              style: TextStyle(
-                  color: Colors.redAccent,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 28.0),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Text(
               trip.destination.toString(),
               style: TextStyle(
                 fontSize: 22.0,
@@ -207,6 +198,16 @@ class _TripViewState extends State<TripView> {
                 color: Colors.black,
                 letterSpacing: 2.0,
               ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              "Budget:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 28.0),
             ),
             Padding(
                 padding: const EdgeInsets.all(8.0),
