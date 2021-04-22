@@ -75,7 +75,7 @@ NetworkImage getProfilePic(String id) {
   return getNetworkImage('users/profile-pic/$id');
 }
 
-Future<void> setProfilePic(String id, File file) async {
+Future<int> setProfilePic(String id, File file) async {
   int response = await httpPutFile("/users/profile-pic/$id", file);
   return response;
 }

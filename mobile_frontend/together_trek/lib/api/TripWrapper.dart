@@ -112,8 +112,7 @@ Future<List<CachedNetworkImageProvider>> getTripPhotos(String id) async {
   return photos;
 }
 
-Future<void> uploadTripPhoto(Map<String, dynamic> body, File file) async {
+Future<int> uploadTripPhoto(Map<String, dynamic> body, File file) async {
   int response = await httpPostFileWithBody('/trip_photos/', file, body);
-
-  print(response);
+  return response;
 }
