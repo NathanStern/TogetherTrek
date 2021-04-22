@@ -14,7 +14,7 @@ const Friend = ({ friend }) => {
   }
 
   const messageFriend = (e) => {
-    console.log("Not implemented")
+    console.log('Not implemented')
   }
 
   const removeFriend = (e) => {
@@ -24,23 +24,21 @@ const Friend = ({ friend }) => {
   return (
     <>
       {show && (
-        <Card className="friend-card">
+        <Card className='friend-card'>
           <Link to={`/profile/${friend._id}`}>
             <Card.Img src={profilePic} />
           </Link>
           <Card.Body>
             <Card.Title>{friend.username}</Card.Title>
             <Row>
-              <Col className="half-col">
-              <Link to={`/messages`}>
-                <Button variant='primary'>Message</Button>
-              </Link>
+              <Col className='half-col'>
+                <Link to={`/messages`}>
+                  <Button variant='primary'>Message</Button>
+                </Link>
               </Col>
-              <Col className="half-col">
-                <Button
-                  variant='primary'
-                  onClick={(e) => removeFriend(e)}>
-                    Remove
+              <Col className='half-col'>
+                <Button variant='primary' onClick={(e) => removeFriend(e)}>
+                  Remove
                 </Button>
               </Col>
             </Row>

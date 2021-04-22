@@ -20,13 +20,18 @@ class LaunchView extends StatefulWidget {
 class _LaunchViewState extends State<LaunchView> {
   void _loadPosts(BuildContext context) async {
     LoadedPostsModel posts = context.read<LoadedPostsModel>();
-    // posts.resetPosts(List.from((await getPosts()).reversed));
+    UserModel user = context.read<UserModel>();
+
     posts.resetPosts(await getPosts());
+    user.postIds = await getPostsById(posts.posts, user.id);
   }
 
   void _loadTrips(BuildContext context) async {
     LoadedTripsModel trips = context.read<LoadedTripsModel>();
+    UserModel user = context.read<UserModel>();
+
     trips.resetTrips(await getTrips());
+    user.tripIds = await getTripsById(trips.trips, user.id);
   }
 
   Future<void> _getUserData(BuildContext context) async {
