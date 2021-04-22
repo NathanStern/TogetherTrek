@@ -1,7 +1,7 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:together_trek/api/UserWrapper.dart';
 
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/FriendListView.dart';
@@ -14,6 +14,7 @@ class FriendPageView extends StatefulWidget {
 
 class _FriendPageViewState extends State<FriendPageView> {
   UserModel user;
+  UserModel current;
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +32,20 @@ class _FriendPageViewState extends State<FriendPageView> {
       ),
       body: Container(
           child: ListView.builder(
-              itemCount: this.user.tripIds.length,
+              itemCount: this.user.friendIds.length,
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
-                    onTap: () {
+                    onTap: () async {
+                      current = await getUser(user.friendIds[index]);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  FriendListView(user: this.user.friendIds[index])));
+                              builder: (context) => FriendListView(
+                                  user: current)));
                     },
                     child: Card(
                         elevation: 5,
-                        child: Text(
-                            this.user.friendIds[index].username)));
+                        child: Text(this.user.friendIds[index])));
               })),
     );
   }

@@ -165,11 +165,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                         await updateUser(
                           _id,
                           jsonEncode(<String, dynamic>{
-//<<<<<<< HEAD
-                            //"username": _userName,
-//=======
-                            // "username": _userName,
-//>>>>>>> main
                             "gender": _gender,
                             "city": _city,
                             "country": _country
@@ -185,48 +180,18 @@ class MyCustomFormState extends State<MyCustomForm> {
                     child: Text('Confirm'),
                   ),
                 ),
-                /*Padding(
+                Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                    onPressed: () async {},
-                    child: Text('Change Sensitive Information Screen'),
-                  ),
-                ),*/
-                Container(
-                  width: 300.00,
-                  child: RaisedButton(
-                      onPressed: () {
-                        Navigator.push(
+                    onPressed: () async {
+                      Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
                                     ChangeSensInfoView(user: user)));
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(80.0)),
-                      elevation: 1.0,
-                      padding: EdgeInsets.all(0.0),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.centerRight,
-                              end: Alignment.centerLeft,
-                              colors: [Colors.redAccent, Colors.orangeAccent]),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: Container(
-                          constraints:
-                              BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Change Sensitive Information",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w300),
-                          ),
-                        ),
-                      )),
+                    },
+                    child: Text('Change Sensitive information'),
+                  ),
                 ),
               ])
             ]));
