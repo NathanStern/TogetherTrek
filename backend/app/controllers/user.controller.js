@@ -1060,7 +1060,9 @@ exports.getNearbyUsers = (req, res) => {
 					'_id': user_data['_id'],
 					'username': user_data['username'],
 					'gender': user_data['gender'],
-					'birthdate': user_data['birthdate']
+					'birthdate': user_data['birthdate'],
+					'friend_requests': user_data['friend_requests'],
+					'profile_pic': user_data['profile_pic']
 				}
 				matching_users.push(user_data);
 			}
