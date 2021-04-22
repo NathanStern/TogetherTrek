@@ -115,6 +115,9 @@ exports.findAll = (req, res) => {
                                 res.status(500).send({ message: error.message || "unable to retrieve user associated with message board", });
                                 return;
                             });
+                        if (user == null) {
+                            continue;
+                        }
                         resolved_users.push({
                             name: `${user["first_name"]} ${user["last_name"]} `,
                             id: user["_id"],

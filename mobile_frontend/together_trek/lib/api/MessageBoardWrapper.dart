@@ -17,9 +17,12 @@ Future<MessageSummaryListModel> getMessageSummaries(String jwt) async {
     'Authorization': jwt
   });
 
-  var body = jsonDecode(response.body);
+  print(response.body);
 
-  if ((body is Map<String, dynamic>) && (body["meesage"] != null)) {
+  var body = jsonDecode(response.body);
+  // print(body is Map<String, dynamic>);
+
+  if ((body is Map<String, dynamic>)) {
     return MessageSummaryListModel.empty();
   }
 

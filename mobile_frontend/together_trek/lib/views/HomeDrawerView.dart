@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:together_trek/api/UserWrapper.dart';
+import 'package:together_trek/models/MessageSummaryListModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/LoginView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
@@ -112,6 +113,9 @@ Widget createDrawer(BuildContext context, UserModel user,
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('user', "");
             prefs.setString('jwt', "");
+            MessageSummaryListModel loadedPosts =
+                context.read<MessageSummaryListModel>();
+            loadedPosts.messageBoards = [];
             user.setAllFieldsFromUser(UserModel.empty());
           },
         ),

@@ -71,6 +71,16 @@ class _TripPhotosViewState extends State<TripPhotosView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [Text("No Photos")],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                              onPressed: () {
+                                setState(() {});
+                              },
+                              child: Text("Refresh"))
+                        ],
                       )
                     ],
                   ),
@@ -81,56 +91,60 @@ class _TripPhotosViewState extends State<TripPhotosView> {
                     setState(() {});
                     return photos;
                   },
-                  child: GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 3.0,
-                        mainAxisSpacing: 3.0,
-                      ),
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return Scaffold(
-                                    appBar: AppBar(),
-                                    body: Container(
-                                        child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                          Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Image(
-                                                  image: snapshot.data[index],
-                                                  width: MediaQuery.of(context)
+                  child: Container(
+                      height: double.infinity,
+                      child: GridView.builder(
+                          physics: AlwaysScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 3.0,
+                            mainAxisSpacing: 3.0,
+                          ),
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return Scaffold(
+                                        appBar: AppBar(),
+                                        body: Container(
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Expanded(
+                                                        child: Image(
+                                                      image:
+                                                          snapshot.data[index],
+                                                    ))
+                                                  ])
+                                            ])));
+                                  }));
+                                },
+                                child: Container(
+                                    child: Image(
+                                        fit: BoxFit.cover,
+                                        image: ResizeImage(
+                                          snapshot.data[index],
+                                          height: (MediaQuery.of(context)
                                                       .size
-                                                      .width,
-                                                )
-                                              ])
-                                        ])));
-                              }));
-                            },
-                            child: Container(
-                                child: Image(
-                                    fit: BoxFit.cover,
-                                    image: ResizeImage(
-                                      snapshot.data[index],
-                                      height:
-                                          (MediaQuery.of(context).size.height /
+                                                      .height /
                                                   3)
                                               .round(),
-                                      // width: (MediaQuery.of(context)
-                                      //             .size
-                                      //             .width /
-                                      //         3)
-                                    ),
-                                    key: ValueKey(0))));
-                      }));
+                                          // width: (MediaQuery.of(context)
+                                          //             .size
+                                          //             .width /
+                                          //         3)
+                                        ),
+                                        key: ValueKey(0))));
+                          })));
             } else {
               return Container(
                 child: Column(
