@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -25,8 +26,8 @@ class _ProfilePageViewState extends State<ProfilePageView> {
   Widget build(BuildContext context) {
     user = context.watch<UserModel>();
 
-    return SingleChildScrollView(
-      child: Column(
+    return ListView(children: [
+      Column(
         children: <Widget>[
           Container(
               decoration: BoxDecoration(
@@ -36,7 +37,7 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                       colors: [Colors.redAccent, Colors.orangeAccent])),
               child: Container(
                 width: double.infinity,
-                height: 320.0,
+                padding: EdgeInsets.only(top: 10, bottom: 10),
                 child: Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,22 +50,15 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                                   source: ImageSource.gallery);
                               if (pickedFile != null) {
                                 print(pickedFile.path);
-                                // Navigator.push(context,
-                                //     MaterialPageRoute(builder: (context) {
-                                //   return Scaffold(
-                                //       body: Container(
-                                //           child: Image.file(
-                                //               File(pickedFile.path))));
-                                // }));
                                 await UserWrapper.setProfilePic(
                                     user.id, File(pickedFile.path));
-                                user.setAllFieldsFromUser(
-                                    await getUser(user.id));
-                                setState(() {});
+                                this.user.setProfilePic(
+                                    UserWrapper.getProfilePic(this.user.id));
                               }
                             }
                           },
                           child: CircleAvatar(
+                            key: ValueKey(DateTime.now()),
                             backgroundImage: this.user.profilePic,
                             radius: 50.0,
                           )),
@@ -81,6 +75,7 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                       SizedBox(
                         height: 10.0,
                       ),
+//<<<<<<< HEAD
                       Text(
                         this.user.email,
                         style: TextStyle(
@@ -91,7 +86,11 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                       SizedBox(
                         height: 10.0,
                       ),
-                      Card(
+                      //Card(
+//=======
+                      SingleChildScrollView(
+                          child: Card(
+//>>>>>>> main
                         margin: EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 5.0),
                         clipBehavior: Clip.antiAlias,
@@ -165,7 +164,7 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      this.user.birthdate.toString(),
+                                      this.user.birthdate.substring(0, 10),
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.orangeAccent,
@@ -177,7 +176,7 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                             ],
                           ),
                         ),
-                      )
+                      ))
                     ],
                   ),
                 ),
@@ -258,6 +257,6 @@ class _ProfilePageViewState extends State<ProfilePageView> {
           ),
         ],
       ),
-    );
+    ]);
   }
 }

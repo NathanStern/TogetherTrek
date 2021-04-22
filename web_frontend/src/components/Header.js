@@ -13,7 +13,7 @@ const Header = () => {
     dispatch(logout())
   }
   return (
-    <header className="header">
+    <header className='header'>
       <Navbar bg='primary' variant='dark' expand='lg' id='navbarColor01'>
         <Container>
           <LinkContainer to='/'>
@@ -38,11 +38,11 @@ const Header = () => {
                     <span class='white-text'>New Post</span>
                   </Nav.Link>
                 </LinkContainer>
-								<LinkContainer to='/trips'>
-									<Nav.Link>
-										<span class='white-text'>Trips</span>
-									</Nav.Link>
-								</LinkContainer>
+                <LinkContainer to='/trips'>
+                  <Nav.Link>
+                    <span class='white-text'>Trips</span>
+                  </Nav.Link>
+                </LinkContainer>
                 <LinkContainer to='/createtrip'>
                   <Nav.Link>
                     <span class='white-text'>New Trip</span>
@@ -58,6 +58,11 @@ const Header = () => {
                     <span class='white-text'>Messages</span>
                   </Nav.Link>
                 </LinkContainer>
+                <LinkContainer to='/nearby-users'>
+                  <Nav.Link>
+                    <span class='white-text'>Nearby Users</span>
+                  </Nav.Link>
+                </LinkContainer>
               </Nav>
               <NavDropdown
                 title={userInfo.username}
@@ -70,6 +75,9 @@ const Header = () => {
               >
                 <LinkContainer to='/profile'>
                   <NavDropdown.Item>Profile</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to='/blocked'>
+                  <NavDropdown.Item>Blocked Users</NavDropdown.Item>
                 </LinkContainer>
                 {/* <LinkContainer to='/post'>
 

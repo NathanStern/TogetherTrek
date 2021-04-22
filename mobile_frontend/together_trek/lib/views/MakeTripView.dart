@@ -47,10 +47,21 @@ class MyCustomFormState extends State<MyCustomForm> {
   String _country = '';
   String _city = '';
   String _region = '';
+  int _budget = 0;
 
   Future<void> _submit() async {
-    http.Response response = await makeTrip(context, _start_date.toString(),
+    http.Response response = await makeTrip(
+        context,
+        _start_date.toString(),
+/*<<<<<<< HEAD
         _end_date.toString(), _country, _city, _region);
+=======*/
+        _end_date.toString(),
+        _country,
+        _city,
+        _region,
+        _budget);
+//>>>>>>> main
     if (response.statusCode != 200) {
       //_firstPressed = true;
       print(response.body);
@@ -188,6 +199,16 @@ class MyCustomFormState extends State<MyCustomForm> {
               return null;
             },
             onSaved: (val) => setState(() => _region = val),
+          ),
+          TextFormField(
+            decoration: InputDecoration(hintText: "Budget"),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter a Budget';
+              }
+              return null;
+            },
+            onSaved: (val) => setState(() => _budget = int.parse(val)),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),

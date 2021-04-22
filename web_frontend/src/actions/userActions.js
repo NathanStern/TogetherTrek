@@ -14,6 +14,9 @@ import {
   USER_GET_MESSAGEBOARDS_FAIL,
   USER_GET_MESSAGEBOARDS_REQUEST,
   USER_GET_MESSAGEBOARDS_SUCCESS,
+  USER_GET_BLOCKED_REQUEST,
+  USER_GET_BLOCKED_FAIL,
+  USER_GET_BLOCKED_SUCCESS,
 } from '../constants/userConstants'
 import { path } from '../constants/pathConstant'
 import axios from 'axios'
@@ -25,9 +28,7 @@ export const login = (username, password) => async (dispatch) => {
     dispatch({
       type: USER_LOGIN_REQUEST,
     })
-
-    const hashedPassword = sha3_256(password)
-    // console.log(`Hashed password is ${hashedPassword}`)
+    console.log(`Hashed password is ${password}`)
     axios
       .post(`${path}/users/login`, { username, password })
       .then((res) => {
@@ -38,7 +39,9 @@ export const login = (username, password) => async (dispatch) => {
             Authorization: token,
           },
         }
+
         const user_id = jwt(token)['id']
+        console.log(`$user id is ${user_id}`)
         axios
           .get(`${path}/users/${user_id}`)
           .then((res) => {
@@ -83,6 +86,7 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem('userPosts')
   localStorage.removeItem('myToken')
   localStorage.removeItem('encToken')
+  localStorage.removeItem('userPassword')
   dispatch({ type: USER_LOGIN_LOGOUT })
 }
 
@@ -153,6 +157,44 @@ const getFriend = async (friend_id) => {
     return post.data
   } catch (err) {
     console.log(err)
+  }
+}
+
+export const getBlockedUsers = () => async (dispatch, getState) => {
+  dispatch({
+    type: USER_GET_BLOCKED_REQUEST,
+  })
+  try {
+    console.log('Get BLOCKED User ')
+    const {
+      userLogin: { userInfo },
+    } = getState()
+    let users = []
+    console.log(userInfo)
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+    console.log(userInfo)
+    userInfo.blocked_ids.map((el) =>
+      getFriend(el).then((res) => {
+        users.push(res)
+      })
+    )
+    const blocked = users
+    dispatch({
+      type: USER_GET_BLOCKED_SUCCESS,
+      payload: blocked,
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_GET_BLOCKED_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
   }
 }
 
@@ -290,5 +332,22 @@ export const getUserMessageBoards = () => async (dispatch, getState) => {
           ? error.response.data.message
           : error.message,
     })
+  }
+}
+
+export const getNearbyUsers = async (userId, range) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+
+    const resp = await axios.get(
+      `${path}/users/nearby-users/${userId}?range=${range}`, config)
+
+    return resp.data
+  } catch (error) {
+    console.log(error)
   }
 }

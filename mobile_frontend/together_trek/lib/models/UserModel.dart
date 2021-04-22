@@ -28,6 +28,7 @@ class UserModel extends ChangeNotifier {
   List<dynamic> tripIds;
   List<dynamic> messageBoardIds;
   List<dynamic> friendIds;
+  List<dynamic> friendRequests;
   String city;
   String country;
   List<dynamic> blockedIds;
@@ -58,6 +59,7 @@ class UserModel extends ChangeNotifier {
       tripIds: json['trip_ids'] ?? [],
       messageBoardIds: json['message_board_ids'] ?? [],
       friendIds: json['friend_ids'] ?? [],
+      friendRequests: json['friend_requests'] ?? [],
       city: json['city'] ?? "",
       country: json['country'] ?? "",
       blockedIds: json['block_ids'] ?? [],
@@ -84,6 +86,7 @@ class UserModel extends ChangeNotifier {
     this.city = user.city;
     this.country = user.country;
     this.blockedIds = user.blockedIds;
+    this.friendRequests = user.friendRequests;
     this._empty = user._empty;
     this.password = password;
   }
@@ -104,6 +107,7 @@ class UserModel extends ChangeNotifier {
     this.tripIds = [];
     this.messageBoardIds = [];
     this.friendIds = [];
+    this.friendRequests = [];
     this.city = "";
     this.country = "";
     this.blockedIds = [];
@@ -127,6 +131,7 @@ class UserModel extends ChangeNotifier {
       this.tripIds,
       this.messageBoardIds,
       this.friendIds,
+      this.friendRequests,
       this.city,
       this.country,
       this.blockedIds,
@@ -155,6 +160,7 @@ class UserModel extends ChangeNotifier {
     this.tripIds = user.tripIds;
     this.messageBoardIds = user.messageBoardIds;
     this.friendIds = user.friendIds;
+    this.friendRequests = user.friendRequests;
     this.city = user.city;
     this.country = user.country;
     this.blockedIds = user.blockedIds;
@@ -179,6 +185,7 @@ class UserModel extends ChangeNotifier {
       List<String> tripIds,
       List<String> messageBoardIds,
       List<String> friendIds,
+      List<String> friendRequests,
       String city,
       String country,
       List<String> blockedIds) {
@@ -198,11 +205,17 @@ class UserModel extends ChangeNotifier {
     this.tripIds = tripIds;
     this.messageBoardIds = messageBoardIds;
     this.friendIds = friendIds;
+    this.friendRequests = friendRequests;
     this.city = city;
     this.country = country;
     this.blockedIds = blockedIds;
     this._empty = false;
 
+    notifyListeners();
+  }
+
+  void setProfilePic(ImageProvider pic) {
+    this.profilePic = pic;
     notifyListeners();
   }
 
@@ -311,6 +324,7 @@ class UserModel extends ChangeNotifier {
         'trip_ids': this.tripIds.toList(),
         'message_board_ids': this.messageBoardIds.toList(),
         'friend_ids': this.friendIds.toList(),
+        'friend_reqeusts': this.friendRequests.toList(),
         'city': this.city,
         'country': this.country
       };

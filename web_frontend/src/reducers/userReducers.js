@@ -24,6 +24,9 @@ import {
   USER_GET_MESSAGEBOARDS_REQUEST,
   USER_GET_MESSAGEBOARDS_FAIL,
   USER_GET_MESSAGEBOARDS_SUCCESS,
+  USER_GET_BLOCKED_REQUEST,
+  USER_GET_BLOCKED_FAIL,
+  USER_GET_BLOCKED_SUCCESS,
 } from '../constants/userConstants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -123,6 +126,19 @@ export const userGetMessageBoards = (state = {}, action) => {
     case USER_GET_MESSAGEBOARDS_SUCCESS:
       return { loading: false, messageBoardsInfo: action.payload }
     case USER_GET_MESSAGEBOARDS_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const userGetBlockedReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_GET_BLOCKED_REQUEST:
+      return { loading: true }
+    case USER_GET_BLOCKED_SUCCESS:
+      return { loading: false, blockedInfo: action.payload }
+    case USER_GET_BLOCKED_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

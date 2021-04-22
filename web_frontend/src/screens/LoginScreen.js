@@ -37,6 +37,7 @@ const LoginScreen = ({ history, location }) => {
       dispatch(getMyPosts())
       dispatch(getPosts())
     })
+    localStorage.setItem('userPassword', sha3_256(password))
   }
 
   return (

@@ -23,6 +23,12 @@ import {
   MYTRIPS_JOIN_REQUEST,
   MYTRIPS_JOIN_SUCCESS,
   MYTRIPS_JOIN_FAIL,
+  ACCEPT_USER_JOIN_TRIP_FAIL,
+  ACCEPT_USER_JOIN_TRIP_SUCCESS,
+  ACCEPT_USER_JOIN_TRIP_REQUEST,
+  DECLINE_USER_JOIN_TRIP_REQUEST,
+  DECLINE_USER_JOIN_TRIP_SUCCESS,
+  DECLINE_USER_JOIN_TRIP_FAIL,
 } from '../constants/tripsConstants'
 
 export const getMyTripsReducer = (state = {}, action) => {
@@ -123,6 +129,32 @@ export const joinTripReducer = (state = {}, action) => {
     case MYTRIPS_JOIN_SUCCESS:
       return { loading: false, success: true }
     case MYTRIPS_JOIN_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const acceptUserJoinTripRequestReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ACCEPT_USER_JOIN_TRIP_REQUEST:
+      return { loading: true }
+    case ACCEPT_USER_JOIN_TRIP_SUCCESS:
+      return { loading: false, success: true }
+    case ACCEPT_USER_JOIN_TRIP_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const declineUserJoinTripRequestReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DECLINE_USER_JOIN_TRIP_REQUEST:
+      return { loading: true }
+    case DECLINE_USER_JOIN_TRIP_SUCCESS:
+      return { loading: false, success: true }
+    case DECLINE_USER_JOIN_TRIP_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

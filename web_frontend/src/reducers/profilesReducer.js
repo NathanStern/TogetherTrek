@@ -5,6 +5,9 @@ import {
   PROFILE_GET_FAIL,
   PROFILE_GET_REQUEST,
   PROFILE_GET_SUCCESS,
+  PROFILE_UPDATE_FAIL,
+  PROFILE_UPDATE_REQUEST,
+  PROFILE_UPDATE_SUCCESS,
 } from '../constants/profilesConstants'
 
 export const profileGetReducer = (state = {}, action) => {
@@ -27,6 +30,19 @@ export const profileAddMessageBoardReducer = (state = {}, action) => {
     case PROFILE_ADD_MESSAGEBOARD_SUCCESS:
       return { loading: false }
     case PROFILE_ADD_MESSAGEBOARD_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const profileUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PROFILE_UPDATE_REQUEST:
+      return { loading: true }
+    case PROFILE_UPDATE_SUCCESS:
+      return { loading: false, profileInfo: action.payload }
+    case PROFILE_UPDATE_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

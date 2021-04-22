@@ -22,6 +22,9 @@ import NotificationsScreen from './screens/NotificationsScreen'
 import MessagesScreen from './screens/MessagesScreen'
 import OtherProfileScreen from './screens/OtherProfileScreen'
 import MessageBoardScreen from './screens/MessageBoardScreen.js'
+import BlockedUsersScreen from './screens/BlockedUsersScreen'
+import ViewTripPhotosScreen from './screens/ViewTripPhotosScreen'
+import NearbyUsersScreen from './screens/NearbyUsersScreen'
 function App() {
   return (
     <Router>
@@ -38,16 +41,22 @@ function App() {
           <Route path='/editpost' component={EditPostScreen} />
           <Route path='/posts' component={PostsScreen} />
           <Route path='/editprofile' component={EditProfileScreen} exact />
-          <Route path='/change-sens-info' component={ChangeSensInfoScreen} exact />
+          <Route
+            path='/change-sens-info'
+            component={ChangeSensInfoScreen}
+            exact
+          />
           <Route path='/createpost' component={CreatePostScreen} />
           <Route path='/profile/:id' component={OtherProfileScreen} exact />
           <Route path='/friends' component={FriendsScreen} />
           <Route path='/notifications' component={NotificationsScreen} />
           <Route path='/messages' component={MessagesScreen} exact />
-          <Route path='/createpost' component={CreatePostScreen} />
           <Route path='/trips' component={TripsScreen} />
           <Route path='/trip/:id' component={ViewTripScreen} />
           <Route path='/messages/:id' component={MessageBoardScreen} />
+          <Route path='/blocked' component={BlockedUsersScreen} />
+          <Route path='/view_photos/:id' component={ViewTripPhotosScreen} />
+          <Route path='/nearby-users' component={NearbyUsersScreen} />
         </Container>
       </main>
       <Footer />
