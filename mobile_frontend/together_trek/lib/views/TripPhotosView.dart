@@ -4,10 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:exif/exif.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:native_device_orientation/native_device_orientation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:together_trek/api/TripWrapper.dart';
 import 'package:together_trek/models/TripModel.dart';
@@ -28,36 +24,6 @@ class _TripPhotosViewState extends State<TripPhotosView> {
 
   _TripPhotosViewState(TripModel trip) {
     this.trip = trip;
-  }
-
-  /// Get the number of degrees by which EXIF orientation needs to be correct to have portrait mode
-  Future<int> getEXIFOrientationCorrection(List<int> image) async {
-    int rotationCorrection = 0;
-    Map<String, IfdTag> exif = await readExifFromBytes(image);
-
-    if (exif == null || exif.isEmpty) {
-      print("No EXIF information found");
-    } else {
-      print("Found EXIF information");
-      // http://sylvana.net/jpegcrop/exif_orientation.html
-      IfdTag orientation = exif["Image Orientation"];
-      int orientationValue = orientation.values[0];
-      // in degress
-      print("orientation: ${orientation.printable}/${orientation.values[0]}");
-      switch (orientationValue) {
-        case 6:
-          rotationCorrection = 90;
-          break;
-        case 3:
-          rotationCorrection = 180;
-          break;
-        case 8:
-          rotationCorrection = 270;
-          break;
-        default:
-      }
-    }
-    return rotationCorrection;
   }
 
   final _picker = ImagePicker();
@@ -83,18 +49,6 @@ class _TripPhotosViewState extends State<TripPhotosView> {
                 await _picker.getImage(source: ImageSource.gallery);
 
             if (pickedFile != null) {
-              // var imageData = new File(pickedFile.path).readAsBytesSync();
-
-              // int rotationCorrection =
-              //     await getEXIFOrientationCorrection(imageData);
-
-              // final appDir = await getApplicationDocumentsDirectory();
-
-              // var imageDataCompressed =
-              //     await FlutterImageCompress.compressAndGetFile(
-              //         pickedFile.path, "${appDir.path}compressed_chosen.jpg",
-              //         rotate: rotationCorrection);
-
               Map<String, dynamic> body = {
                 "author_id": user.id,
                 "trip_id": trip.id,
