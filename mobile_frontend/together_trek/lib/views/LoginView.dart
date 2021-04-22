@@ -53,7 +53,6 @@ class _LoginViewState extends State<LoginView> {
         SHA3 password = SHA3(256, SHA3_PADDING, 256);
         password.update(utf8.encode(_passwordController.text));
         List<int> hash = password.digest();
-
         int response = await userLogin(jsonEncode(<String, dynamic>{
           'username': '${_usernameController.text}',
           'password': '${HEX.encode(hash)}'
@@ -74,6 +73,7 @@ class _LoginViewState extends State<LoginView> {
           UserModel fetchedUser = await getUser(JwtDecoder.decode(jwt)['id']);
 
           user.setAllFieldsFromUser(fetchedUser);
+          user.setPassword(HEX.encode(hash));
 
           prefs.setString('user', this.user.id);
           Navigator.popUntil(context, ModalRoute.withName("/"));

@@ -32,6 +32,7 @@ class UserModel extends ChangeNotifier {
   String country;
   List<dynamic> blockedIds;
   bool _empty = false;
+  String password;
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     ImageProvider profilePic;
@@ -60,6 +61,7 @@ class UserModel extends ChangeNotifier {
       city: json['city'] ?? "",
       country: json['country'] ?? "",
       blockedIds: json['block_ids'] ?? [],
+      password: json['password'] ?? "",
     );
   }
 
@@ -83,6 +85,7 @@ class UserModel extends ChangeNotifier {
     this.country = user.country;
     this.blockedIds = user.blockedIds;
     this._empty = user._empty;
+    this.password = password;
   }
 
   UserModel.empty() {
@@ -105,6 +108,7 @@ class UserModel extends ChangeNotifier {
     this.country = "";
     this.blockedIds = [];
     this._empty = true;
+    password = "";
   }
 
   UserModel(
@@ -125,7 +129,8 @@ class UserModel extends ChangeNotifier {
       this.friendIds,
       this.city,
       this.country,
-      this.blockedIds});
+      this.blockedIds,
+      this.password});
 
   bool isEmpty() {
     return _empty;
@@ -284,6 +289,10 @@ class UserModel extends ChangeNotifier {
   void setCountry(String country) {
     this.country = country;
     notifyListeners();
+  }
+
+  void setPassword(String hashedPassword) {
+    this.password = hashedPassword;
   }
 
   Map<String, dynamic> toJson() => {

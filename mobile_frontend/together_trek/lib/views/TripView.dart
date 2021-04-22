@@ -21,7 +21,8 @@ class TripView extends StatefulWidget {
 class _TripViewState extends State<TripView> {
   _TripViewState({this.trip});
   TripModel trip;
-
+  bool leaveVisible = true;
+  bool requestVisible = true;
   @override
   Widget build(BuildContext context) {
     UserModel user = context.read<UserModel>();
@@ -92,22 +93,26 @@ class _TripViewState extends State<TripView> {
               letterSpacing: 2.0,
             ),
           ),
-          (true /*(trip.participantIds).indexOf(user.id) == -1*/)
+          (requestVisible &&
+                  true /*(trip.participantIds).indexOf(user.id) == -1*/)
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     onPressed: () async {
                       requestJoinTrip(context, trip.id);
+                      requestVisible = false;
                     },
                     child: Text('Request to join'),
                   ))
               : Container(),
-          (true /*(trip.participantIds).indexOf(user.id) == -1*/)
+          (leaveVisible &&
+                  true /*(trip.participantIds).indexOf(user.id) == -1*/)
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     onPressed: () async {
                       requestRemoveFromTrip(context, trip.id, user.id);
+                      leaveVisible = false;
                     },
                     child: Text('Leave Trip'),
                   ))
