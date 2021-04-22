@@ -43,6 +43,8 @@ exports.create = (req, res) => {
     end_date: req.body.end_date,
     creator_id: req.body.creator_id,
     participant_ids: req.body.participant_ids,
+    total_expenses: 0,
+    expense_per_person: 0,
     budget: budget1,
   });
 

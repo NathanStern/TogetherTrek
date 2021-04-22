@@ -1,4 +1,5 @@
 import 'package:together_trek/models/DestinationModel.dart';
+import 'package:together_trek/models/ExpenseModel.dart';
 import 'package:together_trek/models/TripPhotoModel.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,8 @@ class TripModel extends ChangeNotifier {
   String creatorId;
   int budget;
   List<dynamic> participantIds;
+  List<dynamic> expenses;
+  //List<ExpenseModel> expenses;
   List<dynamic> joinRequests;
   List<TripPhotoModel> tripPhotos;
 
@@ -25,6 +28,7 @@ class TripModel extends ChangeNotifier {
 //=======
       this.budget,
       this.participantIds,
+      this.expenses,
 //>>>>>>> main
       this.tripPhotos});
 
@@ -33,6 +37,8 @@ class TripModel extends ChangeNotifier {
         id: json['_id'],
         creatorId: json['creator_id'],
         startDate: json['start_date'],
+        expenses: json['expenses'],
+        //expenses: ExpenseModel.fromJson(json['expenses']) ?? [],
         //participantIds: json['participant_ids'],
         endDate: json['end_date'],
 //<<<<<<< HEAD
@@ -65,6 +71,7 @@ class TripModel extends ChangeNotifier {
         'start_date': this.startDate,
         'destination': this.destination,
         'end_date': this.endDate,
+        'expenses': this.expenses,
         'budget': this.budget,
         'participant_ids': this.participantIds,
         'join_requests': this.joinRequests
