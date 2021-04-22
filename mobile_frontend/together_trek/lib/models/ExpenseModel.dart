@@ -43,4 +43,8 @@ class ExpenseModel extends ChangeNotifier {
         'category': this.category,
         'trip_id': this.trip_id,
       };
+      @override
+  String toString() {
+    return expense_body.toString();
+  }
 }

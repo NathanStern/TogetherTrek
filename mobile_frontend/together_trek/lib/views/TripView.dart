@@ -13,6 +13,7 @@ import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/models/ExpenseModel.dart';
 import 'package:together_trek/models/ExpenseBodyModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
+import 'package:together_trek/views/AddExpenseView.dart';
 //import 'package:together_trek/views/AlertView.dart';
 import 'package:together_trek/views/HomeView.dart';
 import 'package:together_trek/views/TempProfileView.dart';
@@ -44,6 +45,10 @@ class _TripViewState extends State<TripView> {
   Widget build(BuildContext context) {
     user = context.read<UserModel>();
     Future<List<ExpenseModel>> expenses = getExpenses();
+    Future<List<ExpenseModel>> foodExpenses = getFoodExpenses(trip.id);
+    Future<List<ExpenseModel>> housingExpenses = getHousingExpenses(trip.id);
+    Future<List<ExpenseModel>> transpExpenses = getTranspExpenses(trip.id);
+    Future<List<ExpenseModel>> otherExpenses = getOtherExpenses(trip.id);
 
     if (trip.participantIds.contains(user.id)) {
       return Scaffold(
@@ -113,30 +118,28 @@ class _TripViewState extends State<TripView> {
                 letterSpacing: 2.0,
               ),
             ),
-            // Expanded(
-            // child: SizedBox(
-            // height: 200.0,
-            // child:ListView.builder(
-            //   itemCount: this.trip.expenses.length,
-            //   itemBuilder: (BuildContext context, int index) {
-            //     return InkWell(
-            //         // onTap: () {
-            //         //   Navigator.push(
-            //         //       context,
-            //         //       MaterialPageRoute(
-            //         //           builder: (context) =>
-            //         //               TripView(trip: this.user.tripIds[index])));
-            //         // },
-            //         child: Card(
-            //             elevation: 5,
-            //             child: Text(
-            //                 //  this.trip.expenses[index].expense_body.amount +
-            //                 //      ", " +
-            //                     this.trip.expenses[index]),));
-            //   }))),
+
+            // Flexible(
+            //     child: FutureBuilder(
+            //         future: expenses,
+            //         builder: (context, snapshot) {
+            //           if (!snapshot.hasData) {
+            //             return Center(child: CircularProgressIndicator());
+            //           } else {
+            //             return Container(
+            //                 child: ListView.builder(
+            //                     itemCount: snapshot.data.length,
+            //                     scrollDirection: Axis.vertical,
+            //                     itemBuilder: (BuildContext context, int index) {
+            //                       return Text('${snapshot.data[index].category}');
+            //                     }));
+            //           }
+            //         })),
+
+                    Text("food"),
             Flexible(
                 child: FutureBuilder(
-                    future: expenses,
+                    future: foodExpenses,
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return Center(child: CircularProgressIndicator());
@@ -146,7 +149,58 @@ class _TripViewState extends State<TripView> {
                                 itemCount: snapshot.data.length,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Text('${snapshot.data[index]}');
+                                  return Text('${snapshot.data[index].toString()}');
+                                }));
+                      }
+                    })),
+                    Text("housing"),
+            Flexible(
+                child: FutureBuilder(
+                    future: housingExpenses,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(child: CircularProgressIndicator());
+                      } else {
+                        return Container(
+                            child: ListView.builder(
+                                itemCount: snapshot.data.length,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Text('${snapshot.data[index].toString()}');
+                                }));
+                      }
+                    })),
+                    Text("transportation"),
+            Flexible(
+                child: FutureBuilder(
+                    future: transpExpenses,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(child: CircularProgressIndicator());
+                      } else {
+                        return Container(
+                            child: ListView.builder(
+                                itemCount: snapshot.data.length,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Text('${snapshot.data[index].toString()}');
+                                }));
+                      }
+                    })),
+                    Text("other"),
+            Flexible(
+                child: FutureBuilder(
+                    future: otherExpenses,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(child: CircularProgressIndicator());
+                      } else {
+                        return Container(
+                            child: ListView.builder(
+                                itemCount: snapshot.data.length,
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Text('${snapshot.data[index].toString()}');
                                 }));
                       }
                     })),
@@ -160,6 +214,17 @@ class _TripViewState extends State<TripView> {
                             builder: (context) => TripPhotosView(trip)));
                   },
                   child: Text('View Photos'),
+                )),
+                Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddExpenseView(trip.id)));
+                  },
+                  child: Text('Add Expense'),
                 ))
           ],
         ),

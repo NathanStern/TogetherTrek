@@ -1,5 +1,5 @@
 class ExpenseBodyModel {
-  double amount;
+  num amount;
   String creator_id;
   String description;
   String date;
@@ -24,6 +24,6 @@ class ExpenseBodyModel {
 
   @override
   String toString() {
-    return amount.toString() + ", " + description + ", " + date;
+    return "\$" + amount.toString() + ", " + description + ", " + date.substring(0,10);
   }
 }

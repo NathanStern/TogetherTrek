@@ -24,21 +24,109 @@ Future<List<ExpenseModel>> getExpenses() async {
   return expenses;
 }
 
-Future<List<ExpenseModel>> getFoodExpenses(
-  List<ExpenseModel> allExpenses, String trip_id
-) async {
-  http.Response response = await httpGet('expenses?trip_id=${trip_id}');
-  print(response.body);
+// Future<List<ExpenseModel>> getFoodExpenses( String trip_id) async {
+//   http.Response response = await httpGet("expenses?trip_id=$trip_id&category=Food");
+//   print(response.body);
   
-  List<ExpenseModel> expenses = [];
+//   List<ExpenseModel> expenses = [];
 
-  List<dynamic> json = jsonDecode(response.body);
+//   List<dynamic> json = jsonDecode(response.body);
 
-  for (int i = 0; i < json.length; i++) {
-    expenses.add(ExpenseModel.fromJson(json[i]));
+//   for (int i = 0; i < json.length; i++) {
+//     expenses.add(ExpenseModel.fromJson(json[i]));
+//   }
+//   return expenses;
+// }
+Future<List<ExpenseModel>> getFoodExpenses( String id) async {
+  List<ExpenseModel> foodExpenses = [];
+
+  http.Response response = await httpGet('expenses');
+
+    List<ExpenseModel> expenses = [];
+
+    List<dynamic> json = jsonDecode(response.body);
+    //print(response.body);
+
+    for (int i = 0; i < json.length; i++) {
+      expenses.add(ExpenseModel.fromJson(json[i]));
+    }
+
+    for (int i = 0; i < expenses.length; i++) {
+      if ((expenses[i].category == "Food") && (expenses[i].trip_id == id)) {
+        foodExpenses.add(expenses[i]);
+      }
+    }
+    return foodExpenses;
+
   }
-  return expenses;
-}
+
+  Future<List<ExpenseModel>> getHousingExpenses( String id) async {
+  List<ExpenseModel> housingExpenses = [];
+
+  http.Response response = await httpGet('expenses');
+
+    List<ExpenseModel> expenses = [];
+
+    List<dynamic> json = jsonDecode(response.body);
+    //print(response.body);
+
+    for (int i = 0; i < json.length; i++) {
+      expenses.add(ExpenseModel.fromJson(json[i]));
+    }
+
+    for (int i = 0; i < expenses.length; i++) {
+      if ((expenses[i].category == "Housing") && (expenses[i].trip_id == id)) {
+        housingExpenses.add(expenses[i]);
+      }
+    }
+    return housingExpenses;
+
+  }
+
+  Future<List<ExpenseModel>> getTranspExpenses( String id) async {
+  List<ExpenseModel> transpExpenses = [];
+
+  http.Response response = await httpGet('expenses');
+
+    List<ExpenseModel> expenses = [];
+
+    List<dynamic> json = jsonDecode(response.body);
+    //print(response.body);
+
+    for (int i = 0; i < json.length; i++) {
+      expenses.add(ExpenseModel.fromJson(json[i]));
+    }
+
+    for (int i = 0; i < expenses.length; i++) {
+      if ((expenses[i].category == "Transportation") && (expenses[i].trip_id == id)) {
+        transpExpenses.add(expenses[i]);
+      }
+    }
+    return transpExpenses;
+
+  }
+  Future<List<ExpenseModel>> getOtherExpenses( String id) async {
+  List<ExpenseModel> otherExpenses = [];
+
+  http.Response response = await httpGet('expenses');
+
+    List<ExpenseModel> expenses = [];
+
+    List<dynamic> json = jsonDecode(response.body);
+    //print(response.body);
+
+    for (int i = 0; i < json.length; i++) {
+      expenses.add(ExpenseModel.fromJson(json[i]));
+    }
+
+    for (int i = 0; i < expenses.length; i++) {
+      if ((expenses[i].category == "Other") && (expenses[i].trip_id == id)) {
+        otherExpenses.add(expenses[i]);
+      }
+    }
+    return otherExpenses;
+
+  }
 
 // Future<List<PostModel>> getPostsById(
 //     List<PostModel> allPosts, String id) async {
@@ -53,24 +141,21 @@ Future<List<ExpenseModel>> getFoodExpenses(
 //   return userPosts;
 // }
 
-// Future<Null> makePost(BuildContext context, String title, String description,
-//     String city, String country, String region) async {
-//   UserModel user = context.read<UserModel>();
-//   String data = jsonEncode(<String, dynamic>{
-//     "author_id": "${user.id}",
-//     "title": title,
-//     "post_date": DateTime.now().toString(),
-//     "description": description,
-//     "destinations": [
-//       {
-//         "city": city,
-//         "country": country,
-//         "region": region,
-//       }
-//     ]
-//   });
-//   http.Response res = await httpPost('posts', data);
-// }
+Future<Null> makeExpense(BuildContext context, num amount, String description,
+    String date, String category, String id) async {
+  UserModel user = context.read<UserModel>();
+  String data = jsonEncode(<String, dynamic>{
+    "expense_body": {
+        "amount": amount,
+        "creator_id":"${user.id}",
+        "description": description,
+        "date": date,
+      },
+    "category": category,
+    "trip_id": id
+  });
+  http.Response res = await httpPost('expenses', data);
+}
 
 // Future<String> updatePost(
 //     BuildContext context,
