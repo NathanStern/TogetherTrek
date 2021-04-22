@@ -18,26 +18,26 @@ class _NotificationViewState extends State<NotificationView> {
     if (user == null) {
       return Scaffold(
           appBar: AppBar(
-        title: Text("Notification"),
-      ),
-      body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              height: 10.0,
-            ),
-            Text(
-              "No Notifications",
-              style: TextStyle(
-                fontSize: 22.0,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w300,
-                color: Colors.black,
-                letterSpacing: 2.0,
+            title: Text("Notification"),
+          ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                height: 10.0,
               ),
-            ),
-          ],
-        ));
+              Text(
+                "No Notifications",
+                style: TextStyle(
+                  fontSize: 22.0,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.black,
+                  letterSpacing: 2.0,
+                ),
+              ),
+            ],
+          ));
     } else {
       return Scaffold(
         appBar: AppBar(
@@ -60,25 +60,19 @@ class _NotificationViewState extends State<NotificationView> {
               ),
             ),
             Row(children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () async {
-
-
-                },
-                child: Text('Accept'),
-              ),
-            ),
-            Padding(
+              Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () async {
-
-                    
-                  },
-                  child: Text('Decline'),
-                )),
+                  onPressed: () async {},
+                  child: Text('Accept'),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () async {},
+                    child: Text('Decline'),
+                  )),
             ])
           ],
         ),

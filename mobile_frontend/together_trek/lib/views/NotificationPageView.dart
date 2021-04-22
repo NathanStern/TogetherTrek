@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:together_trek/api/UserWrapper.dart';
 
 import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/NotificationView.dart';
@@ -11,6 +12,7 @@ class NotificationPageView extends StatefulWidget {
 
 class _NotificationPageViewState extends State<NotificationPageView> {
   UserModel user;
+  UserModel current;
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +35,13 @@ class _NotificationPageViewState extends State<NotificationPageView> {
                           borderRadius: BorderRadius.circular(2.5),
                           enableFeedback: true,
                           splashColor: Colors.deepOrangeAccent,
-                          onTap: () {
+                          onTap: () async {
+                            current = await getUser(user.friendRequests[index]);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => NotificationView(
-                                        user: user.friendRequests[index])));
+                                        user: current)));
                           },
                           child: ListTile(
                               title: Text(user.friendRequests[index]))),
