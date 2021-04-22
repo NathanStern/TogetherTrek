@@ -7,7 +7,7 @@ const prod = {
     port: 3000,
     JWT_KEY: "secret",
     TWILIO_KEY: "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",
-    TWILIO_EMAIL: "TogetherTrekPurdue@gmail.com",
+    TWILIO_EMAIL: "togethertrek@houseofstern.com",
     RADARIO_KEY: "prj_live_pk_d96d42edfb97d7db311ed75f76c31a3b7f13e283"
   },
  db: {
@@ -20,7 +20,7 @@ const test = {
     port: (process.env.PORT || 3001),
     JWT_KEY: "secret",
     TWILIO_KEY: "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",
-    TWILIO_EMAIL: "TogetherTrekPurdue@gmail.com",
+    TWILIO_EMAIL: "togethertrek@houseofstern.com",
     RADARIO_KEY: "prj_live_pk_d96d42edfb97d7db311ed75f76c31a3b7f13e283"
  },
  db: {

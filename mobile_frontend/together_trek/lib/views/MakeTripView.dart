@@ -50,8 +50,18 @@ class MyCustomFormState extends State<MyCustomForm> {
   int _budget = 0;
 
   Future<void> _submit() async {
-    http.Response response = await makeTrip(context, _start_date.toString(),
-        _end_date.toString(), _country, _city, _region, _budget);
+    http.Response response = await makeTrip(
+        context,
+        _start_date.toString(),
+/*<<<<<<< HEAD
+        _end_date.toString(), _country, _city, _region);
+=======*/
+        _end_date.toString(),
+        _country,
+        _city,
+        _region,
+        _budget);
+//>>>>>>> main
     if (response.statusCode != 200) {
       //_firstPressed = true;
       print(response.body);
