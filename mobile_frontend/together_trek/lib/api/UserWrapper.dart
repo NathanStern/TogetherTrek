@@ -79,3 +79,8 @@ Future<void> setProfilePic(String id, File file) async {
   int response = await httpPutFile("/users/profile-pic/$id", file);
   return response;
 }
+
+Future<List<Map<String, dynamic>>> getNearbyUsers(String id, String range) async {
+  http.Response response = await httpGet('users/nearby-users/' + id + '?range=' + range);
+  return jsonDecode(response.body);
+}

@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:together_trek/views/FriendListView.dart';
 import 'package:together_trek/views/BlockedListView.dart';
 import 'package:together_trek/views/UserTripView.dart';
+import 'package:together_trek/views/NearbyUsersView.dart';
 
 Widget createDrawer(BuildContext context, UserModel user,
     Function _onTappedItem, Future<PackageInfo> packageInfo) {
@@ -93,6 +94,14 @@ Widget createDrawer(BuildContext context, UserModel user,
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => BlockedListView()));
             }),
+        ListTile(
+          title: Text("Nearby Users"),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => NearbyUsersView()));
+          }
+        ),
         ListTile(
           title: Text("Settings"),
           onTap: () {
@@ -195,6 +204,14 @@ Widget createDrawer(BuildContext context, UserModel user,
                 MaterialPageRoute(
                     builder: (context) => PlaceholderView(title: "My Posts")));
           },
+        ),
+        ListTile(
+          title: Text("Nearby Users"),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(context,
+              MaterialPageRoute(builder: (context) => NearbyUsersView()));
+          }
         ),
         ListTile(
           title: Text("Settings"),
