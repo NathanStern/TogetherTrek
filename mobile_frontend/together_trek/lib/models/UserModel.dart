@@ -28,10 +28,12 @@ class UserModel extends ChangeNotifier {
   List<dynamic> tripIds;
   List<dynamic> messageBoardIds;
   List<dynamic> friendIds;
+  List<dynamic> friendRequests;
   String city;
   String country;
   List<dynamic> blockedIds;
   bool _empty = false;
+  String password;
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     ImageProvider profilePic;
@@ -57,9 +59,11 @@ class UserModel extends ChangeNotifier {
       tripIds: json['trip_ids'] ?? [],
       messageBoardIds: json['message_board_ids'] ?? [],
       friendIds: json['friend_ids'] ?? [],
+      friendRequests: json['friend_requests'] ?? [],
       city: json['city'] ?? "",
       country: json['country'] ?? "",
       blockedIds: json['block_ids'] ?? [],
+      password: json['password'] ?? "",
     );
   }
 
@@ -82,7 +86,9 @@ class UserModel extends ChangeNotifier {
     this.city = user.city;
     this.country = user.country;
     this.blockedIds = user.blockedIds;
+    this.friendRequests = user.friendRequests;
     this._empty = user._empty;
+    this.password = password;
   }
 
   UserModel.empty() {
@@ -101,10 +107,12 @@ class UserModel extends ChangeNotifier {
     this.tripIds = [];
     this.messageBoardIds = [];
     this.friendIds = [];
+    this.friendRequests = [];
     this.city = "";
     this.country = "";
     this.blockedIds = [];
     this._empty = true;
+    password = "";
   }
 
   UserModel(
@@ -123,9 +131,11 @@ class UserModel extends ChangeNotifier {
       this.tripIds,
       this.messageBoardIds,
       this.friendIds,
+      this.friendRequests,
       this.city,
       this.country,
-      this.blockedIds});
+      this.blockedIds,
+      this.password});
 
   bool isEmpty() {
     return _empty;
@@ -150,6 +160,7 @@ class UserModel extends ChangeNotifier {
     this.tripIds = user.tripIds;
     this.messageBoardIds = user.messageBoardIds;
     this.friendIds = user.friendIds;
+    this.friendRequests = user.friendRequests;
     this.city = user.city;
     this.country = user.country;
     this.blockedIds = user.blockedIds;
@@ -174,6 +185,7 @@ class UserModel extends ChangeNotifier {
       List<String> tripIds,
       List<String> messageBoardIds,
       List<String> friendIds,
+      List<String> friendRequests,
       String city,
       String country,
       List<String> blockedIds) {
@@ -193,6 +205,7 @@ class UserModel extends ChangeNotifier {
     this.tripIds = tripIds;
     this.messageBoardIds = messageBoardIds;
     this.friendIds = friendIds;
+    this.friendRequests = friendRequests;
     this.city = city;
     this.country = country;
     this.blockedIds = blockedIds;
@@ -291,6 +304,10 @@ class UserModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setPassword(String hashedPassword) {
+    this.password = hashedPassword;
+  }
+
   Map<String, dynamic> toJson() => {
         '_id': this.id,
         'username': this.username,
@@ -307,6 +324,7 @@ class UserModel extends ChangeNotifier {
         'trip_ids': this.tripIds.toList(),
         'message_board_ids': this.messageBoardIds.toList(),
         'friend_ids': this.friendIds.toList(),
+        'friend_reqeusts': this.friendRequests.toList(),
         'city': this.city,
         'country': this.country
       };

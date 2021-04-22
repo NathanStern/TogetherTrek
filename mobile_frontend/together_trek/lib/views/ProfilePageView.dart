@@ -75,8 +75,21 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                       SizedBox(
                         height: 10.0,
                       ),
+
+                      Text(
+                        this.user.email,
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+
                       SingleChildScrollView(
                           child: Card(
+
                         margin: EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 5.0),
                         clipBehavior: Clip.antiAlias,
@@ -150,7 +163,7 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      this.user.birthdate.toString(),
+                                      this.user.birthdate.substring(0, 10),
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.orangeAccent,

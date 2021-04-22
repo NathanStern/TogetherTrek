@@ -4,15 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:together_trek/api/UserWrapper.dart';
 
 import 'package:together_trek/models/UserModel.dart';
-import 'package:together_trek/views/BlockedPageView.dart';
+import 'package:together_trek/views/FriendListView.dart';
 
-class BlockedListView extends StatefulWidget {
-  BlockedListView({Key key}) : super(key: key);
+class FriendPageView extends StatefulWidget {
+  FriendPageView({Key key}) : super(key: key);
 
-  _BlockedListViewState createState() => _BlockedListViewState();
+  _FriendPageViewState createState() => _FriendPageViewState();
 }
 
-class _BlockedListViewState extends State<BlockedListView> {
+class _FriendPageViewState extends State<FriendPageView> {
   UserModel user;
   UserModel current;
 
@@ -21,31 +21,31 @@ class _BlockedListViewState extends State<BlockedListView> {
     user = context.watch<UserModel>();
     if (user == null) {
       return Scaffold(
-        appBar: AppBar(title: Text("Blocked Users")),
+        appBar: AppBar(title: Text("My Friends")),
         body: Container(child: Text("Invalid User")),
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Blocked Users"),
+        title: Text("Friends"),
       ),
       body: Container(
           child: ListView.builder(
-              itemCount: this.user.blockedIds.length,
+              itemCount: this.user.friendIds.length,
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                     onTap: () async {
-                      current = await getUser(user.blockedIds[index]);
+                      current = await getUser(user.friendIds[index]);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => BlockedPageView(
+                              builder: (context) => FriendListView(
                                   user: current)));
                     },
                     child: Card(
                         elevation: 5,
-                        child: Text(this.user.blockedIds[index])));
+                        child: Text(this.user.friendIds[index])));
               })),
     );
   }

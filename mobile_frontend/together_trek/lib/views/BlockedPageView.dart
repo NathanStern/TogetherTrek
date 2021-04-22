@@ -3,22 +3,22 @@ import 'package:together_trek/models/UserModel.dart';
 import 'package:provider/provider.dart';
 import 'package:together_trek/api/UserWrapper.dart';
 
-class FriendListView extends StatefulWidget {
-  FriendListView({Key key, this.user}) : super(key: key);
+class BlockedPageView extends StatefulWidget {
+  BlockedPageView({Key key, this.user}) : super(key: key);
   UserModel user;
 
-  _FriendListViewState createState() => _FriendListViewState(user: user);
+  _BlockedPageViewState createState() => _BlockedPageViewState(user: user);
 }
 
-class _FriendListViewState extends State<FriendListView> {
-  _FriendListViewState({this.user});
+class _BlockedPageViewState extends State<BlockedPageView> {
+  _BlockedPageViewState({this.user});
   UserModel user;
   @override
   Widget build(BuildContext context) {
-    if (user == null || user.friendIds.length == 0) {
+    if (user == null) {
       return Scaffold(
           appBar: AppBar(
-        title: Text("Friends"),
+        title: Text("Blocked Users"),
       ),
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +27,7 @@ class _FriendListViewState extends State<FriendListView> {
               height: 10.0,
             ),
             Text(
-              "No Friend",
+              "No Users",
               style: TextStyle(
                 fontSize: 22.0,
                 fontStyle: FontStyle.italic,
@@ -41,7 +41,7 @@ class _FriendListViewState extends State<FriendListView> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: Text("Friends"),
+          title: Text("Blocked Users"),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -9,9 +9,11 @@ class TripModel extends ChangeNotifier {
   String startDate;
   String endDate;
   String creatorId;
+  int budget;
   List<dynamic> participantIds;
   List<dynamic> expenses;
   //List<ExpenseModel> expenses;
+  List<dynamic> joinRequests;
   List<TripPhotoModel> tripPhotos;
 
   TripModel(
@@ -20,8 +22,14 @@ class TripModel extends ChangeNotifier {
       this.startDate,
       this.endDate,
       this.creatorId,
+//<<<<<<< HEAD
+      //this.participantIds,
+      this.joinRequests,
+//=======
+      this.budget,
       this.participantIds,
       this.expenses,
+//>>>>>>> main
       this.tripPhotos});
 
   factory TripModel.fromJson(Map<String, dynamic> json) {
@@ -29,10 +37,16 @@ class TripModel extends ChangeNotifier {
         id: json['_id'],
         creatorId: json['creator_id'],
         startDate: json['start_date'],
-        participantIds: json['participant_ids'],
         expenses: json['expenses'],
         //expenses: ExpenseModel.fromJson(json['expenses']) ?? [],
+        //participantIds: json['participant_ids'],
         endDate: json['end_date'],
+//<<<<<<< HEAD
+        participantIds: json['participant_ids'] ?? [],
+        joinRequests: json['join_requests'] ?? [],
+//=======
+        budget: json['budget'],
+//>>>>>>> main
         destination: DestinationModel.fromJson(json['destination']));
   }
   // getters are implicit
@@ -58,6 +72,8 @@ class TripModel extends ChangeNotifier {
         'destination': this.destination,
         'end_date': this.endDate,
         'expenses': this.expenses,
+        'budget': this.budget,
         'participant_ids': this.participantIds,
+        'join_requests': this.joinRequests
       };
 }

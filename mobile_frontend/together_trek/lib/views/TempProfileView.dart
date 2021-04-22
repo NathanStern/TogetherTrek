@@ -218,7 +218,6 @@ class TempAuthorProfileState extends State<TempAuthorProfile> {
                 onPressed: () {
                   //send friend request
                   UserWrapper.sendFriendRequest(_viewId, jsonEncode(<String, dynamic>{"username": _viewerName}),);
-                  user.addFriend(_viewId);
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(80.0)),

@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +48,7 @@ Future<TripModel> getTrip(String id) async {
 }
 
 Future<http.Response> makeTrip(BuildContext context, String startDate,
-    String endDate, String city, String country, String region) async {
+    String endDate, String city, String country, String region, int budget) async {
   UserModel user = context.read<UserModel>();
   String data = jsonEncode(<String, dynamic>{
     "creator_id": "${user.id}",
@@ -57,6 +59,7 @@ Future<http.Response> makeTrip(BuildContext context, String startDate,
       "country": country,
       "region": region,
     },
+    "budget": budget,
     "participant_ids": ["${user.id}"]
   });
   http.Response res = await httpPost('trips', data);
@@ -71,13 +74,15 @@ Future<String> updateTrip(
     String city,
     String country,
     String region,
+    int budget,
     TripModel trip) async {
   UserModel user = context.read<UserModel>();
   String data = jsonEncode(<String, dynamic>{
     "creator_id": "${user.id}",
     "start_date": startDate,
     "end_date": endDate,
-    "destination": trip.destination
+    "destination": trip.destination,
+    "budget": budget,
   });
   print(data);
   http.Response res = await httpPut('trips/${id}', data);
@@ -94,4 +99,38 @@ Future<String> requestJoinTrip(BuildContext context, String id) async {
   print(res.statusCode);
   print(res.body);
   return "Completed";
+}
+
+//<<<<<<< requestbutton
+Future<String> requestRemoveFromTrip(BuildContext context, String id,
+    String userId, String currentUserId) async {
+  //UserModel user = context.read<UserModel>();
+  String data = jsonEncode(<String, dynamic>{
+    "user_id": "${userId}",
+    "current_user_id": "${currentUserId}"
+  });
+  print(data);
+  http.Response res = await httpPut('trips/remove-user-no-token/${id}', data);
+  print(res.statusCode);
+  print(res.body);
+  return "Completed";
+}//=======
+Future<List<CachedNetworkImageProvider>> getTripPhotos(String id) async {
+  http.Response response = await httpGet("/trip_photos/trip/$id");
+
+  List<dynamic> body = await jsonDecode(response.body);
+
+  List<CachedNetworkImageProvider> photos = [];
+
+  for (int i = 0; i < body.length; i++) {
+    photos.add(getCachedNetworkImage("trip_photos/${body[i]['_id']}"));
+  }
+
+  return photos;
+}
+
+Future<int> uploadTripPhoto(Map<String, dynamic> body, File file) async {
+  int response = await httpPostFileWithBody('/trip_photos/', file, body);
+  return response;
+//>>>>>>> main
 }

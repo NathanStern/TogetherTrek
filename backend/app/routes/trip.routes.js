@@ -32,6 +32,8 @@ module.exports = app => {
   // Remove a user from a trip
   router.put("/remove-user/:id", trip_controller.removeUser);
 
+  router.put("/remove-user-no-token/:id", trip_controller.removeUserNoToken);
+
   router.put("/remove-user-username/:id", trip_controller.removeUserUsername);
 
   app.use("/trips", router);

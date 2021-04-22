@@ -58,6 +58,11 @@ const Header = () => {
                     <span class='white-text'>Messages</span>
                   </Nav.Link>
                 </LinkContainer>
+                <LinkContainer to='/nearby-users'>
+                  <Nav.Link>
+                    <span class='white-text'>Nearby Users</span>
+                  </Nav.Link>
+                </LinkContainer>
               </Nav>
               <NavDropdown
                 title={userInfo.username}
