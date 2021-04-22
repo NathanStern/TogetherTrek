@@ -18,6 +18,7 @@ import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:together_trek/views/PostsView.dart';
 import 'package:together_trek/views/ProfilePageView.dart';
 import 'package:together_trek/views/NotificationView.dart';
+import 'package:together_trek/views/NotificationPageView.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -36,7 +37,7 @@ class _HomeViewState extends State<HomeView> {
     TripsView(),
     PostsView(),
     ProfilePageView(),
-    NotificationView(),
+    NotificationPageView(),
   ];
 
   void _onTappedItem(int index) {

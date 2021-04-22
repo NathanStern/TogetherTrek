@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:together_trek/utils/DialogUtil.dart';
-import 'package:together_trek/views/FriendListView.dart';
 import 'package:together_trek/models/UserModel.dart';
+import 'package:together_trek/views/FriendListView.dart';
 
 class FriendPageView extends StatefulWidget {
+  FriendPageView({Key key}) : super(key: key);
+
   _FriendPageViewState createState() => _FriendPageViewState();
 }
 
@@ -14,37 +17,35 @@ class _FriendPageViewState extends State<FriendPageView> {
 
   @override
   Widget build(BuildContext context) {
-    user = context.read<UserModel>();
-    int _toReverse = 1;
-    return RefreshIndicator(
-        child: ListView.builder(
-            physics: BouncingScrollPhysics(),
-            itemCount: user.friendRequests.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(3)),
-                  elevation: 2,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                          borderRadius: BorderRadius.circular(2.5),
-                          enableFeedback: true,
-                          splashColor: Colors.deepOrangeAccent,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => FriendListView(
-                                        user: user.friendIds[index])));
-                          },
-                          child: ListTile(
-                              title: Text(user.friendIds[index]))),
-                    ],
-                  ));
-            }),
-        onRefresh: () async {});
+    user = context.watch<UserModel>();
+    if (user == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text("My Friends")),
+        body: Container(child: Text("Invalid User")),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Friends"),
+      ),
+      body: Container(
+          child: ListView.builder(
+              itemCount: this.user.tripIds.length,
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  FriendListView(user: this.user.friendIds[index])));
+                    },
+                    child: Card(
+                        elevation: 5,
+                        child: Text(
+                            this.user.friendIds[index].username)));
+              })),
+    );
   }
 }

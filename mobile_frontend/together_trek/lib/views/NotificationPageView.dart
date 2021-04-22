@@ -9,7 +9,7 @@ class NotificationPageView extends StatefulWidget {
   _NotificationPageViewState createState() => _NotificationPageViewState();
 }
 
-class _NotificationPageViewState extends State<NotificationView> {
+class _NotificationPageViewState extends State<NotificationPageView> {
   UserModel user;
 
   @override

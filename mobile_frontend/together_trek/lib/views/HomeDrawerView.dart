@@ -9,6 +9,7 @@ import 'package:together_trek/views/LoginView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:provider/provider.dart';
 import 'package:together_trek/views/FriendListView.dart';
+import 'package:together_trek/views/FriendPageView.dart';
 import 'package:together_trek/views/BlockedListView.dart';
 import 'package:together_trek/views/UserTripView.dart';
 
@@ -66,8 +67,9 @@ Widget createDrawer(BuildContext context, UserModel user,
         ListTile(
             title: Text("Friends"),
             onTap: () {
+              Navigator.pop(context);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FriendListView()));
+                  MaterialPageRoute(builder: (context) => FriendPageView()));
             }),
         ListTile(
           title: Text("My Trips"),

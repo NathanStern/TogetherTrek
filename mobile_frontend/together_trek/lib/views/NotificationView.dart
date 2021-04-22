@@ -59,6 +59,27 @@ class _NotificationViewState extends State<NotificationView> {
                 letterSpacing: 2.0,
               ),
             ),
+            Row(children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () async {
+
+
+                },
+                child: Text('Accept'),
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () async {
+
+                    
+                  },
+                  child: Text('Decline'),
+                )),
+            ])
           ],
         ),
       );
