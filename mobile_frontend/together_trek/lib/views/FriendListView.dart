@@ -1,43 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:package_info/package_info.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:together_trek/api/UserWrapper.dart';
 import 'package:together_trek/models/UserModel.dart';
-import 'package:together_trek/views/HomeDrawerView.dart';
-
 import 'package:provider/provider.dart';
+import 'package:together_trek/api/UserWrapper.dart';
 
 class FriendListView extends StatefulWidget {
-  _FriendListViewState createState() => _FriendListViewState();
+  FriendListView({Key key, this.user}) : super(key: key);
+  UserModel user;
+
+  _FriendListViewState createState() => _FriendListViewState(user: user);
 }
 
 class _FriendListViewState extends State<FriendListView> {
+  _FriendListViewState({this.user});
   UserModel user;
-  UserModel friend;
   @override
   Widget build(BuildContext context) {
-    user = context.watch<UserModel>();
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          backgroundColor: Colors.white,
-          title:
-              Text('Friends', style: TextStyle(color: Colors.deepOrangeAccent)),
-        ),
-        body: ListView.builder(
-          itemCount: user.friendIds.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text('${getUser(user.friendIds[index])}'),
-            );
-          },
-        ),
+    if (user == null) {
+      return Scaffold(
+          appBar: AppBar(
+        title: Text("Friends"),
       ),
-    );
+      body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              "No Friend",
+              style: TextStyle(
+                fontSize: 22.0,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
+                letterSpacing: 2.0,
+              ),
+            ),
+          ],
+        ));
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("Friends"),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              user.username,
+              style: TextStyle(
+                fontSize: 22.0,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
+                letterSpacing: 2.0,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
