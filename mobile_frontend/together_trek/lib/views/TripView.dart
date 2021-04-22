@@ -23,9 +23,38 @@ class _TripViewState extends State<TripView> {
   TripModel trip;
   bool leaveVisible = true;
   bool requestVisible = true;
+  void hideLeaveWidget() {
+    UserModel user = context.read<UserModel>();
+    setState(() {
+      print(trip.participantIds);
+      if (leaveVisible) {
+        leaveVisible = trip.participantIds.indexOf(user.id) != -1;
+      } else {
+        leaveVisible = false;
+      }
+    });
+  }
+
+  void hideRequestWidget() {
+    UserModel user = context.read<UserModel>();
+    setState(() {
+      if (requestVisible) {
+        requestVisible = trip.joinRequests.indexOf(user.id) == -1 &&
+            trip.participantIds.indexOf(user.id) == -1;
+      } else {
+        requestVisible = false;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     UserModel user = context.read<UserModel>();
+    //bool requestValid = user.tripIds.indexOf(trip.id) == -1 &&
+    //trip.joinRequests.indexOf(user.id) == -1;
+    //leaveVisible = user.tripIds.indexOf(trip.id) == -1 ;
+    hideLeaveWidget();
+    hideRequestWidget();
     return Scaffold(
       appBar: AppBar(
         title: Text("Trip"),
@@ -100,19 +129,24 @@ class _TripViewState extends State<TripView> {
                   child: ElevatedButton(
                     onPressed: () async {
                       requestJoinTrip(context, trip.id);
-                      requestVisible = false;
+                      hideRequestWidget();
+                      setState(() {
+                        requestVisible = false;
+                      });
                     },
                     child: Text('Request to join'),
                   ))
               : Container(),
-          (leaveVisible &&
-                  true /*(trip.participantIds).indexOf(user.id) == -1*/)
+          leaveVisible
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     onPressed: () async {
                       requestRemoveFromTrip(context, trip.id, user.id);
-                      leaveVisible = false;
+                      hideLeaveWidget();
+                      setState(() {
+                        leaveVisible = false;
+                      });
                     },
                     child: Text('Leave Trip'),
                   ))

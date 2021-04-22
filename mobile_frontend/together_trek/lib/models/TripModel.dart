@@ -28,6 +28,8 @@ class TripModel extends ChangeNotifier {
         creatorId: json['creator_id'],
         startDate: json['start_date'],
         endDate: json['end_date'],
+        participantIds: json['participant_ids'] ?? [],
+        joinRequests: json['join_requests'] ?? [],
         destination: DestinationModel.fromJson(json['destination']));
   }
   // getters are implicit
