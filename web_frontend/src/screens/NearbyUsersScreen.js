@@ -20,8 +20,6 @@ const NearbyUsersScreen = () => {
     e.preventDefault()
     const users = await getNearbyUsers(userInfo._id, range)
     setNearbyUsers(users)
-    console.log("USUS")
-    console.log(users)
     if (nearbyUsers && nearbyUsers.length > 0) {
       setShow(true)
     } else {
