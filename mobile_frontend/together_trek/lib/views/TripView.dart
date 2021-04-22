@@ -32,14 +32,13 @@ class _TripViewState extends State<TripView> {
   UserModel user;
   List data;
   //LoadedExpensesModel expensesList;
-  
+
   // Future<List<ExpenseModel>> expensesL = getExpenses();
 
   //   void _saveExpenses(List<ExpenseModel> expenses) {
   //   this.expensesList.resetExpenses(expenses);
   //   return;
   // }
-
 
   @override
   Widget build(BuildContext context) {
@@ -135,24 +134,22 @@ class _TripViewState extends State<TripView> {
             //                 //      ", " +
             //                     this.trip.expenses[index]),));
             //   }))),
-            FutureBuilder(
-                future: expenses,
-                builder:(context, snapshot) {
-                    if (!snapshot.hasData) {
+            Flexible(
+                child: FutureBuilder(
+                    future: expenses,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
                         return Center(child: CircularProgressIndicator());
-                    } else {
+                      } else {
                         return Container(
-                            child: ListView.builder(                                                  
+                            child: ListView.builder(
                                 itemCount: snapshot.data.length,
-                                scrollDirection: Axis.horizontal,
+                                scrollDirection: Axis.vertical,
                                 itemBuilder: (BuildContext context, int index) {
-                                    return Text('${snapshot.data[index]}');                                           
-                                }
-                            )
-                        );
-                    }
-                }
-            ),
+                                  return Text('${snapshot.data[index]}');
+                                }));
+                      }
+                    })),
             Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(

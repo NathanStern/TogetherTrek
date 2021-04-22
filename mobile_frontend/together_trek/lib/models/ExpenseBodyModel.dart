@@ -1,5 +1,5 @@
 class ExpenseBodyModel {
-  String amount;
+  double amount;
   String creator_id;
   String description;
   String date;
@@ -7,16 +7,11 @@ class ExpenseBodyModel {
   ExpenseBodyModel({this.amount, this.creator_id, this.description, this.date});
 
   factory ExpenseBodyModel.fromJson(Map<String, dynamic> json) {
-    print(json['amount']);
-    print(json['creator_id']);
-    print(json['description']);
-    print(json['date']);
     return ExpenseBodyModel(
         amount: json['amount'],
         creator_id: json['creator_id'],
         description: json['description'],
-        date: json['date']
-    );
+        date: json['date']);
   }
 
   Map<String, dynamic> toJson() => {
@@ -27,8 +22,8 @@ class ExpenseBodyModel {
         'date': this.date
       };
 
-    @override
-    String toString() {
-        return amount + ", " + description + ", " + date;
-      }
+  @override
+  String toString() {
+    return amount.toString() + ", " + description + ", " + date;
+  }
 }

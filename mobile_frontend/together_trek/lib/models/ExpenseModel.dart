@@ -7,19 +7,19 @@ class ExpenseModel extends ChangeNotifier {
   String category;
   String trip_id;
 
-  ExpenseModel(
-      {this.id,
-      this.expense_body,
-      this.category,
-      this.trip_id,});
+  ExpenseModel({
+    this.id,
+    this.expense_body,
+    this.category,
+    this.trip_id,
+  });
 
   factory ExpenseModel.fromJson(Map<String, dynamic> json) {
     return ExpenseModel(
         id: json['_id'],
         category: json['category'],
         trip_id: json['trip_id'],
-        expense_body: ExpenseBodyModel.fromJson(json['expense_body'])
-        );
+        expense_body: ExpenseBodyModel.fromJson(json['expense_body']));
   }
   // getters are implicit
 
