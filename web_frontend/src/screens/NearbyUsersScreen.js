@@ -20,6 +20,8 @@ const NearbyUsersScreen = () => {
     e.preventDefault()
     const users = await getNearbyUsers(userInfo._id, range)
     setNearbyUsers(users)
+    console.log("USUS")
+    console.log(users)
     if (nearbyUsers && nearbyUsers.length > 0) {
       setShow(true)
     } else {
@@ -45,8 +47,8 @@ const NearbyUsersScreen = () => {
     </Form>
     {show && nearbyUsers.map((el) =>
         <OtherUser otherUser={el}
-        requested={el.friend_requests.contains(userInfo._id)}
-        friends={userInfo.friend_ids.contains(el.id)} key={el.id}/>
+        requested={el.friend_requests.includes(userInfo._id)}
+        friends={userInfo.friend_ids.includes(el.id)} key={el._id}/>
     )}
     {!show && <p>No Users Found</p>}
     </Container>

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const OtherUser = ({ otherUser, requested, friends }) => {
   const dispatch = useDispatch()
-  const buttonText = "Add"
+  let buttonText = "Add"
   if (requested) {
     buttonText = "Requested"
   }
@@ -40,12 +40,11 @@ const OtherUser = ({ otherUser, requested, friends }) => {
             <Card.Img src={profilePic} />
           </Link>
           <Card.Body>
-            <Card.Title>{otherUser.username + "-" + otherUser.distance + "miles"}</Card.Title>
+            <Card.Title>{otherUser.username + " - " + otherUser.distance + " miles"}</Card.Title>
             <Row>
-              <Col className='half-col'>
+              <Col>
                 <Button
                   variant='primary'
-                  className='half-button'
                   onClick={(e) => addFriendHandler(e)}
                 >
                   {friendBtnText}
