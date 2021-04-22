@@ -24,6 +24,7 @@ import OtherProfileScreen from './screens/OtherProfileScreen'
 import MessageBoardScreen from './screens/MessageBoardScreen.js'
 import BlockedUsersScreen from './screens/BlockedUsersScreen'
 import ViewTripPhotosScreen from './screens/ViewTripPhotosScreen'
+import NearbyUsersScreen from './screens/NearbyUsersScreen'
 function App() {
   return (
     <Router>
@@ -55,6 +56,7 @@ function App() {
           <Route path='/messages/:id' component={MessageBoardScreen} />
           <Route path='/blocked' component={BlockedUsersScreen} />
           <Route path='/view_photos/:id' component={ViewTripPhotosScreen} />
+          <Route path='/nearby-users' component={NearbyUsersScreen} />
         </Container>
       </main>
       <Footer />
