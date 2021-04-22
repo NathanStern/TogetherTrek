@@ -21,6 +21,19 @@ Future<List<PostModel>> getPosts() async {
   return posts;
 }
 
+Future<List<PostModel>> getPostsById(
+    List<PostModel> allPosts, String id) async {
+  List<PostModel> userPosts = [];
+
+  for (int i = 0; i < allPosts.length; i++) {
+    if (allPosts[i].authorId == id) {
+      userPosts.add(allPosts[i]);
+    }
+  }
+
+  return userPosts;
+}
+
 Future<Null> makePost(BuildContext context, String title, String description,
     String city, String country, String region) async {
   UserModel user = context.read<UserModel>();
