@@ -475,7 +475,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{site}}:{{port}}/users?email={{email-1}}&username={{username-1}}",
+									"raw": "{{site}}:{{port}}/users?username={{username-1}}",
 									"host": [
 										"{{site}}"
 									],
@@ -484,10 +484,6 @@
 										"users"
 									],
 									"query": [
-										{
-											"key": "email",
-											"value": "{{email-1}}"
-										},
 										{
 											"key": "username",
 											"value": "{{username-1}}"
