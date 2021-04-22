@@ -5,6 +5,10 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sha3/sha3.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:together_trek/api/PostWrapper.dart';
+import 'package:together_trek/api/TripWrapper.dart';
+import 'package:together_trek/models/LoadedPostsModel.dart';
+import 'package:together_trek/models/LoadedTripsModel.dart';
 
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/api/UserWrapper.dart';
@@ -76,6 +80,13 @@ class _LoginViewState extends State<LoginView> {
           user.setAllFieldsFromUser(fetchedUser);
 
           prefs.setString('user', this.user.id);
+
+          LoadedTripsModel trips = context.read<LoadedTripsModel>();
+          LoadedPostsModel posts = context.read<LoadedPostsModel>();
+
+          user.tripIds = await getTripsById(trips.trips, user.id);
+          user.postIds = await getPostsById(posts.posts, user.id);
+
           Navigator.popUntil(context, ModalRoute.withName("/"));
         }
       }
