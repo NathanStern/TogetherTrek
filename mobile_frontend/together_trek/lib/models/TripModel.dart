@@ -8,6 +8,7 @@ class TripModel extends ChangeNotifier {
   String startDate;
   String endDate;
   String creatorId;
+  int budget;
   List<dynamic> participantIds;
   List<TripPhotoModel> tripPhotos;
 
@@ -17,6 +18,7 @@ class TripModel extends ChangeNotifier {
       this.startDate,
       this.endDate,
       this.creatorId,
+      this.budget,
       this.participantIds,
       this.tripPhotos});
 
@@ -27,6 +29,7 @@ class TripModel extends ChangeNotifier {
         startDate: json['start_date'],
         participantIds: json['participant_ids'],
         endDate: json['end_date'],
+        budget: json['budget'],
         destination: DestinationModel.fromJson(json['destination']));
   }
   // getters are implicit
@@ -51,6 +54,7 @@ class TripModel extends ChangeNotifier {
         'start_date': this.startDate,
         'destination': this.destination,
         'end_date': this.endDate,
+        'budget': this.budget,
         'participant_ids': this.participantIds,
       };
 }
