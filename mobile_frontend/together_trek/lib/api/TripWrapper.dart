@@ -46,7 +46,7 @@ Future<TripModel> getTrip(String id) async {
 }
 
 Future<http.Response> makeTrip(BuildContext context, String startDate,
-    String endDate, String city, String country, String region) async {
+    String endDate, String city, String country, String region, int budget) async {
   UserModel user = context.read<UserModel>();
   String data = jsonEncode(<String, dynamic>{
     "creator_id": "${user.id}",
@@ -57,6 +57,7 @@ Future<http.Response> makeTrip(BuildContext context, String startDate,
       "country": country,
       "region": region,
     },
+    "budget": budget,
     "participant_ids": ["${user.id}"]
   });
   http.Response res = await httpPost('trips', data);
@@ -71,13 +72,15 @@ Future<String> updateTrip(
     String city,
     String country,
     String region,
+    int budget,
     TripModel trip) async {
   UserModel user = context.read<UserModel>();
   String data = jsonEncode(<String, dynamic>{
     "creator_id": "${user.id}",
     "start_date": startDate,
     "end_date": endDate,
-    "destination": trip.destination
+    "destination": trip.destination,
+    "budget": budget,
   });
   print(data);
   http.Response res = await httpPut('trips/${id}', data);

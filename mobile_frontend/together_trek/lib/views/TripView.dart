@@ -87,6 +87,26 @@ class _TripViewState extends State<TripView> {
               height: 10.0,
             ),
             Text(
+              "Budget:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 28.0),
+            ),
+            Text(
+              trip.budget.toString(),
+              style: TextStyle(
+                fontSize: 22.0,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
+                letterSpacing: 2.0,
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
               trip.destination.toString(),
               style: TextStyle(
                 fontSize: 22.0,
@@ -160,6 +180,16 @@ class _TripViewState extends State<TripView> {
             ),
             Text(
               "Destination:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 28.0),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              "Budget:",
               style: TextStyle(
                   color: Colors.redAccent,
                   fontStyle: FontStyle.normal,
