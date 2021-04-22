@@ -53,12 +53,13 @@ Widget createMessageSummaryWidget(
     }
     int hour = date.hour;
 
+    String minute = date.minute.toString().padLeft(2, '0');
+
     hour -= 12 * isAfternoon;
     if (hour == 0) {
       hour = 12;
     }
-    timestamp =
-        "$hour:${date.minute} $halfDay ${months[date.month - 1]} ${date.day}";
+    timestamp = "$hour:$minute $halfDay ${months[date.month - 1]} ${date.day}";
   }
   String messagePreview = "";
 

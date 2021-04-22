@@ -18,8 +18,9 @@ Future<MessageSummaryListModel> getMessageSummaries(String jwt) async {
   });
 
   var body = jsonDecode(response.body);
+  // print(body is Map<String, dynamic>);
 
-  if ((body is Map<String, dynamic>) && (body["meesage"] != null)) {
+  if ((body is Map<String, dynamic>)) {
     return MessageSummaryListModel.empty();
   }
 

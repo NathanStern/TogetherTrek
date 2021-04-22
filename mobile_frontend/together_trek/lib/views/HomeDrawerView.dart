@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:together_trek/api/UserWrapper.dart';
+import 'package:together_trek/models/MessageSummaryListModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/LoginView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
@@ -114,6 +115,9 @@ Widget createDrawer(BuildContext context, UserModel user,
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('user', "");
             prefs.setString('jwt', "");
+            MessageSummaryListModel loadedPosts =
+                context.read<MessageSummaryListModel>();
+            loadedPosts.messageBoards = [];
             user.setAllFieldsFromUser(UserModel.empty());
           },
         ),
@@ -179,26 +183,6 @@ Widget createDrawer(BuildContext context, UserModel user,
               _onTappedItem(2);
             }),
         ListTile(
-          title: Text("My Trips"),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PlaceholderView(title: "My Trips")));
-          },
-        ),
-        ListTile(
-          title: Text("My Posts"),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PlaceholderView(title: "My Posts")));
-          },
-        ),
-        ListTile(
           title: Text("Settings"),
           onTap: () {
             Navigator.pop(context);
@@ -216,6 +200,8 @@ Widget createDrawer(BuildContext context, UserModel user,
                 MaterialPageRoute(builder: (context) => LoginView(user: user)));
           },
         ),
+        ListTile(),
+        ListTile(),
         ListTile(),
         ListTile(),
         Divider(),

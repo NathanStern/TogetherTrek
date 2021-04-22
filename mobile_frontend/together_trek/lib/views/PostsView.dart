@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:together_trek/api/PostWrapper.dart';
 import 'package:together_trek/models/LoadedPostsModel.dart';
 import 'package:together_trek/models/PostModel.dart';
+import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/PostView.dart';
 
@@ -22,6 +23,7 @@ class _PostsViewState extends State<PostsView> {
   @override
   Widget build(BuildContext context) {
     posts = context.watch<LoadedPostsModel>();
+    UserModel user = context.read<UserModel>();
     int _toReverse = 1;
     return RefreshIndicator(
       child: ListView.builder(
@@ -79,6 +81,7 @@ class _PostsViewState extends State<PostsView> {
             _toReverse = 1;
           }
         });
+        user.postIds = await getPostsById(posts.posts, user.id);
       },
     );
   }

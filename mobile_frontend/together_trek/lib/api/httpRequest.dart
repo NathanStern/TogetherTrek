@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
 import 'package:http_parser/http_parser.dart';
@@ -46,6 +47,11 @@ NetworkImage getNetworkImage(String requestExtension) {
   return NetworkImage("https://" + baseURL + "/" + requestExtension);
 }
 
+CachedNetworkImageProvider getCachedNetworkImage(String requestExtension) {
+  return CachedNetworkImageProvider(
+      "https://" + baseURL + "/" + requestExtension);
+}
+
 Future<int> httpPutFile(String requestExtension, File file) async {
   var uri = Uri.parse("https://$baseURL$requestExtension");
   var request = new http.MultipartRequest("PUT", uri);
@@ -59,23 +65,34 @@ Future<int> httpPutFile(String requestExtension, File file) async {
     length,
   );
 
-  // request.files.add(new http.MultipartFile.fromBytes(
-  //     'file', file.readAsBytesSync(),
-  //     contentType: new MediaType('image', 'jpeg')));
-  //request.files.add(new http.MultipartFile.fromString('type', "image/jpeg"));
+  request.files.add(multiPartFile);
+
+  http.Response response = await http.Response.fromStream(await request.send());
+
+  return response.statusCode;
+}
+
+Future<int> httpPostFileWithBody(
+    String requestExtension, File file, Map<String, dynamic> body) async {
+  var uri = Uri.parse("https://$baseURL$requestExtension");
+  var request = new http.MultipartRequest("POST", uri);
+
+  var stream = new http.ByteStream(file.openRead());
+  var length = await file.length();
+
+  var multiPartFile = new http.MultipartFile(
+    'file',
+    stream,
+    length,
+  );
 
   request.files.add(multiPartFile);
 
-  // int responseCode;
-  // request.send().then((response) {
-  //   print(response.statusCode);
-  //   print(response.reasonPhrase);
-  //   responseCode = response.statusCode;
-  // });
-  //
+  for (int i = 0; i < body.keys.length; i++) {
+    request.fields['${body.keys.elementAt(i)}'] = body[body.keys.elementAt(i)];
+  }
 
   http.Response response = await http.Response.fromStream(await request.send());
-  print(response.body);
 
   return response.statusCode;
 }
