@@ -107,6 +107,9 @@ class _TripViewState extends State<TripView> {
                   fontStyle: FontStyle.normal,
                   fontSize: 28.0),
             ),
+            SizedBox(
+              height: 10.0,
+            ),
             Text(
               trip.budget.toString(),
               style: TextStyle(
@@ -116,6 +119,9 @@ class _TripViewState extends State<TripView> {
                 color: Colors.black,
                 letterSpacing: 2.0,
               ),
+            ),
+            SizedBox(
+              height: 10.0,
             ),
             Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -208,6 +214,22 @@ class _TripViewState extends State<TripView> {
                   color: Colors.redAccent,
                   fontStyle: FontStyle.normal,
                   fontSize: 28.0),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              trip.budget.toString(),
+              style: TextStyle(
+                fontSize: 22.0,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
+                letterSpacing: 2.0,
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
             ),
             Padding(
                 padding: const EdgeInsets.all(8.0),
