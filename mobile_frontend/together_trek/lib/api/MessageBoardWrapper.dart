@@ -17,8 +17,6 @@ Future<MessageSummaryListModel> getMessageSummaries(String jwt) async {
     'Authorization': jwt
   });
 
-  print(response.body);
-
   var body = jsonDecode(response.body);
   // print(body is Map<String, dynamic>);
 
