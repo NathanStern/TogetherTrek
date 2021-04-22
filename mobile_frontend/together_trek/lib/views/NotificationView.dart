@@ -15,7 +15,7 @@ class _NotificationViewState extends State<NotificationView> {
   UserModel user;
   @override
   Widget build(BuildContext context) {
-    if (user == null) {
+    if (user == null ) {
       return Scaffold(
           appBar: AppBar(
             title: Text("Notification"),

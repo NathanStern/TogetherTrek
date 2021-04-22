@@ -15,7 +15,7 @@ class _FriendListViewState extends State<FriendListView> {
   UserModel user;
   @override
   Widget build(BuildContext context) {
-    if (user == null) {
+    if (user == null || user.friendIds.length == 0) {
       return Scaffold(
           appBar: AppBar(
         title: Text("Friends"),
