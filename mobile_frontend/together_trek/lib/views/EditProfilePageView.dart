@@ -59,7 +59,7 @@ class MyCustomFormState extends State<MyCustomForm> {
 
     _id = user.id;
     _gender = user.gender;
-    _userName = user.username;
+    // _userName = user.username;
     _city = user.city;
     _country = user.country;
 
@@ -68,21 +68,21 @@ class MyCustomFormState extends State<MyCustomForm> {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TextFormField(
-                initialValue: _userName,
-                decoration: InputDecoration(hintText: "UserName"),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please enter a userName';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  setState(() {
-                    _userName = value;
-                  });
-                },
-              ),
+              // TextFormField(
+              //   initialValue: _userName,
+              //   decoration: InputDecoration(hintText: "UserName"),
+              //   validator: (value) {
+              //     if (value.isEmpty) {
+              //       return 'Please enter a userName';
+              //     }
+              //     return null;
+              //   },
+              //   onSaved: (value) {
+              //     setState(() {
+              //       _userName = value;
+              //     });
+              //   },
+              // ),
               DropdownButtonFormField(
                 decoration: InputDecoration(
                     icon: Icon(Icons.person_outline), hintText: "Gender"),
@@ -153,14 +153,27 @@ class MyCustomFormState extends State<MyCustomForm> {
                       if (_formKey.currentState.validate()) {
                         final form = _formKey.currentState;
                         form.save();
+                        // print(_city);
+                        // UserModel editedUser = context.read<UserModel>();
+                        // editedUser.setGender(_gender);
+                        // editedUser.setCity(_city);
+                        // editedUser.setCountry(_country);
+                        String newCity = _city;
+                        String newCountry = _country;
+                        String newGender = _gender;
                         await updateUser(
                           _id,
-                          jsonEncode(<String, dynamic>{"username": _userName, "gender": _gender, "city": _city, "country": _country}),
+                          jsonEncode(<String, dynamic>{
+                            // "username": _userName,
+                            "gender": _gender,
+                            "city": _city,
+                            "country": _country
+                          }),
                         );
-                        user.setUsername(_userName);
-                        user.setGender(_gender);
-                        user.setCity(_city);
-                        user.setCountry(_country);
+                        user.setGender(newGender);
+                        user.setCity(newCity);
+                        user.setCountry(newCountry);
+                        // user.setUsername(_userName);
                         Navigator.pop(context);
                       }
                     },

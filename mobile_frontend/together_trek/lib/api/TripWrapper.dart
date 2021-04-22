@@ -21,6 +21,30 @@ Future<List<TripModel>> getTrips() async {
   return trips;
 }
 
+Future<List<TripModel>> getTripsById(
+    List<TripModel> allTrips, String id) async {
+  // List<TripModel> allTrips = await getTrips();
+
+  List<TripModel> userTrips = [];
+
+  for (int i = 0; i < allTrips.length; i++) {
+    if (allTrips[i].creatorId == id) {
+      userTrips.add(allTrips[i]);
+    }
+  }
+
+  return userTrips;
+}
+
+Future<TripModel> getTrip(String id) async {
+  print(id);
+  http.Response response = await httpGet('trips/$id');
+
+  print(response.body);
+
+  // return TripModel.fromJson(jsonDecode(response.body));
+}
+
 Future<http.Response> makeTrip(BuildContext context, String startDate,
     String endDate, String city, String country, String region) async {
   UserModel user = context.read<UserModel>();
