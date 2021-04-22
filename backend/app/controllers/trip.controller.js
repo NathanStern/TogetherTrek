@@ -681,7 +681,7 @@ exports.removeUserUsername = (req, res) => {
   let user_id_to_remove;
   User.find(condition)
   .then(data => {
-    user_id_to_remove = data[0]._id;
+    user_id_to_remove = data._id;
   })
   .catch(err => {
     res.status(500).send({
@@ -690,16 +690,21 @@ exports.removeUserUsername = (req, res) => {
     })
   })
   // Get the decoded authorization token
-  let decoded_token;
-  try {
-    decoded_token = token_helper.getDecodedToken(req.headers);
-  } catch (err) {
-    res.status(err[0]).send({ meesage: err[1] });
-    return;
+  let current_user_id;
+  if (req.body.current_user_id) {
+    current_user_id = req.body.current_user_id;
   }
-
-  const current_user_id = decoded_token["id"];
-
+  else {
+    let decoded_token;
+    try {
+      decoded_token = token_helper.getDecodedToken(req.headers);
+    } catch (err) {
+      res.status(err[0]).send({ meesage: err[1] });
+      return;
+    }
+    current_user_id = decoded_token["id"];
+  }
+  console.log(current_user_id);
   Trip.findById(trip_id)
   .then(trip => {
     User.findById(user_id_to_remove)
