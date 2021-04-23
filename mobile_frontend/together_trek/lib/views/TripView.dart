@@ -181,7 +181,7 @@ class _TripViewState extends State<TripView> {
   @override
   Widget build(BuildContext context) {
     user = context.read<UserModel>();
-      user = context.read<UserModel>();
+    user = context.read<UserModel>();
     Future<List<ExpenseModel>> expenses = getExpenses();
     Future<List<ExpenseModel>> foodExpenses = getFoodExpenses(trip.id);
     Future<List<ExpenseModel>> housingExpenses = getHousingExpenses(trip.id);
@@ -275,7 +275,7 @@ class _TripViewState extends State<TripView> {
             //           }
             //         })),
 
-                    Text("food"),
+            Text("food"),
             Flexible(
                 child: FutureBuilder(
                     future: foodExpenses,
@@ -288,11 +288,12 @@ class _TripViewState extends State<TripView> {
                                 itemCount: snapshot.data.length,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Text('${snapshot.data[index].toString()}');
+                                  return Text(
+                                      '${snapshot.data[index].toString()}');
                                 }));
                       }
                     })),
-                    Text("housing"),
+            Text("housing"),
             Flexible(
                 child: FutureBuilder(
                     future: housingExpenses,
@@ -305,11 +306,12 @@ class _TripViewState extends State<TripView> {
                                 itemCount: snapshot.data.length,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Text('${snapshot.data[index].toString()}');
+                                  return Text(
+                                      '${snapshot.data[index].toString()}');
                                 }));
                       }
                     })),
-                    Text("transportation"),
+            Text("transportation"),
             Flexible(
                 child: FutureBuilder(
                     future: transpExpenses,
@@ -322,11 +324,12 @@ class _TripViewState extends State<TripView> {
                                 itemCount: snapshot.data.length,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Text('${snapshot.data[index].toString()}');
+                                  return Text(
+                                      '${snapshot.data[index].toString()}');
                                 }));
                       }
                     })),
-                    Text("other"),
+            Text("other"),
             Flexible(
                 child: FutureBuilder(
                     future: otherExpenses,
@@ -339,7 +342,8 @@ class _TripViewState extends State<TripView> {
                                 itemCount: snapshot.data.length,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Text('${snapshot.data[index].toString()}');
+                                  return Text(
+                                      '${snapshot.data[index].toString()}');
                                 }));
                       }
                     })),
@@ -380,7 +384,7 @@ class _TripViewState extends State<TripView> {
                   },
                   child: Text('View Photos'),
                 )),
-                Padding(
+            Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () async {
@@ -420,7 +424,14 @@ class _TripViewState extends State<TripView> {
                       },
                       child: Text('Leave Trip'),
                     ))
-                : Container()
+                : Container(),
+            Text(
+              "invite user:",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 20.0),
+            )
           ],
         ),
       );

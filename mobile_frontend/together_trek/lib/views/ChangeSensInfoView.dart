@@ -153,13 +153,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                       /*_passwordController.text = "";
                           _firstPressed = true;*/
                     } else {
+                      user.setPassword(_newPassword);
                       await updateUser(
                         _id,
                         jsonEncode(<String, dynamic>{
                           "password": _newPassword,
                         }),
                       );
-                      user.setPassword(_newPassword);
                       print("logged in");
                       showDialog(
                           context: context,
@@ -218,13 +218,13 @@ class MyCustomFormState extends State<MyCustomForm> {
                       /*_passwordController.text = "";
                           _firstPressed = true;*/
                     } else {
+                      user.setEmail(_email);
                       await updateUser(
                         _id,
                         jsonEncode(<String, dynamic>{
                           "email": _email,
                         }),
                       );
-                      user.setEmail(_email);
                       print("logged in");
                       showDialog(
                           context: context,
