@@ -191,26 +191,6 @@ Widget createDrawer(BuildContext context, UserModel user,
               _onTappedItem(2);
             }),
         ListTile(
-          title: Text("My Trips"),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PlaceholderView(title: "My Trips")));
-          },
-        ),
-        ListTile(
-          title: Text("My Posts"),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PlaceholderView(title: "My Posts")));
-          },
-        ),
-        ListTile(
           title: Text("Nearby Users"),
           onTap: () {
             Navigator.pop(context);

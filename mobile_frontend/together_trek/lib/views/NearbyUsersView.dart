@@ -12,6 +12,10 @@ class NearbyUsersView extends StatefulWidget {
   _NearbyUsersViewState createState() => _NearbyUsersViewState();
 }
 
+Future<List<Map<String, dynamic>>> getNearbyUserData(userId, range) => Future(() {
+      return [{"username": "Ryan", "_id": "60668c10d6053d072db30edf"}];
+});
+
 class _NearbyUsersViewState extends State<NearbyUsersView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   UserModel user;
@@ -19,14 +23,12 @@ class _NearbyUsersViewState extends State<NearbyUsersView> {
 
   @override
   Widget build(BuildContext context) {
-    print("test");
     user = context.watch<UserModel>();
-    nearbyUsers = getNearbyUsers(user.id, "20");
+    nearbyUsers = getNearbyUserData(user.id, "20");
     return FutureBuilder(
       future: nearbyUsers,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          print("test2");
           return Scaffold(
             appBar: AppBar(
               title: Text("Nearby Users"),
@@ -52,9 +54,9 @@ class _NearbyUsersViewState extends State<NearbyUsersView> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: ElevatedButton(
-                          onPressed: () async {
-                            setState(() async {
-                              nearbyUsers = getNearbyUsers(user.id, "20");
+                          onPressed: () {
+                            setState(() {
+                              nearbyUsers = getNearbyUserData(user.id, "20");
                             });
                           },
                           child: const Text('Submit'),
