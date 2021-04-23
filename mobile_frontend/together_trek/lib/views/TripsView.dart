@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:together_trek/api/TripWrapper.dart';
 import 'package:together_trek/models/LoadedTripsModel.dart';
 import 'package:together_trek/models/TripModel.dart';
@@ -30,16 +29,13 @@ class _TripsViewState extends State<TripsView> {
         appBar: AppBar(
           actions: <Widget>[
             IconButton(
-              onPressed: () async{
+              onPressed: () async {
                 showSearch(
-                  context: context, 
-                  delegate: SearchData(user.tripIds));
+                    context: context, delegate: SearchData(user.tripIds));
               },
               icon: Icon(Icons.search),
             )
           ],
-          centerTitle: true,
-          title: Text('Search'),
         ),
         body: RefreshIndicator(
           child: ListView.builder(
@@ -101,22 +97,21 @@ class _TripsViewState extends State<TripsView> {
             });
             user.tripIds = await getTripsById(trips.trips, user.id);
           },
-        )
-        );
-        
+        ));
   }
 }
 
 class SearchData extends SearchDelegate {
+
   @override
   List<Widget> buildActions(BuildContext context) {
-    return <Widget>[
+    return [
       IconButton(
-        icon: Icon(Icons.close),
+        icon: Icon(Icons.clear),
         onPressed: () {
           query = "";
         },
-      ),
+      )
     ];
   }
 
