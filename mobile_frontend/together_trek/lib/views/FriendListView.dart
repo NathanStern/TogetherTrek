@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:together_trek/models/UserModel.dart';
-import 'package:provider/provider.dart';
-import 'package:together_trek/api/UserWrapper.dart';
 
 class FriendListView extends StatefulWidget {
   FriendListView({Key key, this.user}) : super(key: key);
@@ -24,7 +22,7 @@ class _FriendListViewState extends State<FriendListView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              height: 10.0,
+              height: 20.0,
             ),
             Text(
               "No Friend",

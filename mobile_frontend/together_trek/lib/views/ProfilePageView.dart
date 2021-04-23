@@ -163,7 +163,7 @@ class _ProfilePageViewState extends State<ProfilePageView> {
                                       height: 5.0,
                                     ),
                                     Text(
-                                      this.user.birthdate.substring(0, 10),
+                                      this.user.birthdate.toString(),
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         color: Colors.orangeAccent,

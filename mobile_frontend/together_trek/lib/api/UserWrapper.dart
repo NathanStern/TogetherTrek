@@ -48,7 +48,7 @@ Future<int> declineFriendRequest(String id, String data) async {
 }
 
 Future<int> blockUser(String id, String data) async {
-  http.Response response = await httpPost('users/block-user/$id', data);
+  http.Response response = await httpPut('users/block-user/$id', data);
   return response.statusCode;
 }
 
