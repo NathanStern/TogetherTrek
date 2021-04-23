@@ -30,8 +30,7 @@ class _TripsViewState extends State<TripsView> {
           actions: <Widget>[
             IconButton(
               onPressed: () async {
-                showSearch(
-                    context: context, delegate: SearchData(user.tripIds));
+                showSearch(context: context, delegate: SearchData(trips.trips));
               },
               icon: Icon(Icons.search),
             )
@@ -102,7 +101,6 @@ class _TripsViewState extends State<TripsView> {
 }
 
 class SearchData extends SearchDelegate {
-
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -134,27 +132,28 @@ class SearchData extends SearchDelegate {
     ));
   }
 
-  final List<String> list;
+  final List<TripModel> list;
   SearchData(this.list);
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> suggestionList = [];
+    List<TripModel> suggestionList = [];
     query.isEmpty
         ? suggestionList = list
         : suggestionList.addAll(list.where(
-            (element) => element.contains(query),
+            (element) => element.destination.toString().contains(query),
           ));
     return ListView.builder(
       itemCount: suggestionList.length,
       itemBuilder: (context, index) {
         return ListTile(
             title: Text(
-              suggestionList[index],
+              suggestionList[index].destination.toString(),
             ),
             onTap: () {
-              selectedResult = suggestionList[index];
+              selectedResult = suggestionList[index].destination.toString();
               showResults(context);
             });
+            
       },
     );
   }
