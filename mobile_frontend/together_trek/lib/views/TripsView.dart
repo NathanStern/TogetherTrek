@@ -30,21 +30,23 @@ class _TripsViewState extends State<TripsView> {
           actions: <Widget>[
             IconButton(
               onPressed: () async {
-                showSearch(context: context, delegate: SearchByDestination(trips.trips));
+                showSearch(
+                    context: context,
+                    delegate: SearchByDestination(trips.trips));
               },
               icon: Icon(Icons.search),
             ),
             IconButton(
               onPressed: () async {
-                showSearch(context: context, delegate: SearchByBudget(trips.trips));
+                showSearch(
+                    context: context, delegate: SearchByBudget(trips.trips));
               },
               icon: Icon(Icons.search),
             )
           ],
-          centerTitle:true,
+          centerTitle: true,
           title: Text('Search'),
         ),
-        
         body: RefreshIndicator(
           child: ListView.builder(
               physics: BouncingScrollPhysics(),
@@ -132,12 +134,12 @@ class SearchByDestination extends SearchDelegate {
     );
   }
 
-  String selectedResult;
+  TripModel selectedResult;
   @override
   Widget buildResults(BuildContext context) {
     return Container(
         child: Center(
-      child: Text(selectedResult),
+      child: Text(selectedResult.destination.toString()),
     ));
   }
 
@@ -156,17 +158,20 @@ class SearchByDestination extends SearchDelegate {
       itemBuilder: (context, index) {
         return ListTile(
             title: Text(
-              suggestionList[index].destination.toString(),
+              "Destination: " + suggestionList[index].destination.toString() + " || Budget: " + suggestionList[index].budget.toString(),
             ),
             onTap: () {
-              selectedResult = suggestionList[index].destination.toString();
-              showResults(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          TripView(trip: suggestionList[index])));
             });
-            
       },
     );
   }
 }
+
 class SearchByBudget extends SearchDelegate {
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -190,12 +195,12 @@ class SearchByBudget extends SearchDelegate {
     );
   }
 
-  String selectedResult;
+  TripModel selectedResult;
   @override
   Widget buildResults(BuildContext context) {
     return Container(
         child: Center(
-      child: Text(selectedResult),
+      child: Text(selectedResult.toString()),
     ));
   }
 
@@ -214,13 +219,15 @@ class SearchByBudget extends SearchDelegate {
       itemBuilder: (context, index) {
         return ListTile(
             title: Text(
-              suggestionList[index].budget.toString(),
+              "Destination: " + suggestionList[index].destination.toString() + " || Budget: " + suggestionList[index].budget.toString(),
             ),
             onTap: () {
-              selectedResult = suggestionList[index].budget.toString();
-              showResults(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          TripView(trip: suggestionList[index])));
             });
-            
       },
     );
   }
