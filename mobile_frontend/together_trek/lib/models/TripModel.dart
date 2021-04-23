@@ -65,6 +65,8 @@ class TripModel extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
   void addParticipant(String participantId) {
     this.participantIds.add(participantId);
   }

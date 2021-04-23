@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:provider/provider.dart';
-import 'package:together_trek/api/UserWrapper.dart';
+import 'package:together_trek/api/UserWrapper.dart' as UserWrapper;
 
 class NotificationView extends StatefulWidget {
   NotificationView({Key key, this.user}) : super(key: key);
@@ -15,7 +17,7 @@ class _NotificationViewState extends State<NotificationView> {
   UserModel user;
   @override
   Widget build(BuildContext context) {
-    if (user == null ) {
+    if (user == null) {
       return Scaffold(
           appBar: AppBar(
             title: Text("Notification"),
@@ -63,7 +65,12 @@ class _NotificationViewState extends State<NotificationView> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () async {},
+                  onPressed: () async {
+                    UserWrapper.acceptFriendRequest(
+                      user.id,
+                      jsonEncode(<String, dynamic>{"username": user.username}),
+                    );
+                  },
                   child: Text('Accept'),
                 ),
               ),

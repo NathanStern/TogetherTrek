@@ -84,59 +84,68 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   const inviteUser = async (e) => {
     e.preventDefault()
 
-    const otherUser = await axios.get(`${path}/users?username=${username}`)
-    console.log(otherUser)
+    //const otherUser = await axios.get(`${path}/users?username=${username}`)
+    /*console.log(otherUser)
 
-    /*setTimeout(() => {
+    setTimeout(() => {
         console.log("waiting");
-      }, 1000)*/
+      }, 1000)
     setOtherUserInfo(otherUser.data)
     if (otherUserInfo) {
       console.log(otherUserInfo)
       //setOtherUserInfo(otherUser.data);
       console.log(otherUserInfo[0]._id)
       console.log(userInfo._id)
-      console.log(tripInfo._id)
+      console.log(tripInfo._id)*/
+      console.log(username);
+      console.log(tripInfo);
+      console.log(userInfo);
       axios
-        .put(`${path}/users/invite-user/${otherUserInfo[0]._id}`, {
-          requesting_user_id: userInfo._id,
+        .put(`${path}/users/invite-user-username/${userInfo._id}`, {
+          requesting_user_username: username,
           trip_id: tripInfo._id,
         })
         .then((res) => {
           setMessage('Trip invite is Sent')
           setTimeout(() => {
-            setMessage(null)
-          }, 1000)
+            setMessage('Trip invite cannot be sent')
+          }, 10000)
+        })
+        .catch((err) => {
+          setMessage('Trip invite cannot be sent')
         })
 
       console.log('Sent invite request')
-    }
+    //}
   }
 
   const removeUser = async (e) => {
     e.preventDefault()
-    const otherUser = await axios.get(
+    /*const otherUser = await axios.get(
       `${path}/users?username=${usernameRemove}`
     )
-
-    /*setTimeout(() => {
-      console.log("waiting");
-    }, 1000)*/
     setOtherUserInfo(otherUser.data)
     if (otherUserInfo) {
-      console.log(otherUserInfo)
+      console.log(otherUserInfo)*/
       //setOtherUserInfo(otherUser.data);
+      console.log(usernameRemove);
+      console.log(tripInfo);
+      console.log(userInfo);
       axios
-        .put(`${path}/trips/remove-user/${tripInfo._id}`, {
-          requesting_user_id: otherUserInfo[0]._id,
+        .put(`${path}/trips/remove-user-username/${tripInfo._id}`, {
+          username: usernameRemove,
+          current_user_id: userInfo._id,
         })
         .then((res) => {
-          setMessage('Remove request is Sent')
+          setMessage('\'' + usernameRemove + '\' has been removed')
           setTimeout(() => {
-            setMessage(null)
-          }, 1000)
+            setMessage('Cannot Remove User')
+          }, 10000)
         })
-    }
+        .catch((err) => {
+          setMessage('Cannot remove the user \''+usernameRemove+'\'');
+        })
+    //}
     //<<<<<<< HEAD
   }
   //=======
