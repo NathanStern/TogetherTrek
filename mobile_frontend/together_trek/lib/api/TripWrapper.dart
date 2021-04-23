@@ -59,6 +59,8 @@ Future<http.Response> makeTrip(BuildContext context, String startDate,
       "country": country,
       "region": region,
     },
+    "total_expenses": 0,
+    "expense_per_person": 0,
     "budget": budget,
     "participant_ids": ["${user.id}"]
   });
@@ -66,7 +68,7 @@ Future<http.Response> makeTrip(BuildContext context, String startDate,
   return res;
 }
 
-Future<String> updateTrip(
+Future<http.Response> updateTrip(
     BuildContext context,
     String id,
     String startDate,
@@ -74,6 +76,8 @@ Future<String> updateTrip(
     String city,
     String country,
     String region,
+    num total_expenses,
+    num expense_per_person,
     int budget,
     TripModel trip) async {
   UserModel user = context.read<UserModel>();
@@ -82,12 +86,13 @@ Future<String> updateTrip(
     "start_date": startDate,
     "end_date": endDate,
     "destination": trip.destination,
+    "total_expenses": total_expenses,
+    "expense_per_person": expense_per_person,
     "budget": budget,
   });
-  print(data);
+
   http.Response res = await httpPut('trips/${id}', data);
-  print(res.statusCode);
-  print(res.body);
+  return res;
 }
 
 Future<String> requestJoinTrip(BuildContext context, String id) async {

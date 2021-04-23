@@ -5,21 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:together_trek/api/ExpenseWrapper.dart';
+import 'package:together_trek/api/TripWrapper.dart';
+import 'package:together_trek/models/TripModel.dart';
 import 'package:together_trek/utils/DialogUtil.dart';
 import 'package:together_trek/views/HomeView.dart';
 
 class AddExpenseView extends StatefulWidget {
-  String trip_id;
-  AddExpenseView(String id) {
-    this.trip_id = id;
+  TripModel trip;
+  AddExpenseView(TripModel id) {
+    this.trip = id;
   }
-  _AddExpenseViewState createState() => _AddExpenseViewState(trip_id);
+  _AddExpenseViewState createState() => _AddExpenseViewState(trip);
 }
 
 class _AddExpenseViewState extends State<AddExpenseView> {
-  String trip_id;
-  _AddExpenseViewState(String id) {
-    this.trip_id = id;
+  TripModel trip;
+  _AddExpenseViewState(TripModel id) {
+    this.trip = id;
   }
   @override
   Widget build(BuildContext context) {
@@ -27,26 +29,27 @@ class _AddExpenseViewState extends State<AddExpenseView> {
       appBar: AppBar(
         title: Text("New Expense"),
       ),
-      body: MyCustomForm(trip_id),
+      body: MyCustomForm(trip),
     );
   }
 }
 
 class MyCustomForm extends StatefulWidget {
-  String trip_id;
-  MyCustomForm(String id) {
-    this.trip_id = id;
+  TripModel trip;
+  MyCustomForm(TripModel id) {
+    this.trip = id;
   }
   @override
   MyCustomFormState createState() {
-    return MyCustomFormState(trip_id);
+    return MyCustomFormState(trip);
   }
 }
 
 class MyCustomFormState extends State<MyCustomForm> {
-   String trip_id;
-  MyCustomFormState(String id) {
-    this.trip_id = id;
+   //String trip_id;
+   TripModel trip;
+  MyCustomFormState(TripModel id) {
+    this.trip = id;
   }
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
@@ -61,18 +64,13 @@ class MyCustomFormState extends State<MyCustomForm> {
   String _category = '';
 
   Future<void> _submit() async {
-    http.Response response = await makeExpense(context, amount, _description, _date.toString(), _category, trip_id);
-    if (response.statusCode != 200) {
-          //_firstPressed = true;
-          print(response.body);
-          showDialog(
-              context: context,
-              builder: (context) => buildStandardDialog(
-                  context,
-                  "Registration Error",
-                  response.body));
-        }
-        else {Navigator.pop(context);}
+
+    http.Response response = await makeExpense(context, amount, _description, _date.toString(), _category, trip.id);
+    num totalExpense = (trip.total_expenses+amount);
+    num expensePP = (trip.total_expenses+amount)/trip.participantIds.length;
+    http.Response tripResponse = await updateTrip(context, trip.id, trip.startDate, trip.endDate, trip.destination.city, trip.destination.country, trip.destination.region, 
+    totalExpense, expensePP, trip.budget, trip );
+    Navigator.pop(context);
 
   }
 
@@ -175,7 +173,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   _submit();
                 
                 }
-                Navigator.pop(context);
+                //Navigator.pop(context);
               },
               child: Text('Submit'),
             ),
