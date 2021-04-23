@@ -30,7 +30,7 @@ Future<List<TripModel>> getTripsById(
   List<TripModel> userTrips = [];
 
   for (int i = 0; i < allTrips.length; i++) {
-    if (allTrips[i].creatorId == id) {
+    if (allTrips[i].participantIds.contains(id)) {
       userTrips.add(allTrips[i]);
     }
   }
@@ -47,8 +47,14 @@ Future<TripModel> getTrip(String id) async {
   // return TripModel.fromJson(jsonDecode(response.body));
 }
 
-Future<http.Response> makeTrip(BuildContext context, String startDate,
-    String endDate, String city, String country, String region, int budget) async {
+Future<http.Response> makeTrip(
+    BuildContext context,
+    String startDate,
+    String endDate,
+    String city,
+    String country,
+    String region,
+    int budget) async {
   UserModel user = context.read<UserModel>();
   String data = jsonEncode(<String, dynamic>{
     "creator_id": "${user.id}",
@@ -119,7 +125,8 @@ Future<String> requestRemoveFromTrip(BuildContext context, String id,
   print(res.statusCode);
   print(res.body);
   return "Completed";
-}//=======
+} //=======
+
 Future<List<CachedNetworkImageProvider>> getTripPhotos(String id) async {
   http.Response response = await httpGet("/trip_photos/trip/$id");
 
