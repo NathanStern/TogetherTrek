@@ -417,7 +417,8 @@ const ViewTripScreen = ({ location, history, useParams }) => {
       </Container>
       {/* </Col> */}
       <Col md={3}>
-        <h3>Total: </h3>
+        <h3>Total: ${tripInfo.total_expenses}</h3>
+        <h3>Total Per Person: ${tripInfo.expense_per_person}</h3>
         <Container></Container>
       </Col>
     </>

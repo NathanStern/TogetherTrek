@@ -67,116 +67,6 @@ class _TripViewState extends State<TripView> {
       }
     });
   }
-/*
-  @override
-  Widget build(BuildContext context) {
-    UserModel user = context.read<UserModel>();
-    //bool requestValid = user.tripIds.indexOf(trip.id) == -1 &&
-    //trip.joinRequests.indexOf(user.id) == -1;
-    //leaveVisible = user.tripIds.indexOf(trip.id) == -1 ;
-    hideLeaveWidget();
-    hideRequestWidget();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Trip"),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            "Start Date:",
-            style: TextStyle(
-                color: Colors.redAccent,
-                fontStyle: FontStyle.normal,
-                fontSize: 28.0),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Text(
-            trip.startDate.substring(0, 10),
-            style: TextStyle(
-              fontSize: 22.0,
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.w300,
-              color: Colors.black,
-              letterSpacing: 2.0,
-            ),
-          ),
-          Text(
-            "End Date:",
-            style: TextStyle(
-                color: Colors.redAccent,
-                fontStyle: FontStyle.normal,
-                fontSize: 28.0),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Text(
-            trip.endDate.substring(0, 10),
-            style: TextStyle(
-              fontSize: 22.0,
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.w300,
-              color: Colors.black,
-              letterSpacing: 2.0,
-            ),
-          ),
-          Text(
-            "Destination:",
-            style: TextStyle(
-                color: Colors.redAccent,
-                fontStyle: FontStyle.normal,
-                fontSize: 28.0),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Text(
-            trip.destination.toString(),
-            style: TextStyle(
-              fontSize: 22.0,
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.w300,
-              color: Colors.black,
-              letterSpacing: 2.0,
-            ),
-          ),
-          (requestVisible &&
-                  true /*(trip.participantIds).indexOf(user.id) == -1*/)
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      requestJoinTrip(context, trip.id);
-                      hideRequestWidget();
-                      setState(() {
-                        requestVisible = false;
-                      });
-                    },
-                    child: Text('Request to join'),
-                  ))
-              : Container(),
-          leaveVisible
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      requestRemoveFromTrip(context, trip.id, user.id, user.id);
-                      hideLeaveWidget();
-                      setState(() {
-                        leaveVisible = false;
-                      });
-                    },
-                    child: Text('Leave Trip'),
-                  ))
-              : Container()
-        ],
-      ),
-    );
-=======*/
-  //UserModel user;
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +92,7 @@ class _TripViewState extends State<TripView> {
               style: TextStyle(
                   color: Colors.redAccent,
                   fontStyle: FontStyle.normal,
-                  fontSize: 28.0),
+                  fontSize: 18.0),
             ),
             SizedBox(
               height: 10.0,
@@ -210,7 +100,7 @@ class _TripViewState extends State<TripView> {
             Text(
               trip.startDate.substring(0, 10),
               style: TextStyle(
-                fontSize: 22.0,
+                fontSize: 16.0,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w300,
                 color: Colors.black,
@@ -222,7 +112,7 @@ class _TripViewState extends State<TripView> {
               style: TextStyle(
                   color: Colors.redAccent,
                   fontStyle: FontStyle.normal,
-                  fontSize: 28.0),
+                  fontSize: 18.0),
             ),
             SizedBox(
               height: 10.0,
@@ -230,7 +120,7 @@ class _TripViewState extends State<TripView> {
             Text(
               trip.endDate.substring(0, 10),
               style: TextStyle(
-                fontSize: 22.0,
+                fontSize: 16.0,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w300,
                 color: Colors.black,
@@ -242,7 +132,7 @@ class _TripViewState extends State<TripView> {
               style: TextStyle(
                   color: Colors.redAccent,
                   fontStyle: FontStyle.normal,
-                  fontSize: 28.0),
+                  fontSize: 18.0),
             ),
             SizedBox(
               height: 10.0,
@@ -250,7 +140,7 @@ class _TripViewState extends State<TripView> {
             Text(
               trip.destination.toString(),
               style: TextStyle(
-                fontSize: 22.0,
+                fontSize: 16.0,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w300,
                 color: Colors.black,
@@ -275,7 +165,17 @@ class _TripViewState extends State<TripView> {
             //           }
             //         })),
 
+/*<<<<<<< HEAD
             Text("food"),
+=======*/
+            Text(
+              "Food:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+            ),
+//>>>>>>> main
             Flexible(
                 child: FutureBuilder(
                     future: foodExpenses,
@@ -293,7 +193,17 @@ class _TripViewState extends State<TripView> {
                                 }));
                       }
                     })),
+/*<<<<<<< HEAD
             Text("housing"),
+=======*/
+            Text(
+              "Housing:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+            ),
+//>>>>>>> main
             Flexible(
                 child: FutureBuilder(
                     future: housingExpenses,
@@ -311,7 +221,17 @@ class _TripViewState extends State<TripView> {
                                 }));
                       }
                     })),
+/*<<<<<<< HEAD
             Text("transportation"),
+=======*/
+            Text(
+              "Transportation:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+            ),
+//>>>>>>> main
             Flexible(
                 child: FutureBuilder(
                     future: transpExpenses,
@@ -329,7 +249,17 @@ class _TripViewState extends State<TripView> {
                                 }));
                       }
                     })),
+/*<<<<<<< HEAD
             Text("other"),
+=======*/
+            Text(
+              "Other:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+            ),
+//>>>>>>> main
             Flexible(
                 child: FutureBuilder(
                     future: otherExpenses,
@@ -355,7 +285,7 @@ class _TripViewState extends State<TripView> {
               style: TextStyle(
                   color: Colors.redAccent,
                   fontStyle: FontStyle.normal,
-                  fontSize: 28.0),
+                  fontSize: 18.0),
             ),
             SizedBox(
               height: 10.0,
@@ -363,7 +293,53 @@ class _TripViewState extends State<TripView> {
             Text(
               trip.budget.toString(),
               style: TextStyle(
-                fontSize: 22.0,
+                fontSize: 16.0,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
+                letterSpacing: 2.0,
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              "Total Expenses:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 18.0),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              trip.total_expenses.toString(),
+              style: TextStyle(
+                fontSize: 16.0,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
+                letterSpacing: 2.0,
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              "Expense Per Person:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 18.0),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              trip.expense_per_person.toString(),
+              style: TextStyle(
+                fontSize: 16.0,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w300,
                 color: Colors.black,
@@ -391,7 +367,7 @@ class _TripViewState extends State<TripView> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AddExpenseView(trip.id)));
+                            builder: (context) => AddExpenseView(trip)));
                   },
                   child: Text('Add Expense'),
                 )),
@@ -511,7 +487,7 @@ class _TripViewState extends State<TripView> {
               style: TextStyle(
                   color: Colors.redAccent,
                   fontStyle: FontStyle.normal,
-                  fontSize: 28.0),
+                  fontSize: 20.0),
             ),
             SizedBox(
               height: 10.0,
@@ -519,7 +495,7 @@ class _TripViewState extends State<TripView> {
             Text(
               trip.budget.toString(),
               style: TextStyle(
-                fontSize: 22.0,
+                fontSize: 16.0,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w300,
                 color: Colors.black,
