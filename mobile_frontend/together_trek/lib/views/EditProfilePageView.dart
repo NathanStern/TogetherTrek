@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/ProfileInfoView.dart';
+import 'package:together_trek/views/ChangeSensInfoView.dart';
 import 'ProfileInfoView.dart';
 import 'ProfilePageView.dart';
 import 'package:together_trek/api/UserWrapper.dart';
@@ -164,7 +165,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                         await updateUser(
                           _id,
                           jsonEncode(<String, dynamic>{
-                            // "username": _userName,
                             "gender": _gender,
                             "city": _city,
                             "country": _country
@@ -178,6 +178,19 @@ class MyCustomFormState extends State<MyCustomForm> {
                       }
                     },
                     child: Text('Confirm'),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ChangeSensInfoView(user: user)));
+                    },
+                    child: Text('Change Sensitive information'),
                   ),
                 ),
               ])

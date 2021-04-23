@@ -5,6 +5,10 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sha3/sha3.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:together_trek/api/PostWrapper.dart';
+import 'package:together_trek/api/TripWrapper.dart';
+import 'package:together_trek/models/LoadedPostsModel.dart';
+import 'package:together_trek/models/LoadedTripsModel.dart';
 
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/api/UserWrapper.dart';
@@ -53,7 +57,6 @@ class _LoginViewState extends State<LoginView> {
         SHA3 password = SHA3(256, SHA3_PADDING, 256);
         password.update(utf8.encode(_passwordController.text));
         List<int> hash = password.digest();
-
         int response = await userLogin(jsonEncode(<String, dynamic>{
           'username': '${_usernameController.text}',
           'password': '${HEX.encode(hash)}'
@@ -74,8 +77,16 @@ class _LoginViewState extends State<LoginView> {
           UserModel fetchedUser = await getUser(JwtDecoder.decode(jwt)['id']);
 
           user.setAllFieldsFromUser(fetchedUser);
+          user.setPassword(HEX.encode(hash));
 
           prefs.setString('user', this.user.id);
+
+          LoadedTripsModel trips = context.read<LoadedTripsModel>();
+          LoadedPostsModel posts = context.read<LoadedPostsModel>();
+
+          user.tripIds = await getTripsById(trips.trips, user.id);
+          user.postIds = await getPostsById(posts.posts, user.id);
+
           Navigator.popUntil(context, ModalRoute.withName("/"));
         }
       }

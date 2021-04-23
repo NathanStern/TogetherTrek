@@ -27,7 +27,8 @@ const ViewTripScreen = ({ location, history, useParams }) => {
   //=======
   const { allExpenses } = useSelector((state) => state.getAllExpenses)
   const { allTrips } = useSelector((state) => state.getAllTrips)
-  const [amount, setAmount] = useState('')
+  const [amount, setAmount] = useState(Number)
+  const [totalExpenses, setTotalExpenses] = useState(Number)
   const [category, setCategory] = useState('')
   const [total, setTotal] = useState('')
   const [description, setDescription] = useState('')
@@ -154,9 +155,13 @@ const ViewTripScreen = ({ location, history, useParams }) => {
         trip_id: tripInfo._id,
       })
       console.log(`adding ${res}`)
-      await axios.put(`${path}/trips/${tripInfo._id}`, {
+
+      const resput = await axios.put(`${path}/trips/${tripInfo._id}`, {
         expenses: tripInfo.expenses.concat(res.data),
+        total_expenses: Number(tripInfo.total_expenses) + Number(amount),
+        expense_per_person: (Number(tripInfo.total_expenses) +Number(amount))/Number(tripInfo.participant_ids.length),
       })
+      console.log(`updating ${resput}`)
       setMessage('Expense Added')
       history.push('/')
     } catch (e) {
@@ -415,7 +420,8 @@ const ViewTripScreen = ({ location, history, useParams }) => {
       </Container>
       {/* </Col> */}
       <Col md={3}>
-        <h3>Total: </h3>
+        <h3>Total: ${tripInfo.total_expenses}</h3>
+        <h3>Total Per Person: ${tripInfo.expense_per_person}</h3>
         <Container></Container>
       </Col>
     </>

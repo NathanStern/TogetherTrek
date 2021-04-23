@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:together_trek/api/UserWrapper.dart';
+import 'package:together_trek/models/MessageSummaryListModel.dart';
 import 'package:together_trek/models/UserModel.dart';
 import 'package:together_trek/views/LoginView.dart';
 import 'package:together_trek/views/PlaceholderView.dart';
 import 'package:provider/provider.dart';
 import 'package:together_trek/views/FriendListView.dart';
+import 'package:together_trek/views/FriendPageView.dart';
 import 'package:together_trek/views/BlockedListView.dart';
+import 'package:together_trek/views/UserPostView.dart';
 import 'package:together_trek/views/UserTripView.dart';
 import 'package:together_trek/views/NearbyUsersView.dart';
 
@@ -67,8 +70,9 @@ Widget createDrawer(BuildContext context, UserModel user,
         ListTile(
             title: Text("Friends"),
             onTap: () {
+              Navigator.pop(context);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FriendListView()));
+                  MaterialPageRoute(builder: (context) => FriendPageView()));
             }),
         ListTile(
           title: Text("My Trips"),
@@ -82,10 +86,8 @@ Widget createDrawer(BuildContext context, UserModel user,
           title: Text("My Posts"),
           onTap: () {
             Navigator.pop(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PlaceholderView(title: "My Posts")));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => UserPostView()));
           },
         ),
         ListTile(
@@ -121,6 +123,9 @@ Widget createDrawer(BuildContext context, UserModel user,
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('user', "");
             prefs.setString('jwt', "");
+            MessageSummaryListModel loadedPosts =
+                context.read<MessageSummaryListModel>();
+            loadedPosts.messageBoards = [];
             user.setAllFieldsFromUser(UserModel.empty());
           },
         ),
@@ -231,6 +236,8 @@ Widget createDrawer(BuildContext context, UserModel user,
                 MaterialPageRoute(builder: (context) => LoginView(user: user)));
           },
         ),
+        ListTile(),
+        ListTile(),
         ListTile(),
         ListTile(),
         Divider(),

@@ -334,3 +334,20 @@ export const getUserMessageBoards = () => async (dispatch, getState) => {
     })
   }
 }
+
+export const getNearbyUsers = async (userId, range) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+
+    const resp = await axios.get(
+      `${path}/users/nearby-users/${userId}?range=${range}`, config)
+
+    return resp.data
+  } catch (error) {
+    console.log(error)
+  }
+}
