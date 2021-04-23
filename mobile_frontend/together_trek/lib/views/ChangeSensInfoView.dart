@@ -88,6 +88,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           TextFormField(
             initialValue: "",
             decoration: InputDecoration(hintText: "Current password"),
+            obscureText: true,
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please enter your password';
@@ -113,6 +114,7 @@ class MyCustomFormState extends State<MyCustomForm> {
           TextFormField(
             initialValue: "",
             decoration: InputDecoration(hintText: "New Password"),
+            obscureText: true,
             validator: (value) {
               /*if (value.isEmpty) {
                     return 'Please enter a password';
