@@ -45,6 +45,7 @@ class _FriendPageViewState extends State<FriendPageView> {
                     },
                     child: Card(
                         elevation: 5,
+                        margin: EdgeInsets.all(10),
                         child: Text(this.user.friendIds[index])));
               })),
     );

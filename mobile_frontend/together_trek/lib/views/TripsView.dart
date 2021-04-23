@@ -30,7 +30,7 @@ class _TripsViewState extends State<TripsView> {
         appBar: AppBar(
           actions: <Widget>[
             IconButton(
-              onPressed: () {
+              onPressed: () async{
                 showSearch(
                   context: context, 
                   delegate: SearchData(user.tripIds));
