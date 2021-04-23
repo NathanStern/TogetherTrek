@@ -202,7 +202,7 @@ class _TripViewState extends State<TripView> {
               style: TextStyle(
                   color: Colors.redAccent,
                   fontStyle: FontStyle.normal,
-                  fontSize: 28.0),
+                  fontSize: 18.0),
             ),
             SizedBox(
               height: 10.0,
@@ -210,7 +210,7 @@ class _TripViewState extends State<TripView> {
             Text(
               trip.startDate.substring(0, 10),
               style: TextStyle(
-                fontSize: 22.0,
+                fontSize: 16.0,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w300,
                 color: Colors.black,
@@ -222,7 +222,7 @@ class _TripViewState extends State<TripView> {
               style: TextStyle(
                   color: Colors.redAccent,
                   fontStyle: FontStyle.normal,
-                  fontSize: 28.0),
+                  fontSize: 18.0),
             ),
             SizedBox(
               height: 10.0,
@@ -230,7 +230,7 @@ class _TripViewState extends State<TripView> {
             Text(
               trip.endDate.substring(0, 10),
               style: TextStyle(
-                fontSize: 22.0,
+                fontSize: 16.0,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w300,
                 color: Colors.black,
@@ -242,7 +242,7 @@ class _TripViewState extends State<TripView> {
               style: TextStyle(
                   color: Colors.redAccent,
                   fontStyle: FontStyle.normal,
-                  fontSize: 28.0),
+                  fontSize: 18.0),
             ),
             SizedBox(
               height: 10.0,
@@ -250,7 +250,7 @@ class _TripViewState extends State<TripView> {
             Text(
               trip.destination.toString(),
               style: TextStyle(
-                fontSize: 22.0,
+                fontSize: 16.0,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w300,
                 color: Colors.black,
@@ -275,7 +275,13 @@ class _TripViewState extends State<TripView> {
             //           }
             //         })),
 
-                    Text("food"),
+              Text(
+              "Food:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+            ),
             Flexible(
                 child: FutureBuilder(
                     future: foodExpenses,
@@ -292,7 +298,13 @@ class _TripViewState extends State<TripView> {
                                 }));
                       }
                     })),
-                    Text("housing"),
+                    Text(
+              "Housing:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+            ),
             Flexible(
                 child: FutureBuilder(
                     future: housingExpenses,
@@ -309,7 +321,13 @@ class _TripViewState extends State<TripView> {
                                 }));
                       }
                     })),
-                    Text("transportation"),
+                    Text(
+              "Transportation:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+            ),
             Flexible(
                 child: FutureBuilder(
                     future: transpExpenses,
@@ -326,7 +344,13 @@ class _TripViewState extends State<TripView> {
                                 }));
                       }
                     })),
-                    Text("other"),
+                    Text(
+              "Other:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+            ),
             Flexible(
                 child: FutureBuilder(
                     future: otherExpenses,
@@ -351,7 +375,7 @@ class _TripViewState extends State<TripView> {
               style: TextStyle(
                   color: Colors.redAccent,
                   fontStyle: FontStyle.normal,
-                  fontSize: 28.0),
+                  fontSize: 18.0),
             ),
             SizedBox(
               height: 10.0,
@@ -359,7 +383,53 @@ class _TripViewState extends State<TripView> {
             Text(
               trip.budget.toString(),
               style: TextStyle(
-                fontSize: 22.0,
+                fontSize: 16.0,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
+                letterSpacing: 2.0,
+              ),
+            ),
+             SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              "Total Expenses:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 18.0),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              trip.total_expenses.toString(),
+              style: TextStyle(
+                fontSize: 16.0,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
+                letterSpacing: 2.0,
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              "Expense Per Person:",
+              style: TextStyle(
+                  color: Colors.redAccent,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 18.0),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              trip.expense_per_person.toString(),
+              style: TextStyle(
+                fontSize: 16.0,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w300,
                 color: Colors.black,
@@ -387,7 +457,7 @@ class _TripViewState extends State<TripView> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AddExpenseView(trip.id)));
+                            builder: (context) => AddExpenseView(trip)));
                   },
                   child: Text('Add Expense'),
                 )),
@@ -500,7 +570,7 @@ class _TripViewState extends State<TripView> {
               style: TextStyle(
                   color: Colors.redAccent,
                   fontStyle: FontStyle.normal,
-                  fontSize: 28.0),
+                  fontSize: 20.0),
             ),
             SizedBox(
               height: 10.0,
@@ -508,7 +578,7 @@ class _TripViewState extends State<TripView> {
             Text(
               trip.budget.toString(),
               style: TextStyle(
-                fontSize: 22.0,
+                fontSize: 16.0,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w300,
                 color: Colors.black,

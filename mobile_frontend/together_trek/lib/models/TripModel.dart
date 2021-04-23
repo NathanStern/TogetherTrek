@@ -10,6 +10,8 @@ class TripModel extends ChangeNotifier {
   String endDate;
   String creatorId;
   int budget;
+  num total_expenses;
+  num expense_per_person;
   List<dynamic> participantIds;
   List<dynamic> expenses;
   //List<ExpenseModel> expenses;
@@ -25,6 +27,8 @@ class TripModel extends ChangeNotifier {
 //<<<<<<< HEAD
       //this.participantIds,
       this.joinRequests,
+      this.total_expenses,
+      this.expense_per_person,
 //=======
       this.budget,
       this.participantIds,
@@ -41,12 +45,12 @@ class TripModel extends ChangeNotifier {
         //expenses: ExpenseModel.fromJson(json['expenses']) ?? [],
         //participantIds: json['participant_ids'],
         endDate: json['end_date'],
-//<<<<<<< HEAD
         participantIds: json['participant_ids'] ?? [],
         joinRequests: json['join_requests'] ?? [],
-//=======
         budget: json['budget'],
-//>>>>>>> main
+        total_expenses: json['total_expenses'],
+        expense_per_person: json['expense_per_person'],
+
         destination: DestinationModel.fromJson(json['destination']));
   }
   // getters are implicit
@@ -73,6 +77,8 @@ class TripModel extends ChangeNotifier {
         'end_date': this.endDate,
         'expenses': this.expenses,
         'budget': this.budget,
+        'total_expenses': this.total_expenses,
+        'expense_per_person': this.expense_per_person,
         'participant_ids': this.participantIds,
         'join_requests': this.joinRequests
       };
