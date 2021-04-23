@@ -32,7 +32,7 @@ exports.create = (req, res) => {
     res.status(400).send({ message: "participants can not be empty." });
     return;
   }
-  let budget1 = 1000000000000000;
+  let budget1 = 0;
   if (req.body.budget) {
     budget1 = req.body.budget;
   }
