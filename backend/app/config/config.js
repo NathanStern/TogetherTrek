@@ -6,12 +6,12 @@ const prod = {
  app: {
     port: 3000,
     JWT_KEY: "secret",
-    TWILIO_KEY: "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",
-    TWILIO_EMAIL: "togethertrek@houseofstern.com",
-    RADARIO_KEY: "prj_live_pk_d96d42edfb97d7db311ed75f76c31a3b7f13e283"
+    TWILIO_KEY: "",
+    TWILIO_EMAIL: "",
+    RADARIO_KEY: ""
   },
  db: {
-   url: "mongodb+srv://test:test@cluster0.snpmm.mongodb.net/production?retryWrites=true&w=majority"
+   url: ""
  }
 };
 
@@ -19,12 +19,12 @@ const test = {
  app: {
     port: (process.env.PORT || 3001),
     JWT_KEY: "secret",
-    TWILIO_KEY: "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",
-    TWILIO_EMAIL: "togethertrek@houseofstern.com",
-    RADARIO_KEY: "prj_live_pk_d96d42edfb97d7db311ed75f76c31a3b7f13e283"
+    TWILIO_KEY: "",
+    TWILIO_EMAIL: "",
+    RADARIO_KEY: ""
  },
  db: {
-   url: "mongodb+srv://test:test@cluster0.snpmm.mongodb.net/testing?retryWrites=true&w=majority"
+   url: ""
  }
 };
 
